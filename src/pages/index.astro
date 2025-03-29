@@ -37,15 +37,16 @@ const projects = [
 
 <Layout metadata={metadata}>
   <!-- Hero Section -->
-  <section class="min-h-screen flex flex-col justify-center items-center pb-20 md:pb-60 text-center">
+  <section class="min-h-screen flex flex-col justify-center items-center pb-40 md:pb-60 text-center">
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
         <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">
-          Welcome to<br>SamperAI
+          <span id="dynamicGreeting">Welcome to</span><br>SamperAI
         </h1>
-        <p class="text-2xl md:text-3xl font-light mb-6 text-gray-700 leading-relaxed">
-          We build websites and applications with AI integration
-        </p>
+      
+      <p class="text-2xl md:text-3xl font-light  mb-6 text-gray-700 leading-relaxed min-h-[4rem]">
+        <span id="rotatingTagline">We build websites that learn and adapt</span>
+      </p>
       </div>
     </div>
     <div class="absolute bottom-12 text-center w-full">
@@ -127,3 +128,68 @@ const projects = [
     </div>
   </section>
 </Layout>
+
+
+<script>
+  const taglines = [
+    "AI-powered solutions for your digital transformation",
+    "Where human creativity meets artificial intelligence",
+    "Building the future, one algorithm at a time",
+    "Custom AI integrations that understand people",
+    "Web experiences that get smarter over time"
+  ];
+  
+  let current = 0;
+  let isTyping = false;
+  
+  function typeWriter(text, element, speed = 50) {
+    let i = 0;
+    isTyping = true;
+    
+    function type() {
+      if (i < text.length) {
+        element.textContent = text.substring(0, i + 1);
+        i++;
+        setTimeout(type, speed);
+      } else {
+        isTyping = false;
+        // Wait before starting to erase
+        setTimeout(startErasing, 2000);
+      }
+    }
+    
+    type();
+  }
+  
+  function startErasing() {
+    if (!isTyping && current !== (current + 1) % taglines.length) {
+      eraseText(document.getElementById('rotatingTagline'));
+    }
+  }
+  
+  function eraseText(element, speed = 30) {
+    const text = element.textContent;
+    let length = text.length;
+    isTyping = true;
+    
+    function erase() {
+      if (length > 0) {
+        element.textContent = text.substring(0, length - 1);
+        length--;
+        setTimeout(erase, speed);
+      } else {
+        isTyping = false;
+        // Move to next tagline and start typing
+        current = (current + 1) % taglines.length;
+        typeWriter(taglines[current], element);
+      }
+    }
+    
+    erase();
+  }
+  
+  // Initialize
+  setTimeout(() => {
+    eraseText(document.getElementById('rotatingTagline'));
+  }, 3000);
+</script>
