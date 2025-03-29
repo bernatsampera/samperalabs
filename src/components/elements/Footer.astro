@@ -1,0 +1,58 @@
+---
+import {SITE} from 'astromvp:config';
+import {getHomePermalink} from '~/utils/permalinks';
+
+interface Link {
+  text?: string;
+  href?: string;
+}
+
+export interface Props {
+  links?: Array<Link>;
+  socialLinks?: Array<Link>;
+}
+
+const {socialLinks = [], links = []} = Astro.props;
+---
+
+<footer class="footer footer-center p-10 bg-base-200 text-base-content">
+  <div>
+    <a class="text-xl font-bold tracking-tight" href={getHomePermalink()}>
+      {SITE?.name}
+    </a>
+    <p class="font-medium mt-2">Building your MVP faster</p>
+    <p>Helping startups turn ideas into products since 2023</p>
+  </div> 
+  
+  {links.length > 0 && (
+    <div class="flex flex-wrap gap-4 justify-center">
+      {links.map(({text, href}) => (
+        <a class="link link-hover" href={href}>
+          {text}
+        </a>
+      ))}
+    </div>
+  )}
+  
+  {socialLinks.length > 0 && (
+    <div>
+      <div class="grid grid-flow-col gap-4">
+        {socialLinks.map(({href, text}) => (
+          <a 
+            class="btn btn-ghost btn-sm" 
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={text}
+          >
+            {text}
+          </a>
+        ))}
+      </div>
+    </div>
+  )}
+  
+  <div>
+    <p>© {new Date().getFullYear()} {SITE?.name}. All rights reserved.</p>
+  </div>
+</footer>

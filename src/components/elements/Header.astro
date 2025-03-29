@@ -1,0 +1,102 @@
+---
+import Logo from '~/components/Logo.astro';
+import {getHomePermalink} from '~/utils/permalinks';
+
+interface Link {
+  text?: string;
+  href?: string;
+}
+
+export interface Props {
+  links?: Array<Link>;
+  isSticky?: boolean;
+}
+
+const {
+  links = [],
+  isSticky = false,
+} = Astro.props;
+
+const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).join('/')}`;
+---
+
+<header
+  class:list={[
+    {sticky: isSticky, relative: !isSticky},
+    'top-0 z-40 w-full transition-all ease-in-out navbar bg-base-100',
+    isSticky ? 'shadow-sm' : '',
+  ]}
+  {...isSticky ? {'data-sticky-header': true} : {}}
+>
+  <div class="container mx-auto px-4">
+    <div class="navbar-start">
+      <a class="text-xl font-bold tracking-tight" href={getHomePermalink()}>
+        <Logo />
+      </a>
+    </div>
+    
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal gap-8 text-sm font-medium">
+        {
+          links.map(({text, href}) => (
+            <li>
+              <a 
+                class:list={[
+                  'hover:text-primary transition-colors', 
+                  href === currentPath ? 'font-semibold' : ''
+                ]}
+                href={href}
+              >
+                {text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    
+    <div class="navbar-end">
+      <a href="/contact" class="btn btn-primary btn-sm">Book a Call</a>
+      
+      <div class="dropdown dropdown-end lg:hidden ml-2">
+        <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </div>
+        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+          {
+            links.map(({text, href}) => (
+              <li>
+                <a 
+                  class:list={[
+                    href === currentPath ? 'font-semibold' : ''
+                  ]}
+                  href={href}
+                >
+                  {text}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Simple mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.querySelector('[data-toggle-menu]');
+    const mobileMenu = document.querySelector('[data-mobile-menu]');
+    
+    if (toggleButton && mobileMenu) {
+      toggleButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>
