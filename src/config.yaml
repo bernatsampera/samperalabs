@@ -1,30 +1,30 @@
 site:
-  name: astromvp
-  site: 'https://astromvp.com'
+  name: samperai
+  site: 'https://samperai.com'
   base: '/'
   trailingSlash: false
 
-  googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M
+  googleSiteVerificationId: 
 
 # Default SEO metadata
 metadata:
   title:
-    default: astromvp - Turn Ideas into Products Fast
-    template: '%s — astromvp'
-  description: "We help startups and entrepreneurs build impressive MVPs in weeks, not months. Get to market quickly and start gathering valuable feedback."
+    default: Bernat Sampera - AI Integration Specialist
+    template: '%s — samperai'
+  description: "Integrating AI solutions into your websites and applications. Helping businesses leverage artificial intelligence technology for better user experiences."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: astromvp
+    site_name: samperai
     images:
       - url: '~/assets/images/default.png'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@astromvp'
-    site: '@astromvp'
+    handle: '@bernatsampera'
+    site: '@samperai'
     cardType: summary_large_image
 
 i18n:

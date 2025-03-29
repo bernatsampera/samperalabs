@@ -1,6 +1,6 @@
 import slugify from 'limax';
 
-import { SITE } from 'astromvp:config';
+import { SITE } from 'samperai:config';
 
 import { trim } from '~/utils/utils';
 

@@ -7,7 +7,7 @@ import loadConfig from './utils/loadConfig';
 export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
   let cfg;
   return {
-    name: 'astromvp-integration',
+    name: 'samperai-integration',
 
     hooks: {
       'astro:config:setup': async ({
@@ -19,9 +19,9 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
         updateConfig,
         addWatchFile,
       }) => {
-        const buildLogger = logger.fork('astromvp');
+        const buildLogger = logger.fork('samperai');
 
-        const virtualModuleId = 'astromvp:config';
+        const virtualModuleId = 'samperai:config';
         const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
         const rawJsonConfig = await loadConfig(_themeConfig);
@@ -36,7 +36,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
           vite: {
             plugins: [
               {
-                name: 'vite-plugin-astromvp-config',
+                name: 'vite-plugin-samperai-config',
                 resolveId(id) {
                   if (id === virtualModuleId) {
                     return resolvedVirtualModuleId;
@@ -61,9 +61,9 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
         if (typeof _themeConfig === 'string') {
           addWatchFile(new URL(_themeConfig, config.root));
 
-          buildLogger.info(`astromvp \`${_themeConfig}\` has been loaded.`);
+          buildLogger.info(`samperai \`${_themeConfig}\` has been loaded.`);
         } else {
-          buildLogger.info(`astromvp config has been loaded.`);
+          buildLogger.info(`samperai config has been loaded.`);
         }
       },
       'astro:config:done': async ({ config }) => {
@@ -71,7 +71,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
       },
 
       'astro:build:done': async ({ logger }) => {
-        const buildLogger = logger.fork('astromvp');
+        const buildLogger = logger.fork('samperai');
         buildLogger.info('Updating `robots.txt` with `sitemap-index.xml` ...');
 
         try {

@@ -23,56 +23,26 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
 <header
   class:list={[
     {sticky: isSticky, relative: !isSticky},
-    'top-0 z-40 w-full transition-all ease-in-out navbar bg-base-100',
-    isSticky ? 'shadow-sm' : '',
+    'top-0 z-40 w-full transition-all ease-in-out py-6',
+    isSticky ? 'shadow-sm bg-base-100' : 'bg-transparent',
   ]}
   {...isSticky ? {'data-sticky-header': true} : {}}
 >
-  <div class="container mx-auto px-4">
-    <div class="navbar-start">
-      <a class="text-xl font-bold tracking-tight" href={getHomePermalink()}>
+  <div class="container mx-auto px-6">
+    <div class="flex justify-between items-center">
+      <a class="text-2xl font-bold tracking-tighter" href={getHomePermalink()}>
         <Logo />
       </a>
-    </div>
-    
-    <div class="navbar-center hidden lg:flex">
-      <ul class="menu menu-horizontal gap-8 text-sm font-medium">
-        {
-          links.map(({text, href}) => (
-            <li>
-              <a 
-                class:list={[
-                  'hover:text-primary transition-colors', 
-                  href === currentPath ? 'font-semibold' : ''
-                ]}
-                href={href}
-              >
-                {text}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-    
-    <div class="navbar-end">
-      <a href="/contact" class="btn btn-primary btn-sm">Book a Call</a>
       
-      <div class="dropdown dropdown-end lg:hidden ml-2">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </div>
-        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 mt-4">
+      <nav class="hidden md:block">
+        <ul class="flex space-x-10 text-base">
           {
             links.map(({text, href}) => (
               <li>
                 <a 
                   class:list={[
-                    href === currentPath ? 'font-semibold' : ''
+                    'hover:text-primary transition-colors duration-300', 
+                    href === currentPath ? 'font-medium' : ''
                   ]}
                   href={href}
                 >
@@ -82,20 +52,64 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
             ))
           }
         </ul>
+      </nav>
+      
+      <div class="md:hidden">
+        <button class="text-xl" aria-label="Menu" data-toggle-menu>
+          <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
+          <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
+          <span class="block w-6 h-0.5 bg-current"></span>
+        </button>
+        
+        <div class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center hidden" data-mobile-menu>
+          <button class="absolute top-6 right-6 text-xl" aria-label="Close menu" data-close-menu>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          
+          <ul class="flex flex-col space-y-6 text-xl">
+            {
+              links.map(({text, href}) => (
+                <li>
+                  <a 
+                    class:list={[
+                      'hover:text-primary transition-colors duration-300',
+                      href === currentPath ? 'font-medium' : ''
+                    ]}
+                    href={href}
+                  >
+                    {text}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </header>
 
 <script>
-  // Simple mobile menu toggle
+  // Mobile menu toggle
   document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.querySelector('[data-toggle-menu]');
+    const closeButton = document.querySelector('[data-close-menu]');
     const mobileMenu = document.querySelector('[data-mobile-menu]');
     
     if (toggleButton && mobileMenu) {
       toggleButton.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
+        document.body.style.overflow = 'hidden';
+        mobileMenu.classList.remove('hidden');
+      });
+    }
+    
+    if (closeButton && mobileMenu) {
+      closeButton.addEventListener('click', () => {
+        document.body.style.overflow = '';
+        mobileMenu.classList.add('hidden');
       });
     }
   });

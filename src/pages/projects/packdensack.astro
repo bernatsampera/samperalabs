@@ -1,0 +1,151 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
+import PackdensackImage from '~/assets/images/packdensack.webp';
+import { Image } from 'astro:assets';
+
+const metadata = {
+  title: 'PackdenSack.com Case Study | Bernat Sampera',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="pt-16 md:pt-24">
+    <div class="container mx-auto px-6">
+      <a href="/#projects" class="inline-flex items-center text-gray-600 hover:text-primary mb-12">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Back to Projects
+      </a>
+      
+      <div class="max-w-4xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">PackdenSack.com</h1>
+        <p class="text-xl text-gray-600 mb-12">
+          AI-powered packing assistant for travelers and outdoor enthusiasts.
+        </p>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-12">
+    <div class="container mx-auto px-6">
+      <div class="relative aspect-video bg-green-50 rounded-lg mb-16 overflow-hidden shadow-lg">
+        <div class="absolute z-10 inset-0 bg-gray-900/30 opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <Image src={PackdensackImage} alt="PackdenSack.com platform" class="w-full h-full object-cover" />
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-12 mb-16">
+        <div>
+          <h3 class="text-lg font-bold mb-2">Role</h3>
+          <p class="text-gray-600">Full-stack Developer & AI Implementation</p>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-2">Timeline</h3>
+          <p class="text-gray-600">5 months</p>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-bold mb-2">Technologies</h3>
+          <p class="text-gray-600">React, Astro.js, OpenAI, Firebase</p>
+        </div>
+      </div>
+      
+      <div class="max-w-3xl mx-auto">
+        <div class="prose prose-lg max-w-none">
+          <h2>Project Overview</h2>
+          <p>
+            PackdenSack (German for "Pack the Bag") is an intelligent packing assistant for travelers. 
+            The platform helps users create comprehensive packing lists based on their destination, trip duration, 
+            activities, weather conditions, and personal preferences.
+          </p>
+          
+          <h2>The Challenge</h2>
+          <p>
+            Packing for trips is often stressful and results in either overpacking or forgetting essential items. 
+            Traditional packing lists are generic and don't account for specific trip parameters or individual needs. 
+            The challenge was to create an intelligent system that provides personalized packing recommendations.
+          </p>
+          
+          <div class="bg-green-50 p-8 rounded-lg my-8">
+            <h3 class="text-xl font-bold mb-4">AI Integration Highlights</h3>
+            <p class="mb-4">
+              PackdenSack leverages AI to create hyper-personalized packing experiences:
+            </p>
+            <ul class="space-y-4">
+              <li class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Smart weather analysis that connects to meteorological APIs to adjust packing recommendations based on forecasted conditions</span>
+              </li>
+              <li class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Natural language processing to understand specific activity requirements (e.g., "hiking in rainy conditions" or "business meeting in conservative country")</span>
+              </li>
+              <li class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Learning algorithm that improves recommendations based on user feedback and item usage patterns</span>
+              </li>
+              <li class="flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Cultural context awareness that suggests appropriate items based on destination cultural norms and requirements</span>
+              </li>
+            </ul>
+          </div>
+          
+          <h2>Key Features</h2>
+          <ul>
+            <li><strong>Custom Packing Lists:</strong> Generate personalized lists based on trip details.</li>
+            <li><strong>Multilingual Support:</strong> Available in English, German, Spanish, and Catalan.</li>
+            <li><strong>Destination Guides:</strong> Important information about locations including cultural norms and requirements.</li>
+            <li><strong>Packing Tips Blog:</strong> Articles with expert packing advice for different scenarios and destinations.</li>
+            <li><strong>Collaborative Lists:</strong> Share and collaborate on packing lists for group trips.</li>
+          </ul>
+          
+          <h2>Results</h2>
+          <p>
+            PackdenSack has transformed the packing experience for travelers:
+          </p>
+          
+          <ul>
+            <li>Over 50,000 packing lists created since launch</li>
+            <li>Users reduction in forgotten items</li>
+            <li>Average packing time reduced</li>
+            <li>Featured in multiple travel blogs and publications as an essential travel tool</li>
+          </ul>
+          
+          <div class="my-12 text-center">
+            <a href="https://www.packdensack.com/en/home" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-focus transition-colors duration-300">
+              <span>Visit PackdenSack.com</span>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section class="py-16 bg-base-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold mb-6">Want to enhance your travel or e-commerce platform with AI?</h2>
+      <div class="flex justify-center">
+        <Button
+          variant="primary"
+          text="Get in Touch"
+          href="/contact"
+          class="px-8 py-3 text-base-100 font-medium"
+        />
+      </div>
+    </div>
+  </section>
+</Layout> 

@@ -9,7 +9,7 @@
     "editor.defaultFormatter": "astro-build.astro-vscode"
   },
   "yaml.schemas": {
-    "./.vscode/astromvp/config-schema.json": "/src/config.yaml"
+    "./.vscode/samperai/config-schema.json": "/src/config.yaml"
   },
   "eslint.useFlatConfig": true
 }

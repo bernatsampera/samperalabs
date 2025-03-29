@@ -7,12 +7,12 @@ export const headerData = {
       href: getPermalink('/'),
     },
     {
-      text: 'Pricing',
-      href: getPermalink('/#pricing'),
-    },
-    {
       text: 'Projects',
       href: getPermalink('/#projects'),
+    },
+    {
+      text: 'About',
+      href: getPermalink('/#about'),
     },
     {
       text: 'Contact',
@@ -23,16 +23,15 @@ export const headerData = {
 
 export const footerData = {
   links: [
-    { text: 'Services', href: getPermalink('/#services') },
-    { text: 'Pricing', href: getPermalink('/#pricing') },
     { text: 'Projects', href: getPermalink('/#projects') },
+    { text: 'About', href: getPermalink('/#about') },
+    { text: 'Contact', href: getPermalink('/contact') },
     { text: 'Terms', href: getPermalink('/terms') },
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
-    { text: 'Contact', href: getPermalink('/contact') },
   ],
   socialLinks: [
-    { text: 'Twitter', href: 'https://twitter.com/username' },
-    { text: 'LinkedIn', href: 'https://linkedin.com/in/username' },
-    { text: 'GitHub', href: 'https://github.com/username' },
+    { text: 'Twitter', href: 'https://twitter.com/bernatsampera' },
+    { text: 'LinkedIn', href: 'https://linkedin.com/in/bernatsampera' },
+    { text: 'GitHub', href: 'https://github.com/bernatsampera' },
   ],
 };

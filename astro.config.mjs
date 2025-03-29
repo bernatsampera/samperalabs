@@ -10,7 +10,7 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 
-import astromvp from './vendor/integration';
+import samperai from './vendor/integration';
 
 import {
   readingTimeRemarkPlugin,
@@ -61,7 +61,7 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1,
-  }), astromvp({
+  }), samperai({
     config: './src/config.yaml',
   }), react()],
 
