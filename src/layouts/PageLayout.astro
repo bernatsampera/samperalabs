@@ -18,9 +18,7 @@ const {metadata} = Astro.props;
     <Header {...headerData} isSticky />
   </slot>
   <main>
-    <section class="min-h-screen flex flex-col justify-center items-center pb-40 md:pb-60 text-center">
-      <slot />
-    </section>
+    <slot />
   </main>
   <slot name="footer">
     <Footer {...footerData} />

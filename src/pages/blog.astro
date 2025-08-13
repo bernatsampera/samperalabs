@@ -7,7 +7,7 @@ const db = getDB();
 const allPosts = db.getAllPosts();
 
 const metadata = {
-  title: 'Writing | Bernat Sampera',
+  title: 'Blog | Bernat Sampera',
   description: 'Thoughts on design, development, and the intersection of technology and creativity.',
 };
 ---
@@ -17,7 +17,7 @@ const metadata = {
     <!-- Blog Header -->
     <header class="border-b border-border">
       <div class="container mx-auto px-6 py-12 max-w-4xl">
-        <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-4">Writing</h1>
+        <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-4">Blog</h1>
         <p class="text-lg text-muted-foreground max-w-2xl mb-6">
           Thoughts on design, development, and the intersection of technology and creativity.
         </p>
@@ -51,10 +51,10 @@ const metadata = {
       </a>
     </div>
   ) : (
-    <div class="space-y-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {allPosts.map((post) => (
         <article class="group">
-          <div class="space-y-4">
+          <div class="space-y-4 border border-border rounded-sm p-4 h-full">
             <!-- Post Date -->
             <time class="text-sm text-muted-foreground">
               {new Date(post.pub_date).toLocaleDateString('en-US', { 
