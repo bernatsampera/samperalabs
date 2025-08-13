@@ -38,7 +38,7 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
               <li>
                 <a
                   class:list={[
-                    'hover:text-primary transition-colors duration-300',
+                    'hover:opacity-70 transition-colors duration-300',
                     href === currentPath ? 'font-medium' : '',
                   ]}
                   href={href}
@@ -82,7 +82,7 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
                 <li>
                   <a
                     class:list={[
-                      'hover:text-primary transition-colors duration-300',
+                      'hover:opacity-70 transition-colors duration-300',
                       href === currentPath ? 'font-medium' : '',
                     ]}
                     href={href}

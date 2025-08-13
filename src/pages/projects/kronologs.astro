@@ -2,7 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
 import KronologsImage from '~/assets/images/kronologs.webp';
-import { Image } from 'astro:assets';
+import {Image} from 'astro:assets';
 
 const metadata = {
   title: 'Kronologs.com Case Study | Bernat Sampera',
@@ -12,13 +12,16 @@ const metadata = {
 <Layout metadata={metadata}>
   <section class="pt-16 md:pt-24">
     <div class="container mx-auto px-6">
-      <a href="/#projects" class="inline-flex items-center text-gray-600 hover:text-primary mb-12">
+      <a href="/#projects" class="inline-flex items-center text-gray-600 hover:opacity-70 mb-12">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"></path>
         </svg>
         Back to Projects
       </a>
-      
+
       <div class="max-w-4xl">
         <h1 class="text-4xl md:text-5xl font-bold mb-6">Kronologs.com</h1>
         <p class="text-xl text-gray-600 mb-12">
@@ -27,56 +30,60 @@ const metadata = {
       </div>
     </div>
   </section>
-  
+
   <section class="py-12">
     <div class="container mx-auto px-6">
       <div class="relative aspect-video bg-purple-50 rounded-lg mb-16 overflow-hidden shadow-lg">
-        <div class="absolute z-10 inset-0 bg-gray-900/20 opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div
+          class="absolute z-10 inset-0 bg-gray-900/20 opacity-100 group-hover:opacity-100 transition-opacity duration-300"
+        >
+        </div>
         <Image src={KronologsImage} alt="Kronologs platform" class="w-full h-full object-cover" />
       </div>
-      
+
       <div class="grid md:grid-cols-3 gap-12 mb-16">
         <div>
           <h3 class="text-lg font-bold mb-2">Role</h3>
           <p class="text-gray-600">Lead Developer & AI Engineer</p>
         </div>
-        
+
         <div>
           <h3 class="text-lg font-bold mb-2">Timeline</h3>
           <p class="text-gray-600">8 months</p>
         </div>
-        
+
         <div>
           <h3 class="text-lg font-bold mb-2">Technologies</h3>
           <p class="text-gray-600">Astro.js, LangChain, OpenAI, PostgreSQL</p>
         </div>
       </div>
-      
+
       <div class="max-w-3xl mx-auto">
         <div class="prose prose-lg max-w-none">
           <h2>Project Overview</h2>
           <p>
-            Kronologs is a platform dedicated to exploring the lives of historical figures through detailed chronologies. 
-            The platform allows users to discover philosophers, scientists, artists, and leaders through 
+            Kronologs is a platform dedicated to exploring the lives of historical figures through detailed
+            chronologies. The platform allows users to discover philosophers, scientists, artists, and leaders through
             comprehensive timelines that highlight key events, works, and connections throughout their lives.
           </p>
-          
+
           <h2>The Challenge</h2>
           <p>
-            Understanding historical figures traditionally requires reading multiple books, articles, and sources, 
-            making it difficult to grasp the complete timeline of their lives and works. The challenge was to create 
-            a system that could automatically generate accurate, comprehensive chronologies from diverse sources while 
+            Understanding historical figures traditionally requires reading multiple books, articles, and sources,
+            making it difficult to grasp the complete timeline of their lives and works. The challenge was to create a
+            system that could automatically generate accurate, comprehensive chronologies from diverse sources while
             maintaining historical accuracy.
           </p>
-          
+
           <div class="bg-purple-50 p-8 rounded-lg my-8">
             <h3 class="text-xl font-bold mb-4">AI & LangChain Integration</h3>
-            
+
             <div class="flex flex-col md:flex-row gap-8 mb-6">
               <div class="md:w-1/2">
                 <h4 class="font-bold mb-3">AI-Powered Chronology Creation</h4>
                 <p class="text-sm mb-4">
-                  Each historical figure's chronology is generated through a sophisticated AI pipeline built with LangChain:
+                  Each historical figure's chronology is generated through a sophisticated AI pipeline built with
+                  LangChain:
                 </p>
                 <ol class="text-sm space-y-2 list-decimal pl-4">
                   <li>Data collection from diverse historical sources</li>
@@ -86,7 +93,7 @@ const metadata = {
                   <li>Narrative generation and formatting</li>
                 </ol>
               </div>
-              
+
               <div class="md:w-1/2">
                 <h4 class="font-bold mb-3">LangChain Framework Benefits</h4>
                 <ul class="text-sm space-y-2 list-disc pl-4">
@@ -98,42 +105,75 @@ const metadata = {
                 </ul>
               </div>
             </div>
-            
+
             <div class="mt-4">
               <p class="text-sm italic">
-                "The combination of LLMs with the LangChain framework has allowed us to create historically accurate 
-                chronologies at scale, something that would be prohibitively labor-intensive through traditional research methods."
+                "The combination of LLMs with the LangChain framework has allowed us to create historically accurate
+                chronologies at scale, something that would be prohibitively labor-intensive through traditional
+                research methods."
               </p>
             </div>
           </div>
-          
+
           <h2>Key Features</h2>
           <ul>
-            <li><strong>Comprehensive Chronologies:</strong> Detailed timelines of historical figures covering their entire lives.</li>
-            <li><strong>AI-Generated Content:</strong> Advanced natural language processing to create accurate, readable timelines.</li>
-            <li><strong>Historical Figure Catalog:</strong> Growing library of philosophers, artists, scientists, and leaders.</li>
-            <li><strong>Request System:</strong> Users can request new historical figures to be added to the database.</li>
+            <li>
+              <strong>Comprehensive Chronologies:</strong> Detailed timelines of historical figures covering their entire
+              lives.
+            </li>
+            <li>
+              <strong>AI-Generated Content:</strong> Advanced natural language processing to create accurate, readable timelines.
+            </li>
+            <li>
+              <strong>Historical Figure Catalog:</strong> Growing library of philosophers, artists, scientists, and leaders.
+            </li>
+            <li>
+              <strong>Request System:</strong> Users can request new historical figures to be added to the database.
+            </li>
             <li><strong>User-Friendly Interface:</strong> Clean, intuitive design for exploring chronologies.</li>
           </ul>
-          
+
           <h2>Technical Implementation</h2>
           <p>
-            The Kronologs platform employs a sophisticated AI pipeline built on LangChain to generate historically accurate chronologies:
+            The Kronologs platform employs a sophisticated AI pipeline built on LangChain to generate historically
+            accurate chronologies:
           </p>
-          
+
           <ol>
-            <li><strong>Source Retrieval:</strong> Custom retrievers gather data from historical databases, encyclopedias, and academic sources.</li>
-            <li><strong>Data Processing:</strong> LangChain agents process and structure the raw data into chronological events.</li>
-            <li><strong>Validation Chains:</strong> Multi-step verification processes check dates, facts, and connections for historical accuracy.</li>
-            <li><strong>Context Enhancement:</strong> Additional context and connections between events are identified using graph-based representations.</li>
-            <li><strong>Narrative Generation:</strong> Final chronologies are rendered as cohesive narratives that maintain readability while preserving historical detail.</li>
+            <li>
+              <strong>Source Retrieval:</strong> Custom retrievers gather data from historical databases, encyclopedias,
+              and academic sources.
+            </li>
+            <li>
+              <strong>Data Processing:</strong> LangChain agents process and structure the raw data into chronological events.
+            </li>
+            <li>
+              <strong>Validation Chains:</strong> Multi-step verification processes check dates, facts, and connections for
+              historical accuracy.
+            </li>
+            <li>
+              <strong>Context Enhancement:</strong> Additional context and connections between events are identified using
+              graph-based representations.
+            </li>
+            <li>
+              <strong>Narrative Generation:</strong> Final chronologies are rendered as cohesive narratives that maintain
+              readability while preserving historical detail.
+            </li>
           </ol>
-          
+
           <div class="my-12 text-center">
-            <a href="https://kronologs.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-focus transition-colors duration-300">
+            <a
+              href="https://kronologs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-focus transition-colors duration-300"
+            >
               <span>Visit Kronologs.com</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                <path
+                  fill-rule="evenodd"
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
               </svg>
             </a>
           </div>
@@ -141,18 +181,14 @@ const metadata = {
       </div>
     </div>
   </section>
-  
+
   <section class="py-16 bg-base-50">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-2xl font-bold mb-6">Looking to build an AI-powered platform with LangChain?</h2>
       <div class="flex justify-center">
-        <Button
-          variant="primary"
-          text="Get in Touch"
-          href="/contact"
-          class="px-8 py-3 text-base-100 font-medium"
-        />
+        <Button variant="primary" text="Get in Touch" href="/contact" class="px-8 py-3 text-base-100 font-medium" />
       </div>
     </div>
   </section>
-</Layout> 
+</Layout>
+
