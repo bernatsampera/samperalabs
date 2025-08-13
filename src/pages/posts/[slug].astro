@@ -1,4 +1,5 @@
 ---
+import Button from '~/components/ui/Button.astro';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import {getDB} from '../../lib/db';
 import {marked} from 'marked';
@@ -34,20 +35,8 @@ const metadata = {
   <!-- Article Actions -->
   <footer class="mt-16 pt-8 border-t border-border">
     <div class="flex gap-4">
-      <a
-        href={`/admin/edit-post/${post.id}`}
-        class="inline-flex items-center px-6 py-3 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors border border-border rounded-sm font-medium"
-      >
-        Edit Post
-      </a>
-      <button
-        id="delete-btn"
-        data-post-id={post.id}
-        data-post-title={post.title}
-        class="inline-flex items-center px-6 py-3 bg-destructive text-destructive-foreground hover:bg-destructive/80 transition-colors border border-border rounded-sm font-medium"
-      >
-        Delete Post
-      </button>
+      <Button href={`/admin/edit-post/${post.id}`} text="Edit Post" />
+      <Button data-post-id={post.id} data-post-title={post.title} text="Delete Post" />
     </div>
   </footer>
 </BlogLayout>
