@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/PageLayout.astro';
 import {getDB} from '../../lib/db';
+import PostCard from '~/components/common/PostCard.astro';
 
 // Get the tag from the URL params
 const {tag} = Astro.params;
@@ -23,12 +24,7 @@ const metadata = {
     <!-- Navigation -->
     <nav class="border-b border-border">
       <div class="container mx-auto px-6 py-6 max-w-4xl">
-        <a 
-          href="/blog" 
-          class="text-muted-foreground hover:text-foreground transition-colors"
-        >
-          ← Back to blog
-        </a>
+        <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors"> ← Back to blog </a>
       </div>
     </nav>
 
@@ -44,57 +40,19 @@ const metadata = {
 
     <!-- Posts -->
     <main class="container mx-auto px-6 pb-16 max-w-4xl">
-      {posts.length === 0 ? (
-        <div class="text-center py-16">
-          <p class="text-muted-foreground text-lg">No posts found with this tag.</p>
-        </div>
-      ) : (
-        <div class="space-y-16">
-          {posts.map((post) => (
-            <article class="group">
-              <div class="space-y-4">
-                <!-- Post Date -->
-                <time class="text-sm text-muted-foreground">
-                  {new Date(post.pub_date).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}
-                </time>
-                
-                <!-- Post Title -->
-                <h2 class="text-2xl md:text-3xl font-bold text-foreground group-hover:text-muted-foreground transition-colors">
-                  <a href={`/posts/${post.slug}`} class="block">
-                    {post.title}
-                  </a>
-                </h2>
-                
-                <!-- Post Description -->
-                {post.description && (
-                  <p class="text-muted-foreground text-lg leading-relaxed max-w-3xl">
-                    {post.description}
-                  </p>
-                )}
-                
-                <!-- Post Meta -->
-                <div class="flex items-center gap-4 text-sm text-muted-foreground">
-                  <span>By {post.author}</span>
-                </div>
-                
-                <!-- Read More Link -->
-                <div class="pt-2">
-                  <a 
-                    href={`/posts/${post.slug}`} 
-                    class="text-foreground hover:text-muted-foreground transition-colors font-medium"
-                  >
-                    Read more →
-                  </a>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      )}
+      {
+        posts.length === 0 ? (
+          <div class="text-center py-16">
+            <p class="text-muted-foreground text-lg">No posts found with this tag.</p>
+          </div>
+        ) : (
+          <div class="space-y-16">
+            {posts.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </div>
+        )
+      }
     </main>
   </div>
 </Layout>

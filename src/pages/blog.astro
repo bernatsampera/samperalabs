@@ -1,4 +1,5 @@
 ---
+import PostCard from '~/components/common/PostCard.astro';
 import PageLayout from '../layouts/PageLayout.astro';
 import {getDB} from '../lib/db';
 
@@ -29,89 +30,36 @@ const metadata = {
 
     <!-- Blog Content -->
     <main class="container mx-auto px-6 py-16 max-w-4xl">
-  <!-- Post Creation Button -->
-  <div class="mb-12">
-    <a 
-      href="/admin/new-post" 
-      class="inline-flex items-center px-6 py-3 bg-primary-foreground hover:bg-primary/90 transition-colors border border-border rounded-sm font-medium"
-    >
-      New Post
-    </a>
-  </div>
+      <!-- Post Creation Button -->
+      <div class="mb-12">
+        <a
+          href="/admin/new-post"
+          class="inline-flex items-center px-6 py-3 bg-primary-foreground hover:bg-primary/90 transition-colors border border-border rounded-sm font-medium"
+        >
+          New Post
+        </a>
+      </div>
 
-  <!-- Posts Grid -->
-  {allPosts.length === 0 ? (
-    <div class="text-center py-16">
-      <p class="text-muted-foreground text-lg mb-6">No posts yet.</p>
-      <a 
-        href="/admin/new-post" 
-        class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border border-border rounded-sm font-medium"
-      >
-        Write your first post
-      </a>
-    </div>
-  ) : (
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {allPosts.map((post) => (
-        <article class="group">
-          <div class="space-y-4 border border-border rounded-sm p-4 h-full">
-            <!-- Post Date -->
-            <time class="text-sm text-muted-foreground">
-              {new Date(post.pub_date).toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </time>
-            
-            <!-- Post Title -->
-            <h2 class="text-2xl md:text-3xl font-bold text-foreground group-hover:text-muted-foreground transition-colors">
-              <a href={`/posts/${post.slug}`} class="block">
-                {post.title}
-              </a>
-            </h2>
-            
-            <!-- Post Description -->
-            {post.description && (
-              <p class="text-muted-foreground text-lg leading-relaxed max-w-3xl">
-                {post.description}
-              </p>
-            )}
-            
-            <!-- Post Meta -->
-            <div class="flex items-center gap-4 text-sm text-muted-foreground">
-              <span>By {post.author}</span>
-              {post.tags && post.tags.length > 0 && (
-                <div class="flex items-center gap-2">
-                  <span>•</span>
-                  <div class="flex gap-2">
-                    {post.tags.slice(0, 3).map((tag) => (
-                      <span class="px-2 py-1 bg-muted text-muted-foreground rounded-sm text-xs">
-                        {tag}
-                      </span>
-                    ))}
-                    {post.tags.length > 3 && (
-                      <span class="text-xs">+{post.tags.length - 3} more</span>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-            
-            <!-- Read More Link -->
-            <div class="pt-2">
-              <a 
-                href={`/posts/${post.slug}`} 
-                class="text-foreground hover:text-muted-foreground transition-colors font-medium"
-              >
-                Read more →
-              </a>
-            </div>
+      <!-- Posts Grid -->
+      {
+        allPosts.length === 0 ? (
+          <div class="text-center py-16">
+            <p class="text-muted-foreground text-lg mb-6">No posts yet.</p>
+            <a
+              href="/admin/new-post"
+              class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border border-border rounded-sm font-medium"
+            >
+              Write your first post
+            </a>
           </div>
-        </article>
-      ))}
-    </div>
-  )}
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {allPosts.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </div>
+        )
+      }
     </main>
   </div>
 </PageLayout>
