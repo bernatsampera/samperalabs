@@ -1,59 +1,56 @@
 ---
-import {twMerge} from 'tailwind-merge';
-
 export interface Props {
-  variant?: 'primary' | 'secondary' | 'tertiary' | 'link';
-  target?: string;
-  text?: string;
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'link' | 'outline';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   href?: string;
-  class?: string;
+  target?: string;
   type?: 'button' | 'submit' | 'reset';
-  size?: 'sm' | 'md' | 'lg';
-  outline?: boolean;
+  disabled?: boolean;
+  class?: string;
+  text?: string;
 }
 
 const {
   variant = 'primary',
-  target,
-  text = Astro.slots.render('default'),
-  href,
-  class: className = '',
-  type,
   size = 'md',
-  outline = false,
+  href,
+  target,
+  type = 'button',
+  disabled = false,
+  class: className = '',
+  text,
   ...rest
 } = Astro.props;
 
-const variants = {
-  primary: 'btn-primary',
-  secondary: 'btn-secondary',
-  tertiary: 'btn-accent',
-  link: 'btn-link',
-};
-
-const sizes = {
-  sm: 'btn-sm',
-  md: '',
-  lg: 'btn-lg',
-};
-
-const baseClass = twMerge(
+// Build DaisyUI classes
+const classes = [
   'btn',
-  variants[variant] || 'btn-primary',
-  sizes[size] || '',
-  outline ? 'btn-outline' : '',
-  className
-);
+  variant === 'primary' && 'btn-primary',
+  variant === 'secondary' && 'btn-secondary',
+  variant === 'accent' && 'btn-accent',
+  variant === 'ghost' && 'btn-ghost',
+  variant === 'link' && 'btn-link',
+  variant === 'outline' && 'btn-outline',
+  size === 'xs' && 'btn-xs',
+  size === 'sm' && 'btn-sm',
+  size === 'lg' && 'btn-lg',
+  className,
+]
+  .filter(Boolean)
+  .join(' ');
+
+const isLink = !!href;
+const linkProps = target ? {target, rel: 'noopener noreferrer'} : {};
 ---
 
 {
-  type === 'button' || type === 'submit' || type === 'reset' ? (
-    <button type={type} class={baseClass} {...rest}>
-      {text}
-    </button>
-  ) : (
-    <a href={href} class={baseClass} {...(target ? {target, rel: 'noopener noreferrer'} : {})} {...rest}>
+  isLink ? (
+    <a href={href} class={classes} {...linkProps} {...rest}>
       {text}
     </a>
+  ) : (
+    <button type={type} class={classes} disabled={disabled} {...rest}>
+      {text}
+    </button>
   )
 }

@@ -73,7 +73,7 @@ The Silent Edge design system is implemented using a dark-first approach with ca
 <div className="bg-background text-foreground">
   <h1 className="text-foreground">Title</h1>
   <p className="text-foreground-foreground">Description</p>
-  <button className="bg-primary text-primary-foreground hover:bg-primary/90">
+  <button className="bg-primary-foreground hover:bg-primary/90">
     Action
   </button>
 </div>

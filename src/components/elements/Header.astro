@@ -21,7 +21,7 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
   class:list={[
     {sticky: isSticky, relative: !isSticky},
     'top-0 z-40 w-full transition-all ease-in-out py-6',
-    isSticky ? 'shadow-sm bg-base-100' : 'bg-transparent',
+    isSticky ? 'shadow-sm bg-background' : 'bg-transparent',
   ]}
   {...isSticky ? {'data-sticky-header': true} : {}}
 >

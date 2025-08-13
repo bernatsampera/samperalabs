@@ -2,7 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
 import BjjgymImage from '~/assets/images/bjjgym.webp';
-import { Image } from 'astro:assets';
+import {Image} from 'astro:assets';
 
 const metadata = {
   title: 'BJJGym.com Case Study | Bernat Sampera',
@@ -14,11 +14,14 @@ const metadata = {
     <div class="container mx-auto px-6">
       <a href="/#projects" class="inline-flex items-center text-gray-600 hover:text-primary mb-12">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"></path>
         </svg>
         Back to Projects
       </a>
-      
+
       <div class="max-w-4xl">
         <h1 class="text-4xl md:text-5xl font-bold mb-6">BJJGym.com</h1>
         <p class="text-xl text-gray-600 mb-12">
@@ -27,105 +30,169 @@ const metadata = {
       </div>
     </div>
   </section>
-  
+
   <section class="py-12">
     <div class="container mx-auto px-6">
-      <div class="relative aspect-video rounded-lg mb-16 overflow-hidden shadow-lg ">
-        <div class="absolute z-10 inset-0 bg-gray-900/30 opacity-100 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div class="relative aspect-video rounded-lg mb-16 overflow-hidden shadow-lg">
+        <div
+          class="absolute z-10 inset-0 bg-gray-900/30 opacity-100 group-hover:opacity-100 transition-opacity duration-300"
+        >
+        </div>
         <Image src={BjjgymImage} alt="BJJGym.com platform" class="w-full h-full object-cover" />
       </div>
-      
+
       <div class="grid md:grid-cols-3 gap-12 mb-16">
         <div>
           <h3 class="text-lg font-bold mb-2">Role</h3>
           <p class="text-gray-600">Lead Developer & AI Architect</p>
         </div>
-        
+
         <div>
           <h3 class="text-lg font-bold mb-2">Timeline</h3>
           <p class="text-gray-600">6 months</p>
         </div>
-        
+
         <div>
           <h3 class="text-lg font-bold mb-2">Technologies</h3>
           <p class="text-gray-600">React, Node.js, OpenAI, MongoDB</p>
         </div>
       </div>
-      
+
       <div class="max-w-3xl mx-auto">
         <div class="prose prose-lg max-w-none">
           <h2>Project Overview</h2>
           <p>
-            BJJGym.com is a comprehensive platform for Brazilian Jiu-Jitsu practitioners to discover training 
-            facilities while traveling. The platform connects BJJ enthusiasts with gyms, open mats, and training 
-            partners worldwide, ensuring they never miss a training session.
+            BJJGym.com is a comprehensive platform for Brazilian Jiu-Jitsu practitioners to discover training facilities
+            while traveling. The platform connects BJJ enthusiasts with gyms, open mats, and training partners
+            worldwide, ensuring they never miss a training session.
           </p>
-          
+
           <h2>The Challenge</h2>
           <p>
-            BJJ travelers often struggle to find reliable information about academies when visiting new cities. 
-            Existing solutions lacked comprehensive gym details, verification systems, and user-friendly interfaces. 
-            The challenge was to create a trusted resource that serves both travelers and gym owners.
+            BJJ travelers often struggle to find reliable information about academies when visiting new cities. Existing
+            solutions lacked comprehensive gym details, verification systems, and user-friendly interfaces. The
+            challenge was to create a trusted resource that serves both travelers and gym owners.
           </p>
-          
+
           <div class="bg-blue-50 p-8 rounded-lg my-8">
             <h3 class="text-xl font-bold mb-4">AI Integration Highlights</h3>
-            <p class="mb-4">
-              Each gym profile on BJJGym.com is enhanced through sophisticated AI processing:
-            </p>
+            <p class="mb-4">Each gym profile on BJJGym.com is enhanced through sophisticated AI processing:</p>
             <ul class="space-y-4">
               <li class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 flex-shrink-0 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span>AI-powered analysis of unstructured gym data from various sources to create structured, consistent gym profiles</span>
+                <span
+                  >AI-powered analysis of unstructured gym data from various sources to create structured, consistent
+                  gym profiles</span
+                >
               </li>
               <li class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 flex-shrink-0 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <span>Natural language processing to extract key information from reviews and testimonials</span>
               </li>
               <li class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 flex-shrink-0 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span>Automated verification system that cross-references information across multiple sources to ensure accuracy</span>
+                <span
+                  >Automated verification system that cross-references information across multiple sources to ensure
+                  accuracy</span
+                >
               </li>
               <li class="flex">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary flex-shrink-0 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 flex-shrink-0 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
-                <span>Personalized gym recommendations based on a user's training history, belt level, and preferences</span>
+                <span
+                  >Personalized gym recommendations based on a user's training history, belt level, and preferences</span
+                >
               </li>
             </ul>
           </div>
-          
+
           <h2>Key Features</h2>
           <ul>
-            <li><strong>Global Gym Directory:</strong> Comprehensive database of BJJ academies across 150+ countries.</li>
+            <li>
+              <strong>Global Gym Directory:</strong> Comprehensive database of BJJ academies across 150+ countries.
+            </li>
             <li><strong>Open Mat Finder:</strong> Discover drop-in friendly training sessions while traveling.</li>
-            <li><strong>Training Partner Network:</strong> Connect with fellow practitioners based on weight class, experience level, and training goals.</li>
-            <li><strong>Gym Owner Dashboard:</strong> Tools for academy owners to showcase their facilities and attract visitors.</li>
-            <li><strong>Review System:</strong> Verified feedback from community members who have trained at the gyms.</li>
+            <li>
+              <strong>Training Partner Network:</strong> Connect with fellow practitioners based on weight class, experience
+              level, and training goals.
+            </li>
+            <li>
+              <strong>Gym Owner Dashboard:</strong> Tools for academy owners to showcase their facilities and attract visitors.
+            </li>
+            <li>
+              <strong>Review System:</strong> Verified feedback from community members who have trained at the gyms.
+            </li>
           </ul>
-          
+
           <h2>Results</h2>
-          <p>
-            Since launching BJJGym.com:
-          </p>
-          
+          <p>Since launching BJJGym.com:</p>
+
           <ul>
             <li>Platform now features 2,000+ verified gyms across 1,000+ cities</li>
             <li>Monthly open mat sessions exceeding 150 worldwide</li>
             <li>Active user base of 200+ BJJ practitioners from 30+ countries</li>
           </ul>
-          
+
           <div class="my-12 text-center">
-            <a href="https://bjjgym.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-focus transition-colors duration-300">
+            <a
+              href="https://bjjgym.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center bg-primary text-white font-medium px-6 py-3 rounded-md hover:bg-primary-focus transition-colors duration-300"
+            >
               <span>Visit BJJGym.com</span>
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                <path
+                  fill-rule="evenodd"
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
               </svg>
             </a>
           </div>
@@ -133,18 +200,13 @@ const metadata = {
       </div>
     </div>
   </section>
-  
+
   <section class="py-16 bg-base-50">
     <div class="container mx-auto px-6 text-center">
       <h2 class="text-2xl font-bold mb-6">Interested in similar AI integration for your business?</h2>
       <div class="flex justify-center">
-        <Button
-          variant="primary"
-          text="Get in Touch"
-          href="/contact"
-          class="px-8 py-3 text-base-100 font-medium"
-        />
+        <Button variant="primary" text="Get in Touch" href="/contact" class="px-8 py-3 font-medium" />
       </div>
     </div>
   </section>
-</Layout> 
+</Layout>
