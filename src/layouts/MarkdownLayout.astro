@@ -1,15 +1,15 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-const { frontmatter } = Astro.props;
+const {frontmatter} = Astro.props;
 ---
 
-<Layout metadata={{ title: frontmatter.title }}>
+<Layout metadata={{title: frontmatter.title}}>
   <section class="py-16 md:py-24 bg-base-100">
     <div class="container mx-auto px-6">
       <div class="max-w-3xl mx-auto">
         <h1 class="text-4xl font-bold mb-8">{frontmatter.title}</h1>
-        
+
         <div class="prose prose-lg max-w-none">
           <slot />
         </div>
