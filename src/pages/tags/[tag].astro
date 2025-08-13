@@ -1,23 +1,17 @@
 ---
 import Layout from '../../layouts/PageLayout.astro';
+import {getDB} from '../../lib/db';
 
-export async function getStaticPaths() {
-  const allPosts = Object.values(import.meta.glob('../posts/*.md', {eager: true}));
+// Get the tag from the URL params
+const {tag} = Astro.params;
 
-  const uniqueTags = [...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat())];
-
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post: any) => post.frontmatter.tags.includes(tag));
-    return {
-      params: {tag},
-      props: {posts: filteredPosts},
-    };
-  });
+if (!tag) {
+  return Astro.redirect('/404');
 }
 
-const {tag} = Astro.params;
-const {posts} = Astro.props;
-// const filteredPosts = posts.filter((post: any) => post.frontmatter.tags?.includes(tag));
+// Fetch posts with this tag from the database
+const db = getDB();
+const posts = db.getPostsByTag(tag);
 
 const metadata = {
   title: `Posts tagged with ${tag}`,
@@ -25,13 +19,82 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <ul>
-    {
-      posts.map((post: any) => (
-        <li>
-          <a href={post.url}>{post.frontmatter.title}</a>
-        </li>
-      ))
-    }
-  </ul></Layout
->
+  <div class="min-h-screen bg-background">
+    <!-- Navigation -->
+    <nav class="border-b border-border">
+      <div class="container mx-auto px-6 py-6 max-w-4xl">
+        <a 
+          href="/blog" 
+          class="text-muted-foreground hover:text-foreground transition-colors"
+        >
+          ← Back to writing
+        </a>
+      </div>
+    </nav>
+
+    <!-- Tag Header -->
+    <header class="container mx-auto px-6 py-16 max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-4">
+        {tag}
+      </h1>
+      <p class="text-lg text-muted-foreground">
+        Posts tagged with "{tag}"
+      </p>
+    </header>
+
+    <!-- Posts -->
+    <main class="container mx-auto px-6 pb-16 max-w-4xl">
+      {posts.length === 0 ? (
+        <div class="text-center py-16">
+          <p class="text-muted-foreground text-lg">No posts found with this tag.</p>
+        </div>
+      ) : (
+        <div class="space-y-16">
+          {posts.map((post) => (
+            <article class="group">
+              <div class="space-y-4">
+                <!-- Post Date -->
+                <time class="text-sm text-muted-foreground">
+                  {new Date(post.pub_date).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}
+                </time>
+                
+                <!-- Post Title -->
+                <h2 class="text-2xl md:text-3xl font-bold text-foreground group-hover:text-muted-foreground transition-colors">
+                  <a href={`/posts/${post.slug}`} class="block">
+                    {post.title}
+                  </a>
+                </h2>
+                
+                <!-- Post Description -->
+                {post.description && (
+                  <p class="text-muted-foreground text-lg leading-relaxed max-w-3xl">
+                    {post.description}
+                  </p>
+                )}
+                
+                <!-- Post Meta -->
+                <div class="flex items-center gap-4 text-sm text-muted-foreground">
+                  <span>By {post.author}</span>
+                </div>
+                
+                <!-- Read More Link -->
+                <div class="pt-2">
+                  <a 
+                    href={`/posts/${post.slug}`} 
+                    class="text-foreground hover:text-muted-foreground transition-colors font-medium"
+                  >
+                    Read more →
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </main>
+  </div>
+</Layout>

@@ -1,0 +1,438 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import {getDB} from '../../../lib/db';
+
+// Get the post ID from the URL params
+const {id} = Astro.params;
+
+// Fetch the post from the database
+const db = getDB();
+const post = db.getPostById(Number(id));
+
+// If post not found, return 404
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+const metadata = {
+  title: `Edit: ${post.title}`,
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="min-h-screen bg-background">
+    <!-- Navigation -->
+    <nav class="border-b border-border">
+      <div class="container mx-auto px-6 py-6 max-w-4xl">
+        <a href={`/posts/${post.slug}`} class="text-muted-foreground hover:text-foreground transition-colors">
+          ← Back to post
+        </a>
+      </div>
+    </nav>
+
+    <!-- Form -->
+    <main class="container mx-auto px-6 py-16 max-w-4xl">
+      <div class="max-w-2xl">
+        <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-12">Edit Post</h1>
+
+        <form id="edit-post-form" class="space-y-8">
+          <input type="hidden" id="post-id" value={post.id} />
+
+          <!-- Title -->
+          <div class="space-y-2">
+            <label for="title" class="block text-sm font-medium text-foreground"> Title* </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              required
+              value={post.title}
+              class="w-full px-4 py-3 bg-input border border-border rounded-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <!-- Author -->
+          <div class="space-y-2">
+            <label for="author" class="block text-sm font-medium text-foreground"> Author* </label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              required
+              value={post.author}
+              class="w-full px-4 py-3 bg-input border border-border rounded-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <!-- Description -->
+          <div class="space-y-2">
+            <label for="description" class="block text-sm font-medium text-foreground"> Description </label>
+            <textarea
+              id="description"
+              name="description"
+              rows="3"
+              class="w-full px-4 py-3 bg-input border border-border rounded-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+              >{post.description || ''}</textarea
+            >
+          </div>
+
+          <!-- Publication Date -->
+          <div class="space-y-2">
+            <label for="pub_date" class="block text-sm font-medium text-foreground"> Publication Date </label>
+            <input
+              type="date"
+              id="pub_date"
+              name="pub_date"
+              value={post.pub_date}
+              class="w-full px-4 py-3 bg-input border border-border rounded-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
+          <!-- Tags -->
+          <div class="space-y-2">
+            <label for="tags" class="block text-sm font-medium text-foreground"> Tags </label>
+            <input
+              type="text"
+              id="tags"
+              name="tags"
+              placeholder="design, development, astro"
+              value={post.tags ? post.tags.join(', ') : ''}
+              class="w-full px-4 py-3 bg-input border border-border rounded-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+            <p class="text-xs text-muted-foreground">Separate tags with commas</p>
+          </div>
+
+          <!-- Content Editor -->
+          <div class="space-y-2">
+            <label for="content" class="block text-sm font-medium text-foreground"> Content* </label>
+
+            <!-- Tiptap Editor Container -->
+            <div class="tiptap-editor-container">
+              <!-- Toolbar -->
+              <div class="tiptap-toolbar">
+                <button type="button" id="bold-btn" class="toolbar-btn">
+                  <strong>B</strong>
+                </button>
+                <button type="button" id="italic-btn" class="toolbar-btn">
+                  <em>I</em>
+                </button>
+                <button type="button" id="code-btn" class="toolbar-btn"> &lt;/&gt; </button>
+                <div class="divider"></div>
+                <button type="button" id="h1-btn" class="toolbar-btn"> H1 </button>
+                <button type="button" id="h2-btn" class="toolbar-btn"> H2 </button>
+                <button type="button" id="h3-btn" class="toolbar-btn"> H3 </button>
+                <div class="divider"></div>
+                <button type="button" id="bullet-list-btn" class="toolbar-btn"> • </button>
+                <button type="button" id="ordered-list-btn" class="toolbar-btn"> 1. </button>
+                <button type="button" id="blockquote-btn" class="toolbar-btn"> " </button>
+                <div class="divider"></div>
+                <button type="button" id="undo-btn" class="toolbar-btn"> ↶ </button>
+                <button type="button" id="redo-btn" class="toolbar-btn"> ↷ </button>
+              </div>
+
+              <!-- Editor -->
+              <div id="tiptap-editor" class="tiptap-editor"></div>
+            </div>
+
+            <!-- Hidden textarea for form submission -->
+            <textarea id="content" name="content" class="hidden" required>{post.content}</textarea>
+          </div>
+
+          <!-- Actions -->
+          <div class="flex gap-4 pt-8">
+            <button
+              type="submit"
+              class="inline-flex items-center px-8 py-4 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors border border-border rounded-sm font-medium"
+            >
+              Update Post
+            </button>
+            <a
+              href={`/posts/${post.slug}`}
+              class="inline-flex items-center px-8 py-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors border border-border rounded-sm font-medium"
+            >
+              Cancel
+            </a>
+          </div>
+        </form>
+
+        <!-- Status Message -->
+        <div id="status-message" class="mt-8"></div>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  /* Tiptap Editor Styles */
+  .tiptap-editor-container {
+    @apply w-full border border-border rounded-sm bg-input;
+  }
+
+  .tiptap-editor {
+    @apply min-h-[400px];
+  }
+
+  .tiptap-editor .ProseMirror {
+    @apply outline-none px-4 py-3 min-h-[400px] text-foreground;
+  }
+
+  .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+    @apply text-muted-foreground;
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+  /* Toolbar Styles */
+  .tiptap-toolbar {
+    @apply flex flex-wrap gap-1 p-3 border-b border-border bg-muted/30;
+  }
+
+  .toolbar-btn {
+    @apply px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-sm transition-colors;
+  }
+
+  .toolbar-btn.is-active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .toolbar-btn:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .divider {
+    @apply w-px bg-border mx-2;
+  }
+
+  /* Content Styles */
+  .tiptap-editor .ProseMirror h1 {
+    @apply text-3xl font-bold text-foreground mt-6 mb-4 first:mt-0;
+  }
+
+  .tiptap-editor .ProseMirror h2 {
+    @apply text-2xl font-bold text-foreground mt-6 mb-4 first:mt-0;
+  }
+
+  .tiptap-editor .ProseMirror h3 {
+    @apply text-xl font-bold text-foreground mt-5 mb-3 first:mt-0;
+  }
+
+  .tiptap-editor .ProseMirror p {
+    @apply text-muted-foreground leading-relaxed mb-4;
+  }
+
+  .tiptap-editor .ProseMirror strong {
+    @apply text-foreground font-semibold;
+  }
+
+  .tiptap-editor .ProseMirror em {
+    @apply italic;
+  }
+
+  .tiptap-editor .ProseMirror code {
+    @apply bg-muted text-foreground px-1 py-0.5 rounded text-sm font-mono;
+  }
+
+  .tiptap-editor .ProseMirror blockquote {
+    @apply border-l-4 border-border pl-4 ml-0 my-4 text-muted-foreground italic;
+  }
+
+  .tiptap-editor .ProseMirror ul,
+  .tiptap-editor .ProseMirror ol {
+    @apply mb-4 pl-6;
+  }
+
+  .tiptap-editor .ProseMirror li {
+    @apply mb-2 text-muted-foreground;
+  }
+
+  .tiptap-editor .ProseMirror ul li {
+    @apply list-disc;
+  }
+
+  .tiptap-editor .ProseMirror ol li {
+    @apply list-decimal;
+  }
+
+  /* Focus styles */
+  .tiptap-editor-container:focus-within {
+    @apply ring-2 ring-ring;
+  }
+</style>
+
+<script>
+  let editor;
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const editorElement = document.getElementById('tiptap-editor');
+    const contentTextarea = document.getElementById('content');
+
+    if (editorElement && contentTextarea) {
+      // Dynamically import Tiptap modules
+      const {Editor} = await import('@tiptap/core');
+      const StarterKit = await import('@tiptap/starter-kit');
+      const Typography = await import('@tiptap/extension-typography');
+      const Placeholder = await import('@tiptap/extension-placeholder');
+
+      // Initialize Tiptap editor
+      editor = new Editor({
+        element: editorElement,
+        extensions: [
+          StarterKit.default.configure({
+            heading: {
+              levels: [1, 2, 3, 4, 5, 6],
+            },
+            bulletList: {
+              keepMarks: true,
+              keepAttributes: false,
+            },
+            orderedList: {
+              keepMarks: true,
+              keepAttributes: false,
+            },
+          }),
+          Typography.default,
+          Placeholder.default.configure({
+            placeholder: 'Write your post content...',
+          }),
+        ],
+        content: contentTextarea.value,
+        editorProps: {
+          attributes: {
+            class: 'prose prose-lg prose-invert max-w-none focus:outline-none min-h-[400px] px-4 py-3',
+          },
+        },
+        onUpdate: ({editor}) => {
+          // Convert HTML to Markdown (simplified)
+          let html = editor.getHTML();
+
+          // Basic HTML to Markdown conversion
+          html = html.replace(/<h1>(.*?)<\/h1>/g, '# $1\n');
+          html = html.replace(/<h2>(.*?)<\/h2>/g, '## $1\n');
+          html = html.replace(/<h3>(.*?)<\/h3>/g, '### $1\n');
+          html = html.replace(/<h4>(.*?)<\/h4>/g, '#### $1\n');
+          html = html.replace(/<h5>(.*?)<\/h5>/g, '##### $1\n');
+          html = html.replace(/<h6>(.*?)<\/h6>/g, '###### $1\n');
+          html = html.replace(/<p>(.*?)<\/p>/g, '$1\n\n');
+          html = html.replace(/<strong>(.*?)<\/strong>/g, '**$1**');
+          html = html.replace(/<em>(.*?)<\/em>/g, '*$1*');
+          html = html.replace(/<code>(.*?)<\/code>/g, '`$1`');
+          html = html.replace(/<blockquote><p>(.*?)<\/p><\/blockquote>/g, '> $1\n');
+          html = html.replace(/<ul><li>(.*?)<\/li><\/ul>/g, '- $1\n');
+          html = html.replace(/<ol><li>(.*?)<\/li><\/ol>/g, '1. $1\n');
+          html = html.replace(/<li>(.*?)<\/li>/g, '- $1\n');
+          html = html.replace(/<a href="(.*?)">(.*?)<\/a>/g, '[$2]($1)');
+
+          // Clean up extra newlines
+          html = html.replace(/\n{3,}/g, '\n\n');
+          html = html.trim();
+
+          contentTextarea.value = html;
+        },
+      });
+
+      // Toolbar button handlers
+      document.getElementById('bold-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleBold().run();
+      });
+
+      document.getElementById('italic-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleItalic().run();
+      });
+
+      document.getElementById('code-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleCode().run();
+      });
+
+      document.getElementById('h1-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleHeading({level: 1}).run();
+      });
+
+      document.getElementById('h2-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleHeading({level: 2}).run();
+      });
+
+      document.getElementById('h3-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleHeading({level: 3}).run();
+      });
+
+      document.getElementById('bullet-list-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleBulletList().run();
+      });
+
+      document.getElementById('ordered-list-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleOrderedList().run();
+      });
+
+      document.getElementById('blockquote-btn')?.addEventListener('click', () => {
+        editor.chain().focus().toggleBlockquote().run();
+      });
+
+      document.getElementById('undo-btn')?.addEventListener('click', () => {
+        editor.chain().focus().undo().run();
+      });
+
+      document.getElementById('redo-btn')?.addEventListener('click', () => {
+        editor.chain().focus().redo().run();
+      });
+    }
+  });
+
+  document.getElementById('edit-post-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const postId = (document.getElementById('post-id') as HTMLInputElement).value;
+
+    // Make sure content is up to date from Tiptap editor
+    if (editor) {
+      const contentTextarea = document.getElementById('content');
+      formData.set('content', contentTextarea.value);
+    }
+
+    // Convert form data to object
+    const postData = {
+      title: formData.get('title') as string,
+      author: formData.get('author') as string,
+      description: (formData.get('description') as string) || undefined,
+      pub_date: (formData.get('pub_date') as string) || undefined,
+      tags: ((formData.get('tags') as string) || '')
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0),
+      content: formData.get('content') as string,
+    };
+
+    const statusEl = document.getElementById('status-message');
+
+    try {
+      statusEl!.innerHTML = '<div class="text-muted-foreground">Updating post...</div>';
+
+      const response = await fetch(`/api/posts/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        statusEl!.innerHTML = '<div class="text-foreground">Post updated successfully!</div>';
+
+        // Redirect to the updated post after a short delay
+        setTimeout(() => {
+          window.location.href = `/posts/${result.slug}`;
+        }, 1500);
+      } else {
+        statusEl!.innerHTML = `<div class="text-destructive">Error: ${result.error}</div>`;
+      }
+    } catch (error) {
+      statusEl!.innerHTML = '<div class="text-destructive">Failed to update post. Please try again.</div>';
+      console.error('Error updating post:', error);
+    }
+  });
+</script>

@@ -1,20 +1,55 @@
 ---
-import Layout from '../../layouts/PageLayout.astro';
-const allPosts = Object.values(import.meta.glob('../posts/*.md', {eager: true}));
-const tags = [...new Set(allPosts.map((post: any) => post.frontmatter.tags).flat())];
+import Layout from '../../layouts/Layout.astro';
+import {getDB} from '../../lib/db';
+
+const db = getDB();
+const allPosts = db.getAllPosts();
+const tags = [...new Set(allPosts.map((post) => post.tags).flat())];
 
 const metadata = {
-  title: 'Tag Index',
+  title: 'Tags',
 };
 ---
 
 <Layout metadata={metadata}>
-  <h1>Tag Index</h1>
-  {
-    tags.map((tag) => (
-      <p class="tag">
-        <a href={`/tags/${tag}`}>{tag}</a>
-      </p>
-    ))
-  }</Layout
->
+  <div class="min-h-screen bg-background">
+    <!-- Navigation -->
+    <nav class="border-b border-border">
+      <div class="container mx-auto px-6 py-6 max-w-4xl">
+        <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors"> ← Back to writing </a>
+      </div>
+    </nav>
+
+    <!-- Tags Header -->
+    <header class="container mx-auto px-6 py-16 max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-4">Tags</h1>
+      <p class="text-lg text-muted-foreground">Explore posts by topic</p>
+    </header>
+
+    <!-- Tags Grid -->
+    <main class="container mx-auto px-6 pb-16 max-w-4xl">
+      {
+        tags.length === 0 ? (
+          <div class="text-center py-16">
+            <p class="text-muted-foreground text-lg">No tags found.</p>
+          </div>
+        ) : (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {tags.map((tag) => (
+              <a
+                href={`/tags/${tag}`}
+                class="group block p-6 bg-card border border-border rounded-sm hover:bg-accent transition-colors"
+              >
+                <h3 class="text-lg font-medium text-card-foreground group-hover:text-accent-foreground">{tag}</h3>
+                <p class="text-sm text-muted-foreground mt-2">
+                  {allPosts.filter((post) => post.tags.includes(tag)).length} post
+                  {allPosts.filter((post) => post.tags.includes(tag)).length === 1 ? '' : 's'}
+                </p>
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </main>
+  </div>
+</Layout>

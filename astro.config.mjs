@@ -19,6 +19,7 @@ import {
 } from './src/utils/frontmatter.mjs';
 
 import react from '@astrojs/react';
+import node from '@astrojs/node';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -27,7 +28,10 @@ const whenExternalScripts = (items = []) =>
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  output: 'static',
+  output: 'server',
+  adapter: node({
+    mode: 'standalone'
+  }),
   site: 'https://samperai.com',
   integrations: [tailwind({
     applyBaseStyles: false,

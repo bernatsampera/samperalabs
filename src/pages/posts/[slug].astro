@@ -1,0 +1,81 @@
+---
+import BlogLayout from '../../layouts/BlogLayout.astro';
+import {getDB} from '../../lib/db';
+import {marked} from 'marked';
+
+// Get the slug from the URL params
+const {slug} = Astro.params;
+
+// Fetch the post from the database
+const db = getDB();
+const post = db.getPostBySlug(slug ?? '');
+
+// If post not found, return 404
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+// Convert markdown to HTML
+const htmlContent = marked(post.content);
+
+const metadata = {
+  title: post.title,
+  description: post.description,
+};
+---
+
+<BlogLayout metadata={metadata} post={post}>
+  <!-- Article Content -->
+  <div
+    class="prose prose-lg prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-muted-foreground prose-code:text-foreground prose-pre:bg-muted"
+    set:html={htmlContent}
+  />
+
+  <!-- Article Actions -->
+  <footer class="mt-16 pt-8 border-t border-border">
+    <div class="flex gap-4">
+      <a
+        href={`/admin/edit-post/${post.id}`}
+        class="inline-flex items-center px-6 py-3 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors border border-border rounded-sm font-medium"
+      >
+        Edit Post
+      </a>
+      <button
+        id="delete-btn"
+        data-post-id={post.id}
+        data-post-title={post.title}
+        class="inline-flex items-center px-6 py-3 bg-destructive text-destructive-foreground hover:bg-destructive/80 transition-colors border border-border rounded-sm font-medium"
+      >
+        Delete Post
+      </button>
+    </div>
+  </footer>
+</BlogLayout>
+
+<script>
+  document.getElementById('delete-btn')?.addEventListener('click', async (e) => {
+    const button = e.target as HTMLButtonElement;
+    const postId = button.dataset.postId;
+    const postTitle = button.dataset.postTitle;
+
+    if (!postId) return;
+
+    if (confirm(`Are you sure you want to delete "${postTitle}"? This action cannot be undone.`)) {
+      try {
+        const response = await fetch(`/api/posts/${postId}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          window.location.href = '/blog';
+        } else {
+          const error = await response.json();
+          alert(`Error deleting post: ${error.error}`);
+        }
+      } catch (error) {
+        alert('Failed to delete post. Please try again.');
+        console.error('Error deleting post:', error);
+      }
+    }
+  });
+</script>
