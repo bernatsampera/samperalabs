@@ -7,7 +7,7 @@ import Kronologs from '~/assets/images/kronologs.webp';
 import {Image} from 'astro:assets';
 
 const metadata = {
-  title: 'SamperAI - AI Integration Solutions',
+  title: 'Sampera Labs - AI Integration Solutions',
 };
 
 const projects = [
@@ -34,6 +34,7 @@ const projects = [
     image: Kronologs,
   },
 ];
+const initialTagline = 'Things are going fast.';
 ---
 
 <Layout metadata={metadata}>
@@ -42,11 +43,11 @@ const projects = [
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
         <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">
-          <span id="dynamicGreeting">Welcome to</span><br />SamperAI
+          <span id="dynamicGreeting">Welcome to</span><br />Sampera Labs
         </h1>
 
         <p class="text-2xl md:text-3xl font-light mb-6 text-gray-700 leading-relaxed min-h-[4rem]">
-          <span id="rotatingTagline">We build websites that learn and adapt</span>
+          <span id="rotatingTagline">{initialTagline}</span>
         </p>
       </div>
     </div>
@@ -108,13 +109,13 @@ const projects = [
   <section id="about" class="py-24 bg-gray-50">
     <div class="container mx-auto px-6">
       <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">About SamperAI</h2>
+        <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">About Sampera Labs</h2>
 
         <div class="prose prose-lg max-w-none">
           <p>
-            SamperAI specializes in integrating AI solutions into websites and applications. With expertise in both AI
-            development and web technologies, we help businesses leverage cutting-edge artificial intelligence to create
-            better user experiences.
+            Sampera Labs specializes in integrating AI solutions into websites and applications. With expertise in both
+            AI development and web technologies, we help businesses leverage cutting-edge artificial intelligence to
+            create better user experiences.
           </p>
 
           <p>
@@ -142,13 +143,7 @@ const projects = [
 </Layout>
 
 <script>
-  const taglines = [
-    'AI-powered solutions for your digital transformation',
-    'Where human creativity meets artificial intelligence',
-    'Building the future, one algorithm at a time',
-    'Custom AI integrations that understand people',
-    'Web experiences that get smarter over time',
-  ];
+  const taglines = ["Don't let AI own your business.", 'Solving Problems.', 'Things are going fast.'];
 
   let current = 0;
   let isTyping = false;

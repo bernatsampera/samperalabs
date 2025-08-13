@@ -1,6 +1,6 @@
 import slugify from 'limax';
 
-import { SITE } from 'samperai:config';
+import { SITE } from 'samperalabs:config';
 
 import { trim } from '~/utils/utils';
 

@@ -7,7 +7,7 @@ import loadConfig from './utils/loadConfig';
 export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
   let cfg;
   return {
-    name: 'samperai-integration',
+    name: 'samperalabs-integration',
 
     hooks: {
       'astro:config:setup': async ({
@@ -19,9 +19,9 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
         updateConfig,
         addWatchFile,
       }) => {
-        const buildLogger = logger.fork('samperai');
+        const buildLogger = logger.fork('samperalabs');
 
-        const virtualModuleId = 'samperai:config';
+        const virtualModuleId = 'samperalabs:config';
         const resolvedVirtualModuleId = '\0' + virtualModuleId;
 
         const rawJsonConfig = await loadConfig(_themeConfig);
@@ -36,7 +36,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
           vite: {
             plugins: [
               {
-                name: 'vite-plugin-samperai-config',
+                name: 'vite-plugin-samperalabs-config',
                 resolveId(id) {
                   if (id === virtualModuleId) {
                     return resolvedVirtualModuleId;
@@ -61,9 +61,9 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
         if (typeof _themeConfig === 'string') {
           addWatchFile(new URL(_themeConfig, config.root));
 
-          buildLogger.info(`samperai \`${_themeConfig}\` has been loaded.`);
+          buildLogger.info(`samperalabs \`${_themeConfig}\` has been loaded.`);
         } else {
-          buildLogger.info(`samperai config has been loaded.`);
+          buildLogger.info(`samperalabs config has been loaded.`);
         }
       },
       'astro:config:done': async ({ config }) => {
@@ -71,7 +71,7 @@ export default ({ config: _themeConfig = 'src/config.yaml' } = {}) => {
       },
 
       'astro:build:done': async ({ logger }) => {
-        const buildLogger = logger.fork('samperai');
+        const buildLogger = logger.fork('samperalabs');
         buildLogger.info('Updating `robots.txt` with `sitemap-index.xml` ...');
 
         try {

@@ -1,5 +1,5 @@
 ---
-import {UI} from 'samperai:config';
+import {UI} from 'samperalabs:config';
 ---
 
 <script is:inline define:vars={{defaultTheme: UI.theme}}>
@@ -25,7 +25,7 @@ import {UI} from 'samperai:config';
   document.addEventListener('scroll', () => {
     const header = document.querySelector('[data-sticky-header]');
     if (!header) return;
-    
+
     if (window.scrollY > 20) {
       header.classList.add('border-gray-200');
     } else {

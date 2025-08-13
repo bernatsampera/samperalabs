@@ -1,22 +1,22 @@
 site:
-  name: samperai
-  site: 'https://samperai.com'
+  name: samperalabs
+  site: 'https://samperalabs.com'
   base: '/'
   trailingSlash: false
 
-  googleSiteVerificationId: 
+  googleSiteVerificationId:
 
 # Default SEO metadata
 metadata:
   title:
     default: Bernat Sampera - AI Integration Specialist
-    template: '%s — samperai'
-  description: "Integrating AI solutions into your websites and applications. Helping businesses leverage artificial intelligence technology for better user experiences."
+    template: '%s — samperalabs'
+  description: 'Integrating AI solutions into your websites and applications. Helping businesses leverage artificial intelligence technology for better user experiences.'
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: samperai
+    site_name: samperalabs
     images:
       - url: '~/assets/images/default.png'
         width: 1200
@@ -24,7 +24,7 @@ metadata:
     type: website
   twitter:
     handle: '@bernatsampera'
-    site: '@samperai'
+    site: '@samperalabs'
     cardType: summary_large_image
 
 i18n:

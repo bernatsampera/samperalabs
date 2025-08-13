@@ -10,7 +10,7 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import compress from 'astro-compress';
 
-import samperai from './vendor/integration';
+import samperalabs from './vendor/integration';
 
 import {
   readingTimeRemarkPlugin,
@@ -32,7 +32,7 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  site: 'https://samperai.com',
+  site: 'https://samperalabs.com',
   integrations: [tailwind({
     applyBaseStyles: false,
   }), sitemap(), mdx(), icon({
@@ -65,7 +65,7 @@ export default defineConfig({
     JavaScript: true,
     SVG: false,
     Logger: 1,
-  }), samperai({
+  }), samperalabs({
     config: './src/config.yaml',
   }), react()],
 
