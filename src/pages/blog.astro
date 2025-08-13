@@ -31,7 +31,7 @@ const metadata = {
     <!-- Blog Content -->
     <main class="container mx-auto px-6 py-16 max-w-4xl">
       <!-- Post Creation Button -->
-      <div class="mb-12">
+      <div id="new-post-button" class="mb-12 hidden">
         <a
           href="/admin/new-post"
           class="inline-flex items-center px-6 py-3 bg-primary-foreground hover:bg-primary/90 transition-colors border rounded-sm font-medium"
@@ -46,8 +46,9 @@ const metadata = {
           <div class="text-center py-16">
             <p class="text-muted-foreground text-lg mb-6">No posts yet.</p>
             <a
+              id="first-post-button"
               href="/admin/new-post"
-              class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border  rounded-sm font-medium"
+              class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border  rounded-sm font-medium hidden"
             >
               Write your first post
             </a>
@@ -63,3 +64,15 @@ const metadata = {
     </main>
   </div>
 </PageLayout>
+
+<script>
+  // Check if user is admin and show/hide admin actions
+  const isAdmin = localStorage.getItem('isAdmin');
+  const newPostButton = document.getElementById('new-post-button');
+  const firstPostButton = document.getElementById('first-post-button');
+
+  if (isAdmin === 'true') {
+    newPostButton?.classList.remove('hidden');
+    firstPostButton?.classList.remove('hidden');
+  }
+</script>

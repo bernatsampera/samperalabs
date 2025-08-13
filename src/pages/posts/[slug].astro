@@ -33,7 +33,7 @@ const metadata = {
   />
 
   <!-- Article Actions -->
-  <footer class="mt-16 pt-8 border-t">
+  <footer id="admin-actions" class="mt-16 pt-8 border-t hidden">
     <div class="flex gap-4">
       <Button href={`/admin/edit-post/${post.id}`} text="Edit Post" />
       <Button data-post-id={post.id} data-post-title={post.title} text="Delete Post" />
@@ -42,6 +42,14 @@ const metadata = {
 </BlogLayout>
 
 <script>
+  // Check if user is admin and show/hide admin actions
+  const isAdmin = localStorage.getItem('isAdmin');
+  const adminActions = document.getElementById('admin-actions');
+
+  if (isAdmin === 'true') {
+    adminActions?.classList.remove('hidden');
+  }
+
   document.getElementById('delete-btn')?.addEventListener('click', async (e) => {
     const button = e.target as HTMLButtonElement;
     const postId = button.dataset.postId;
