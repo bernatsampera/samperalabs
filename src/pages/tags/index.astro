@@ -14,7 +14,7 @@ const metadata = {
 <Layout metadata={metadata}>
   <div class="min-h-screen bg-background">
     <!-- Navigation -->
-    <nav class="border-b border-border">
+    <nav class="border-b">
       <div class="container mx-auto px-6 py-6 max-w-4xl">
         <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors"> ← Back to blog </a>
       </div>
@@ -38,7 +38,7 @@ const metadata = {
             {tags.map((tag) => (
               <a
                 href={`/tags/${tag}`}
-                class="group block p-6 bg-card border border-border rounded-sm hover:bg-accent transition-colors"
+                class="group block p-6 bg-card border  rounded-sm hover:bg-accent transition-colors"
               >
                 <h3 class="text-lg font-medium text-card-foreground group-hover:text-accent-foreground">{tag}</h3>
                 <p class="text-sm text-muted-foreground mt-2">

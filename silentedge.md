@@ -70,9 +70,9 @@ The Silent Edge design system is implemented using a dark-first approach with ca
 
 ```tsx
 // ✅ Correct - Uses theme-aware classes
-<div className="bg-background text-foreground">
-  <h1 className="text-foreground">Title</h1>
-  <p className="text-foreground-foreground">Description</p>
+<div className="bg-background ">
+  <h1 className="">Title</h1>
+  <p className="-foreground">Description</p>
   <button className="bg-primary-foreground hover:bg-primary/90">
     Action
   </button>
@@ -99,19 +99,19 @@ The Silent Edge design system is implemented using a dark-first approach with ca
 - `bg-primary` - Primary action backgrounds
 - `bg-secondary` - Secondary element backgrounds
 - `bg-destructive` - Error/warning backgrounds
-- `bg-input` - Form input backgrounds
+- `` - Form input backgrounds
 
 **Text Colors:**
 
-- `text-foreground` - Primary text
-- `text-foreground-foreground` - Secondary/muted text
+- `` - Primary text
+- `-foreground` - Secondary/muted text
 - `text-primary-foreground` - Text on primary backgrounds
 - `text-secondary-foreground` - Text on secondary backgrounds
 - `text-destructive` - Error/warning text
 
 **Borders:**
 
-- `border-border` - Standard borders
+- `` - Standard borders
 - `border-ring` - Focus outlines
 - `border-destructive` - Error borders
 
@@ -125,8 +125,8 @@ The Silent Edge design system is implemented using a dark-first approach with ca
 
 All color combinations maintain **WCAG AAA contrast ratios**:
 
-- `text-foreground` on `bg-background`: 21:1 contrast ratio
-- `text-foreground-foreground` on `bg-background`: 7:1 contrast ratio
+- ``on`bg-background`: 21:1 contrast ratio
+- `-foreground` on `bg-background`: 7:1 contrast ratio
 - `text-primary-foreground` on `bg-primary`: 21:1 contrast ratio
 - Error states use `text-destructive` with 8:1+ contrast
 
