@@ -1,15 +1,37 @@
 ---
-import PostCard from '~/components/common/PostCard.astro';
 import PageLayout from '../layouts/PageLayout.astro';
 import {getDB} from '../lib/db';
+
+// Get the selected tag from URL search params
+const url = new URL(Astro.request.url);
+const tag = url.searchParams.get('tag');
 
 // Fetch posts from database instead of files
 const db = getDB();
 const allPosts = db.getAllPosts();
 
+// Get all unique tags
+const allTags = [...new Set(allPosts.map((post) => post.tags).flat())].sort();
+
+// Filter posts by tag if one is selected
+const postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
+
+// Group posts by year
+const postsByYear = postsToShow.reduce((acc, post) => {
+  const year = new Date(post.pub_date).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof postsToShow>);
+
+// Sort years in descending order
+const sortedYears = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+
 const metadata = {
-  title: 'Blog | Bernat Sampera',
-  description: 'Thoughts on design, development, and the intersection of technology and creativity.',
+  title: tag ? `Posts tagged with ${tag} | Sampera Labs Blog` : 'Blog | Bernat Sampera',
+  description: 'Sampera Labs Blog',
 };
 ---
 
@@ -18,13 +40,37 @@ const metadata = {
     <!-- Blog Header -->
     <header class="border-b">
       <div class="container mx-auto px-6 py-12 max-w-4xl">
-        <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-4">Blog</h1>
-        <p class="text-lg text-muted-foreground max-w-2xl mb-6">
-          Thoughts on design, development, and the intersection of technology and creativity.
-        </p>
-        <a href="/tags" class="text-foreground hover:text-muted-foreground transition-colors font-medium">
-          Browse by tags →
-        </a>
+        <div class="flex items-center justify-between mb-6">
+
+
+        </div>
+
+
+        <!-- Tag Filter -->
+        <div class="flex flex-wrap gap-2">
+          <a
+            href="/blog"
+            class={`px-3 py-1 text-sm rounded-sm transition-colors ${
+              !tag 
+                ? 'bg-foreground underline' 
+                : 'bg-muted text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            All posts
+          </a>
+          {allTags.map((tagName) => (
+            <a
+              href={`/blog?tag=${encodeURIComponent(tagName)}`}
+              class={`px-3 py-1 text-sm rounded-sm transition-colors ${
+                tag === tagName 
+                  ? 'bg-foreground underline' 
+                  : 'bg-muted text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {tagName}
+            </a>
+          ))}
+        </div>
       </div>
     </header>
 
@@ -40,23 +86,61 @@ const metadata = {
         </a>
       </div>
 
-      <!-- Posts Grid -->
+      <!-- Posts by Year -->
       {
-        allPosts.length === 0 ? (
+        postsToShow.length === 0 ? (
           <div class="text-center py-16">
-            <p class="text-muted-foreground text-lg mb-6">No posts yet.</p>
-            <a
-              id="first-post-button"
-              href="/admin/new-post"
-              class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border  rounded-sm font-medium hidden"
-            >
-              Write your first post
-            </a>
+            {tag ? (
+              <div>
+                <p class="text-muted-foreground text-lg mb-6">No posts found with tag "{tag}".</p>
+                <a
+                  href="/blog"
+                  class="inline-flex items-center px-6 py-3 bg-muted hover:bg-muted/80 transition-colors border rounded-sm font-medium"
+                >
+                  View all posts
+                </a>
+              </div>
+            ) : (
+              <div>
+                <p class="text-muted-foreground text-lg mb-6">No posts yet.</p>
+                <a
+                  id="first-post-button"
+                  href="/admin/new-post"
+                  class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border  rounded-sm font-medium hidden"
+                >
+                  Write your first post
+                </a>
+              </div>
+            )}
           </div>
         ) : (
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {allPosts.map((post) => (
-              <PostCard post={post} />
+          <div class="space-y-16">
+            {sortedYears.map((year) => (
+              <section>
+                <h2 class="text-3xl font-bold text-foreground mb-8">{year}</h2>
+                <div class="space-y-6">
+                  {postsByYear[year].map((post) => (
+                    <article class="group">
+                      <a href={`/posts/${post.slug}`} class="flex items-start gap-8 hover:opacity-80 transition-opacity">
+                        <!-- Date -->
+                        <time class="text-sm text-muted-foreground font-mono min-w-[80px]">
+                          {
+                            new Date(post.pub_date).toLocaleDateString('en-GB', {
+                              day: '2-digit',
+                              month: 'short',
+                            })
+                          }
+                        </time>
+                        
+                        <!-- Title -->
+                        <h3 class="text-lg font-medium text-foreground leading-relaxed">
+                          {post.title}
+                        </h3>
+                      </a>
+                    </article>
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
         )

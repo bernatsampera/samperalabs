@@ -3,45 +3,20 @@ const {post} = Astro.props;
 ---
 
 <article class="group">
-  <a href={`/posts/${post.slug}`} class="block w-full space-y-4 border rounded-sm p-4 h-full">
-    <!-- Post Date -->
-    <time class="text-sm text-muted-foreground">
+  <a href={`/posts/${post.slug}`} class="flex items-start gap-8 hover:opacity-80 transition-opacity">
+    <!-- Date -->
+    <time class="text-sm text-muted-foreground font-mono min-w-[80px]">
       {
-        new Date(post.pub_date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
+        new Date(post.pub_date).toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: 'short',
         })
       }
     </time>
 
-    <!-- Post Title -->
-    <h2 class="text-2xl md:text-3xl font-bold text-foreground group-hover:text-muted-foreground transition-colors">
+    <!-- Title -->
+    <h3 class="text-lg font-medium text-foreground leading-relaxed">
       {post.title}
-    </h2>
-
-    <!-- Post Description -->
-    {post.description && <p class="text-muted-foreground text-lg leading-relaxed max-w-3xl">{post.description}</p>}
-
-    <!-- Post Meta -->
-    <div class="flex items-center gap-4 text-sm text-muted-foreground">
-      <span>By {post.author}</span>
-      {
-        post.tags && post.tags.length > 0 && (
-          <div class="flex items-center gap-2">
-            <span>•</span>
-            <div class="flex gap-2">
-              {post.tags.slice(0, 3).map((tag) => (
-                <span class="px-2 py-1 bg-muted text-muted-foreground rounded-sm text-xs">{tag}</span>
-              ))}
-              {post.tags.length > 3 && <span class="text-xs">+{post.tags.length - 3} more</span>}
-            </div>
-          </div>
-        )
-      }
-    </div>
-
-    <!-- Read More Link -->
-    <div class="pt-2">Read more →</div>
+    </h3>
   </a>
 </article>

@@ -34,7 +34,7 @@ const projects = [
     image: Kronologs,
   },
 ];
-const initialTagline = 'Things are going fast.';
+const initialTagline = 'Com més petites són les coses, més força individual tenen - Josep Pla';
 ---
 
 <Layout metadata={metadata}>
@@ -42,9 +42,7 @@ const initialTagline = 'Things are going fast.';
     <!-- Hero Section -->
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
-        <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">
-          <span id="dynamicGreeting">Welcome to</span><br />Sampera Labs
-        </h1>
+        <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">Sampera Labs</h1>
 
         <p class="text-2xl md:text-3xl font-light mb-6 text-gray-700 leading-relaxed min-h-[4rem]">
           <span id="rotatingTagline">{initialTagline}</span>
@@ -136,14 +134,18 @@ const initialTagline = 'Things are going fast.';
           Interested in integrating AI into your website or application? Let's discuss how AI can help your business
           grow.
         </p>
-        <Button variant="primary" text="Get in Touch" href="/contact" class="px-8 py-3 text-base-100 font-medium" />
+        <Button variant="primary" text="Get in Touch" href="/contact" />
       </div>
     </div>
   </section>
 </Layout>
 
 <script>
-  const taglines = ["Don't let AI own your business.", 'Solving Problems.', 'Things are going fast.'];
+  const taglines = [
+    'Com més petites són les coses, més força individual tenen - Josep Pla',
+    'To make living itself an art, that is the goal - Henry Miller',
+    "It doesn't matter if you're an artist, creative product maker or a startup: the concept of \"image\" is dead. It's the age of honesty. - Pieter Levels",
+  ];
 
   let current = 0;
   let isTyping = false;
