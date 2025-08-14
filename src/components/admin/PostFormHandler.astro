@@ -1,0 +1,75 @@
+---
+export interface Props {
+  mode: 'create' | 'edit';
+  postId?: number;
+  redirectUrl?: string;
+}
+
+const {mode, postId, redirectUrl} = Astro.props;
+---
+
+<script>
+  document.getElementById('post-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+
+    // Make sure content is up to date from Tiptap editor
+    const editor = (window as any).editor;
+    if (editor) {
+      const contentTextarea = document.getElementById('content') as HTMLTextAreaElement;
+      if (contentTextarea) {
+        formData.set('content', contentTextarea.value);
+      }
+    }
+
+    // Convert form data to object
+    const postData = {
+      title: formData.get('title') as string,
+      author: formData.get('author') as string,
+      description: (formData.get('description') as string) || undefined,
+      pub_date: (formData.get('pub_date') as string) || undefined,
+      tags: ((formData.get('tags') as string) || '')
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0),
+      content: formData.get('content') as string,
+    };
+
+    const statusEl = document.getElementById('status-message');
+
+    try {
+      statusEl!.innerHTML = '<div class="text-muted-foreground">Saving post...</div>';
+
+      const url = mode === 'create' ? '/api/posts' : `/api/posts/${postId}`;
+      const method = mode === 'create' ? 'POST' : 'PUT';
+
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        statusEl!.innerHTML = `<div class="text-primary">Post ${mode === 'create' ? 'created' : 'updated'} successfully!</div>`;
+
+        // Redirect to the post or specified URL
+        const redirectTo = redirectUrl || `/posts/${result.slug}`;
+        setTimeout(() => {
+          window.location.href = redirectTo;
+        }, 1500);
+      } else {
+        statusEl!.innerHTML = `<div class="text-destructive">Error: ${result.error}</div>`;
+      }
+    } catch (error) {
+      statusEl!.innerHTML = `<div class="text-destructive">Failed to ${mode} post. Please try again.</div>`;
+      console.error(`Error ${mode}ing post:`, error);
+    }
+  });
+</script>
+

@@ -1,0 +1,21 @@
+---
+export interface Props {
+  backUrl?: string;
+  backText?: string;
+}
+
+const {backUrl, backText = 'Back'} = Astro.props;
+---
+
+<nav class="border-b">
+  <div class="container mx-auto px-6 py-6 max-w-4xl">
+    {
+      backUrl && (
+        <a href={backUrl} class="text-muted-foreground hover:text-primary transition-colors">
+          ← {backText}
+        </a>
+      )
+    }
+  </div>
+</nav>
+
