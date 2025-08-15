@@ -8,6 +8,7 @@ export interface Props {
   disabled?: boolean;
   class?: string;
   text?: string;
+  id?: string;
 }
 
 const {
@@ -19,6 +20,7 @@ const {
   disabled = false,
   class: className = '',
   text,
+  id,
   ...rest
 } = Astro.props;
 
@@ -49,11 +51,11 @@ const linkProps = target ? {target, rel: 'noopener noreferrer'} : {};
 
 {
   isLink ? (
-    <a href={href} class={classes} {...linkProps} {...rest}>
+    <a href={href} class={classes} {...linkProps} {...rest} id={id} {...rest}>
       {text}
     </a>
   ) : (
-    <button type={type} class={classes} disabled={disabled} {...rest}>
+    <button type={type} class={classes} disabled={disabled} id={id} {...rest}>
       {text}
     </button>
   )
