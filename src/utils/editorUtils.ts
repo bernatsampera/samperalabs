@@ -1,14 +1,15 @@
 // Editor utility functions and configurations
+import type { Editor } from '@tiptap/core';
 
 export interface EditorCommandMap {
   [key: string]: () => void;
 }
 
 export class EditorController {
-  private editor: any;
+  private editor: Editor;
   private commands: EditorCommandMap = {};
 
-  constructor(editor: any) {
+  constructor(editor: Editor) {
     this.editor = editor;
     this.initializeCommands();
   }
@@ -154,7 +155,7 @@ export function createEventHandlers(controller: EditorController) {
   });
 }
 
-export async function createTipTapEditor(element: HTMLElement, contentTextarea: HTMLTextAreaElement) {
+export async function createTipTapEditor(element: HTMLElement, contentTextarea: HTMLTextAreaElement, postId?: string) {
   // Dynamically import modules
   const { Editor } = await import('@tiptap/core');
   const StarterKit = await import('@tiptap/starter-kit');
@@ -163,8 +164,12 @@ export async function createTipTapEditor(element: HTMLElement, contentTextarea: 
   const Underline = await import('@tiptap/extension-underline');
   const Link = await import('@tiptap/extension-link');
   const Image = await import('@tiptap/extension-image');
+  const FileHandler = await import('@tiptap/extension-file-handler');
   const { marked } = await import('marked');
   const TurndownService = await import('turndown');
+
+  // Import client-side image upload utilities
+  const { uploadImageToServer, createLoadingText, createErrorText } = await import('./clientImageUpload');
 
   // Import markdown utilities
   const { preprocessMarkdownContent, configureMarked } = await import('../utils/markdown');
@@ -203,6 +208,115 @@ export async function createTipTapEditor(element: HTMLElement, contentTextarea: 
       }),
       Image.default.configure({
         HTMLAttributes: { class: 'max-w-full h-auto' },
+      }),
+      FileHandler.default.configure({
+        allowedMimeTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+        onDrop: async (currentEditor, files, pos) => {
+          if (!files || files.length === 0) return;
+
+          const file = files[0];
+          const currentPostId = postId || undefined;
+
+          try {
+            // Show loading indicator
+            const loadingText = createLoadingText(file.name);
+            const loadingNode = currentEditor.schema.nodes.paragraph.create({}, currentEditor.schema.text(loadingText));
+            const transaction = currentEditor.state.tr.insert(pos, loadingNode);
+            currentEditor.view.dispatch(transaction);
+
+            // Upload the image via API
+            const result = await uploadImageToServer(file, currentPostId);
+
+            if (result.success && result.imageUrl) {
+              // Prompt for alt text
+              const altText = prompt('Enter alt text for the image (optional):') || file.name.split('.')[0];
+
+              // Replace loading text with image
+              currentEditor
+                .chain()
+                .focus()
+                .deleteRange({ from: pos, to: pos + loadingNode.nodeSize })
+                .insertContentAt(pos, {
+                  type: 'image',
+                  attrs: {
+                    src: result.imageUrl,
+                    alt: altText,
+                  },
+                })
+                .run();
+            } else {
+              // Replace loading text with error message
+              const errorText = createErrorText(result.error || 'Unknown error');
+              currentEditor
+                .chain()
+                .focus()
+                .deleteRange({ from: pos, to: pos + loadingNode.nodeSize })
+                .insertContentAt(pos, errorText)
+                .run();
+            }
+          } catch (error) {
+            console.error('Error uploading image:', error);
+            // Replace loading text with error message
+            const errorText = createErrorText(error instanceof Error ? error.message : 'Unknown error');
+            currentEditor
+              .chain()
+              .focus()
+              .deleteRange({ from: pos, to: pos + 1 })
+              .insertContentAt(pos, errorText)
+              .run();
+          }
+        },
+        onPaste: async (currentEditor, files, _htmlContent) => {
+          if (!files || files.length === 0) return;
+
+          const file = files[0];
+          const currentPostId = postId || undefined;
+
+          try {
+            // Get current cursor position
+            const { from } = currentEditor.state.selection;
+
+            // Insert loading text
+            const loadingText = createLoadingText(file.name);
+            currentEditor.chain().focus().insertContent(loadingText).run();
+
+            // Upload the image via API
+            const result = await uploadImageToServer(file, currentPostId);
+
+            if (result.success && result.imageUrl) {
+              // Prompt for alt text
+              const altText = prompt('Enter alt text for the image (optional):') || file.name.split('.')[0];
+
+              // Replace loading text with image
+              const endPos = from + loadingText.length;
+              currentEditor
+                .chain()
+                .focus()
+                .deleteRange({ from: from, to: endPos })
+                .insertContentAt(from, {
+                  type: 'image',
+                  attrs: {
+                    src: result.imageUrl,
+                    alt: altText,
+                  },
+                })
+                .run();
+            } else {
+              // Replace loading text with error message
+              const errorText = createErrorText(result.error || 'Unknown error');
+              const endPos = from + loadingText.length;
+              currentEditor.chain().focus().deleteRange({ from: from, to: endPos }).insertContent(errorText).run();
+            }
+          } catch (error) {
+            console.error('Error uploading image:', error);
+            // Get current cursor position for error handling
+            const { from: errorFrom } = currentEditor.state.selection;
+            const loadingText = createLoadingText(file.name);
+            const errorText = createErrorText(error instanceof Error ? error.message : 'Unknown error');
+            const endPos = errorFrom + loadingText.length;
+            currentEditor.chain().focus().deleteRange({ from: errorFrom, to: endPos }).insertContent(errorText).run();
+          }
+        },
       }),
     ],
     content: htmlContent,

@@ -51,7 +51,7 @@ const cancelUrl = mode === 'create' ? '/admin' : `/posts/${post?.slug}`;
     helpText="Separate tags with commas"
   />
 
-  <PostEditor content={currentPost.content} />
+  <PostEditor content={currentPost.content} postId={currentPost.title.replace(/\s+/g, '-').toLowerCase()} />
 
   <FormActions mode={mode} cancelUrl={cancelUrl} />
 </form>

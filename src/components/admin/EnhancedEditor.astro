@@ -21,7 +21,8 @@ import EditorStyles from './editor/EditorStyles.astro';
     const contentTextarea = document.getElementById('content') as HTMLTextAreaElement;
 
     if (editorElement && contentTextarea) {
-      const result = await createTipTapEditor(editorElement, contentTextarea);
+      const postId = document.body.dataset.postId || undefined;
+      const result = await createTipTapEditor(editorElement, contentTextarea, postId);
       editor = result.editor;
       controller = result.controller;
 
