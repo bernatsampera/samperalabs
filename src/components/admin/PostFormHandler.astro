@@ -8,17 +8,17 @@ export interface Props {
 const {mode, postId, redirectUrl} = Astro.props;
 ---
 
-<script>
+<script is:inline define:vars={{mode, postId, redirectUrl}}>
   document.getElementById('post-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const form = e.target as HTMLFormElement;
+    const form = e.target;
     const formData = new FormData(form);
 
     // Make sure content is up to date from Tiptap editor
-    const editor = (window as any).editor;
+    const editor = window.editor;
     if (editor) {
-      const contentTextarea = document.getElementById('content') as HTMLTextAreaElement;
+      const contentTextarea = document.getElementById('content');
       if (contentTextarea) {
         formData.set('content', contentTextarea.value);
       }
@@ -26,21 +26,21 @@ const {mode, postId, redirectUrl} = Astro.props;
 
     // Convert form data to object
     const postData = {
-      title: formData.get('title') as string,
-      author: formData.get('author') as string,
-      description: (formData.get('description') as string) || undefined,
-      pub_date: (formData.get('pub_date') as string) || undefined,
-      tags: ((formData.get('tags') as string) || '')
+      title: formData.get('title'),
+      author: formData.get('author'),
+      description: formData.get('description') || undefined,
+      pub_date: formData.get('pub_date') || undefined,
+      tags: (formData.get('tags') || '')
         .split(',')
         .map((tag) => tag.trim())
         .filter((tag) => tag.length > 0),
-      content: formData.get('content') as string,
+      content: formData.get('content'),
     };
 
     const statusEl = document.getElementById('status-message');
 
     try {
-      statusEl!.innerHTML = '<div class="text-muted-foreground">Saving post...</div>';
+      statusEl.innerHTML = '<div class="text-muted-foreground">Saving post...</div>';
 
       const url = mode === 'create' ? '/api/posts' : `/api/posts/${postId}`;
       const method = mode === 'create' ? 'POST' : 'PUT';
@@ -56,7 +56,7 @@ const {mode, postId, redirectUrl} = Astro.props;
       const result = await response.json();
 
       if (response.ok) {
-        statusEl!.innerHTML = `<div class="text-primary">Post ${mode === 'create' ? 'created' : 'updated'} successfully!</div>`;
+        statusEl.innerHTML = `<div class="text-primary">Post ${mode === 'create' ? 'created' : 'updated'} successfully!</div>`;
 
         // Redirect to the post or specified URL
         const redirectTo = redirectUrl || `/posts/${result.slug}`;
@@ -64,12 +64,11 @@ const {mode, postId, redirectUrl} = Astro.props;
           window.location.href = redirectTo;
         }, 1500);
       } else {
-        statusEl!.innerHTML = `<div class="text-destructive">Error: ${result.error}</div>`;
+        statusEl.innerHTML = `<div class="text-destructive">Error: ${result.error}</div>`;
       }
     } catch (error) {
-      statusEl!.innerHTML = `<div class="text-destructive">Failed to ${mode} post. Please try again.</div>`;
+      statusEl.innerHTML = `<div class="text-destructive">Failed to ${mode} post. Please try again.</div>`;
       console.error(`Error ${mode}ing post:`, error);
     }
   });
 </script>
-

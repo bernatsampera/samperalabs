@@ -178,12 +178,12 @@ import EditorToolbar from './EditorToolbar.astro';
 </style>
 
 <script>
-  let editor;
-  let linkDialog;
+  let editor: any;
+  let linkDialog: any;
 
   document.addEventListener('DOMContentLoaded', async () => {
     const editorElement = document.getElementById('tiptap-editor');
-    const contentTextarea = document.getElementById('content');
+    const contentTextarea = document.getElementById('content') as HTMLTextAreaElement;
 
     if (editorElement && contentTextarea) {
       // Dynamically import modules
@@ -435,4 +435,3 @@ import EditorToolbar from './EditorToolbar.astro';
     }
   }
 </script>
-
