@@ -419,11 +419,11 @@ const currentPost = post || defaultPost;
       const {marked} = await import('marked');
       const TurndownService = await import('turndown');
 
+      // Import markdown utilities
+      const {preprocessMarkdownContent, configureMarked} = await import('../../utils/markdown');
+
       // Configure markdown parser
-      marked.setOptions({
-        breaks: true,
-        gfm: true,
-      });
+      configureMarked(marked);
 
       // Configure HTML to Markdown converter
       const turndownService = new TurndownService.default({
@@ -434,7 +434,8 @@ const currentPost = post || defaultPost;
 
       // Convert markdown content to HTML for editor initialization
       const markdownContent = (contentTextarea as HTMLTextAreaElement).value;
-      const htmlContent = await marked(markdownContent);
+      const processedContent = preprocessMarkdownContent(markdownContent);
+      const htmlContent = await marked(processedContent);
 
       // Initialize Tiptap editor with enhanced extensions
       editor = new Editor({

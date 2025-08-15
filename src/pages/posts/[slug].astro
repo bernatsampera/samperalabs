@@ -3,6 +3,7 @@ import Button from '~/components/ui/Button.astro';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import {getDB} from '../../lib/db';
 import {marked} from 'marked';
+import {preprocessMarkdownContent, configureMarked} from '../../utils/markdown';
 
 // Get the slug from the URL params
 const {slug} = Astro.params;
@@ -16,8 +17,12 @@ if (!post) {
   return Astro.redirect('/404');
 }
 
-// Convert markdown to HTML
-const htmlContent = marked(post.content);
+// Configure marked with standard options
+configureMarked(marked);
+
+// Convert markdown to HTML with preprocessing
+const processedContent = preprocessMarkdownContent(post.content);
+const htmlContent = marked(processedContent);
 
 const metadata = {
   title: post.title,
