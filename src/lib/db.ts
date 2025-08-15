@@ -34,13 +34,13 @@ export interface PostRow {
 
 class PostDatabase {
   private db: Database.Database;
+  private baseQuery = 'SELECT * FROM posts';
+  private insertColumns = 'title, author, description, image_url, image_alt, pub_date, tags, content, slug';
+  private insertPlaceholders = '?, ?, ?, ?, ?, ?, ?, ?, ?';
 
   constructor() {
-    // Create db directory if it doesn't exist
     const dbPath = join(process.cwd(), 'db', 'content.db');
     this.db = new Database(dbPath);
-
-    // Initialize schema
     this.initSchema();
   }
 
@@ -50,7 +50,6 @@ class PostDatabase {
     this.db.exec(schema);
   }
 
-  // Convert database row to Post interface
   private rowToPost(row: PostRow): Post {
     return {
       ...row,
@@ -61,119 +60,78 @@ class PostDatabase {
     };
   }
 
-  // Convert Post to database row format
-  private postToRow(post: Post): Omit<PostRow, 'id' | 'created_at' | 'updated_at'> {
-    return {
-      title: post.title,
-      author: post.author,
-      description: post.description || null,
-      image_url: post.image_url || null,
-      image_alt: post.image_alt || null,
-      pub_date: post.pub_date,
-      tags: JSON.stringify(post.tags),
-      content: post.content,
-      slug: post.slug,
-    };
+  private postToRowValues(post: Post | Partial<Post>) {
+    return [
+      post.title,
+      post.author,
+      post.description || null,
+      post.image_url || null,
+      post.image_alt || null,
+      post.pub_date,
+      JSON.stringify(post.tags || []),
+      post.content,
+      post.slug,
+    ];
   }
 
-  // Get all posts
+  private executeQuery(query: string, ...params: any[]): PostRow[] {
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params) as PostRow[];
+  }
+
+  private executeSingle(query: string, ...params: any[]): PostRow | undefined {
+    const stmt = this.db.prepare(query);
+    return stmt.get(...params) as PostRow | undefined;
+  }
+
   getAllPosts(): Post[] {
-    const stmt = this.db.prepare(`
-      SELECT * FROM posts 
-      ORDER BY pub_date DESC
-    `);
-    const rows = stmt.all() as PostRow[];
+    const rows = this.executeQuery(`${this.baseQuery} ORDER BY pub_date DESC`);
     return rows.map((row) => this.rowToPost(row));
   }
 
-  // Get post by ID
   getPostById(id: number): Post | null {
-    const stmt = this.db.prepare('SELECT * FROM posts WHERE id = ?');
-    const row = stmt.get(id) as PostRow | undefined;
+    const row = this.executeSingle(`${this.baseQuery} WHERE id = ?`, id);
     return row ? this.rowToPost(row) : null;
   }
 
-  // Get post by slug
   getPostBySlug(slug: string): Post | null {
-    const stmt = this.db.prepare('SELECT * FROM posts WHERE slug = ?');
-    const row = stmt.get(slug) as PostRow | undefined;
+    const row = this.executeSingle(`${this.baseQuery} WHERE slug = ?`, slug);
     return row ? this.rowToPost(row) : null;
   }
 
-  // Insert new post
   insertPost(post: Omit<Post, 'id' | 'created_at' | 'updated_at'>): number {
-    const stmt = this.db.prepare(`
-      INSERT INTO posts (title, author, description, image_url, image_alt, pub_date, tags, content, slug)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
-
-    const row = this.postToRow(post);
-    const result = stmt.run(
-      row.title,
-      row.author,
-      row.description,
-      row.image_url,
-      row.image_alt,
-      row.pub_date,
-      row.tags,
-      row.content,
-      row.slug
-    );
-
+    const stmt = this.db.prepare(`INSERT INTO posts (${this.insertColumns}) VALUES (${this.insertPlaceholders})`);
+    const result = stmt.run(...this.postToRowValues(post));
     return result.lastInsertRowid as number;
   }
 
-  // Update post
   updatePost(id: number, post: Partial<Omit<Post, 'id' | 'created_at' | 'updated_at'>>): boolean {
-    const updates: string[] = [];
-    const values: any[] = [];
-
-    Object.entries(post).forEach(([key, value]) => {
-      if (value !== undefined) {
-        if (key === 'tags') {
-          updates.push(`${key} = ?`);
-          values.push(JSON.stringify(value));
-        } else {
-          updates.push(`${key} = ?`);
-          values.push(value);
-        }
-      }
-    });
+    const updates = Object.entries(post)
+      .filter(([, value]) => value !== undefined)
+      .map(([key, value]) => {
+        const dbValue = key === 'tags' ? JSON.stringify(value) : value;
+        return { key, value: dbValue };
+      });
 
     if (updates.length === 0) return false;
 
-    updates.push('updated_at = CURRENT_TIMESTAMP');
-    values.push(id);
+    const setClause = updates.map(({ key }) => `${key} = ?`).join(', ');
+    const values = [...updates.map(({ value }) => value), id];
 
-    const stmt = this.db.prepare(`
-      UPDATE posts 
-      SET ${updates.join(', ')}
-      WHERE id = ?
-    `);
-
-    const result = stmt.run(...values);
-    return result.changes > 0;
+    const stmt = this.db.prepare(`UPDATE posts SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = ?`);
+    return stmt.run(...values).changes > 0;
   }
 
-  // Delete post
   deletePost(id: number): boolean {
     const stmt = this.db.prepare('DELETE FROM posts WHERE id = ?');
-    const result = stmt.run(id);
-    return result.changes > 0;
+    return stmt.run(id).changes > 0;
   }
 
-  // Search posts by tag
   getPostsByTag(tag: string): Post[] {
-    const stmt = this.db.prepare(`
-      SELECT * FROM posts 
-      WHERE tags LIKE ?
-      ORDER BY pub_date DESC
-    `);
-    const rows = stmt.all(`%"${tag}"%`) as PostRow[];
+    const rows = this.executeQuery(`${this.baseQuery} WHERE tags LIKE ? ORDER BY pub_date DESC`, `%"${tag}"%`);
     return rows.map((row) => this.rowToPost(row));
   }
 
-  // Close database connection
   close() {
     this.db.close();
   }

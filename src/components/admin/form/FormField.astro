@@ -1,0 +1,58 @@
+---
+export interface Props {
+  label: string;
+  name: string;
+  type?: string;
+  value?: string;
+  required?: boolean;
+  placeholder?: string;
+  rows?: number;
+  helpText?: string;
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  value = '',
+  required = false,
+  placeholder = '',
+  rows,
+  helpText
+} = Astro.props;
+
+const isTextarea = type === 'textarea';
+const inputClasses = "w-full px-4 py-3 border rounded-sm text-primary placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
+const textareaClasses = inputClasses + " resize-none";
+---
+
+<div class="space-y-2">
+  <label for={name} class="block text-sm font-medium text-primary">
+    {label}{required && <span class="text-red-500">*</span>}
+  </label>
+  
+  {isTextarea ? (
+    <textarea
+      id={name}
+      name={name}
+      rows={rows || 3}
+      class={textareaClasses}
+      required={required}
+      placeholder={placeholder}
+    >{value}</textarea>
+  ) : (
+    <input
+      type={type}
+      id={name}
+      name={name}
+      value={value}
+      required={required}
+      placeholder={placeholder}
+      class={inputClasses}
+    />
+  )}
+  
+  {helpText && (
+    <p class="text-xs text-muted-foreground">{helpText}</p>
+  )}
+</div>
