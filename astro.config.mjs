@@ -32,8 +32,8 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  server: { port: 4322 },
   site: 'https://samperalabs.com',
+  server: { port: 4322 },
   integrations: [tailwind({
     applyBaseStyles: false,
   }), sitemap(), mdx(), icon({

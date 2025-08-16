@@ -39,7 +39,7 @@ class PostDatabase {
   private insertPlaceholders = '?, ?, ?, ?, ?, ?, ?, ?, ?';
 
   constructor() {
-    const dbPath = join(process.cwd(), 'db', 'content.db');
+    const dbPath = '/app/data/content.db';
     this.db = new Database(dbPath);
     this.initSchema();
   }
