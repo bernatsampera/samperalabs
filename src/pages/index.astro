@@ -5,10 +5,20 @@ import Bjjgym from '~/assets/images/bjjgym.webp';
 import Packdensack from '~/assets/images/packdensack.webp';
 import Kronologs from '~/assets/images/kronologs.webp';
 import {Image} from 'astro:assets';
+import {getDB} from '../lib/db';
 
 const metadata = {
   title: 'Sampera Labs - AI Integration Solutions',
 };
+
+// Fetch latest posts from database
+const db = getDB();
+const allPosts = db.getAllPosts();
+const latestPosts = allPosts
+  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime())
+  .slice(0, 3);
+
+console.log(latestPosts);
 
 const projects = [
   {
@@ -37,34 +47,73 @@ const projects = [
 ---
 
 <Layout metadata={metadata}>
-  <section class="min-h-screen flex flex-col justify-center items-center pb-40 md:pb-60 text-center">
+  <section class="min-h-screen flex flex-col justify-center items-center md:pb-60 mt-12 md:mt-24 text-center">
     <!-- Hero Section -->
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
         <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">Sampera Labs</h1>
 
-        <p class="text-2xl md:text-3xl mb-6 text-gray-700 leading-relaxed min-h-[4rem]">
-          <span id="rotatingTagline" class="text-xl font-medium block"> Seeing what AI is capable to do </span>
+        <p class="text-2xl md:text-3xl mb-4 text-gray-700 leading-relaxed">
+          <span class="text-xl font-medium block animate-fade-in">
+            Building intelligent websites with Artificial Intelligence
+          </span>
+        </p>
+        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
+          Creating AI-driven workflows and Agents to enhance user experiences
         </p>
       </div>
+      <div class="mt-12 md:mt-48 flex flex-col max-w-lg mx-auto">
+        {
+          latestPosts.length > 0 && (
+            <div class="container px-4 text-left">
+              <div class="max-w-3xl">
+                <h2 class="text-lg font-medium mb-4">Recent Posts</h2>
+                <div class="space-y-2">
+                  {latestPosts.map((post) => (
+                    <article>
+                      <a
+                        href={`/posts/${post.slug}`}
+                        class="flex items-center gap-4 hover:text-gray-800 transition-colors"
+                      >
+                        <time class="text-sm text-gray-400">
+                          {new Date(post.pub_date).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: 'short',
+                          })}
+                        </time>
+                        <h3 class="text-base font-normal">{post.title}</h3>
+                      </a>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )
+        }
+      </div>
     </div>
-    <div class="absolute bottom-12 text-center w-full">
-      <a href="#projects" class="inline-flex items-center font-medium">
-        View Projects
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5 ml-1 animate-bounce"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
-            clip-rule="evenodd"></path>
-        </svg>
-      </a>
+
+    <div class="absolute bottom-12 text-center w-full hidden md:block">
+      <div class="flex justify-center space-x-6">
+        <a href="#projects" class="inline-flex items-center font-medium">
+          Explore Projects
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 ml-1 animate-bounce"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+        </a>
+      </div>
     </div>
   </section>
+
+  <!-- Latest Blog Posts Preview -->
 
   <!-- Projects Section -->
   <section id="projects" class="py-24">
@@ -139,64 +188,18 @@ const projects = [
   </section>
 </Layout>
 
-<!-- <script>
-  const taglines = [
-    'Com més petites són les coses, més força individual tenen - Josep Pla',
-    'To make living itself an art, that is the goal - Henry Miller',
-    "It doesn't matter if you're an artist, creative product maker or a startup: the concept of \"image\" is dead. It's the age of honesty. - Pieter Levels",
-  ];
-
-  let current = 0;
-  let isTyping = false;
-
-  function typeWriter(text, element, speed = 50) {
-    let i = 0;
-    isTyping = true;
-
-    function type() {
-      if (i < text.length) {
-        element.textContent = text.substring(0, i + 1);
-        i++;
-        setTimeout(type, speed);
-      } else {
-        isTyping = false;
-        // Wait before starting to erase
-        setTimeout(startErasing, 2000);
-      }
+<style>
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
     }
-
-    type();
-  }
-
-  function startErasing() {
-    if (!isTyping && current !== (current + 1) % taglines.length) {
-      eraseText(document.getElementById('rotatingTagline'));
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
-
-  function eraseText(element, speed = 30) {
-    const text = element.textContent;
-    let length = text.length;
-    isTyping = true;
-
-    function erase() {
-      if (length > 0) {
-        element.textContent = text.substring(0, length - 1);
-        length--;
-        setTimeout(erase, speed);
-      } else {
-        isTyping = false;
-        // Move to next tagline and start typing
-        current = (current + 1) % taglines.length;
-        typeWriter(taglines[current], element);
-      }
-    }
-
-    erase();
+  .animate-fade-in {
+    animation: fadeIn 1s ease-out;
   }
-
-  // Initialize
-  setTimeout(() => {
-    eraseText(document.getElementById('rotatingTagline'));
-  }, 3000);
-</script> -->
+</style>
