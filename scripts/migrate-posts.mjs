@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'fs';
+import { readFileSync, readdirSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import matter from 'gray-matter';
@@ -10,16 +10,13 @@ import Database from 'better-sqlite3';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = join(__dirname, '..');
 
-function slugify(text) {
-    return text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove special characters
-        .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-        .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
-}
 
 function initDatabase() {
-    const dbPath = join(projectRoot, 'db', 'content.db');
+    // Use environment-specific database path
+    const dbPath = import.meta.env.NODE_ENV === 'production'
+        ? '/app/data/content.db'
+        : join(projectRoot, 'db', 'content.db');
+
     const db = new Database(dbPath);
 
     // Initialize schema

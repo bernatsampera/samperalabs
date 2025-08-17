@@ -1,6 +1,6 @@
 import Database from 'better-sqlite3';
-import { readFileSync } from 'fs';
-import { join } from 'path';
+import { readFileSync, mkdirSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
 
 export interface Post {
   id?: number;
@@ -39,7 +39,18 @@ class PostDatabase {
   private insertPlaceholders = '?, ?, ?, ?, ?, ?, ?, ?, ?';
 
   constructor() {
-    const dbPath = '/app/data/content.db';
+    // Use environment-specific database path
+    const dbPath =
+      import.meta.env.NODE_ENV === 'production' ? '/app/data/content.db' : join(process.cwd(), 'db', 'content.db');
+
+    // Ensure the database directory exists locally
+    if (import.meta.env.NODE_ENV !== 'production') {
+      const dbDir = dirname(dbPath);
+      if (!existsSync(dbDir)) {
+        mkdirSync(dbDir, { recursive: true });
+      }
+    }
+
     this.db = new Database(dbPath);
     this.initSchema();
   }
