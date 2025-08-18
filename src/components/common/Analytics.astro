@@ -1,0 +1,13 @@
+---
+const isLocal = import.meta.env.NODE_ENV === 'development';
+---
+
+{
+  !isLocal && (
+    <script
+      defer
+      src="https://umami-wgg0cog08kwcsccgc8kww0gg.bjjgym.com/script.js"
+      data-website-id="fe940000-a0ee-4498-b315-c31b5c9fd1ee"
+    />
+  )
+}

@@ -18,8 +18,6 @@ const latestPosts = allPosts
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime())
   .slice(0, 3);
 
-console.log(latestPosts);
-
 const projects = [
   {
     title: 'BJJGym.com',
