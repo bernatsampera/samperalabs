@@ -13,7 +13,7 @@ const {content = '', postId} = Astro.props;
   </label>
   <div id="editor-container" data-post-id={postId}>
     <div class="tiptap-editor-container border rounded-sm">
-      <div class="tiptap-toolbar border rounded-t-sm bg-muted p-2 flex flex-wrap gap-1">
+      <div id="tiptap-toolbar" class="tiptap-toolbar border rounded-t-sm p-2 flex flex-wrap gap-1">
         <!-- Text Formatting -->
         <div class="flex gap-1 border-r pr-2 mr-2">
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (Ctrl+B)">
@@ -143,6 +143,24 @@ const {content = '', postId} = Astro.props;
 </div>
 
 <style>
+  .tiptap-editor-container {
+    position: relative;
+  }
+
+  .tiptap-toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    transition: box-shadow 0.2s ease;
+    backdrop-filter: blur(8px);
+  }
+
+  .tiptap-toolbar.floating {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
   .tiptap-editor {
     font-family: 'Inter', sans-serif;
     min-height: 400px;
@@ -288,6 +306,7 @@ const {content = '', postId} = Astro.props;
   document.addEventListener('DOMContentLoaded', async () => {
     const editorElement = document.getElementById('tiptap-editor');
     const contentTextarea = document.getElementById('content') as HTMLTextAreaElement;
+    const toolbar = document.getElementById('tiptap-toolbar');
 
     if (editorElement && contentTextarea) {
       const postId = document.getElementById('editor-container')?.dataset.postId || undefined;
@@ -305,6 +324,35 @@ const {content = '', postId} = Astro.props;
 
       // Make editor globally available for form submission
       (window as any).editor = editor;
+    }
+
+    // Enhanced sticky toolbar behavior
+    if (toolbar) {
+      const editorContainer = toolbar.closest('.tiptap-editor-container');
+      if (editorContainer) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                toolbar.classList.remove('floating');
+              } else {
+                toolbar.classList.add('floating');
+              }
+            });
+          },
+          {
+            root: null,
+            threshold: 0,
+            rootMargin: '-1px 0px 0px 0px',
+          }
+        );
+
+        // Create a sentinel element to track when toolbar should be sticky
+        const sentinel = document.createElement('div');
+        sentinel.style.height = '1px';
+        editorContainer.insertBefore(sentinel, toolbar);
+        observer.observe(sentinel);
+      }
     }
   });
 </script>
