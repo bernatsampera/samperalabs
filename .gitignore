@@ -27,3 +27,4 @@ db/content.db-wal
 pnpm-lock.yaml
 
 .astro
+*.db
