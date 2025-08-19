@@ -41,7 +41,9 @@ class PostDatabase {
   constructor() {
     // Use environment-specific database path
     const dbPath =
-      import.meta.env.NODE_ENV === 'production' ? '/app/data/content.db' : join(process.cwd(), 'db', 'content.db');
+      import.meta.env.NODE_ENV === 'production'
+        ? '/app/data/content.db'
+        : join(process.cwd(), 'scripts', 'manage-sqlite', 'content.db');
 
     // Ensure the database directory exists locally
     if (import.meta.env.NODE_ENV !== 'production') {

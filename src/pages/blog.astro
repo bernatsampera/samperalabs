@@ -11,7 +11,7 @@ const db = getDB();
 const allPosts = db.getAllPosts();
 
 // Get all unique tags
-const allTags = [...new Set(allPosts.map((post) => post.tags).flat())].sort();
+const allTags = allPosts.map((post) => post.tags).flat();
 
 // Filter posts by tag if one is selected
 const postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
@@ -25,6 +25,14 @@ const postsByYear = postsToShow.reduce((acc, post) => {
   acc[year].push(post);
   return acc;
 }, {} as Record<number, typeof postsToShow>);
+
+
+const tagCounts = allTags.reduce((count, tagName) => {
+  count[tagName] = (count[tagName] || 0) + 1;
+
+  console.log(tagName);
+  return count;
+}, {} as Record<string, number>);
 
 // Sort years in descending order
 const sortedYears = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
@@ -58,7 +66,8 @@ const metadata = {
           >
             All posts
           </a>
-          {allTags.map((tagName) => (
+          {
+            Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).map(([tagName, count]) => (
             <a
               href={`/blog?tag=${encodeURIComponent(tagName)}`}
               class={`px-3 py-1 text-sm rounded-sm transition-colors ${
@@ -67,7 +76,7 @@ const metadata = {
                   : 'bg-muted text-muted-foreground hover:text-foreground'
               }`}
             >
-              {tagName}
+              {tagName} ({count})
             </a>
           ))}
         </div>
@@ -121,7 +130,8 @@ const metadata = {
                 <div class="space-y-6">
                   {postsByYear[year].map((post) => (
                     <article class="group">
-                      <a href={`/posts/${post.slug}`} class="flex items-start gap-8 hover:opacity-80 transition-opacity">
+                      <a href={`/posts/${post.slug}`} class="flex items-center justify-start gap-8 hover:opacity-40 transition-opacity">
+                      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                         <!-- Date -->
                         <time class="text-sm text-muted-foreground font-mono min-w-[80px]">
                           {
@@ -132,16 +142,26 @@ const metadata = {
                           }
                         </time>
                         
-                        <div class="flex flex-col gap-2">
+                        <div class="flex flex-col gap-2 col-span-8">
                         <!-- Title -->
                         <h3 class="relative text-lg font-medium text-foreground leading-relaxed">
                           {post.title}
                           <p class="absolute top-6 text-sm text-muted-foreground pointer-events-none cursor-default " >
-                          {post.tags.join(', ')}
                         </p>
                         </h3>
                        
-                        </div>                        
+                        </div>  
+
+                        <p class="text-sm text-muted-foreground">
+                          {Math.max(Math.floor(post.content.length/1000), 1)} min read
+                        </p>
+
+                        <span class="text-sm text-muted-foreground col-span-2">
+                          {post.tags.join(', ')}
+                        </span>
+
+                      </div>
+
                       </a>
                     </article>
                   ))}

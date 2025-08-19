@@ -15,7 +15,7 @@ function initDatabase() {
     // Use environment-specific database path
     const dbPath = import.meta.env.NODE_ENV === 'production'
         ? '/app/data/content.db'
-        : join(projectRoot, 'db', 'content.db');
+        : join(projectRoot, 'scripts', 'manage-sqlite', 'content.db');
 
     const db = new Database(dbPath);
 
