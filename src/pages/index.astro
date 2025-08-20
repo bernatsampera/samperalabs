@@ -45,7 +45,7 @@ const projects = [
 ---
 
 <Layout metadata={metadata}>
-  <section class="min-h-screen flex flex-col justify-center items-center md:pb-60 mt-12 md:mt-24 text-center">
+  <section class="min-h-[90vh] flex flex-col justify-center items-center pb-8 md:pb-60 md:mt-24 text-center">
     <!-- Hero Section -->
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
@@ -56,11 +56,8 @@ const projects = [
             Building intelligent websites with Artificial Intelligence
           </span>
         </p>
-        <p class="text-lg text-gray-500 max-w-2xl mx-auto">
-          Creating AI-driven workflows and Agents to enhance user experiences
-        </p>
       </div>
-      <div class="mt-12 md:mt-48 flex flex-col max-w-lg mx-auto">
+      <div class="mt-32 md:mt-48 flex flex-col max-w-lg mx-auto">
         {
           latestPosts.length > 0 && (
             <div class="container px-4 text-left">
