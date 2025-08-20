@@ -131,7 +131,7 @@ const metadata = {
                   {postsByYear[year].map((post) => (
                     <article class="group">
                       <a href={`/posts/${post.slug}`} class="flex items-center justify-start gap-8 hover:opacity-40 transition-opacity">
-                      <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                      <div class="grid grid-cols-1 md:grid-cols-12 gap-1 md:gap-4">
                         <!-- Date -->
                         <time class="text-sm text-muted-foreground font-mono min-w-[80px]">
                           {
@@ -144,7 +144,7 @@ const metadata = {
                         
                         <div class="flex flex-col gap-2 col-span-8">
                         <!-- Title -->
-                        <h3 class="relative text-lg font-medium text-foreground leading-relaxed">
+                        <h3 class="relative text-sm md:text-lg font-medium text-foreground leading-relaxed">
                           {post.title}
                           <p class="absolute top-6 text-sm text-muted-foreground pointer-events-none cursor-default " >
                         </p>
@@ -152,11 +152,11 @@ const metadata = {
                        
                         </div>  
 
-                        <p class="text-sm text-muted-foreground">
+                        <p class="hidden md:block text-xs text-muted-foreground col-span-1">
                           {Math.max(Math.floor(post.content.length/1000), 1)} min read
                         </p>
 
-                        <span class="text-sm text-muted-foreground col-span-2">
+                        <span class="hidden md:block text-sm text-muted-foreground col-span-2">
                           {post.tags.join(', ')}
                         </span>
 
