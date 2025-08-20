@@ -1,5 +1,32 @@
 // Editor utility functions and configurations
 import type { Editor } from '@tiptap/core';
+import { ReactNodeViewRenderer } from '@tiptap/react';
+import CodeBlockComponent from './CodeBlockComponent';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import js from 'highlight.js/lib/languages/javascript';
+import ts from 'highlight.js/lib/languages/typescript';
+import python from 'highlight.js/lib/languages/python';
+import { createLowlight } from 'lowlight';
+import BaseCodeBlock from '@tiptap/extension-code-block';
+
+const CodeBlock = BaseCodeBlock.extend({
+  addKeyboardShortcuts() {
+    return {
+      Tab: () => {
+        if (this.editor.isActive('codeBlock')) {
+          return this.editor.commands.insertContent('\t');
+        }
+      },
+    };
+  },
+});
+
+const lowlight = createLowlight();
+
+// you can also register individual languages
+lowlight.register('js', js);
+lowlight.register('ts', ts);
+lowlight.register('python', python);
 
 export interface EditorCommandMap {
   [key: string]: () => void;
@@ -193,11 +220,18 @@ export async function createTipTapEditor(element: HTMLElement, contentTextarea: 
   const editor = new Editor({
     element,
     extensions: [
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockComponent);
+        },
+      }).configure({ lowlight }),
+      CodeBlock,
+
       StarterKit.default.configure({
         heading: { levels: [1, 2, 3, 4, 5, 6] },
         bulletList: { keepMarks: true, keepAttributes: false },
         orderedList: { keepMarks: true, keepAttributes: false },
-        codeBlock: { HTMLAttributes: { class: 'language-markdown' } },
+        codeBlock: false,
       }),
       Typography.default,
       Placeholder.default.configure({ placeholder: 'Write your post content...' }),

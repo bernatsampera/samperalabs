@@ -2,8 +2,10 @@
 import Button from '~/components/ui/Button.astro';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import {getDB} from '../../lib/db';
-import {marked} from 'marked';
+import {Marked} from 'marked';
+import {markedHighlight} from 'marked-highlight';
 import {preprocessMarkdownContent, configureMarked} from '../../utils/markdown';
+import hljs from 'highlight.js';
 
 // Get the slug from the URL params
 const {slug} = Astro.params;
@@ -18,11 +20,23 @@ if (!post) {
 }
 
 // Configure marked with standard options
-configureMarked(marked);
+
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: 'hljs',
+    langPrefix: 'hljs language-',
+    highlight(code, lang, info) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, {language}).value;
+    },
+  })
+);
+
+// configureMarked(marked);
 
 // Convert markdown to HTML with preprocessing
 const processedContent = preprocessMarkdownContent(post.content);
-const htmlContent = marked(processedContent);
+const htmlContent = marked.parse(processedContent);
 
 const metadata = {
   title: post.title,
@@ -33,7 +47,7 @@ const metadata = {
 <BlogLayout metadata={metadata} post={post}>
   <!-- Article Content -->
   <div
-    class="prose prose-lg prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-muted-foreground prose-code:text-foreground prose-pre:bg-muted"
+    class="tiptap-viewer prose prose-lg prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-muted-foreground prose-code:text-foreground prose-pre:bg-muted"
     set:html={htmlContent}
   />
 
