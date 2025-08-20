@@ -24,7 +24,7 @@ if (!post) {
 const marked = new Marked(
   markedHighlight({
     emptyLangClass: 'hljs',
-    langPrefix: 'hljs language-',
+    langPrefix: 'hljs language-python',
     highlight(code, lang, info) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, {language}).value;
