@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import {getDB} from '../lib/db';
+import {getReadingTime} from '../utils/utils';
 
 // Get the selected tag from URL search params
 const url = new URL(Astro.request.url);
@@ -153,7 +154,7 @@ const metadata = {
                         </div>  
 
                         <p class="hidden md:block text-xs text-muted-foreground col-span-1">
-                          {Math.max(Math.floor(post.content.length/1000), 1)} min read
+                          {getReadingTime(post.content)} min read
                         </p>
 
                         <span class="hidden md:block text-sm text-muted-foreground col-span-2">

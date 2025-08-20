@@ -1,6 +1,7 @@
 ---
 import Layout from './PageLayout.astro';
 import type {MetaData} from '~/types';
+import {getReadingTime} from '../utils/utils';
 
 export interface Props {
   metadata?: MetaData;
@@ -10,6 +11,7 @@ export interface Props {
     pub_date: string;
     description?: string;
     tags?: string[];
+    content: string;
   };
 }
 
@@ -43,6 +45,8 @@ const {metadata = {}, post} = Astro.props;
             </time>
             <span>•</span>
             <span>By {post.author}</span>
+            <span>•</span>
+            <span>{getReadingTime(post.content)} min read</span>
           </div>
           
           <!-- Post Title -->

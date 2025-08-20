@@ -50,3 +50,7 @@ export const toUiAmount = (amount: number) => {
 
   return value;
 };
+
+export const getReadingTime = (content: string) => {
+  return Math.max(Math.floor(content.length / 1000), 1);
+};
