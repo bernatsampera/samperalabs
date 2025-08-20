@@ -17,6 +17,7 @@
       color: inherit;
       font-size: 0.8rem;
       padding: 0;
+      text-wrap: initial;
     }
 
     /* Comments - muted gray */

@@ -14,7 +14,9 @@
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier -w .",
-    "lint:eslint": "eslint ."
+    "lint:eslint": "eslint .",
+    "pull-db": "uv run scripts/manage-sqlite/index.py pull",
+    "push-db": "uv run scripts/manage-sqlite/index.py push"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
