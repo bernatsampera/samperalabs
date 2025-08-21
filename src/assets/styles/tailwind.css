@@ -12,7 +12,7 @@
   }
 
   .text-muted-foreground {
-    color: oklch(0.65 0 0);
+    color: oklch(0.35 0 0);
   }
 
   .text-primary {
