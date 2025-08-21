@@ -785,9 +785,9 @@
     postcss-selector-parser "6.0.10"
 
 "@tiptap/core@^3.1.0", "@tiptap/core@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/@tiptap/core/-/core-3.2.0.tgz"
-  integrity sha512-1Dk1AIwzJejcyi4FOEcKoBSLMkHMfxeDiQ0daG51eS1IZ1ZSF+Xlhg9OD5sAjbUTGQjK1HfU6kGwS9wJcR/9ZQ==
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/@tiptap/core/-/core-3.2.1.tgz"
+  integrity sha512-ZLQbzGLxf3Jw7K+cqWb1fFvKcKQkYvaBuOwASnPG98DrGPyKSnI2jby8/PTXHdjeBq4LbENrSIuQDHQAminrQg==
 
 "@tiptap/extension-blockquote@^3.1.0":
   version "3.1.0"
@@ -943,10 +943,10 @@
   resolved "https://registry.npmjs.org/@tiptap/extensions/-/extensions-3.1.0.tgz"
   integrity sha512-b8mE6KA9CeyfhMOZPS+I4+Qp+aW6bNI/2mTRpDy0/WHM0XHZSh9/JOXCAuGzbz27Lcz9gp4FWwcpOICE39LPuQ==
 
-"@tiptap/pm@^3.1.0", "@tiptap/pm@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/@tiptap/pm/-/pm-3.2.0.tgz"
-  integrity sha512-2UTlVts1Q7snQaUlxUtXfwEndNgcBcEIf74f1aEzcLzJRwBRRexCS6M0n+F50IifoB0OVBZENMBv1X/YXIPGPA==
+"@tiptap/pm@^3.1.0", "@tiptap/pm@^3.2.0", "@tiptap/pm@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/@tiptap/pm/-/pm-3.2.1.tgz"
+  integrity sha512-eNHxq9ozL1Z4pWn0ROki3Ujk7JOf/c/BqP7X85m9SdEOMwqcjvsKytj9MdAAzDpyFDJQ1y4cIZFJri+OcspCTg==
   dependencies:
     prosemirror-changeset "^2.3.0"
     prosemirror-collab "^1.3.1"

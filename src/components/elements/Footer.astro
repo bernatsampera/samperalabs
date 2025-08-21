@@ -15,7 +15,7 @@ export interface Props {
 const {socialLinks = [], links = []} = Astro.props;
 ---
 
-<footer class="py-20 border-t border-gray-100 bg-background">
+<footer class="py-20 border-t border-gray-100 bg-background relative z-10">
   <div class="container mx-auto px-6">
     <div class="mb-16 flex flex-col md:flex-row justify-between items-center">
       <a class="text-xl font-bold tracking-tighter mb-8 md:mb-0" href={getHomePermalink()}>

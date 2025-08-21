@@ -1,0 +1,107 @@
+---
+import type {TOCItem} from '~/utils/tableOfContents';
+
+export interface Props {
+  headings: TOCItem[];
+}
+
+const {headings} = Astro.props;
+
+// Don't render if no headings
+if (!headings || headings.length === 0) {
+  return null;
+}
+---
+
+<div class="mobile-toc lg:hidden mb-8 border border-border rounded-lg bg-card">
+  <button
+    class="mobile-toc-toggle w-full p-4 text-left flex items-center justify-between font-medium text-foreground hover:bg-accent transition-colors"
+    aria-expanded="false"
+    aria-controls="mobile-toc-content"
+  >
+    <span class="flex items-center gap-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      Table of Contents
+    </span>
+    <svg
+      class="mobile-toc-chevron w-5 h-5 transition-transform duration-200"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+    </svg>
+  </button>
+
+  <div id="mobile-toc-content" class="mobile-toc-content hidden border-t border-border p-4">
+    <nav>
+      <ul class="space-y-2">
+        {
+          headings.map((heading) => (
+            <li>
+              <a
+                href={`#${heading.id}`}
+                class={`
+                block py-2 px-3 rounded text-sm transition-colors duration-200 hover:bg-accent hover:text-accent-foreground
+                ${heading.level === 1 ? 'font-medium text-foreground' : ''}
+                ${heading.level === 2 ? 'ml-4 text-muted-foreground font-medium' : ''}
+                ${heading.level === 3 ? 'ml-8 text-muted-foreground' : ''}
+                ${heading.level === 4 ? 'ml-12 text-muted-foreground' : ''}
+                ${heading.level === 5 ? 'ml-16 text-muted-foreground' : ''}
+                ${heading.level === 6 ? 'ml-20 text-muted-foreground' : ''}
+              `}
+                data-mobile-toc-link={heading.id}
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.mobile-toc-toggle');
+    const content = document.querySelector('.mobile-toc-content');
+    const chevron = document.querySelector('.mobile-toc-chevron');
+    const mobileLinks = document.querySelectorAll('[data-mobile-toc-link]');
+
+    // Toggle functionality
+    toggle?.addEventListener('click', () => {
+      const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+      toggle.setAttribute('aria-expanded', (!isExpanded).toString());
+      content?.classList.toggle('hidden');
+      chevron?.classList.toggle('rotate-180');
+    });
+
+    // Close TOC when a link is clicked (on mobile)
+    mobileLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href')?.substring(1);
+        const targetElement = document.getElementById(targetId || '');
+
+        if (targetElement) {
+          targetElement.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          });
+
+          // Close the mobile TOC
+          toggle?.setAttribute('aria-expanded', 'false');
+          content?.classList.add('hidden');
+          chevron?.classList.remove('rotate-180');
+
+          // Update URL without triggering scroll
+          window.history.pushState(null, '', `#${targetId}`);
+        }
+      });
+    });
+  });
+</script>

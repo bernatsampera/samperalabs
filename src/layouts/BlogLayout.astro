@@ -22,61 +22,64 @@ const {metadata = {}, post} = Astro.props;
   <div class="min-h-screen bg-background">
     <!-- Navigation -->
     <nav class="border-b ">
-      <div class="container mx-auto px-6 py-6 max-w-4xl">
+      <div class="container mx-auto px-6 py-6 max-w-7xl">
         <a href="/blog" class="text-muted-foreground hover:text-foreground transition-colors"> ← Back to blog </a>
       </div>
     </nav>
 
-    <!-- Article Container -->
-    <article class="container mx-auto px-6 py-16 max-w-4xl">
-      {post && (
-        <!-- Article Header -->
-        <header class="mb-16 space-y-6">
-          <!-- Post Meta -->
-          <div class="flex items-center gap-4 text-sm text-muted-foreground">
-            <time datetime={post.pub_date}>
-              {
-                new Date(post.pub_date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-              }
-            </time>
-            <span>•</span>
-            <span>By {post.author}</span>
-            <span>•</span>
-            <span>{getReadingTime(post.content)} min read</span>
-          </div>
-          
-          <!-- Post Title -->
-          <h1 class="text-4xl md:text-6xl font-bold text-foreground leading-tight">
-            {post.title}
-          </h1>
-          
-          <!-- Post Description -->
-          {post.description && <p class="text-xl text-muted-foreground leading-relaxed max-w-3xl">{post.description}</p>}
-          
-          <!-- Tags -->
-          {
-            post.tags && post.tags.length > 0 && (
-              <div class="flex flex-wrap gap-2 pt-4">
-                {post.tags.map((tag) => (
-                  <a 
-                    href={`/tags/${tag}`}
-                    class="px-3 py-1 bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-sm text-sm transition-colors"
-                  >
-                    {tag}
-                  </a>
-                ))}
-              </div>
-            )
-          }
-        </header>
-      )}
+    <!-- Main Content Area with TOC Layout -->
+    <div class="relative">
+      <!-- Article Container -->
+      <article class="container mx-auto px-6 py-16 max-w-4xl xl:max-w-5xl lg:pl-[220px] xl:pl-[120px]">
+        {post && (
+          <!-- Article Header -->
+          <header class="mb-16 space-y-6">
+            <!-- Post Meta -->
+            <div class="flex items-center gap-4 text-sm text-muted-foreground">
+              <time datetime={post.pub_date}>
+                {
+                  new Date(post.pub_date).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                }
+              </time>
+              <span>•</span>
+              <span>By {post.author}</span>
+              <span>•</span>
+              <span>{getReadingTime(post.content)} min read</span>
+            </div>
+            
+            <!-- Post Title -->
+            <h1 class="text-4xl md:text-6xl font-bold text-foreground leading-tight">
+              {post.title}
+            </h1>
+            
+            <!-- Post Description -->
+            {post.description && <p class="text-xl text-muted-foreground leading-relaxed max-w-3xl">{post.description}</p>}
+            
+            <!-- Tags -->
+            {
+              post.tags && post.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 pt-4">
+                  {post.tags.map((tag) => (
+                    <a 
+                      href={`/tags/${tag}`}
+                      class="px-3 py-1 bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground rounded-sm text-sm transition-colors"
+                    >
+                      {tag}
+                    </a>
+                  ))}
+                </div>
+              )
+            }
+          </header>
+        )}
 
-      <!-- Article Content -->
-      <slot />
-    </article>
+        <!-- Article Content -->
+        <slot />
+      </article>
+    </div>
   </div>
 </Layout>

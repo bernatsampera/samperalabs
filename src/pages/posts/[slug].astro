@@ -1,10 +1,13 @@
 ---
 import Button from '~/components/ui/Button.astro';
 import BlogLayout from '../../layouts/BlogLayout.astro';
+import TableOfContents from '../../components/common/TableOfContents.astro';
+import MobileTableOfContents from '../../components/common/MobileTableOfContents.astro';
 import {getDB} from '../../lib/db';
 import {Marked} from 'marked';
 import {markedHighlight} from 'marked-highlight';
-import {preprocessMarkdownContent, configureMarked} from '../../utils/markdown';
+import {preprocessMarkdownContent} from '../../utils/markdown';
+import {extractHeadings, addHeadingIds} from '../../utils/tableOfContents';
 import hljs from 'highlight.js';
 
 // Get the slug from the URL params
@@ -25,7 +28,7 @@ const marked = new Marked(
   markedHighlight({
     emptyLangClass: 'hljs',
     langPrefix: 'hljs language-python',
-    highlight(code, lang, info) {
+    highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, {language}).value;
     },
@@ -36,7 +39,13 @@ const marked = new Marked(
 
 // Convert markdown to HTML with preprocessing
 const processedContent = preprocessMarkdownContent(post.content);
-const htmlContent = marked.parse(processedContent);
+let htmlContent = await marked.parse(processedContent);
+
+// Add IDs to headings for anchor navigation
+htmlContent = addHeadingIds(htmlContent);
+
+// Extract headings for table of contents
+const headings = extractHeadings(htmlContent);
 
 const metadata = {
   title: post.title,
@@ -45,11 +54,23 @@ const metadata = {
 ---
 
 <BlogLayout metadata={metadata} post={post}>
+  <!-- Mobile Table of Contents -->
+  {headings.length > 1 && <MobileTableOfContents headings={headings} />}
+
   <!-- Article Content -->
   <div
     class="tiptap-viewer prose prose-lg prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-muted-foreground prose-code:text-foreground prose-pre:bg-muted"
     set:html={htmlContent}
   />
+
+  <!-- Desktop Table of Contents - Fixed Sidebar -->
+  {
+    headings.length > 1 && (
+      <aside class="hidden lg:block fixed left-6 top-40 w-64 z-10">
+        <TableOfContents headings={headings} />
+      </aside>
+    )
+  }
 
   <!-- Article Actions -->
   <footer id="admin-actions" class="mt-16 pt-8 border-t hidden">
