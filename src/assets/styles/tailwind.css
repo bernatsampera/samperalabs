@@ -3,14 +3,6 @@
 @tailwind utilities;
 
 @layer utilities {
-  .bg-page {
-    background-color: var(--aw-color-bg-page);
-  }
-
-  .bg-light {
-    background-color: var(--aw-color-bg-page);
-  }
-
   .text-muted-foreground {
     color: oklch(0.35 0 0);
   }

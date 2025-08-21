@@ -12,7 +12,7 @@ module.exports = {
         'light-gray': '#e9e9e9',
         'medium-gray': '#d4d4d4',
         'dark-gray': '#767676',
-        background: '#ffffff',
+        background: 'rgb(234 240 249)',
       },
       spacing: {
         '18': '4.5rem',
