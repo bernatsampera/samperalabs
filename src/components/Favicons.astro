@@ -1,12 +1,12 @@
 ---
 import favIconSvg from '~/assets/favicons/favicon.svg';
-import appleTouchIcon from '~/assets/favicons/apple-touch-icon.png';
+import appleTouchIcon from '~/assets/favicons/apple-touch-icon-180.png';
 ---
 
 <!-- Primary favicon references -->
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
 <!-- SVG favicon for modern browsers -->
 <link rel="icon" type="image/svg+xml" href={favIconSvg.src} />
@@ -20,6 +20,8 @@ import appleTouchIcon from '~/assets/favicons/apple-touch-icon.png';
 <!-- Theme color for mobile browsers -->
 <meta name="theme-color" content="#8D46E7" />
 
+<!-- Web App Manifest -->
+<link rel="manifest" href="/site.webmanifest" />
+
 <!-- Microsoft tiles -->
 <meta name="msapplication-TileColor" content="#8D46E7" />
-<meta name="msapplication-config" content="/browserconfig.xml" />
