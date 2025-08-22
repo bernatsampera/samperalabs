@@ -3,7 +3,23 @@ import favIconSvg from '~/assets/favicons/favicon.svg';
 import appleTouchIcon from '~/assets/favicons/apple-touch-icon.png';
 ---
 
-<link rel="shortcut icon" href="/favicon.png" />
-<link rel="icon" type="image/png" href="/favicon.png" />
-<link rel="mask-icon" href={favIconSvg.src} color="#8D46E7" />
+<!-- Primary favicon references -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png" />
+
+<!-- SVG favicon for modern browsers -->
+<link rel="icon" type="image/svg+xml" href={favIconSvg.src} />
+
+<!-- Apple Touch Icon -->
 <link rel="apple-touch-icon" sizes="180x180" href={appleTouchIcon.src} />
+
+<!-- Safari mask icon -->
+<link rel="mask-icon" href={favIconSvg.src} color="#8D46E7" />
+
+<!-- Theme color for mobile browsers -->
+<meta name="theme-color" content="#8D46E7" />
+
+<!-- Microsoft tiles -->
+<meta name="msapplication-TileColor" content="#8D46E7" />
+<meta name="msapplication-config" content="/browserconfig.xml" />
