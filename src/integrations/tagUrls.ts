@@ -1,0 +1,11 @@
+export const tagUrls = ["https://samperalabs.com/tags/llm",
+"https://samperalabs.com/tags/ocr",
+"https://samperalabs.com/tags/astro",
+"https://samperalabs.com/tags/coolify",
+"https://samperalabs.com/tags/docker",
+"https://samperalabs.com/tags/uv",
+"https://samperalabs.com/tags/python",
+"https://samperalabs.com/tags/cloudflare",
+"https://samperalabs.com/tags/langgraph",
+"https://samperalabs.com/tags/fastapi",
+"https://samperalabs.com/tags/react"]

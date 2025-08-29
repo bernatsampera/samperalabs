@@ -10,6 +10,16 @@ import {preprocessMarkdownContent} from '../../utils/markdown';
 import {extractHeadings, addHeadingIds} from '../../utils/tableOfContents';
 import hljs from 'highlight.js';
 
+// Generate static paths for all blog posts
+export async function getStaticPaths() {
+  const db = getDB();
+  const allPosts = db.getAllPosts();
+
+  return allPosts.map((post) => ({
+    params: {slug: post.slug},
+  }));
+}
+
 // Get the slug from the URL params
 const {slug} = Astro.params;
 

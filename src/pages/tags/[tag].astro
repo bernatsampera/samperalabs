@@ -3,6 +3,19 @@ import Layout from '../../layouts/PageLayout.astro';
 import {getDB} from '../../lib/db';
 import PostCard from '~/components/common/PostCard.astro';
 
+// Generate static paths for all tags
+export async function getStaticPaths() {
+  const db = getDB();
+  const allPosts = db.getAllPosts();
+
+  // Get all unique tags
+  const allTags = [...new Set(allPosts.flatMap((post) => post.tags))];
+
+  return allTags.map((tag) => ({
+    params: {tag},
+  }));
+}
+
 // Get the tag from the URL params
 const {tag} = Astro.params;
 
