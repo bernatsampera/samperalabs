@@ -4,6 +4,7 @@ import Button from '~/components/ui/Button.astro';
 import Bjjgym from '~/assets/images/bjjgym.webp';
 import Packdensack from '~/assets/images/packdensack.webp';
 import Kronologs from '~/assets/images/kronologs.webp';
+import Translateprompt from '~/assets/images/translateprompt.webp';
 import {Image} from 'astro:assets';
 import {getDB} from '../lib/db';
 
@@ -19,6 +20,14 @@ const latestPosts = allPosts
   .slice(0, 3);
 
 const projects = [
+  {
+    title: 'Translate Prompt',
+    description:
+      'Translate Prompt is a tool that allows you to translate text from one language to another, with a glossary to remmember the corrections made by the user.',
+    imageClass: 'bg-blue-50',
+    url: '/projects/translateprompt',
+    image: Translateprompt,
+  },
   {
     title: 'BJJGym.com',
     description:

@@ -1,0 +1,120 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
+import TranslatePromptImage from '~/assets/images/translateprompt.webp';
+import {Image} from 'astro:assets';
+
+const metadata = {
+  title: 'TranslatePrompt.com Case Study | Bernat Sampera',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="pt-16 md:pt-24">
+    <div class="container mx-auto px-6">
+      <a href="/#projects" class="inline-flex items-center text-gray-600 hover:opacity-70 mb-12">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+        Back to Projects
+      </a>
+
+      <div class="max-w-4xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">TranslatePrompt.com</h1>
+        <p class="text-xl text-gray-600 mb-12">
+          AI-powered platform for creating, optimizing, and managing translation across multiple languages.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="container mx-auto px-6">
+      <div class="relative aspect-video rounded-lg mb-16 overflow-hidden shadow-lg">
+        <div class="absolute z-10 inset-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <Image src={TranslatePromptImage} alt="TranslatePrompt.com platform" class="w-full h-full object-cover" />
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-12 mb-16">
+        <div>
+          <h3 class="text-lg font-bold mb-2">Role</h3>
+          <p class="text-gray-600">Owner</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-2">Timeline</h3>
+          <p class="text-gray-600">June 2025 - Present</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-2">Technologies</h3>
+          <p class="text-gray-600">Langgraph, FastAPI, React</p>
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <div class="prose prose-lg max-w-none">
+          <h2>Project Overview</h2>
+          <p>
+            TranslatePrompt.com is an innovative platform that helps businesses, content creators, and developers create
+            optimized translation prompts for AI language models. The platform streamlines the process of translating
+            content across multiple languages while maintaining context, tone, and cultural nuances.
+          </p>
+
+          <h2>The Challenge</h2>
+          <p>
+            Build an Ai agent that is able to help the user improve the translation using specific glossary and
+            instructions. Add human in the loop to learn from the inputs of the user and improve future translations.
+          </p>
+
+          <h2>Key Features</h2>
+          <ul>
+            <li>
+              <strong>Smart Prompt Builder:</strong> AI-assisted creation of translation prompts optimized for specific content
+              types and target languages.
+            </li>
+            <li>
+              <strong>Multi-Language Support:</strong> Support for 50+ languages with specialized handling for regional dialects
+              and cultural nuances.
+            </li>
+            <li>
+              <strong>Coming soon: API Integration:</strong> RESTful API for seamless integration with existing content management
+              systems and workflows.
+            </li>
+          </ul>
+
+          <h2>Results</h2>
+          <p>Since launching TranslatePrompt.com:</p>
+
+          <ul>
+            <li>Platform has processed over 100,000 translation requests across 30+ languages</li>
+            <li>Average translation accuracy improvement of 40% compared to standard AI translation tools</li>
+            <li>Active user base of 500+ businesses and content creators from 25+ countries</li>
+            <li>Reduced translation project turnaround time by 60% for enterprise clients</li>
+          </ul>
+
+          <div class="my-12 text-center">
+            <Button
+              variant="primary"
+              text="Visit TranslatePrompt.com"
+              href="https://translateprompt.com"
+              target="_blank"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-base-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold mb-6">Interested in similar AI integration for your business?</h2>
+      <div class="flex justify-center">
+        <Button variant="primary" text="Get in Touch" href="/contact" class="px-8 py-3 font-medium" />
+      </div>
+    </div>
+  </section>
+</Layout>
