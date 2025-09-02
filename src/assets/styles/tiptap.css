@@ -1,110 +1,87 @@
-.tiptap-viewer,
-.tiptap {
-  :first-child {
-    margin-top: 0;
+/* --- BETTER DARK THEME (Catppuccin-inspired) --- */
+.tiptap-viewer pre,
+.tiptap pre {
+  /* Softer, more pleasing background */
+  background-color: #1d1d1e;
+  /* Base text color with great contrast */
+  color: #cdd6f4;
+
+  font-family: 'JetBrainsMono', monospace;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0.75rem;
+  overflow-x: auto; /* Handle long lines of code */
+
+  code {
+    background: none;
+    color: inherit;
+    /* Slightly larger font for readability */
+    font-size: 0.9rem;
+    padding: 0;
+    text-wrap: initial;
   }
 
-  pre {
-    background: oklch(0, 0, 0);
-    border-radius: 0.5rem;
-    color: #2d3748;
-    font-family: 'JetBrainsMono', monospace;
-    margin: 1.5rem 0;
-    padding: 0.75rem 1rem;
+  /* Comments - muted and unobtrusive */
+  .hljs-comment {
+    color: #7a684a;
+    font-style: italic;
+  }
 
-    code {
-      background: none;
-      color: inherit;
-      font-size: 0.8rem;
-      padding: 0;
-      text-wrap: initial;
-    }
+  /* Strings, literals - Green */
+  .hljs-string,
+  .hljs-literal {
+    color: #a6e3a1;
+  }
 
-    /* Comments - muted gray */
-    .hljs-comment {
-      color: #718096;
-      font-style: italic;
-    }
+  /* Keywords, built-ins - Pink/Mauve */
+  .hljs-keyword,
+  .hljs-built_in,
+  .hljs-symbol {
+    color: #b170ff;
+  }
 
-    /* Strings - darker green */
-    .hljs-string,
-    .hljs-literal {
-      color: #38a169;
-    }
+  /* Numbers, constants - Peach */
+  .hljs-number {
+    color: #fab387;
+  }
 
-    /* Python keywords - darker blue */
-    .hljs-keyword,
-    .hljs-built_in {
-      color: #3182ce;
-      font-weight: 600;
-    }
+  /* Function & Class definitions - Bright Blue */
+  .hljs-title,
+  .hljs-title.class_,
+  .hljs-title.function_ {
+    color: #89b4fa;
+    font-weight: 600;
+  }
 
-    /* Numbers - darker orange */
-    .hljs-number {
-      color: #d69e2e;
-    }
+  /* Variables, parameters, attributes - Light Gray/White */
+  /* Often the base color is fine, but you can make it pop */
+  .hljs-variable,
+  .hljs-params,
+  .hljs-attr {
+    color: #cdd6f4;
+  }
 
-    /* Function definitions and class names - darker orange/brown */
-    .hljs-title,
-    .hljs-title.class_,
-    .hljs-title.function_ {
-      color: #dd6b20;
-      font-weight: 600;
-    }
+  /* Decorators, meta - Flamingo Pink */
+  .hljs-meta {
+    color: #f0c6c6;
+  }
 
-    /* Variables, parameters, and attributes - darker purple */
-    .hljs-variable,
-    .hljs-params,
-    .hljs-attr {
-      color: #805ad5;
-    }
+  /* Punctuation & Operators - Sky Blue */
+  .hljs-operator,
+  .hljs-punctuation {
+    color: #89dceb;
+  }
 
-    /* Decorators (@property, @staticmethod, etc.) - darker magenta */
-    .hljs-meta,
-    .hljs-symbol {
-      color: #d53f8c;
-    }
+  /* Python exceptions, special keywords - Red */
+  .hljs-exception,
+  .hljs-keyword.hljs-control {
+    color: #f38ba8;
+  }
 
-    /* Python operators and punctuation - dark gray */
-    .hljs-operator,
-    .hljs-punctuation {
-      color: #4a5568;
-    }
-
-    /* Python built-in functions (print, len, etc.) - darker teal */
-    .hljs-built_in {
-      color: #319795;
-    }
-
-    /* Python exceptions and special keywords - darker red */
-    .hljs-exception,
-    .hljs-keyword.hljs-control {
-      color: #e53e3e;
-    }
-
-    /* Docstrings (triple quoted strings) - darker green, italic */
-    .hljs-doctag,
-    .hljs-string.hljs-doc {
-      color: #2f855a;
-      font-style: italic;
-    }
-
-    /* Class and function parameters */
-    .hljs-params .hljs-variable {
-      color: #2b6cb0;
-    }
-
-    /* Import statements */
-    .hljs-keyword.hljs-import {
-      color: #3182ce;
-    }
-
-    .hljs-emphasis {
-      font-style: italic;
-    }
-
-    .hljs-strong {
-      font-weight: 700;
-    }
+  /* Docstrings - Italic Teal */
+  .hljs-doctag,
+  .hljs-string.hljs-doc {
+    color: #94e2d5;
+    font-style: italic;
   }
 }

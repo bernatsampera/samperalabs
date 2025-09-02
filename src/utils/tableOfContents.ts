@@ -54,6 +54,28 @@ export function extractHeadings(htmlContent: string): TOCItem[] {
 }
 
 /**
+ * Decodes HTML entities in text
+ */
+function decodeHtmlEntities(text: string): string {
+  // Common HTML entities that might appear in headings
+  const entities: Record<string, string> = {
+    '&#39;': "'",
+    '&quot;': '"',
+    '&amp;': '&',
+    '&lt;': '<',
+    '&gt;': '>',
+    '&nbsp;': ' ',
+    '&#x27;': "'",
+    '&#x22;': '"',
+    '&#x26;': '&',
+    '&#x3C;': '<',
+    '&#x3E;': '>',
+  };
+
+  return text.replace(/&#?\w+;/g, (entity) => entities[entity] || entity);
+}
+
+/**
  * Server-side fallback for extracting headings using regex
  */
 function extractHeadingsFromString(htmlContent: string): TOCItem[] {
@@ -63,7 +85,9 @@ function extractHeadingsFromString(htmlContent: string): TOCItem[] {
 
   while ((match = headingRegex.exec(htmlContent)) !== null) {
     const level = parseInt(match[1]);
-    const text = match[2].trim();
+    const rawText = match[2].trim();
+    // Decode HTML entities to get the actual text content
+    const text = decodeHtmlEntities(rawText);
     const id = generateSlug(text);
 
     tocItems.push({
