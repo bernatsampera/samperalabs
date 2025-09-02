@@ -23,7 +23,7 @@
 
   /* Comments - muted and unobtrusive */
   .hljs-comment {
-    color: #7a684a;
+    color: #b1996e;
     font-style: italic;
   }
 
@@ -58,7 +58,7 @@
   .hljs-variable,
   .hljs-params,
   .hljs-attr {
-    color: #cdd6f4;
+    color: #e96cda;
   }
 
   /* Decorators, meta - Flamingo Pink */
