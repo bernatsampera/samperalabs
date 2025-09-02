@@ -40,7 +40,6 @@ const marked = new Marked(
     langPrefix: 'hljs language-python',
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'python';
-      console.log(language);
       return hljs.highlight(code, {language}).value;
     },
   })
