@@ -2,6 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
 import TranslatePromptImage from '~/assets/images/translateprompt.webp';
+import TranslatePromptGraphImage from '~/assets/images/translateprompt/graph.webp';
 import {Image} from 'astro:assets';
 
 const metadata = {
@@ -25,7 +26,8 @@ const metadata = {
       <div class="max-w-4xl">
         <h1 class="text-4xl md:text-5xl font-bold mb-6">TranslatePrompt.com</h1>
         <p class="text-xl text-gray-600 mb-12">
-          AI-powered platform for creating, optimizing, and managing translation across multiple languages.
+          A learning translation agent that breaks the cycle of repetitive manual corrections by remembering your
+          feedback and improving over time.
         </p>
       </div>
     </div>
@@ -46,7 +48,7 @@ const metadata = {
 
         <div>
           <h3 class="text-lg font-bold mb-2">Timeline</h3>
-          <p class="text-gray-600">June 2025 - Present</p>
+          <p class="text-gray-600">2024 - Present</p>
         </div>
 
         <div>
@@ -57,44 +59,128 @@ const metadata = {
 
       <div class="max-w-3xl mx-auto">
         <div class="prose prose-lg max-w-none">
-          <h2>Project Overview</h2>
+          <h2>The Problem</h2>
           <p>
-            TranslatePrompt.com is an innovative platform that helps businesses, content creators, and developers create
-            optimized translation prompts for AI language models. The platform streamlines the process of translating
-            content across multiple languages while maintaining context, tone, and cultural nuances.
+            Traditional translation workflows suffer from a fundamental limitation: they lack memory. Users repeatedly
+            encounter the same translation errors—technical terms, company-specific language, or cultural nuances that
+            require manual correction. This creates an inefficient cycle where domain expertise is lost after each
+            session, forcing users to make the same corrections repeatedly.
           </p>
 
-          <h2>The Challenge</h2>
+          <h2>The Solution</h2>
           <p>
-            Build an Ai agent that is able to help the user improve the translation using specific glossary and
-            instructions. Add human in the loop to learn from the inputs of the user and improve future translations.
+            TranslatePrompt addresses this challenge through a conversational AI agent built with LangGraph that
+            maintains persistent memory across translation sessions. The system learns from user corrections, building
+            personalized glossaries and translation rules that improve accuracy over time. Unlike traditional tools that
+            simply process text, this agent evolves with user feedback.
           </p>
 
-          <h2>Key Features</h2>
+          <h2>Architecture Overview</h2>
+          <p>
+            The system implements a stateful conversation flow using LangGraph, where each node represents a specific
+            stage in the translation process. The agent maintains conversational memory through a structured state
+            object and uses LangGraph's interrupt mechanism to create human-in-the-loop interactions.
+          </p>
+
+          <div class="my-8 bg-gray-50 p-6 rounded-lg">
+            <h4 class="font-semibold mb-4">Core Agent State Structure</h4>
+            <pre
+              class="text-sm bg-white p-4 rounded border overflow-x-auto"><code>class TranslateState(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
+    original_text: str
+    source_language: str
+    target_language: str</code></pre>
+            <p class="text-sm text-gray-600 mt-3">
+              The state object preserves conversation history and context across all interactions, enabling the agent to
+              maintain memory of previous corrections and preferences.
+            </p>
+          </div>
+
+          <h3>Translation Workflow</h3>
+          <p>The agent follows a three-stage process that creates an interactive learning loop:</p>
+
           <ul>
             <li>
-              <strong>Smart Prompt Builder:</strong> AI-assisted creation of translation prompts optimized for specific content
-              types and target languages.
+              <strong>Initial Translation:</strong> Analyzes the input text, retrieves user-specific glossaries and rules,
+              then generates the first translation using contextual prompts.
             </li>
             <li>
-              <strong>Multi-Language Support:</strong> Support for 50+ languages with specialized handling for regional dialects
-              and cultural nuances.
+              <strong>Human Feedback Loop:</strong> Presents the translation to the user and pauses execution using LangGraph's
+              interrupt mechanism, waiting for corrections or approval.
             </li>
             <li>
-              <strong>Coming soon: API Integration:</strong> RESTful API for seamless integration with existing content management
-              systems and workflows.
+              <strong>Iterative Refinement:</strong> Processes user feedback to generate improved translations, while simultaneously
+              analyzing corrections in the background to build learning artifacts.
             </li>
           </ul>
 
-          <h2>Results</h2>
-          <p>Since launching TranslatePrompt.com:</p>
+          <div class="my-8">
+            <h4 class="font-semibold mb-4">Agent Flow Diagram</h4>
+            <Image
+              src={TranslatePromptGraphImage}
+              alt="TranslatePrompt.com agent flow diagram"
+              class="w-full h-full object-cover"
+            />
 
+            <p class="text-sm text-gray-600 mt-3">
+              The conversational loop maintains user engagement while background processes handle learning and
+              optimization without blocking the user experience.
+            </p>
+          </div>
+
+          <h2>Key Technical Insights</h2>
+
+          <h3>Performance-First Architecture</h3>
+          <p>
+            The most critical insight from building this agent was the importance of decoupling user-facing operations
+            from background intelligence. The initial design included glossary analysis directly in the refinement loop,
+            which created some delays for simple corrections.
+          </p>
+
+          <div class="my-6 bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
+            <p class="text-sm">
+              <strong>Architectural Decision:</strong> Split the system into synchronous (immediate user feedback) and asynchronous
+              (background learning) processes. This ensures sub-second response times while maintaining the intelligence
+              features that make the system valuable.
+            </p>
+          </div>
+
+          <h3>State Management Patterns</h3>
+          <p>
+            LangGraph's state management required careful attention to message accumulation. Using the <code
+              >add_messages</code
+            > reducer pattern ensures conversational context is preserved across interactions, while the <code
+              >Command</code
+            > pattern provides explicit control flow that's easier to debug than conditional edges.
+          </p>
+
+          <h3>Production Considerations</h3>
           <ul>
-            <li>Platform has processed over 100,000 translation requests across 30+ languages</li>
-            <li>Average translation accuracy improvement of 40% compared to standard AI translation tools</li>
-            <li>Active user base of 500+ businesses and content creators from 25+ countries</li>
-            <li>Reduced translation project turnaround time by 60% for enterprise clients</li>
+            <li>
+              <strong>Interrupt Mechanism:</strong> LangGraph's built-in interrupts enable true human-in-the-loop workflows
+              without complex state management
+            </li>
+            <li>
+              <strong>Background Processing:</strong> Non-blocking analysis jobs maintain responsiveness while building user-specific
+              learning artifacts
+            </li>
+            <li>
+              <strong>Conversation Persistence:</strong> Stateful checkpointing allows users to resume translation sessions
+              across browser sessions
+            </li>
           </ul>
+
+          <div class="my-8 p-6 bg-gray-50 rounded-lg">
+            <p class="text-sm text-gray-600 mb-3">
+              <strong>Want to dive deeper?</strong> Read the full technical breakdown of how this agent was built:
+            </p>
+            <a
+              href="https://www.samperalabs.com/posts/lessons-learned-building-a-real-world-ai-agent-with-langgraph"
+              class="text-blue-600 hover:text-blue-800 font-medium"
+            >
+              Lessons Learned Building a Real-World AI Agent with LangGraph →
+            </a>
+          </div>
 
           <div class="my-12 text-center">
             <Button

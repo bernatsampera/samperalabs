@@ -10,7 +10,7 @@ site:
 metadata:
   title:
     default: Bernat Sampera - AI Integration Specialist
-    template: '%s — samperalabs'
+    template: '%s  samperalabs'
   description: 'Integrating AI solutions into your websites and applications. Helping businesses leverage artificial intelligence technology for better user experiences.'
   robots:
     index: true
