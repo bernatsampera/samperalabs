@@ -3,6 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
 import TranslatePromptImage from '~/assets/images/translateprompt.webp';
 import TranslatePromptGraphImage from '~/assets/images/translateprompt/graph.webp';
+import TranslatePromptDemo from '~/assets/images/translateprompt/demo.webm';
 import {Image} from 'astro:assets';
 
 const metadata = {
@@ -76,6 +77,11 @@ const metadata = {
             personalized glossaries and translation rules that improve accuracy over time. Unlike traditional tools that
             simply process text, this agent evolves with user feedback.
           </p>
+
+          <video width="100%" autoplay muted loop playsinline>
+            <source src={TranslatePromptDemo} type="video/webm" />
+            Demo video that shows the translate prompt agent in action.
+          </video>
 
           <div class="my-12 text-center">
             <Button
