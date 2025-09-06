@@ -10,19 +10,19 @@ const {post} = Astro.props;
 // Content type styling
 const getContentTypeBadge = (contentType: string) => {
   switch (contentType) {
-    case 'note':
+    case 'quick post':
       return {
-        text: 'Note',
+        text: 'Quick Post',
         classes: 'bg-gray-50 text-gray-500 border border-gray-200',
       };
-    case 'tutorial':
+    case 'post':
       return {
-        text: 'Tutorial',
+        text: 'Post',
         classes: 'bg-gray-50 text-gray-500 border border-gray-200',
       };
-    case 'guide':
+    case 'article':
       return {
-        text: 'Guide',
+        text: 'Article',
         classes: 'bg-gray-50 text-gray-500 border border-gray-200',
       };
     default:

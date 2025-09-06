@@ -158,11 +158,11 @@
 
     private getContentTypeBadgeHtml(contentType: string): string {
       const badges = {
-        note: '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Note</span>',
-        tutorial:
-          '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Tutorial</span>',
-        guide:
-          '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Guide</span>',
+        'quick post':
+          '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Quick Post</span>',
+        post: '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Post</span>',
+        article:
+          '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Article</span>',
       };
       return badges[contentType as keyof typeof badges] || '';
     }

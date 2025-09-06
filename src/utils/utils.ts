@@ -56,20 +56,29 @@ export const getReadingTime = (content: string) => {
 };
 
 // Simple content type determination based on reading time
-export const getContentTypeFromReadingTime = (readingTime: number): 'note' | 'guide' | 'tutorial' | 'post' => {
+export const getContentTypeFromReadingTime = (readingTime: number): 'quick post' | 'post' | 'article' => {
   if (readingTime <= 2) {
-    return 'note'; // Short reads (1-2 min)
-  } else if (readingTime <= 5) {
-    return 'post'; // Medium reads (3-5 min)
+    return 'quick post'; // Short reads (2 min or less)
   } else if (readingTime <= 10) {
-    return 'tutorial'; // Longer reads (6-10 min)
+    return 'post'; // Medium reads (3-10 min)
   } else {
-    return 'guide'; // Very long reads (11+ min)
+    return 'article'; // Long reads (more than 10 min)
   }
 };
 
 // Find related posts based on tags and content similarity
-export const findRelatedPosts = (currentPost: any, allPosts: any[], maxResults: number = 3): any[] => {
+export const findRelatedPosts = (
+  currentPost: { id: number; tags: string[]; contentType: string; readingTime: number; pub_date: string },
+  allPosts: { id: number; tags: string[]; contentType: string; readingTime: number; pub_date: string }[],
+  maxResults: number = 3
+): {
+  id: number;
+  tags: string[];
+  contentType: string;
+  readingTime: number;
+  pub_date: string;
+  similarityScore: number;
+}[] => {
   if (!currentPost || allPosts.length <= 1) {
     return [];
   }

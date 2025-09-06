@@ -3,7 +3,6 @@ import PageLayout from '../layouts/PageLayout.astro';
 import PostCard from '../components/common/PostCard.astro';
 import BlogSearch from '../components/common/BlogSearch.astro';
 import {getDB} from '../lib/db';
-import {getReadingTime} from '../utils/utils';
 
 // Get the selected tag and content type from URL search params
 const url = new URL(Astro.request.url);
@@ -40,7 +39,7 @@ const contentTypeCounts = allPosts.reduce(
 // Filter posts by tag if one is selected
 let postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
 
-// Filter by content type if one is selected, otherwise hide notes by default
+// Filter by content type if one is selected, otherwise hide quick posts by default
 if (contentType) {
   postsToShow = postsToShow.filter((post) => post.contentType === contentType);
 }
@@ -67,7 +66,7 @@ const metadata = {
 <PageLayout metadata={metadata}>
   <div class="min-h-screen bg-gray-50">
     <!-- Blog Header -->
-    <header class="border-b bg-white/95 backdrop-blur-sm md:sticky md:top-0 z-40">
+    <header class="border-b bg-white/95 backdrop-blur-sm md:top-0 z-40">
       <div class="container mx-auto px-6 py-4 md:py-6 max-w-6xl">
         <!-- Breadcrumb Navigation -->
         <nav class="text-sm text-gray-600 mb-4">
@@ -109,7 +108,7 @@ const metadata = {
             {
               tag || contentType
                 ? `${postsToShow.length} ${postsToShow.length === 1 ? 'post' : 'posts'} found${contentType ? ` in ${contentType}s` : ''}${tag ? ` tagged with "${tag}"` : ''}.`
-                : 'Thoughts, tutorials, and insights on software development, design, and technology. Notes are hidden by default.'
+                : 'Thoughts, tutorials, and insights on software development, design, and technology. Quick posts are hidden by default.'
             }
           </p>
         </div>
@@ -127,7 +126,7 @@ const metadata = {
                 !contentType ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              All ({allPosts.filter((p) => p.contentType !== 'note').length})
+              All ({allPosts.filter((p) => p.contentType !== 'quick post').length})
             </a>
             <a
               href="/blog?type=post"
@@ -140,34 +139,24 @@ const metadata = {
               Posts ({contentTypeCounts.post || 0})
             </a>
             <a
-              href="/blog?type=tutorial"
+              href="/blog?type=article"
               class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
-                contentType === 'tutorial'
+                contentType === 'article'
                   ? 'bg-gray-900 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              Tutorials ({contentTypeCounts.tutorial || 0})
+              Articles ({contentTypeCounts.article || 0})
             </a>
             <a
-              href="/blog?type=guide"
+              href="/blog?type=quick post"
               class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
-                contentType === 'guide'
+                contentType === 'quick post'
                   ? 'bg-gray-900 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              Guides ({contentTypeCounts.guide || 0})
-            </a>
-            <a
-              href="/blog?type=note"
-              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
-                contentType === 'note'
-                  ? 'bg-gray-900 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Notes ({contentTypeCounts.note || 0})
+              Quick Posts ({contentTypeCounts['quick post'] || 0})
             </a>
           </div>
         </div>

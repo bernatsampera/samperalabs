@@ -21,7 +21,7 @@ export interface EnhancedPost extends Post {
   wordCount: number;
   readingTime: number;
   excerpt: string;
-  contentType: 'note' | 'guide' | 'tutorial' | 'post';
+  contentType: 'quick post' | 'post' | 'article';
 }
 
 export interface PostRow {
@@ -104,15 +104,13 @@ class PostDatabase {
       (cleanText.length <= 150 ? cleanText : cleanText.substring(0, 150).split(' ').slice(0, -1).join(' ') + '...');
 
     // Determine content type based on reading time
-    let contentType: 'note' | 'guide' | 'tutorial' | 'post' = 'post';
+    let contentType: 'quick post' | 'post' | 'article' = 'post';
     if (readingTime <= 2) {
-      contentType = 'note'; // Short reads (1-2 min)
-    } else if (readingTime <= 5) {
-      contentType = 'post'; // Medium reads (3-5 min)
+      contentType = 'quick post'; // Short reads (2 min or less)
     } else if (readingTime <= 10) {
-      contentType = 'tutorial'; // Longer reads (6-10 min)
+      contentType = 'post'; // Medium reads (3-10 min)
     } else {
-      contentType = 'guide'; // Very long reads (11+ min)
+      contentType = 'article'; // Long reads (more than 10 min)
     }
 
     return {
