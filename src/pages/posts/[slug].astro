@@ -3,11 +3,13 @@ import Button from '~/components/ui/Button.astro';
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import TableOfContents from '../../components/common/TableOfContents.astro';
 import MobileTableOfContents from '../../components/common/MobileTableOfContents.astro';
+import RelatedPosts from '../../components/common/RelatedPosts.astro';
 import {getDB} from '../../lib/db';
 import {Marked} from 'marked';
 import {markedHighlight} from 'marked-highlight';
 import {preprocessMarkdownContent} from '../../utils/markdown';
 import {extractHeadings, addHeadingIds} from '../../utils/tableOfContents';
+import {findRelatedPosts, getReadingTime} from '../../utils/utils';
 import hljs from 'highlight.js';
 
 // Generate static paths for all blog posts
@@ -31,6 +33,10 @@ const post = db.getPostBySlug(slug ?? '');
 if (!post) {
   return Astro.redirect('/404');
 }
+
+// Get all posts for related posts calculation
+const allPosts = db.getAllPosts();
+const relatedPosts = findRelatedPosts(post, allPosts, 3);
 
 // Configure marked with standard options
 
@@ -81,6 +87,9 @@ const metadata = {
       </aside>
     )
   }
+
+  <!-- Related Posts -->
+  <RelatedPosts relatedPosts={relatedPosts} />
 
   <!-- Article Actions -->
   <footer id="admin-actions" class="mt-16 pt-8 border-t hidden">

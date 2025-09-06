@@ -1,0 +1,106 @@
+---
+import type { EnhancedPost } from '../../lib/db';
+
+export interface Props {
+  relatedPosts: EnhancedPost[];
+}
+
+const { relatedPosts } = Astro.props;
+
+// Content type styling helper
+const getContentTypeBadge = (contentType: string) => {
+  switch (contentType) {
+    case 'note':
+      return {
+        text: 'Note',
+        classes: 'bg-gray-50 text-gray-500 border border-gray-200'
+      };
+    case 'tutorial':
+      return {
+        text: 'Tutorial',
+        classes: 'bg-gray-50 text-gray-500 border border-gray-200'
+      };
+    case 'guide':
+      return {
+        text: 'Guide',
+        classes: 'bg-gray-50 text-gray-500 border border-gray-200'
+      };
+    default:
+      return null;
+  }
+};
+---
+
+{relatedPosts.length > 0 && (
+  <section class="mt-16 pt-12 border-t border-gray-200">
+    <div class="max-w-4xl">
+      <h2 class="text-2xl font-bold text-gray-900 mb-8 flex items-center gap-2">
+        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+        </svg>
+        Related Posts
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {relatedPosts.map((post) => {
+          const contentTypeBadge = getContentTypeBadge(post.contentType || 'post');
+          
+          return (
+            <article class="group bg-white hover:bg-gray-50 transition-colors rounded-lg p-6 border border-gray-200 hover:border-gray-300 hover:shadow-sm">
+              <a href={`/posts/${post.slug}`} class="block space-y-4">
+                <!-- Header with date and content type badge -->
+                <div class="flex items-center justify-between">
+                  <time class="text-sm text-gray-500 font-mono">
+                    {
+                      new Date(post.pub_date).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })
+                    }
+                  </time>
+                  {contentTypeBadge && (
+                    <span class={`px-2 py-1 text-xs font-medium rounded-sm ${contentTypeBadge.classes}`}>
+                      {contentTypeBadge.text}
+                    </span>
+                  )}
+                </div>
+
+                <!-- Title -->
+                <h3 class="text-lg font-semibold text-gray-900 leading-tight group-hover:text-black transition-colors line-clamp-2">
+                  {post.title}
+                </h3>
+
+                <!-- Excerpt -->
+                {post.excerpt && (
+                  <p class="text-sm text-gray-600 leading-relaxed line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                )}
+
+                <!-- Footer with tags and reading time -->
+                <div class="flex items-center justify-between pt-2">
+                  <div class="flex flex-wrap gap-1">
+                    {post.tags.slice(0, 2).map((tag) => (
+                      <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-sm text-xs font-medium">
+                        {tag}
+                      </span>
+                    ))}
+                    {post.tags.length > 2 && (
+                      <span class="text-xs text-gray-500">
+                        +{post.tags.length - 2}
+                      </span>
+                    )}
+                  </div>
+                  <span class="text-sm text-gray-500">
+                    {post.readingTime} min
+                  </span>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+)}

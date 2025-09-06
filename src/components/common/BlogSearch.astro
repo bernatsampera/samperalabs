@@ -1,0 +1,194 @@
+---
+// Search component for blog posts
+---
+
+<div class="relative mb-8">
+  <div class="relative">
+    <svg
+      class="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+    <input
+      type="text"
+      id="blog-search"
+      placeholder="Search posts..."
+      class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400 transition-colors"
+    />
+  </div>
+  <div
+    id="search-results"
+    class="hidden absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50"
+  >
+    <!-- Search results will be populated here -->
+  </div>
+</div>
+
+<script>
+  interface SearchPost {
+    id: number;
+    title: string;
+    excerpt: string;
+    slug: string;
+    tags: string[];
+    readingTime: number;
+    contentType: string;
+  }
+
+  class BlogSearch {
+    private posts: SearchPost[] = [];
+    private searchInput: HTMLInputElement;
+    private searchResults: HTMLElement;
+
+    constructor() {
+      this.searchInput = document.getElementById('blog-search') as HTMLInputElement;
+      this.searchResults = document.getElementById('search-results') as HTMLElement;
+
+      if (this.searchInput && this.searchResults) {
+        this.init();
+      }
+    }
+
+    private async init() {
+      // Extract posts data from the page
+      this.extractPostsData();
+
+      // Set up event listeners
+      this.searchInput.addEventListener('input', this.handleSearch.bind(this));
+      this.searchInput.addEventListener('focus', this.handleFocus.bind(this));
+      document.addEventListener('click', this.handleClickOutside.bind(this));
+
+      // Handle escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          this.hideResults();
+        }
+      });
+    }
+
+    private extractPostsData() {
+      // Extract post data from the current page's post cards
+      const postContainers = document.querySelectorAll('[data-post-data]');
+      this.posts = Array.from(postContainers)
+        .map((container) => {
+          const data = container.getAttribute('data-post-data');
+          try {
+            return data ? JSON.parse(data) : null;
+          } catch (e) {
+            console.error('Error parsing post data:', e);
+            return null;
+          }
+        })
+        .filter(Boolean);
+
+      console.log('Extracted posts for search:', this.posts.length);
+    }
+
+    private handleSearch(e: Event) {
+      const query = (e.target as HTMLInputElement).value.trim().toLowerCase();
+
+      if (query.length === 0) {
+        this.hideResults();
+        return;
+      }
+
+      const results = this.searchPosts(query);
+      this.displayResults(results, query);
+    }
+
+    private searchPosts(query: string): SearchPost[] {
+      return this.posts
+        .filter((post) => {
+          const searchableText = [post.title, post.excerpt, ...post.tags].join(' ').toLowerCase();
+
+          return searchableText.includes(query);
+        })
+        .slice(0, 8); // Limit to 8 results
+    }
+
+    private displayResults(results: SearchPost[], query: string) {
+      if (results.length === 0) {
+        this.searchResults.innerHTML = `
+          <div class="p-4 text-center text-gray-500">
+            No posts found for "${query}"
+          </div>
+        `;
+      } else {
+        this.searchResults.innerHTML = results
+          .map(
+            (post) => `
+          <a href="/posts/${post.slug}" class="block p-4 hover:bg-gray-50 transition-colors border-b last:border-b-0">
+            <div class="flex items-start justify-between mb-2">
+              <h4 class="font-medium text-gray-900">${this.highlightMatch(post.title, query)}</h4>
+              ${this.getContentTypeBadgeHtml(post.contentType)}
+            </div>
+            <p class="text-sm text-gray-600 mb-2 line-clamp-1">${this.highlightMatch(post.excerpt, query)}</p>
+            <div class="flex items-center justify-between text-xs text-gray-500">
+              <span>${post.tags.slice(0, 2).join(', ')}</span>
+              <span>${post.readingTime} min read</span>
+            </div>
+          </a>
+        `
+          )
+          .join('');
+      }
+
+      this.showResults();
+    }
+
+    private highlightMatch(text: string, query: string): string {
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<mark class="bg-yellow-200">$1</mark>');
+    }
+
+    private getContentTypeBadgeHtml(contentType: string): string {
+      const badges = {
+        note: '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Note</span>',
+        tutorial:
+          '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Tutorial</span>',
+        guide:
+          '<span class="px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200">Guide</span>',
+      };
+      return badges[contentType as keyof typeof badges] || '';
+    }
+
+    private handleFocus() {
+      if (this.searchInput.value.trim().length > 0) {
+        this.showResults();
+      }
+    }
+
+    private handleClickOutside(e: Event) {
+      if (!this.searchInput.contains(e.target as Node) && !this.searchResults.contains(e.target as Node)) {
+        this.hideResults();
+      }
+    }
+
+    private showResults() {
+      this.searchResults.classList.remove('hidden');
+    }
+
+    private hideResults() {
+      this.searchResults.classList.add('hidden');
+    }
+  }
+
+  // Initialize search when DOM is loaded
+  function initializeSearch() {
+    new BlogSearch();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeSearch);
+  } else {
+    // DOM is already loaded
+    initializeSearch();
+  }
+</script>

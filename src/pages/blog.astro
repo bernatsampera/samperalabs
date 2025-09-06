@@ -1,5 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import PostCard from '../components/common/PostCard.astro';
+import BlogSearch from '../components/common/BlogSearch.astro';
 import {getDB} from '../lib/db';
 import {getReadingTime} from '../utils/utils';
 
@@ -11,112 +13,154 @@ const tag = url.searchParams.get('tag');
 const db = getDB();
 const allPosts = db.getAllPosts();
 
-// Get all unique tags
+// Get all unique tags with counts
 const allTags = allPosts.map((post) => post.tags).flat();
+const tagCounts = allTags.reduce(
+  (count, tagName) => {
+    count[tagName] = (count[tagName] || 0) + 1;
+    return count;
+  },
+  {} as Record<string, number>
+);
+
+// Sort tags by count (most popular first)
+const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
 // Filter posts by tag if one is selected
 const postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
 
-// Group posts by year
-const postsByYear = postsToShow.reduce((acc, post) => {
-  const year = new Date(post.pub_date).getFullYear();
-  if (!acc[year]) {
-    acc[year] = [];
-  }
-  acc[year].push(post);
-  return acc;
-}, {} as Record<number, typeof postsToShow>);
-
-
-const tagCounts = allTags.reduce((count, tagName) => {
-  count[tagName] = (count[tagName] || 0) + 1;
-
-  console.log(tagName);
-  return count;
-}, {} as Record<string, number>);
-
-// Sort years in descending order
-const sortedYears = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+// Sort posts by date (newest first)
+const sortedPosts = postsToShow.sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 
 const metadata = {
   title: tag ? `Posts tagged with ${tag} | Sampera Labs Blog` : 'Blog | Bernat Sampera',
-  description: 'Sampera Labs Blog',
+  description: 'Thoughts, tutorials, and insights on software development, design, and technology.',
 };
 ---
 
 <PageLayout metadata={metadata}>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-screen bg-gray-50">
     <!-- Blog Header -->
-    <header class="border-b">
-      <div class="container mx-auto px-6 py-12 max-w-4xl">
-        <div class="flex items-center justify-between mb-6">
+    <header class="border-b bg-white/95 backdrop-blur-sm md:sticky md:top-0 z-40">
+      <div class="container mx-auto px-6 py-4 md:py-6 max-w-6xl">
+        <!-- Breadcrumb Navigation -->
+        <nav class="text-sm text-gray-600 mb-4">
+          <a href="/" class="hover:text-gray-900 transition-colors">Home</a>
+          <span class="mx-2">→</span>
+          <a href="/blog" class="hover:text-gray-900 transition-colors">Blog</a>
+          {
+            tag && (
+              <>
+                <span class="mx-2">→</span>
+                <span class="text-gray-900">{tag}</span>
+              </>
+            )
+          }
+        </nav>
 
-
+        <!-- Blog Title and Description -->
+        <div class="mb-4 md:mb-6">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            {tag ? `Posts tagged "${tag}"` : 'Blog'}
+          </h1>
+          <p class="text-gray-600 max-w-2xl">
+            {
+              tag
+                ? `All posts tagged with "${tag}". ${postsToShow.length} post${postsToShow.length !== 1 ? 's' : ''} found.`
+                : 'Thoughts, tutorials, and insights on software development, design, and technology.'
+            }
+          </p>
         </div>
 
+        <!-- Search Bar -->
+        <BlogSearch />
 
-        <!-- Tag Filter -->
+        <!-- Tag Filter Bar -->
         <div class="flex flex-wrap gap-2">
           <a
             href="/blog"
-            class={`px-3 py-1 text-sm rounded-sm transition-colors ${
-              !tag 
-                ? 'bg-foreground underline' 
-                : 'bg-muted text-muted-foreground hover:text-foreground'
+            class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+              !tag ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
             }`}
           >
-            All posts
+            All posts ({allPosts.length})
           </a>
           {
-            Object.entries(tagCounts).sort((a, b) => b[1] - a[1]).map(([tagName, count]) => (
-            <a
-              href={`/blog?tag=${encodeURIComponent(tagName)}`}
-              class={`px-3 py-1 text-sm rounded-sm transition-colors ${
-                tag === tagName 
-                  ? 'bg-foreground underline' 
-                  : 'bg-muted text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {tagName} ({count})
-            </a>
-          ))}
+            sortedTags.map(([tagName, count]) => (
+              <a
+                href={`/blog?tag=${encodeURIComponent(tagName)}`}
+                class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  tag === tagName ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {tagName} ({count})
+              </a>
+            ))
+          }
         </div>
       </div>
     </header>
 
     <!-- Blog Content -->
-    <main class="container mx-auto px-6 py-16 max-w-4xl">
-      <!-- Post Creation Button -->
+    <main class="container mx-auto px-6 py-12 max-w-6xl">
+      <!-- Admin Actions -->
       <div id="new-post-button" class="mb-12 hidden">
         <a
           href="/admin/new-post"
-          class="inline-flex items-center px-6 py-3 bg-primary-foreground hover:bg-primary/90 transition-colors border rounded-sm font-medium"
+          class="inline-flex items-center px-6 py-3 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm"
         >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
           New Post
         </a>
       </div>
 
-      <!-- Posts by Year -->
+      <!-- Posts Grid or Empty State -->
       {
-        postsToShow.length === 0 ? (
-          <div class="text-center py-16">
+        sortedPosts.length === 0 ? (
+          <div class="text-center py-24">
             {tag ? (
-              <div>
-                <p class="text-muted-foreground text-lg mb-6">No posts found with tag "{tag}".</p>
+              <div class="max-w-md mx-auto">
+                <div class="w-16 h-16 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">No posts found</h3>
+                <p class="text-gray-600 mb-8">
+                  No posts found with tag "{tag}". Try browsing all posts or search for something else.
+                </p>
                 <a
                   href="/blog"
-                  class="inline-flex items-center px-6 py-3 bg-muted hover:bg-muted/80 transition-colors border rounded-sm font-medium"
+                  class="inline-flex items-center px-6 py-3 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm"
                 >
                   View all posts
                 </a>
               </div>
             ) : (
-              <div>
-                <p class="text-muted-foreground text-lg mb-6">No posts yet.</p>
+              <div class="max-w-md mx-auto">
+                <div class="w-16 h-16 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    />
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">No posts yet</h3>
+                <p class="text-gray-600 mb-8">This blog is just getting started. Check back soon for new content!</p>
                 <a
                   id="first-post-button"
                   href="/admin/new-post"
-                  class="inline-flex items-center px-8 py-4 bg-primary-foreground hover:bg-primary/90 transition-colors border  rounded-sm font-medium hidden"
+                  class="inline-flex items-center px-8 py-4 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm hidden"
                 >
                   Write your first post
                 </a>
@@ -124,51 +168,40 @@ const metadata = {
             )}
           </div>
         ) : (
-          <div class="space-y-16">
-            {sortedYears.map((year) => (
-              <section>
-                <h2 class="text-3xl font-bold text-foreground mb-8">{year}</h2>
-                <div class="space-y-6">
-                  {postsByYear[year].map((post) => (
-                    <article class="group">
-                      <a href={`/posts/${post.slug}`} class="flex items-center justify-start gap-8 hover:opacity-40 transition-opacity">
-                      <div class="grid grid-cols-1 md:grid-cols-12 gap-1 md:gap-2 items-center">
-                        <!-- Date -->
-                        <time class="text-sm text-muted-foreground font-mono min-w-[80px]">
-                          {
-                            new Date(post.pub_date).toLocaleDateString('en-GB', {
-                              day: '2-digit',
-                              month: 'short',
-                            })
-                          }
-                        </time>
-                        
-                        <div class="flex flex-col gap-2 col-span-8">
-                        <!-- Title -->
-                        <h3 class="relative text-sm md:text-lg font-medium text-foreground leading-relaxed">
-                          {post.title}
-                          <p class="absolute top-6 text-sm text-muted-foreground pointer-events-none cursor-default " >
-                        </p>
-                        </h3>
-                       
-                        </div>  
-
-                        <p class="hidden md:block text-xs text-muted-foreground col-span-1">
-                          {getReadingTime(post.content)} min read
-                        </p>
-
-                        <span class="hidden md:block text-sm text-muted-foreground col-span-2">
-                          {post.tags.join(', ')}
-                        </span>
-
-                      </div>
-
-                      </a>
-                    </article>
-                  ))}
-                </div>
-              </section>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="posts-grid">
+            {sortedPosts.map((post, index) => (
+              <div
+                class={index >= 9 ? 'hidden' : ''}
+                data-post-index={index}
+                data-post-data={JSON.stringify({
+                  id: post.id,
+                  title: post.title,
+                  excerpt: post.excerpt,
+                  slug: post.slug,
+                  tags: post.tags,
+                  readingTime: post.readingTime,
+                  contentType: post.contentType,
+                })}
+              >
+                <PostCard post={post} />
+              </div>
             ))}
+          </div>
+        )
+      }
+
+      <!-- Load More Button -->
+      {
+        sortedPosts.length > 9 && (
+          <div class="text-center mt-12">
+            <button
+              id="load-more-btn"
+              class="px-8 py-3 bg-white text-gray-600 hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg font-medium"
+              data-posts-shown="9"
+              data-total-posts={sortedPosts.length}
+            >
+              Load more posts
+            </button>
           </div>
         )
       }
@@ -185,5 +218,37 @@ const metadata = {
   if (isAdmin === 'true') {
     newPostButton?.classList.remove('hidden');
     firstPostButton?.classList.remove('hidden');
+  }
+
+  // Load more posts functionality
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  if (loadMoreBtn) {
+    let postsShown = 9;
+    const totalPosts = parseInt(loadMoreBtn.dataset.totalPosts || '0');
+
+    loadMoreBtn.addEventListener('click', () => {
+      const hiddenPosts = document.querySelectorAll('[data-post-index].hidden');
+      const postsToShow = Array.from(hiddenPosts).slice(0, 6); // Show 6 more posts
+
+      postsToShow.forEach((post) => {
+        post.classList.remove('hidden');
+      });
+
+      postsShown += postsToShow.length;
+
+      // Update button text
+      const remaining = totalPosts - postsShown;
+      if (remaining <= 0) {
+        loadMoreBtn.style.display = 'none';
+      } else {
+        loadMoreBtn.textContent = `Load ${Math.min(remaining, 6)} more posts`;
+      }
+    });
+
+    // Set initial button text
+    const remaining = totalPosts - postsShown;
+    if (remaining > 0) {
+      loadMoreBtn.textContent = `Load ${Math.min(remaining, 6)} more posts`;
+    }
   }
 </script>

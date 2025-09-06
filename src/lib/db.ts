@@ -17,6 +17,13 @@ export interface Post {
   updated_at?: string;
 }
 
+export interface EnhancedPost extends Post {
+  wordCount: number;
+  readingTime: number;
+  excerpt: string;
+  contentType: 'note' | 'guide' | 'tutorial' | 'post';
+}
+
 export interface PostRow {
   id: number;
   title: string;
@@ -63,13 +70,57 @@ class PostDatabase {
     this.db.exec(schema);
   }
 
-  private rowToPost(row: PostRow): Post {
-    return {
+  private rowToPost(row: PostRow): EnhancedPost {
+    const post: Post = {
       ...row,
       tags: JSON.parse(row.tags || '[]'),
       description: row.description || undefined,
       image_url: row.image_url || undefined,
       image_alt: row.image_alt || undefined,
+    };
+
+    // Add computed properties
+    return this.enhancePostWithMetadata(post);
+  }
+
+  private enhancePostWithMetadata(post: Post): EnhancedPost {
+    // Use existing getReadingTime function
+    const readingTime = Math.max(Math.floor(post.content.length / 1000), 1);
+
+    // Calculate word count from content
+    const cleanText = post.content
+      .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+      .replace(/`[^`]*`/g, '') // Remove inline code
+      .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // Remove links but keep text
+      .replace(/[#*_~`]/g, '') // Remove markdown formatting
+      .replace(/\s+/g, ' ') // Normalize whitespace
+      .trim();
+
+    const wordCount = cleanText.split(' ').filter((word) => word.length > 0).length;
+
+    // Generate excerpt from content (use description if available)
+    const excerpt =
+      post.description ||
+      (cleanText.length <= 150 ? cleanText : cleanText.substring(0, 150).split(' ').slice(0, -1).join(' ') + '...');
+
+    // Determine content type based on reading time
+    let contentType: 'note' | 'guide' | 'tutorial' | 'post' = 'post';
+    if (readingTime <= 2) {
+      contentType = 'note'; // Short reads (1-2 min)
+    } else if (readingTime <= 5) {
+      contentType = 'post'; // Medium reads (3-5 min)
+    } else if (readingTime <= 10) {
+      contentType = 'tutorial'; // Longer reads (6-10 min)
+    } else {
+      contentType = 'guide'; // Very long reads (11+ min)
+    }
+
+    return {
+      ...post,
+      wordCount,
+      readingTime,
+      excerpt,
+      contentType,
     };
   }
 
@@ -87,27 +138,27 @@ class PostDatabase {
     ];
   }
 
-  private executeQuery(query: string, ...params: any[]): PostRow[] {
+  private executeQuery(query: string, ...params: unknown[]): PostRow[] {
     const stmt = this.db.prepare(query);
     return stmt.all(...params) as PostRow[];
   }
 
-  private executeSingle(query: string, ...params: any[]): PostRow | undefined {
+  private executeSingle(query: string, ...params: unknown[]): PostRow | undefined {
     const stmt = this.db.prepare(query);
     return stmt.get(...params) as PostRow | undefined;
   }
 
-  getAllPosts(): Post[] {
+  getAllPosts(): EnhancedPost[] {
     const rows = this.executeQuery(`${this.baseQuery} ORDER BY pub_date DESC`);
     return rows.map((row) => this.rowToPost(row));
   }
 
-  getPostById(id: number): Post | null {
+  getPostById(id: number): EnhancedPost | null {
     const row = this.executeSingle(`${this.baseQuery} WHERE id = ?`, id);
     return row ? this.rowToPost(row) : null;
   }
 
-  getPostBySlug(slug: string): Post | null {
+  getPostBySlug(slug: string): EnhancedPost | null {
     const row = this.executeSingle(`${this.baseQuery} WHERE slug = ?`, slug);
     return row ? this.rowToPost(row) : null;
   }
@@ -140,7 +191,7 @@ class PostDatabase {
     return stmt.run(id).changes > 0;
   }
 
-  getPostsByTag(tag: string): Post[] {
+  getPostsByTag(tag: string): EnhancedPost[] {
     const rows = this.executeQuery(`${this.baseQuery} WHERE tags LIKE ? ORDER BY pub_date DESC`, `%"${tag}"%`);
     return rows.map((row) => this.rowToPost(row));
   }

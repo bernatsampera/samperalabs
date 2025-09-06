@@ -54,3 +54,54 @@ export const toUiAmount = (amount: number) => {
 export const getReadingTime = (content: string) => {
   return Math.max(Math.floor(content.length / 1000), 1);
 };
+
+// Simple content type determination based on reading time
+export const getContentTypeFromReadingTime = (readingTime: number): 'note' | 'guide' | 'tutorial' | 'post' => {
+  if (readingTime <= 2) {
+    return 'note'; // Short reads (1-2 min)
+  } else if (readingTime <= 5) {
+    return 'post'; // Medium reads (3-5 min)
+  } else if (readingTime <= 10) {
+    return 'tutorial'; // Longer reads (6-10 min)
+  } else {
+    return 'guide'; // Very long reads (11+ min)
+  }
+};
+
+// Find related posts based on tags and content similarity
+export const findRelatedPosts = (currentPost: any, allPosts: any[], maxResults: number = 3): any[] => {
+  if (!currentPost || allPosts.length <= 1) {
+    return [];
+  }
+
+  const relatedPosts = allPosts
+    .filter((post) => post.id !== currentPost.id) // Exclude current post
+    .map((post) => {
+      let score = 0;
+
+      // Score based on shared tags (highest weight)
+      const sharedTags = currentPost.tags.filter((tag: string) => post.tags.includes(tag));
+      score += sharedTags.length * 3;
+
+      // Score based on content type similarity
+      if (post.contentType === currentPost.contentType) {
+        score += 2;
+      }
+
+      // Score based on reading time similarity (prefer similar length posts)
+      const timeDiff = Math.abs((post.readingTime || 1) - (currentPost.readingTime || 1));
+      if (timeDiff <= 2) score += 1; // Similar reading time
+
+      // Score based on recency (slight boost for newer posts)
+      const daysDiff =
+        Math.abs(new Date(post.pub_date).getTime() - new Date(currentPost.pub_date).getTime()) / (1000 * 60 * 60 * 24);
+      if (daysDiff <= 30) score += 0.5; // Published within 30 days
+
+      return { ...post, similarityScore: score };
+    })
+    .filter((post) => post.similarityScore > 0) // Only include posts with some similarity
+    .sort((a, b) => b.similarityScore - a.similarityScore) // Sort by similarity score
+    .slice(0, maxResults);
+
+  return relatedPosts;
+};
