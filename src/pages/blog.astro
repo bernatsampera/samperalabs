@@ -5,9 +5,10 @@ import BlogSearch from '../components/common/BlogSearch.astro';
 import {getDB} from '../lib/db';
 import {getReadingTime} from '../utils/utils';
 
-// Get the selected tag from URL search params
+// Get the selected tag and content type from URL search params
 const url = new URL(Astro.request.url);
 const tag = url.searchParams.get('tag');
+const contentType = url.searchParams.get('type');
 
 // Fetch posts from database instead of files
 const db = getDB();
@@ -26,14 +27,39 @@ const tagCounts = allTags.reduce(
 // Sort tags by count (most popular first)
 const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
+// Get content type counts
+const contentTypeCounts = allPosts.reduce(
+  (count, post) => {
+    const type = post.contentType || 'post';
+    count[type] = (count[type] || 0) + 1;
+    return count;
+  },
+  {} as Record<string, number>
+);
+
 // Filter posts by tag if one is selected
-const postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
+let postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
+
+// Filter by content type if one is selected, otherwise hide notes by default
+if (contentType) {
+  postsToShow = postsToShow.filter((post) => post.contentType === contentType);
+}
 
 // Sort posts by date (newest first)
 const sortedPosts = postsToShow.sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 
+// Generate title based on filters
+let title = 'Blog | Bernat Sampera';
+if (tag && contentType) {
+  title = `${contentType}s tagged with ${tag} | Sampera Labs Blog`;
+} else if (tag) {
+  title = `Posts tagged with ${tag} | Sampera Labs Blog`;
+} else if (contentType) {
+  title = `${contentType}s | Sampera Labs Blog`;
+}
+
 const metadata = {
-  title: tag ? `Posts tagged with ${tag} | Sampera Labs Blog` : 'Blog | Bernat Sampera',
+  title,
   description: 'Thoughts, tutorials, and insights on software development, design, and technology.',
 };
 ---
@@ -49,6 +75,14 @@ const metadata = {
           <span class="mx-2">→</span>
           <a href="/blog" class="hover:text-gray-900 transition-colors">Blog</a>
           {
+            contentType && (
+              <>
+                <span class="mx-2">→</span>
+                <span class="text-gray-900 capitalize">{contentType}s</span>
+              </>
+            )
+          }
+          {
             tag && (
               <>
                 <span class="mx-2">→</span>
@@ -61,13 +95,21 @@ const metadata = {
         <!-- Blog Title and Description -->
         <div class="mb-4 md:mb-6">
           <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            {tag ? `Posts tagged "${tag}"` : 'Blog'}
+            {
+              contentType && tag
+                ? `${contentType}s tagged "${tag}"`
+                : contentType
+                  ? `${contentType}s`
+                  : tag
+                    ? `Posts tagged "${tag}"`
+                    : 'Blog'
+            }
           </h1>
           <p class="text-gray-600 max-w-2xl">
             {
-              tag
-                ? `All posts tagged with "${tag}". ${postsToShow.length} post${postsToShow.length !== 1 ? 's' : ''} found.`
-                : 'Thoughts, tutorials, and insights on software development, design, and technology.'
+              tag || contentType
+                ? `${postsToShow.length} ${postsToShow.length === 1 ? 'post' : 'posts'} found${contentType ? ` in ${contentType}s` : ''}${tag ? ` tagged with "${tag}"` : ''}.`
+                : 'Thoughts, tutorials, and insights on software development, design, and technology. Notes are hidden by default.'
             }
           </p>
         </div>
@@ -75,28 +117,90 @@ const metadata = {
         <!-- Search Bar -->
         <BlogSearch />
 
+        <!-- Content Type Filter Bar -->
+        <div class="mb-4">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by type:</h3>
+          <div class="flex flex-wrap gap-2">
+            <a
+              href="/blog"
+              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                !contentType ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              All ({allPosts.filter((p) => p.contentType !== 'note').length})
+            </a>
+            <a
+              href="/blog?type=post"
+              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                contentType === 'post'
+                  ? 'bg-gray-900 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Posts ({contentTypeCounts.post || 0})
+            </a>
+            <a
+              href="/blog?type=tutorial"
+              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                contentType === 'tutorial'
+                  ? 'bg-gray-900 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Tutorials ({contentTypeCounts.tutorial || 0})
+            </a>
+            <a
+              href="/blog?type=guide"
+              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                contentType === 'guide'
+                  ? 'bg-gray-900 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Guides ({contentTypeCounts.guide || 0})
+            </a>
+            <a
+              href="/blog?type=note"
+              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                contentType === 'note'
+                  ? 'bg-gray-900 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Notes ({contentTypeCounts.note || 0})
+            </a>
+          </div>
+        </div>
+
         <!-- Tag Filter Bar -->
-        <div class="flex flex-wrap gap-2">
-          <a
-            href="/blog"
-            class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
-              !tag ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            All posts ({allPosts.length})
-          </a>
-          {
-            sortedTags.map(([tagName, count]) => (
-              <a
-                href={`/blog?tag=${encodeURIComponent(tagName)}`}
-                class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
-                  tag === tagName ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                }`}
-              >
-                {tagName} ({count})
-              </a>
-            ))
-          }
+        <div class="mb-4">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by tags:</h3>
+          <div class="flex flex-wrap gap-2">
+            <a
+              href={contentType ? `/blog?type=${contentType}` : '/blog'}
+              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                !tag ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              All tags
+            </a>
+            {
+              sortedTags.map(([tagName, count]) => (
+                <a
+                  href={
+                    contentType
+                      ? `/blog?type=${contentType}&tag=${encodeURIComponent(tagName)}`
+                      : `/blog?tag=${encodeURIComponent(tagName)}`
+                  }
+                  class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                    tag === tagName ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {tagName} ({count})
+                </a>
+              ))
+            }
+          </div>
         </div>
       </div>
     </header>

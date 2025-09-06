@@ -104,10 +104,18 @@
     }
 
     private searchPosts(query: string): SearchPost[] {
+      // Get current content type filter from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentContentType = urlParams.get('type');
+
       return this.posts
         .filter((post) => {
-          const searchableText = [post.title, post.excerpt, ...post.tags].join(' ').toLowerCase();
+          // Filter by content type if one is selected, otherwise exclude notes by default
+          if (currentContentType) {
+            if (post.contentType !== currentContentType) return false;
+          }
 
+          const searchableText = [post.title, post.excerpt, ...post.tags].join(' ').toLowerCase();
           return searchableText.includes(query);
         })
         .slice(0, 8); // Limit to 8 results
