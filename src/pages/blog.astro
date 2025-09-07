@@ -122,7 +122,7 @@ const metadata = {
           <div class="flex flex-wrap gap-2">
             <a
               href="/blog"
-              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
                 !contentType ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -130,7 +130,7 @@ const metadata = {
             </a>
             <a
               href="/blog?type=post"
-              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
                 contentType === 'post'
                   ? 'bg-gray-900 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -140,7 +140,7 @@ const metadata = {
             </a>
             <a
               href="/blog?type=article"
-              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
                 contentType === 'article'
                   ? 'bg-gray-900 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -150,7 +150,7 @@ const metadata = {
             </a>
             <a
               href="/blog?type=quick post"
-              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
                 contentType === 'quick post'
                   ? 'bg-gray-900 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
@@ -167,7 +167,7 @@ const metadata = {
           <div class="flex flex-wrap gap-2">
             <a
               href={contentType ? `/blog?type=${contentType}` : '/blog'}
-              class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
                 !tag ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -181,7 +181,7 @@ const metadata = {
                       ? `/blog?type=${contentType}&tag=${encodeURIComponent(tagName)}`
                       : `/blog?tag=${encodeURIComponent(tagName)}`
                   }
-                  class={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
+                  class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
                     tag === tagName ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >
