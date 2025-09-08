@@ -1,6 +1,7 @@
 ---
 import {SITE} from 'samperalabs:config';
 import {getHomePermalink} from '~/utils/permalinks';
+import SocialFollow from '../ui/SocialFollow.astro';
 
 interface Link {
   text?: string;
@@ -9,10 +10,9 @@ interface Link {
 
 export interface Props {
   links?: Array<Link>;
-  socialLinks?: Array<Link>;
 }
 
-const {socialLinks = [], links = []} = Astro.props;
+const {links = []} = Astro.props;
 ---
 
 <footer class="py-20 border-t border-gray-100 bg-background relative z-10">
@@ -33,24 +33,7 @@ const {socialLinks = [], links = []} = Astro.props;
           </div>
         )
       }
-
-      {
-        socialLinks.length > 0 && (
-          <div class="flex gap-6">
-            {socialLinks.map(({href, text}) => (
-              <a
-                class="text-gray-500 hover:opacity-70 transition-colors duration-300"
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={text}
-              >
-                {text}
-              </a>
-            ))}
-          </div>
-        )
-      }
+      <SocialFollow mode="minimal" />
     </div>
 
     <div class="text-center text-sm text-gray-400">

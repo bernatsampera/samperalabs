@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
+import SocialFollow from '~/components/ui/SocialFollow.astro';
 
 const metadata = {
   title: 'Contact | Bernat Sampera',
@@ -69,32 +70,7 @@ const metadata = {
 
             <div>
               <h3 class="font-bold text-lg mb-2">Socials</h3>
-              <div class="flex space-x-4">
-                <a
-                  href="https://x.com/bsampera9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600 hover:opacity-70"
-                >
-                  Twitter
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/bernat-sampera-195152107/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600 hover:opacity-70"
-                >
-                  LinkedIn
-                </a>
-                <a
-                  href="https://github.com/bernatsampera"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-600 hover:opacity-70"
-                >
-                  GitHub
-                </a>
-              </div>
+              <SocialFollow mode="minimal" />
             </div>
 
             <div>

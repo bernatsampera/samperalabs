@@ -33,9 +33,5 @@ export const footerData = {
     { text: 'Terms', href: getPermalink('/terms') },
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
-  socialLinks: [
-    { text: 'Twitter', href: 'https://twitter.com/bsampera97' },
-    { text: 'LinkedIn', href: 'https://linkedin.com/in/bernatsampera' },
-    { text: 'GitHub', href: 'https://github.com/bernatsampera' },
-  ],
+
 };

@@ -2,6 +2,7 @@
 import Layout from './PageLayout.astro';
 import type {MetaData} from '~/types';
 import {getReadingTime} from '../utils/utils';
+import SocialFollow from '~/components/ui/SocialFollow.astro';
 
 export interface Props {
   metadata?: MetaData;
@@ -67,6 +68,7 @@ const {metadata = {}, post} = Astro.props;
               <span>By {post.author}</span>
               <span>•</span>
               <span>{getReadingTime(post.content)} min read</span>
+              Follow: <SocialFollow mode='minimal'/>
             </div>
             
             <!-- Post Title -->
@@ -92,11 +94,17 @@ const {metadata = {}, post} = Astro.props;
                 </div>
               )
             }
+
           </header>
         )}
 
+
         <!-- Article Content -->
         <slot />
+        <div class="mt-8">
+
+          <SocialFollow mode='maximal'/>
+        </div>
       </article>
     </div>
   </div>
