@@ -32,29 +32,41 @@ const currentPost = post || defaultPost;
 const cancelUrl = mode === 'create' ? '/admin' : `/posts/${post?.slug}`;
 ---
 
-<form id="post-form" class="space-y-8">
-  {post?.id && <input type="hidden" id="post-id" value={post.id} />}
+<!-- Conditionally render based on admin status -->
+<div id="content">
+  <form id="post-form" class="space-y-8" style="display: none;">
+    {post?.id && <input type="hidden" id="post-id" value={post.id} />}
+    <FormField label="Title" name="title" value={currentPost.title} required={true} />
+    <FormField label="Author" name="author" value={currentPost.author} required={true} />
+    <FormField label="Description" name="description" type="textarea" value={currentPost.description || ''} rows={3} />
+    <FormField label="Publication Date" name="pub_date" type="date" value={currentPost.pub_date} />
+    <FormField
+      label="Tags"
+      name="tags"
+      placeholder="design, development, astro"
+      value={currentPost.tags ? currentPost.tags.join(', ') : ''}
+      helpText="Separate tags with commas"
+    />
+    <PostEditor content={currentPost.content} postId={currentPost.title.replace(/\s+/g, '-').toLowerCase()} />
+    <FormActions mode={mode} cancelUrl={cancelUrl} />
+  </form>
+  <div id="status-message" class="mt-8"></div>
+  <div id="unauthorized" class="hidden">
+    <p class="text-red-500">You do not have permission to access this page.</p>
+  </div>
+</div>
 
-  <FormField label="Title" name="title" value={currentPost.title} required={true} />
+<script>
+  const isAdmin = localStorage.getItem('isAdmin') === 'true'; // Ensure 'true' is the expected value
+  const form = document.getElementById('post-form');
+  const unauthorized = document.getElementById('unauthorized');
 
-  <FormField label="Author" name="author" value={currentPost.author} required={true} />
-
-  <FormField label="Description" name="description" type="textarea" value={currentPost.description || ''} rows={3} />
-
-  <FormField label="Publication Date" name="pub_date" type="date" value={currentPost.pub_date} />
-
-  <FormField
-    label="Tags"
-    name="tags"
-    placeholder="design, development, astro"
-    value={currentPost.tags ? currentPost.tags.join(', ') : ''}
-    helpText="Separate tags with commas"
-  />
-
-  <PostEditor content={currentPost.content} postId={currentPost.title.replace(/\s+/g, '-').toLowerCase()} />
-
-  <FormActions mode={mode} cancelUrl={cancelUrl} />
-</form>
-
-<!-- Status Message -->
-<div id="status-message" class="mt-8"></div>
+  if (!isAdmin) {
+    unauthorized?.classList.remove('hidden');
+    // Optionally redirect instead of showing a message
+    window.location.href = '/'; // Redirect to homepage or login page
+  } else {
+    // @ts-ignore
+    form.style.display = 'block';
+  }
+</script>
