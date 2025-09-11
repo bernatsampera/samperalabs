@@ -12,7 +12,9 @@
  * @param content Raw markdown content
  * @returns Processed markdown content
  */
-export function preprocessMarkdownContent(content: string): string {
+export function preprocessMarkdownContent(input?: string | null): string {
+  // Gracefully handle undefined/null inputs
+  let content = typeof input === 'string' ? input : '';
   // Fix pattern 1: \\[[text](url)\\]([url](url)) -> [text](url)
   // Double-escaped links with duplicate URLs
   content = content.replace(/\\?\\\[\[([^\]]+)\]\(([^)]+)\)\\?\\\]\(\[[^\]]+\]\([^)]+\)\)/g, '[$1]($2)');
