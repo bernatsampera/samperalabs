@@ -25,7 +25,7 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
   ]}
   {...isSticky ? {'data-sticky-header': true} : {}}
 >
-  <div class="container mx-auto px-6">
+  <div class="mx-auto px-6">
     <div class="flex justify-between items-center">
       <a class="text-2xl font-bold tracking-tighter" href={getHomePermalink()}>
         <Logo />
