@@ -138,7 +138,8 @@ const {content = '', postId} = Astro.props;
       <div id="tiptap-editor" class="tiptap-editor border-t"></div>
     </div>
   </div>
-  <textarea id="content" name="content" class="hidden" required>{content}</textarea>
+  <!-- Hidden storage for markdown content (validated via JS) -->
+  <textarea id="content" name="content" class="hidden" aria-hidden="true">{content}</textarea>
 </div>
 
 <style>

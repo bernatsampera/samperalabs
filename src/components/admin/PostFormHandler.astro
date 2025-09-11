@@ -15,13 +15,18 @@ const {mode, postId, redirectUrl} = Astro.props;
     const form = e.target;
     const formData = new FormData(form);
 
-    // Make sure content is up to date from Tiptap editor
+    // Ensure content is up to date and validate it's non-empty
     const editor = window.editor;
-    if (editor) {
-      const contentTextarea = document.getElementById('content');
-      if (contentTextarea) {
-        formData.set('content', contentTextarea.value);
+    const contentTextarea = document.getElementById('content');
+    if (contentTextarea) {
+      const content = String(contentTextarea.value || '').trim();
+      if (!content) {
+        const statusEl = document.getElementById('status-message');
+        statusEl.innerHTML = '<div class="text-destructive">Content is required.</div>';
+        try { editor?.commands?.focus?.(); } catch {}
+        return; // Stop submission
       }
+      formData.set('content', content);
     }
 
     // Convert form data to object
