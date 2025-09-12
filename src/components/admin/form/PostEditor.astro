@@ -4,6 +4,7 @@ export interface Props {
   postId?: string;
 }
 const {content = '', postId} = Astro.props;
+console.log(content, postId);
 ---
 
 <div class="space-y-2">
@@ -139,7 +140,7 @@ const {content = '', postId} = Astro.props;
     </div>
   </div>
   <!-- Hidden storage for markdown content (validated via JS) -->
-  <textarea id="content" name="content" class="hidden" aria-hidden="true">{content}</textarea>
+  <textarea id="post-content" name="content" class="hidden" aria-hidden="true">{content}</textarea>
 </div>
 
 <style>
@@ -305,10 +306,11 @@ const {content = '', postId} = Astro.props;
 
   document.addEventListener('DOMContentLoaded', async () => {
     const editorElement = document.getElementById('tiptap-editor');
-    const contentTextarea = document.getElementById('content') as HTMLTextAreaElement;
+    const contentTextarea = document.getElementById('post-content') as HTMLTextAreaElement;
     const toolbar = document.getElementById('tiptap-toolbar');
 
     if (editorElement && contentTextarea) {
+      console.log(' contentTextarea', contentTextarea.textContent);
       const postId = document.getElementById('editor-container')?.dataset.postId || undefined;
       const result = await createTipTapEditor(editorElement, contentTextarea, postId);
       editor = result.editor;

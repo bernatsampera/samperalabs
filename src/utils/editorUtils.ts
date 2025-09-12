@@ -212,7 +212,7 @@ export async function createTipTapEditor(element: HTMLElement, contentTextarea: 
   });
 
   // Convert markdown content to HTML for editor initialization
-  const markdownContent = contentTextarea.value;
+  const markdownContent = contentTextarea.textContent;
   const processedContent = preprocessMarkdownContent(markdownContent);
   const htmlContent = await marked(processedContent);
 

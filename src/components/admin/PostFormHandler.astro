@@ -17,13 +17,15 @@ const {mode, postId, redirectUrl} = Astro.props;
 
     // Ensure content is up to date and validate it's non-empty
     const editor = window.editor;
-    const contentTextarea = document.getElementById('content');
+    const contentTextarea = document.getElementById('post-content');
     if (contentTextarea) {
       const content = String(contentTextarea.value || '').trim();
       if (!content) {
         const statusEl = document.getElementById('status-message');
         statusEl.innerHTML = '<div class="text-destructive">Content is required.</div>';
-        try { editor?.commands?.focus?.(); } catch {}
+        try {
+          editor?.commands?.focus?.();
+        } catch {}
         return; // Stop submission
       }
       formData.set('content', content);
