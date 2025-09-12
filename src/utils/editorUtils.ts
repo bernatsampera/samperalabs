@@ -239,6 +239,7 @@ export async function createTipTapEditor(element: HTMLElement, contentTextarea: 
       Link.default.configure({
         openOnClick: false,
         HTMLAttributes: { class: 'cursor-pointer' },
+        protocols: ['http', 'https', 'mailto'], // only link proper URLs
       }),
       Image.default.configure({
         HTMLAttributes: { class: 'max-w-full h-auto' },
