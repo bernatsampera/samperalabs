@@ -8,4 +8,11 @@ export const tagUrls = ["https://samperalabs.com/tags/llm",
 "https://samperalabs.com/tags/cloudflare",
 "https://samperalabs.com/tags/langgraph",
 "https://samperalabs.com/tags/fastapi",
-"https://samperalabs.com/tags/react"]
+"https://samperalabs.com/tags/react",
+"https://samperalabs.com/tags/auth",
+"https://samperalabs.com/tags/database",
+"https://samperalabs.com/tags/general",
+"https://samperalabs.com/tags/mvp",
+"https://samperalabs.com/tags/mcp",
+"https://samperalabs.com/tags/Langgraph",
+"https://samperalabs.com/tags/ollama"]
