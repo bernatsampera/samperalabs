@@ -1,0 +1,313 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import {Icon} from 'astro-icon/components';
+
+const metadata = {
+  title: 'Skills - Sampera Labs',
+};
+
+const skills = [
+  {
+    id: 'ec7xahiwlip7lyyq2uqcdvgu',
+    visible: true,
+    name: 'AI / ML Technology',
+    description: 'LangGraph, LangChain, OpenAI, Ollama, Hugging Face',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:brain',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'k4sivjnpw2icr7ednskkuhru',
+    visible: true,
+    name: 'AI Agent System Design',
+    description: 'Multi-agent architectures, LLM orchestration, context engineering',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:robot',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'xvyroh6z8a9q2bp8034ygevq',
+    visible: true,
+    name: 'AI Monitoring / Observability',
+    description: 'Langfuse, Langsmith',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:chart-dots-3',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'nsxp8aao2y14h0dlzl0cpc15',
+    visible: true,
+    name: 'Retrieval-Augmented Generation',
+    description: 'RAG pipelines, knowledge bases, hybrid search',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:search',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'h4w1jkjuiylzmswt5zvp8zar',
+    visible: true,
+    name: 'Vector Search / Embeddings',
+    description: 'FAISS, Pinecone, sentence transformers',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:vector-triangle',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'y4ufu8x6yjgvkv7qljs8mwqu',
+    visible: true,
+    name: 'AI Ethics and Security',
+    description: 'Bias mitigation, prompt injection prevention, data privacy',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:shield-check',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'wbkuvoxhizuwnzi4w6l6va9l',
+    visible: true,
+    name: 'TypeScript/JavaScript',
+    description: 'Node.js, ES6+, async programming',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:brand-javascript',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'b45zj9krjou2opics25xsky6',
+    visible: true,
+    name: 'ReactJS',
+    description: 'Hooks, state management, component libraries',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:brand-react',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'qzdbgdvh5xd6g46hcn4ewk90',
+    visible: true,
+    name: 'Angular',
+    description: 'Dependency injection, RxJS, modules',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:brand-angular',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'n1q4dnlhbbv12rk0l5ohaqeq',
+    visible: true,
+    name: 'Python',
+    description: 'Data science, scripting, web frameworks',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:brand-python',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'po8mi08hrltj8cth5iqt8qk4',
+    visible: true,
+    name: 'FastAPI',
+    description: 'Async APIs, Pydantic, automatic docs',
+    level: 0,
+    keywords: [],
+    icon: 'tabler:rocket',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+  {
+    id: 'wrbob2fzaomlsg7n4775fb0j',
+    visible: true,
+    name: 'DevOps',
+    description: 'Containerization, deployment pipelines, infrastructure as code',
+    level: 0,
+    keywords: ['Docker', 'coolify', 'VPS'],
+    icon: 'tabler:server',
+    color: 'bg-gray-100 text-gray-600 border-gray-200',
+  },
+];
+
+// Group skills by category
+const aiSkills = skills.filter(
+  (skill) =>
+    skill.name.toLowerCase().includes('ai') ||
+    skill.name.toLowerCase().includes('ml') ||
+    skill.name.toLowerCase().includes('retrieval') ||
+    skill.name.toLowerCase().includes('vector') ||
+    skill.name.toLowerCase().includes('ethics')
+);
+
+const frontendSkills = skills.filter(
+  (skill) =>
+    skill.name.toLowerCase().includes('react') ||
+    skill.name.toLowerCase().includes('angular') ||
+    skill.name.toLowerCase().includes('typescript') ||
+    skill.name.toLowerCase().includes('javascript')
+);
+
+const backendSkills = skills.filter(
+  (skill) => skill.name.toLowerCase().includes('python') || skill.name.toLowerCase().includes('fastapi')
+);
+
+const devopsSkills = skills.filter((skill) => skill.name.toLowerCase().includes('devops'));
+---
+
+<Layout metadata={metadata}>
+  <section class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">Skills & Expertise</h1>
+        <p class="text-xl text-gray-600 leading-relaxed">
+          A comprehensive overview of my technical skills and areas of expertise in AI development, web technologies,
+          and modern software engineering practices.
+        </p>
+      </div>
+
+      <!-- AI & Machine Learning Skills -->
+      <div class="mb-20">
+        <div class="flex items-center mb-8">
+          <div class="bg-gray-100 p-3 rounded-lg mr-4">
+            <Icon name="tabler:brain" class="w-6 h-6 text-gray-600" />
+          </div>
+          <h2 class="text-2xl font-bold">AI & Machine Learning</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            aiSkills.map((skill) => (
+              <div class="card bg-base-100 shadow-lg border border-base-300 hover:shadow-xl transition-shadow duration-300">
+                <div class="card-body p-6">
+                  <div class="flex items-start space-x-4">
+                    <div class={`p-3 rounded-lg ${skill.color}`}>
+                      <Icon name={skill.icon} class="w-6 h-6" />
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="card-title text-lg mb-2">{skill.name}</h3>
+                      {skill.description && <p class="text-gray-600 text-sm mb-3">{skill.description}</p>}
+                      {skill.keywords && skill.keywords.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                          {skill.keywords.map((keyword) => (
+                            <span class="badge badge-outline badge-sm">{keyword}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Frontend Development -->
+      <div class="mb-20">
+        <div class="flex items-center mb-8">
+          <div class="bg-gray-100 p-3 rounded-lg mr-4">
+            <Icon name="tabler:device-desktop" class="w-6 h-6 text-gray-600" />
+          </div>
+          <h2 class="text-2xl font-bold">Frontend Development</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            frontendSkills.map((skill) => (
+              <div class="card bg-base-100 shadow-lg border border-base-300 hover:shadow-xl transition-shadow duration-300">
+                <div class="card-body p-6">
+                  <div class="flex items-start space-x-4">
+                    <div class={`p-3 rounded-lg ${skill.color}`}>
+                      <Icon name={skill.icon} class="w-6 h-6" />
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="card-title text-lg mb-2">{skill.name}</h3>
+                      {skill.description && <p class="text-gray-600 text-sm mb-3">{skill.description}</p>}
+                      {skill.keywords && skill.keywords.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                          {skill.keywords.map((keyword) => (
+                            <span class="badge badge-outline badge-sm">{keyword}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Backend Development -->
+      <div class="mb-20">
+        <div class="flex items-center mb-8">
+          <div class="bg-gray-100 p-3 rounded-lg mr-4">
+            <Icon name="tabler:server" class="w-6 h-6 text-gray-600" />
+          </div>
+          <h2 class="text-2xl font-bold">Backend Development</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            backendSkills.map((skill) => (
+              <div class="card bg-base-100 shadow-lg border border-base-300 hover:shadow-xl transition-shadow duration-300">
+                <div class="card-body p-6">
+                  <div class="flex items-start space-x-4">
+                    <div class={`p-3 rounded-lg ${skill.color}`}>
+                      <Icon name={skill.icon} class="w-6 h-6" />
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="card-title text-lg mb-2">{skill.name}</h3>
+                      {skill.description && <p class="text-gray-600 text-sm mb-3">{skill.description}</p>}
+                      {skill.keywords && skill.keywords.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                          {skill.keywords.map((keyword) => (
+                            <span class="badge badge-outline badge-sm">{keyword}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- DevOps & Infrastructure -->
+      <div class="mb-20">
+        <div class="flex items-center mb-8">
+          <div class="bg-gray-100 p-3 rounded-lg mr-4">
+            <Icon name="tabler:cloud" class="w-6 h-6 text-gray-600" />
+          </div>
+          <h2 class="text-2xl font-bold">DevOps & Infrastructure</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {
+            devopsSkills.map((skill) => (
+              <div class="card bg-base-100 shadow-lg border border-base-300 hover:shadow-xl transition-shadow duration-300">
+                <div class="card-body p-6">
+                  <div class="flex items-start space-x-4">
+                    <div class={`p-3 rounded-lg ${skill.color}`}>
+                      <Icon name={skill.icon} class="w-6 h-6" />
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="card-title text-lg mb-2">{skill.name}</h3>
+                      {skill.description && <p class="text-gray-600 text-sm mb-3">{skill.description}</p>}
+                      {skill.keywords && skill.keywords.length > 0 && (
+                        <div class="flex flex-wrap gap-2">
+                          {skill.keywords.map((keyword) => (
+                            <span class="badge badge-outline badge-sm">{keyword}</span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

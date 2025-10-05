@@ -1,0 +1,141 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+// Your experience data remains the same
+const experience = [
+  {
+    id: 'clx8k9m2n3p4q5r6s7t8u9v0w1x2y3zf',
+    visible: true,
+    company: 'Ampeers Energy',
+    position: 'Full Stack Software Developer',
+    location: 'Munich, Germany',
+    date: 'May 2022- April 2025',
+    summary:
+      '<ul><li><p>Developed a billing tenant application for buildings with renewable energy systems.</p></li></ul>',
+    url: {
+      label: '',
+      href: '',
+    },
+  },
+  {
+    id: 'clx8k9m2n3p4q5r6s7t8u9v0w1x2y3zg',
+    visible: true,
+    company: 'Sport1',
+    position: 'Frontend Developer',
+    location: 'Munich, Germany',
+    date: 'September 2020- May 2022',
+    summary:
+      '<ul><li><p>Developed and maintained frontend components and the overall website for <a target="_blank" rel="noopener noreferrer nofollow" href="https://sport1.de"><strong>sport1.de</strong></a>.</p></li></ul>',
+    url: {
+      label: '',
+      href: 'https://sport1.de',
+    },
+  },
+  {
+    id: 'clx8k9m2n3p4q5r6s7t8u9v0w1x2y3zh',
+    visible: true,
+    company: 'Rücker Lypsa (Seat)',
+    position: 'Software Developer',
+    location: 'Barcelona, Spain',
+    date: 'May 2019- September 2020',
+    summary:
+      '<ul><li><p>Implemented in-car web applications for Seat and Cupra models on tablet-based infotainment systems.</p></li></ul>',
+    url: {
+      label: '',
+      href: '',
+    },
+  },
+  {
+    id: 'clx8k9m2n3p4q5r6s7t8u9v0w1x2y3zi',
+    visible: true,
+    company: 'Engineering & Project Management',
+    position: 'Junior Web Developer',
+    location: 'Barcelona, Spain',
+    date: 'April 2018- May 2019',
+    summary:
+      '<ul><li><p>Development of the prototype of a Webapp based on ReactJS and Redux using the cloud based platform Autodesk Forge.</p></li></ul>',
+    url: {
+      label: '',
+      href: '',
+    },
+  },
+  {
+    id: 'clx8k9m2n3p4q5r6s7t8u9v0w1x2y3zj',
+    visible: true,
+    company: 'Independent Contractor',
+    position: 'Junior Web Developer',
+    location: 'Remote',
+    date: 'April 2018 - September 2018',
+    summary:
+      '<ul><li><p>Provided freelance support for a hotel website, focusing on client and admin portal maintenance.</p></li></ul>',
+    url: {
+      label: '',
+      href: '',
+    },
+  },
+];
+---
+
+<Layout>
+  <div class="max-w-4xl mx-auto p-4 md:p-8">
+    <h1 class="text-4xl font-bold text-center mb-12">Work Experience</h1>
+    <!-- 
+      - `timeline`: The main daisyUI timeline container.
+      - `timeline-snap-icon`: A nice effect that snaps the icon to the center on scroll.
+      - `max-md:timeline-compact`: On screens smaller than 'md', it uses a compact layout.
+      - `timeline-vertical`: Specifies the vertical orientation.
+    -->
+    <ul class="timeline timeline-vertical timeline-snap-icon max-md:timeline-compact flex-column" style="flex-direction: column;">
+      {
+        experience
+          .filter(exp => exp.visible)
+          .map((exp, index) => (
+            <li>
+              <!-- The horizontal line connecting the timeline items -->
+              <div class="timeline-middle">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  class="h-5 w-5"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              
+              <!-- 
+                The timeline content block.
+                daisyUI automatically alternates left and right for `timeline-start` and `timeline-end`.
+                On compact view, `timeline-start` is hidden.
+              -->
+              <div class:list={["mb-10", index % 2 === 0 ? "timeline-start md:text-end" : "timeline-end"]}>
+                <time class="font-mono italic text-sm">{exp.date}</time>
+                <div class="text-lg font-black">{exp.position}</div>
+                <div class="text-md font-medium text-base-content/70">{exp.company} - {exp.location}</div>
+                
+                <!-- 
+                  `set:html` is an Astro directive to render raw HTML.
+                  The `prose` class from @tailwindcss/typography beautifully styles the inner HTML.
+                -->
+                <div class="prose max-w-none mt-2 text-sm" set:html={exp.summary} />
+
+                <!-- Conditionally render a link button if a URL exists -->
+                {exp.url?.href && (
+                  <a href={exp.url.href} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm mt-4">
+                    Visit {exp.url.label || exp.company}
+                  </a>
+                )}
+              </div>
+              
+              <!-- Add a connecting line unless it's the last item -->
+              {index < experience.length - 1 && <hr />}
+            </li>
+          ))
+      }
+    </ul>
+  </div>
+</Layout>
