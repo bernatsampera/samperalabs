@@ -5,6 +5,8 @@ import Bjjgym from '~/assets/images/bjjgym.webp';
 import Packdensack from '~/assets/images/packdensack.webp';
 import Kronologs from '~/assets/images/kronologs.webp';
 import Translateprompt from '~/assets/images/translateprompt.webp';
+import Profile from '~/assets/images/profile.jpeg';
+
 import {Image} from 'astro:assets';
 import {getDB} from '../lib/db';
 
@@ -58,17 +60,21 @@ const projects = [
     <!-- Hero Section -->
     <div class="container mx-auto px-6">
       <div class="max-w-4xl mx-auto">
-        <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">Sampera Labs</h1>
+        <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">Hi, I'm Bernat</h1>
+        <Image src={Profile} alt="Profile" class="w-24 h-24 rounded-full mx-auto mb-8" />
 
         <p class="text-2xl md:text-3xl mb-4 text-gray-700 leading-relaxed">
-          <span class="text-xl font-medium block animate-fade-in">
-            Building intelligent websites with Artificial Intelligence
+          <span class="text-xl font-medium block animate-fade-in max-w-lg mx-auto">
+            AI Engineer & Full Stack Developer <br /> Exploring the current AI landscape and building awesome things with
+            it
           </span>
         </p>
       </div>
-      <div class="flex flex-col md:flex-row gap-8 items-center justify-center mt-16 lg:mt-32">
-        <Button variant="primary" text="View Blog" href="/blog" />
-        <Button variant="primary" text="Explore  Projects" href="#projects" />
+      <div class="flex flex-col flex-wrap md:flex-row gap-4 justify-center mt-16 lg:mt-32">
+        <Button variant="primary" text="Blog" href="/blog" />
+        <Button variant="primary" text="Projects" href="#projects" />
+        <Button variant="primary" text="Skills" href="#skills" />
+        <Button variant="primary" text="Experience" href="#experience" />
       </div>
     </div>
 
