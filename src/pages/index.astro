@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import Button from '~/components/ui/Button.astro';
 import Bjjgym from '~/assets/images/bjjgym.webp';
 import Packdensack from '~/assets/images/packdensack.webp';
-import Kronologs from '~/assets/images/kronologs.webp';
+import EventDeepResearch from '~/assets/images/eventdeepresearch.webp';
 import Translateprompt from '~/assets/images/translateprompt.webp';
 import Profile from '~/assets/images/profile.jpeg';
 
@@ -17,11 +17,18 @@ const metadata = {
 // Fetch latest posts from database
 const db = getDB();
 const allPosts = db.getAllPosts();
-const latestPosts = allPosts
-  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime())
-  .slice(0, 3);
+// const latestPosts = allPosts
+//   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime())
+//   .slice(0, 3);
 
 const projects = [
+  {
+    title: 'Event Deep Research',
+    description: 'Event Deep Research is an AI Agent that extracts events from the lifes of historical figures.',
+    imageClass: 'bg-blue-50',
+    url: 'https://github.com/bernatsampera/deep-event-research',
+    image: EventDeepResearch,
+  },
   {
     title: 'Translate Prompt',
     description:
@@ -45,13 +52,13 @@ const projects = [
     url: '/projects/packdensack',
     image: Packdensack,
   },
-  {
-    title: 'Kronologs.com',
-    description: 'Explore the lives of important people in history.',
-    imageClass: 'bg-purple-50',
-    url: '/projects/kronologs',
-    image: Kronologs,
-  },
+  // {
+  //   title: 'Kronologs.com',
+  //   description: 'Explore the lives of important people in history.',
+  //   imageClass: 'bg-purple-50',
+  //   url: '/projects/kronologs',
+  //   image: Kronologs,
+  // },
 ];
 ---
 
@@ -118,6 +125,7 @@ const projects = [
               <p class="text-xl text-gray-600 mb-6">{project.description}</p>
               <a
                 href={project.url}
+                target="_blank"
                 class="inline-flex items-center font-medium hover:translate-x-1 transition-transform duration-300"
               >
                 View Project Details
