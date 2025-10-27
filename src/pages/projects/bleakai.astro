@@ -1,0 +1,150 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
+import {Image} from 'astro:assets';
+import bleakaidemo from '~/assets/videos/bleakaidemo.mp4';
+const metadata = {
+  title: 'BleakAI Project | Bernat Sampera',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="pt-16 md:pt-24">
+    <div class="container mx-auto px-6">
+      <a href="/#projects" class="inline-flex items-center text-gray-600 hover:opacity-70 mb-12">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path
+            fill-rule="evenodd"
+            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+        Back to Projects
+      </a>
+
+      <div class="max-w-4xl">
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">BleakAI</h1>
+        <p class="text-xl text-gray-600 mb-12">
+          A visual platform for building AI workflows that keep humans in control. Create automated processes with AI
+          tools while maintaining human oversight at critical decision points.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12">
+    <div class="container mx-auto px-6">
+      <div class="relative aspect-video rounded-lg mb-16 overflow-hidden shadow-lg bg-gray-100">
+        <div class="flex items-center justify-center">
+          <div class="aspect-video">
+            <video class="w-full h-full object-cover rounded-lg shadow-lg border border-border" controls>
+              <source src={bleakaidemo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-12 mb-16">
+        <div>
+          <h3 class="text-lg font-bold mb-2">Role</h3>
+          <p class="text-gray-600">Owner</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-2">Timeline</h3>
+          <p class="text-gray-600">2025 - Present</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-bold mb-2">Technologies</h3>
+          <p class="text-gray-600"><strong>Python:</strong> LangGraph</p>
+          <p class="text-gray-600"><strong>Typescript:</strong> React, Assistant-ui</p>
+          <p class="text-gray-600"><strong>Platform:</strong> Web-based</p>
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto">
+        <div class="prose prose-lg max-w-none">
+          <h2>The Problem</h2>
+          <p>
+            Generative AI lets computers create text, code, designs, and ideas. It's powerful, but integrating it into
+            real products often feels complicated. Most AI systems run in isolation, without human oversight at critical
+            decision points.
+          </p>
+
+          <h2>The Solution</h2>
+          <p>
+            BleakAI uses three simple parts that work together to let you build AI systems while staying in control.
+          </p>
+
+          <div class="my-8 space-y-8">
+            <div class="p-6 rounded-lg border">
+              <h3 class="text-xl font-semibold mb-4">LangGraph</h3>
+              <p>
+                This is the brain that runs everything. LangGraph creates a path that connects different AI tasks step
+                by step. Think of it like a flowchart that decides what to do next based on what just happened.
+              </p>
+              <p class="mt-3 text-sm text-gray-600">
+                <strong>What it does:</strong> Manages the whole process and keeps track of where you are
+              </p>
+            </div>
+
+            <div class="p-6 rounded-lg border">
+              <h3 class="text-xl font-semibold mb-4">Tools</h3>
+              <p>
+                These are individual AI helpers that each do one job well. One tool might write text, another might
+                analyze data, and another might create images. You can mix and match them based on what you need.
+              </p>
+              <p class="mt-3 text-sm text-gray-600">
+                <strong>What they do:</strong> Handle specific AI tasks when LangGraph calls them
+              </p>
+            </div>
+
+            <div class="p-6 rounded-lg border">
+              <h3 class="text-xl font-semibold mb-4">Assistant UI</h3>
+              <p>
+                This is the part you actually see and use. When the AI system needs your help to make a decision, the
+                Assistant UI shows you what's happening and lets you choose what to do next.
+              </p>
+              <p class="mt-3 text-sm text-gray-600">
+                <strong>What it does:</strong> Lets you review and guide the AI at important moments
+              </p>
+            </div>
+          </div>
+
+          <div class="my-8 p-6 rounded-lg border">
+            <h4 class="font-semibold mb-4">How They Work Together</h4>
+            <p class="mb-3">
+              <strong>1. Start:</strong> LangGraph begins the process and picks the right tools to use
+            </p>
+            <p class="mb-3">
+              <strong>2. Work:</strong> The tools do their jobs and send back results
+            </p>
+            <p class="mb-3">
+              <strong>3. Check:</strong> When a decision is needed, the Assistant UI shows you what's happening
+            </p>
+            <p class="mb-3">
+              <strong>4. Decide:</strong> You review the work and choose what to do next
+            </p>
+            <p>
+              <strong>5. Continue:</strong> Based on your choice, LangGraph moves on with the next steps
+            </p>
+          </div>
+
+          <div class="my-12 text-center">
+            <Button variant="primary" text="Visit BleakAI.com" href="https://bleakai.com" target="_blank" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-base-50">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-2xl font-bold mb-6">Interested in similar AI integration for your business?</h2>
+      <div class="flex justify-center">
+        <Button variant="primary" text="Get in Touch" href="/contact" class="px-8 py-3 font-medium" />
+      </div>
+    </div>
+  </section>
+</Layout>

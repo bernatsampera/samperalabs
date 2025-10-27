@@ -6,6 +6,7 @@ import Packdensack from '~/assets/images/packdensack.webp';
 import EventDeepResearch from '~/assets/images/eventdeepresearch.webp';
 import Translateprompt from '~/assets/images/translateprompt.webp';
 import Profile from '~/assets/images/profile.jpeg';
+import Bleakai from '~/assets/images/bleakai.webp';
 
 import {Image} from 'astro:assets';
 import {getDB} from '../lib/db';
@@ -22,6 +23,13 @@ const allPosts = db.getAllPosts();
 //   .slice(0, 3);
 
 const projects = [
+  {
+    title: 'Bleakai',
+    description: 'Implement Generative AI with Langgraph, tool calling and assistant-ui',
+    imageClass: 'bg-blue-50',
+    url: '/projects/bleakai',
+    image: Bleakai,
+  },
   {
     title: 'Event Deep Research',
     description: 'Event Deep Research is an AI Agent that extracts events from the lifes of historical figures.',
