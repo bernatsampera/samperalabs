@@ -64,33 +64,10 @@ const metadata = {
 ---
 
 <PageLayout metadata={metadata}>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen">
     <!-- Blog Header -->
-    <header class="border-b bg-white/95 backdrop-blur-sm md:top-0 z-40">
+    <header class="border-b md:top-0 z-40">
       <div class="container mx-auto px-6 py-4 md:py-6 max-w-6xl">
-        <!-- Breadcrumb Navigation -->
-        <nav class="text-sm text-gray-600 mb-4">
-          <a href="/" class="hover:text-gray-900 transition-colors">Home</a>
-          <span class="mx-2">→</span>
-          <a href="/blog" class="hover:text-gray-900 transition-colors">Blog</a>
-          {
-            contentType && (
-              <>
-                <span class="mx-2">→</span>
-                <span class="text-gray-900 capitalize">{contentType}s</span>
-              </>
-            )
-          }
-          {
-            tag && (
-              <>
-                <span class="mx-2">→</span>
-                <span class="text-gray-900">{tag}</span>
-              </>
-            )
-          }
-        </nav>
-
         <!-- Blog Title and Description -->
         <div class="mb-4 md:mb-6">
           <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">

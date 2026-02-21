@@ -14,7 +14,18 @@ export interface Props {
 
 const {links = [], isSticky = false} = Astro.props;
 
-const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).join('/')}`;
+const currentPath = new URL(Astro.url).pathname;
+
+function isActive(href: string | undefined): boolean {
+  if (!href) return false;
+  // Exact match
+  if (currentPath === href) return true;
+  // Blog tab should also be active on /posts/* and /tags/*
+  if (href === '/blog' && (currentPath.startsWith('/posts') || currentPath.startsWith('/tags'))) return true;
+  // About tab should also be active on /about subpaths
+  if (href === '/about' && currentPath.startsWith('/about')) return true;
+  return false;
+}
 ---
 
 <header
@@ -31,7 +42,7 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
         <Logo />
       </a>
 
-      <nav class="hidden md:block">
+      <nav>
         <ul class="flex space-x-10 text-base">
           {
             links.map(({text, href}) => (
@@ -39,7 +50,7 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
                 <a
                   class:list={[
                     'hover:opacity-70 transition-colors duration-300',
-                    href === currentPath ? 'font-medium' : '',
+                    isActive(href) ? 'font-medium underline underline-offset-4' : '',
                   ]}
                   href={href}
                 >
@@ -50,74 +61,6 @@ const currentPath = `/${new URL(Astro.url).pathname.split('/').filter(Boolean).j
           }
         </ul>
       </nav>
-
-      <div class="md:hidden">
-        <button class="text-xl" aria-label="Menu" data-toggle-menu>
-          <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
-          <span class="block w-6 h-0.5 bg-current mb-1.5"></span>
-          <span class="block w-6 h-0.5 bg-current"></span>
-        </button>
-
-        <div class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center hidden" data-mobile-menu>
-          <button class="absolute top-6 right-6 text-xl" aria-label="Close menu" data-close-menu>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-
-          <ul class="flex flex-col space-y-6 text-xl">
-            {
-              links.map(({text, href}) => (
-                <li>
-                  <a
-                    class:list={[
-                      'hover:opacity-70 transition-colors duration-300',
-                      href === currentPath ? 'font-medium' : '',
-                    ]}
-                    href={href}
-                  >
-                    {text}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
     </div>
   </div>
 </header>
-
-<script>
-  // Mobile menu toggle
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.querySelector('[data-toggle-menu]');
-    const closeButton = document.querySelector('[data-close-menu]');
-    const mobileMenu = document.querySelector('[data-mobile-menu]');
-
-    if (toggleButton && mobileMenu) {
-      toggleButton.addEventListener('click', () => {
-        document.body.style.overflow = 'hidden';
-        mobileMenu.classList.remove('hidden');
-      });
-    }
-
-    if (closeButton && mobileMenu) {
-      closeButton.addEventListener('click', () => {
-        document.body.style.overflow = '';
-        mobileMenu.classList.add('hidden');
-      });
-    }
-  });
-</script>

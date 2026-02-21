@@ -1,0 +1,273 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Button from '~/components/ui/Button.astro';
+import SocialFollow from '~/components/ui/SocialFollow.astro';
+import Bjjgym from '~/assets/images/bjjgym.webp';
+import Packdensack from '~/assets/images/packdensack.webp';
+import EventDeepResearch from '~/assets/images/eventdeepresearch.webp';
+import Translateprompt from '~/assets/images/translateprompt.webp';
+import Profile from '~/assets/images/profile.jpeg';
+import Bleakai from '~/assets/images/bleakai.webp';
+import {Image} from 'astro:assets';
+
+const metadata = {
+  title: 'About | Bernat Sampera',
+};
+
+const projects = [
+  {
+    title: 'Bleakai',
+    description: 'Implement Generative AI with Langgraph, tool calling and assistant-ui',
+    imageClass: 'bg-blue-50',
+    url: '/projects/bleakai',
+    image: Bleakai,
+  },
+  {
+    title: 'Event Deep Research',
+    description: 'Event Deep Research is an AI Agent that extracts events from the lifes of historical figures.',
+    imageClass: 'bg-blue-50',
+    url: 'https://github.com/bernatsampera/deep-event-research',
+    image: EventDeepResearch,
+  },
+  {
+    title: 'Translate Prompt',
+    description:
+      'Translate Prompt is a tool that allows you to translate text from one language to another, with an ai agent to correct your translations and learn from the user corrections.',
+    imageClass: 'bg-blue-50',
+    url: '/projects/translateprompt',
+    image: Translateprompt,
+  },
+  {
+    title: 'BJJGym.com',
+    description:
+      'AI-powered platform for Brazilian Jiu-Jitsu practitioners to find gyms, open mats and places to train while traveling.',
+    imageClass: 'bg-blue-50',
+    url: '/projects/bjjgym',
+    image: Bjjgym,
+  },
+  {
+    title: 'PackdenSack.com',
+    description: 'Create and share your own Packing Lists',
+    imageClass: 'bg-green-50',
+    url: '/projects/packdensack',
+    image: Packdensack,
+  },
+];
+
+const experience = [
+  {
+    visible: true,
+    company: 'Ampeers Energy',
+    position: 'Full Stack Software Developer',
+    location: 'Munich, Germany',
+    date: 'May 2022- April 2025',
+    summary:
+      '<ul><li><p>Developed a billing tenant application for buildings with renewable energy systems.</p></li></ul>',
+    url: { label: '', href: '' },
+  },
+  {
+    visible: true,
+    company: 'Sport1',
+    position: 'Frontend Developer',
+    location: 'Munich, Germany',
+    date: 'September 2020- May 2022',
+    summary:
+      '<ul><li><p>Developed and maintained frontend components and the overall website for <a target="_blank" rel="noopener noreferrer nofollow" href="https://sport1.de"><strong>sport1.de</strong></a>.</p></li></ul>',
+    url: { label: '', href: 'https://sport1.de' },
+  },
+  {
+    visible: true,
+    company: 'Rücker Lypsa (Seat)',
+    position: 'Software Developer',
+    location: 'Barcelona, Spain',
+    date: 'May 2019- September 2020',
+    summary:
+      '<ul><li><p>Implemented in-car web applications for Seat and Cupra models on tablet-based infotainment systems.</p></li></ul>',
+    url: { label: '', href: '' },
+  },
+  {
+    visible: true,
+    company: 'Engineering & Project Management',
+    position: 'Junior Web Developer',
+    location: 'Barcelona, Spain',
+    date: 'April 2018- May 2019',
+    summary:
+      '<ul><li><p>Development of the prototype of a Webapp based on ReactJS and Redux using the cloud based platform Autodesk Forge.</p></li></ul>',
+    url: { label: '', href: '' },
+  },
+  {
+    visible: true,
+    company: 'Independent Contractor',
+    position: 'Junior Web Developer',
+    location: 'Remote',
+    date: 'April 2018 - September 2018',
+    summary:
+      '<ul><li><p>Provided freelance support for a hotel website, focusing on client and admin portal maintenance.</p></li></ul>',
+    url: { label: '', href: '' },
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero / About Me -->
+  <section class="min-h-[70vh] flex flex-col justify-center items-center py-24 text-center">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl md:text-7xl font-medium mb-8 leading-tight tracking-tighter">Hi, I'm Bernat</h1>
+        <Image src={Profile} alt="Profile" class="w-24 h-24 rounded-full mx-auto mb-8" />
+        <p class="text-2xl md:text-3xl mb-4 text-gray-700 leading-relaxed">
+          <span class="text-xl font-medium block max-w-lg mx-auto">
+            AI Engineer & Full Stack Developer <br /> Exploring the current AI landscape and building awesome things with
+            it
+          </span>
+        </p>
+      </div>
+
+      <div class="prose prose-lg max-w-3xl mx-auto mt-16">
+        <p>
+          Sampera Labs specializes in integrating AI solutions into websites and applications. With expertise in both
+          AI development and web technologies, we help businesses leverage cutting-edge artificial intelligence to
+          create better user experiences.
+        </p>
+        <p>
+          Our approach focuses on practical AI implementations that provide real value, from chatbots and
+          recommendation systems to content generation and data analysis tools.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-24">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center">Projects</h2>
+
+      {
+        projects.map((project, index) => (
+          <div class={`mb-32 ${index % 2 === 0 ? '' : 'lg:flex-row-reverse'} flex flex-col lg:flex-row items-center`}>
+            <div class={`w-full lg:w-1/2 ${index % 2 === 0 ? 'lg:pr-12' : 'lg:pl-12'} mb-8 lg:mb-0`}>
+              <div class={`${project.imageClass} aspect-video rounded-lg overflow-hidden shadow-lg`}>
+                <Image src={project.image} alt={project.title} class="w-full h-full object-cover" />
+              </div>
+            </div>
+            <div class="w-full lg:w-1/2">
+              <h3 class="text-3xl font-bold mb-4">{project.title}</h3>
+              <p class="text-xl text-gray-600 mb-6">{project.description}</p>
+              <a
+                href={project.url}
+                target="_blank"
+                class="inline-flex items-center font-medium hover:translate-x-1 transition-transform duration-300"
+              >
+                View Project Details
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Work Experience</h2>
+        <ul class="timeline timeline-vertical timeline-snap-icon max-md:timeline-compact flex-column" style="flex-direction: column;">
+          {
+            experience
+              .filter((exp) => exp.visible)
+              .map((exp, index) => (
+                <li>
+                  <div class="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="h-5 w-5"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div
+                    class:list={['mb-10', index % 2 === 0 ? 'timeline-start md:text-end' : 'timeline-end']}
+                  >
+                    <time class="font-mono italic text-sm">{exp.date}</time>
+                    <div class="text-lg font-black">{exp.position}</div>
+                    <div class="text-md font-medium text-base-content/70">
+                      {exp.company} - {exp.location}
+                    </div>
+                    <div class="prose max-w-none mt-2 text-sm" set:html={exp.summary} />
+                    {exp.url?.href && (
+                      <a
+                        href={exp.url.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary btn-sm mt-4"
+                      >
+                        Visit {exp.url.label || exp.company}
+                      </a>
+                    )}
+                  </div>
+                  {index < experience.length - 1 && <hr />}
+                </li>
+              ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-24">
+    <div class="container mx-auto px-6">
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8">Get in Touch</h2>
+        <p class="text-xl text-gray-600 mb-12">Learn how to integrate AI into your business.</p>
+
+        <div class="space-y-8">
+          <div>
+            <h3 class="font-bold text-lg mb-2">Email</h3>
+            <a href="mailto:info@samperalabs.com" class="hover:underline">info@samperalabs.com</a>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-lg mb-2">Socials</h3>
+            <SocialFollow mode="minimal" />
+          </div>
+
+          <div>
+            <h3 class="font-bold text-lg mb-2">Book a Call</h3>
+            <p class="mb-4 text-gray-600">
+              Prefer to discuss your project directly? Schedule a call to talk about your AI integration needs.
+            </p>
+            <a
+              href="https://calendly.com/b-sampera/30min"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center font-medium hover:underline"
+            >
+              Schedule on Calendly
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  fill-rule="evenodd"
+                  d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
