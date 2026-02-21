@@ -1,0 +1,18 @@
+# Database Layer
+
+> SQLite-based content storage for blog posts with file-based database and remote sync tooling.
+
+The data layer uses SQLite via the `better-sqlite3` Node.js driver. The database file (`content.db`) stores blog posts with Markdown content, tags (as JSON), and metadata. The database is initialized automatically on first run using the schema definition. A Python sync script handles pulling and pushing the database file to/from the production VPS via SCP.
+
+## Schema
+
+- [db/schema.sql](schema.sql): Posts table definition with columns for title, author, description, image, pub_date, tags (JSON), content (Markdown), slug, and timestamps; includes indexes on pub_date and slug
+
+## Application Layer
+
+- [src/lib/db.ts](../src/lib/db.ts): Database connection singleton and query class — provides getAllPosts, getPostBySlug, getPostById, getPostsByTag, createPost, updatePost, and deletePost methods using better-sqlite3
+- [db/README.md](README.md): Database documentation covering schema, setup, migration, API endpoints, and production deployment
+
+## Scripts
+
+- [scripts/manage-sqlite/index.py](../scripts/manage-sqlite/index.py): Python CLI tool for syncing the SQLite database to/from the production VPS via SCP (pull and push commands)

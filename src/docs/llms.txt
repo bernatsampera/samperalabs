@@ -1,0 +1,59 @@
+# Frontend Application
+
+> Astro 5 server-rendered frontend with React 19 interactive components, Tailwind CSS + DaisyUI styling, and TypeScript throughout.
+
+The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19 for interactive components (admin editor, chronology timeline). Styling uses Tailwind CSS with the DaisyUI plugin and a custom "silentedge" theme. Content is sourced from a SQLite database at runtime rather than static Markdown files. The project uses TypeScript, astro-icon for iconography, and marked for Markdown rendering.
+
+## Layouts
+
+- [src/layouts/Layout.astro](../layouts/Layout.astro): Base HTML layout with head metadata, scripts, and analytics
+- [src/layouts/PageLayout.astro](../layouts/PageLayout.astro): Standard page layout with header and footer
+- [src/layouts/BlogLayout.astro](../layouts/BlogLayout.astro): Blog post layout with table of contents and related posts
+- [src/layouts/MarkdownLayout.astro](../layouts/MarkdownLayout.astro): Layout for rendering Markdown content pages
+
+## Public Pages
+
+- [src/pages/index.astro](../pages/index.astro): Homepage / landing page
+- [src/pages/about.astro](../pages/about.astro): About page
+- [src/pages/blog.astro](../pages/blog.astro): Blog listing page with search
+- [src/pages/skills.astro](../pages/skills.astro): Skills and expertise page
+- [src/pages/experience.astro](../pages/experience.astro): Professional experience timeline
+- [src/pages/contact.astro](../pages/contact.astro): Contact page
+- [src/pages/widgets.astro](../pages/widgets.astro): Widget showcase page
+- [src/pages/404.astro](../pages/404.astro): Custom 404 error page
+- [src/pages/projects/](../pages/projects/): Individual project case study pages (bjjgym, bleakai, kronologs, packdensack, translateprompt)
+
+## Components
+
+- [src/components/elements/Header.astro](../components/elements/Header.astro): Site header with navigation
+- [src/components/elements/Footer.astro](../components/elements/Footer.astro): Site footer
+- [src/components/Logo.astro](../components/Logo.astro): Brand logo component
+- [src/components/Favicons.astro](../components/Favicons.astro): Favicon link tags
+- [src/components/ui/Button.astro](../components/ui/Button.astro): Reusable button component
+- [src/components/ui/SocialFollow.astro](../components/ui/SocialFollow.astro): Social media follow links
+- [src/components/common/Image.astro](../components/common/Image.astro): Optimized image component
+- [src/components/react/index.tsx](../components/react/index.tsx): React chronology timeline component
+
+## Utilities
+
+- [src/utils/permalinks.ts](../utils/permalinks.ts): URL and permalink generation helpers
+- [src/utils/utils.ts](../utils/utils.ts): General utility functions
+- [src/utils/images.ts](../utils/images.ts): Image path resolution utilities
+- [src/utils/images-optimization.ts](../utils/images-optimization.ts): Image optimization and srcset generation
+- [src/utils/directories.ts](../utils/directories.ts): Directory path constants
+- [src/utils/frontmatter.mjs](../utils/frontmatter.mjs): Remark/rehype plugins for reading time and responsive tables
+
+## Integrations
+
+- [src/integrations/sitemap.ts](../integrations/sitemap.ts): Custom sitemap integration pulling URLs from the database
+- [src/integrations/postUrls.ts](../integrations/postUrls.ts): Generates blog post URLs for sitemap
+- [src/integrations/tagUrls.ts](../integrations/tagUrls.ts): Generates tag page URLs for sitemap
+
+## Feature Documentation
+
+- [src/pages/admin/llms.txt](../pages/admin/llms.txt): Admin panel — blog post management with WYSIWYG editor and image upload
+- [src/pages/posts/llms.txt](../pages/posts/llms.txt): Blog system — database-driven posts with tags, search, and RSS
+
+## Design System
+
+- [src/docs/design-system.md](design-system.md): Silent Edge design system — color palette, typography, DaisyUI theme configuration

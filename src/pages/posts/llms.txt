@@ -1,0 +1,36 @@
+# Blog System
+
+> Database-driven blog with tags, search, table of contents, related posts, and RSS feed.
+
+The blog system serves posts stored in SQLite (via better-sqlite3) with server-side rendering through Astro. Posts are written in Markdown and rendered at request time using the `marked` library with syntax highlighting via `highlight.js`. Features include tag-based filtering, full-text search, auto-generated table of contents, related post suggestions, and an RSS feed. A REST API provides CRUD operations for the admin panel.
+
+## Pages
+
+- [src/pages/blog.astro](../blog.astro): Blog listing page with tag filtering, content type tabs, and search
+- [src/pages/posts/[slug].astro]([slug].astro): Individual blog post page with Markdown rendering, table of contents, and related posts
+- [src/pages/tags/[tag].astro](../tags/[tag].astro): Tag archive page listing all posts for a given tag
+- [src/pages/rss.xml.js](../rss.xml.js): RSS feed generation endpoint
+
+## Components
+
+- [src/components/common/PostCard.astro](../../components/common/PostCard.astro): Blog post card with title, description, date, tags, and content type badge
+- [src/components/common/BlogSearch.astro](../../components/common/BlogSearch.astro): Client-side search input that filters posts by title and description
+- [src/components/common/TableOfContents.astro](../../components/common/TableOfContents.astro): Desktop sidebar table of contents generated from post headings
+- [src/components/common/MobileTableOfContents.astro](../../components/common/MobileTableOfContents.astro): Collapsible mobile table of contents
+- [src/components/common/RelatedPosts.astro](../../components/common/RelatedPosts.astro): Related posts section based on shared tags
+
+## Data Layer
+
+- [src/lib/db.ts](../../lib/db.ts): Database connection and query class using better-sqlite3 — provides getAllPosts, getPostBySlug, getPostById, getPostsByTag, and CRUD operations
+
+## Utilities
+
+- [src/utils/markdown.ts](../../utils/markdown.ts): Markdown preprocessing to fix double-escaped links and formatting issues before rendering
+- [src/utils/tableOfContents.ts](../../utils/tableOfContents.ts): Heading extraction and slug generation for auto-generated table of contents
+- [src/utils/utils.ts](../../utils/utils.ts): General utilities including findRelatedPosts and getReadingTime
+
+## API Routes
+
+- [src/pages/api/posts/index.ts](../api/posts/index.ts): GET all posts and POST to create a new post with auto-generated slug
+- [src/pages/api/posts/[id].ts](../api/posts/[id].ts): GET, PUT, and DELETE a single post by ID
+- [src/pages/api/posts/slug/[slug].ts](../api/posts/slug/[slug].ts): GET a single post by its URL slug

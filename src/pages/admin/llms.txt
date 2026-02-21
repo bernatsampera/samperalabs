@@ -1,0 +1,33 @@
+# Admin Panel
+
+> Blog post management interface with WYSIWYG editor and image upload to MinIO.
+
+The admin panel provides authenticated access to create and edit blog posts. It uses a Tiptap WYSIWYG editor with syntax-highlighted code blocks (via lowlight), image upload to MinIO object storage, and a form system for post metadata (title, author, tags, description). Posts are saved to SQLite via REST API endpoints.
+
+## Pages
+
+- [src/pages/admin/index.astro](index.astro): Admin login page with password authentication
+- [src/pages/admin/new-post.astro](new-post.astro): Create new blog post page with PostForm in create mode
+- [src/pages/admin/edit-post/[id].astro](edit-post/[id].astro): Edit existing blog post page, fetches post by ID from database
+
+## Components
+
+- [src/components/admin/PostForm.astro](../../components/admin/PostForm.astro): Main post form container composing FormField, PostEditor, and FormActions
+- [src/components/admin/PostFormHandler.astro](../../components/admin/PostFormHandler.astro): Client-side form submission handler for create and edit modes via REST API
+- [src/components/admin/EnhancedEditor.astro](../../components/admin/EnhancedEditor.astro): Tiptap WYSIWYG editor wrapper with toolbar and editor initialization
+- [src/components/admin/EditorToolbar.astro](../../components/admin/EditorToolbar.astro): Editor toolbar with formatting buttons (bold, italic, headings, lists, code blocks, links, images)
+- [src/components/admin/AdminNavigation.astro](../../components/admin/AdminNavigation.astro): Admin navigation bar with back link
+- [src/components/admin/editor/EditorStyles.astro](../../components/admin/editor/EditorStyles.astro): Scoped CSS styles for the Tiptap editor
+- [src/components/admin/form/FormField.astro](../../components/admin/form/FormField.astro): Reusable form field component with label, input, and help text
+- [src/components/admin/form/FormActions.astro](../../components/admin/form/FormActions.astro): Form submit and cancel button group
+- [src/components/admin/form/PostEditor.astro](../../components/admin/form/PostEditor.astro): Post editor section wrapping EnhancedEditor with content prop
+
+## Utilities
+
+- [src/utils/editorUtils.ts](../../utils/editorUtils.ts): Tiptap editor factory, keyboard shortcuts, and event handlers with syntax highlighting via lowlight
+- [src/utils/clientImageUpload.ts](../../utils/clientImageUpload.ts): Client-side image upload function that posts files to the upload API endpoint
+- [src/utils/CodeBlockComponent.tsx](../../utils/CodeBlockComponent.tsx): React node view for syntax-highlighted code blocks in the Tiptap editor
+
+## API Routes
+
+- [src/pages/api/upload-image.ts](../api/upload-image.ts): POST endpoint for uploading images to MinIO with validation and processing

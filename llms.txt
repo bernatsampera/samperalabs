@@ -1,0 +1,24 @@
+# SamperaLabs
+
+> AI integration specialist portfolio and blog built with Astro, React, and SQLite.
+
+SamperaLabs is the personal website of Bernat Sampera, featuring a portfolio of AI integration projects, a database-driven blog with admin panel, and service pages. The site is server-rendered with Astro 5 using a Node.js adapter, styled with Tailwind CSS and DaisyUI, and uses SQLite for content storage.
+
+## Frontend
+
+- [src/docs/llms.txt](src/docs/llms.txt): Astro frontend application — pages, components, layouts, utilities, and integrations
+
+## Database
+
+- [db/llms.txt](db/llms.txt): SQLite data layer — schema, application queries, and sync scripts
+
+## Scripts
+
+- [scripts/](scripts/): Build and maintenance scripts including SQLite sync and sitemap generation
+
+## Configuration
+
+- [astro.config.mjs](astro.config.mjs): Astro configuration with SSR, Tailwind, MDX, React, and compression integrations
+- [tailwind.config.cjs](tailwind.config.cjs): Tailwind CSS and DaisyUI theme configuration
+- [src/config.yaml](src/config.yaml): Site metadata, SEO defaults, and UI theme settings
+- [package.json](package.json): Dependencies and npm scripts
