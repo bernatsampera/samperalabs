@@ -191,6 +191,7 @@ const metadata = {
             <div
               data-ref-index={index}
               data-ref-data={JSON.stringify({
+                id: ref.id,
                 title: ref.title,
                 description: ref.description || '',
               })}
@@ -210,6 +211,45 @@ const metadata = {
   if (isAdmin === 'true') {
     document.getElementById('new-ref-button')?.classList.remove('hidden');
     document.getElementById('first-ref-button')?.classList.remove('hidden');
+
+    // Show admin actions on all cards
+    document.querySelectorAll('.admin-actions').forEach((el) => {
+      el.classList.remove('hidden');
+    });
+
+    // Handle delete button clicks
+    document.querySelectorAll('.admin-delete-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const button = e.currentTarget as HTMLButtonElement;
+        const itemId = button.dataset.itemId;
+        const itemTitle = button.dataset.itemTitle;
+
+        if (!itemId) return;
+
+        if (confirm(`Are you sure you want to delete "${itemTitle}"? This action cannot be undone.`)) {
+          try {
+            const response = await fetch(`/api/references/${itemId}`, { method: 'DELETE' });
+
+            if (response.ok) {
+              const card = button.closest('[data-ref-index]');
+              if (card) {
+                card.remove();
+              } else {
+                window.location.reload();
+              }
+            } else {
+              const error = await response.json();
+              alert(`Error deleting reference: ${error.error}`);
+            }
+          } catch (error) {
+            alert('Failed to delete reference. Please try again.');
+            console.error('Error deleting reference:', error);
+          }
+        }
+      });
+    });
   }
 
   // Client-side search

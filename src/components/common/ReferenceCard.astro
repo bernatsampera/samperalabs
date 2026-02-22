@@ -58,4 +58,21 @@ const updatedDate = reference.updated_at
       </div>
     )}
   </a>
+  <!-- Admin Actions (hidden by default, shown via JS on listing page) -->
+  <div class="admin-actions hidden flex items-center gap-2 pt-3 mt-3 border-t border-gray-100">
+    <a
+      href={`/admin/edit-reference/${reference.id}`}
+      class="inline-flex items-center px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded transition-colors"
+    >
+      Edit
+    </a>
+    <button
+      type="button"
+      class="admin-delete-btn inline-flex items-center px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded transition-colors"
+      data-item-id={reference.id}
+      data-item-title={reference.title}
+    >
+      Delete
+    </button>
+  </div>
 </article>

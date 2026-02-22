@@ -288,6 +288,45 @@ const metadata = {
   if (isAdmin === 'true') {
     newPostButton?.classList.remove('hidden');
     firstPostButton?.classList.remove('hidden');
+
+    // Show admin actions on all cards
+    document.querySelectorAll('.admin-actions').forEach((el) => {
+      el.classList.remove('hidden');
+    });
+
+    // Handle delete button clicks
+    document.querySelectorAll('.admin-delete-btn').forEach((btn) => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const button = e.currentTarget as HTMLButtonElement;
+        const itemId = button.dataset.itemId;
+        const itemTitle = button.dataset.itemTitle;
+
+        if (!itemId) return;
+
+        if (confirm(`Are you sure you want to delete "${itemTitle}"? This action cannot be undone.`)) {
+          try {
+            const response = await fetch(`/api/posts/${itemId}`, { method: 'DELETE' });
+
+            if (response.ok) {
+              const card = button.closest('[data-post-index]');
+              if (card) {
+                card.remove();
+              } else {
+                window.location.reload();
+              }
+            } else {
+              const error = await response.json();
+              alert(`Error deleting post: ${error.error}`);
+            }
+          } catch (error) {
+            alert('Failed to delete post. Please try again.');
+            console.error('Error deleting post:', error);
+          }
+        }
+      });
+    });
   }
 
   // Load more posts functionality
