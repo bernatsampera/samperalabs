@@ -1,0 +1,61 @@
+---
+import type {Reference} from '../../lib/db';
+
+export interface Props {
+  reference: Reference;
+}
+
+const {reference} = Astro.props;
+
+const formatBadge = reference.format === 'markdown'
+  ? { text: 'Markdown', classes: 'bg-gray-50 text-gray-500 border border-gray-200' }
+  : { text: 'Plain Text', classes: 'bg-gray-50 text-gray-500 border border-gray-200' };
+
+const updatedDate = reference.updated_at
+  ? new Date(reference.updated_at).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+  : '';
+---
+
+<article
+  class="group bg-white hover:bg-gray-50 transition-colors rounded-lg p-6 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
+>
+  <a href={`/references/${reference.slug}`} class="block space-y-4">
+    <!-- Header with date and format badge -->
+    <div class="flex items-center justify-between">
+      <time class="text-sm text-gray-500 font-mono">
+        {updatedDate}
+      </time>
+      <span class={`px-2 py-1 text-xs font-medium rounded-sm ${formatBadge.classes}`}>
+        {formatBadge.text}
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-xl font-semibold text-gray-900 leading-tight group-hover:text-black transition-colors">
+      {reference.title}
+    </h3>
+
+    <!-- Description -->
+    {reference.description && (
+      <p class="text-gray-600 leading-relaxed line-clamp-2">{reference.description}</p>
+    )}
+
+    <!-- Footer with tags -->
+    {reference.tags && reference.tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 pt-2">
+        {reference.tags.slice(0, 3).map((tag) => (
+          <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-sm text-xs font-medium">
+            {tag}
+          </span>
+        ))}
+        {reference.tags.length > 3 && (
+          <span class="text-xs text-gray-500">+{reference.tags.length - 3} more</span>
+        )}
+      </div>
+    )}
+  </a>
+</article>

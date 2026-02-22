@@ -1,0 +1,66 @@
+---
+export interface Props {
+  mode: 'create' | 'edit';
+  refId?: number;
+}
+
+const {mode, refId} = Astro.props;
+---
+
+<script is:inline define:vars={{mode, refId}}>
+  document.getElementById('reference-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const content = String(formData.get('content') || '').trim();
+    if (!content) {
+      const statusEl = document.getElementById('status-message');
+      statusEl.innerHTML = '<div class="text-destructive">Content is required.</div>';
+      return;
+    }
+
+    const refData = {
+      title: formData.get('title'),
+      description: formData.get('description') || undefined,
+      format: formData.get('format') || 'markdown',
+      tags: (formData.get('tags') || '')
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0),
+      content,
+    };
+
+    const statusEl = document.getElementById('status-message');
+
+    try {
+      statusEl.innerHTML = '<div class="text-muted-foreground">Saving reference...</div>';
+
+      const url = mode === 'create' ? '/api/references' : `/api/references/${refId}`;
+      const method = mode === 'create' ? 'POST' : 'PUT';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(refData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        statusEl.innerHTML = `<div class="text-primary">Reference ${mode === 'create' ? 'created' : 'updated'} successfully!</div>`;
+
+        const redirectTo = `/references/${result.slug}`;
+        setTimeout(() => {
+          window.location.href = redirectTo;
+        }, 1500);
+      } else {
+        statusEl.innerHTML = `<div class="text-destructive">Error: ${result.error}</div>`;
+      }
+    } catch (error) {
+      statusEl.innerHTML = `<div class="text-destructive">Failed to ${mode} reference. Please try again.</div>`;
+      console.error(`Error ${mode}ing reference:`, error);
+    }
+  });
+</script>

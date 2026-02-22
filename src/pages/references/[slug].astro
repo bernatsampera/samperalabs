@@ -1,0 +1,194 @@
+---
+import Button from '~/components/ui/Button.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import {getDB} from '../../lib/db';
+import {Marked} from 'marked';
+import {markedHighlight} from 'marked-highlight';
+import {preprocessMarkdownContent} from '../../utils/markdown';
+import {addHeadingIds} from '../../utils/tableOfContents';
+import hljs from 'highlight.js';
+
+// Generate static paths for all references
+export async function getStaticPaths() {
+  const db = getDB();
+  const allRefs = db.getAllReferences();
+
+  return allRefs.map((ref) => ({
+    params: {slug: ref.slug},
+  }));
+}
+
+const {slug} = Astro.params;
+
+const db = getDB();
+const reference = db.getReferenceBySlug(slug ?? '');
+
+if (!reference) {
+  return Astro.redirect('/404');
+}
+
+// Render markdown content if format is markdown
+let htmlContent = '';
+if (reference.format === 'markdown') {
+  const marked = new Marked(
+    markedHighlight({
+      emptyLangClass: 'hljs',
+      langPrefix: 'hljs language-python',
+      highlight(code, lang) {
+        const language = hljs.getLanguage(lang) ? lang : 'python';
+        return hljs.highlight(code, {language}).value;
+      },
+    })
+  );
+
+  const processedContent = preprocessMarkdownContent(reference.content);
+  htmlContent = await marked.parse(processedContent);
+  htmlContent = addHeadingIds(htmlContent);
+}
+
+const updatedDate = reference.updated_at
+  ? new Date(reference.updated_at).toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    })
+  : '';
+
+const metadata = {
+  title: `${reference.title} | References`,
+  description: reference.description,
+};
+---
+
+<PageLayout metadata={metadata}>
+  <div class="min-h-screen">
+    <!-- Reference Header -->
+    <header class="border-b">
+      <div class="container mx-auto px-6 py-6 max-w-4xl">
+        <!-- Back link -->
+        <a href="/references" class="text-sm text-gray-500 hover:text-gray-700 transition-colors mb-4 inline-block">
+          &larr; Back to References
+        </a>
+
+        <!-- Title -->
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">{reference.title}</h1>
+
+        <!-- Meta -->
+        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500">
+          {updatedDate && <span>Updated {updatedDate}</span>}
+          <span class={`px-2 py-1 text-xs font-medium rounded-sm bg-gray-50 text-gray-500 border border-gray-200`}>
+            {reference.format === 'markdown' ? 'Markdown' : 'Plain Text'}
+          </span>
+        </div>
+
+        {reference.description && (
+          <p class="text-gray-600 mt-3">{reference.description}</p>
+        )}
+
+        <!-- Tags -->
+        {reference.tags && reference.tags.length > 0 && (
+          <div class="flex flex-wrap gap-2 mt-4">
+            {reference.tags.map((tag) => (
+              <a
+                href={`/references?tag=${encodeURIComponent(tag)}`}
+                class="px-2 py-1 bg-gray-100 text-gray-600 hover:bg-gray-200 rounded-sm text-xs font-medium transition-colors"
+              >
+                {tag}
+              </a>
+            ))}
+          </div>
+        )}
+
+        <!-- Copy button -->
+        <div class="mt-4">
+          <button
+            id="copy-btn"
+            class="inline-flex items-center px-4 py-2 text-sm border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            <span id="copy-text">Copy to clipboard</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="container mx-auto px-6 py-12 max-w-4xl">
+      {reference.format === 'markdown' ? (
+        <div
+          class="tiptap-viewer prose prose-lg prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-muted-foreground prose-code:text-foreground prose-pre:bg-muted"
+          set:html={htmlContent}
+        />
+      ) : (
+        <div class="bg-gray-50 border border-gray-200 rounded-lg p-6 overflow-x-auto">
+          <pre class="text-sm leading-relaxed font-mono text-gray-800 whitespace-pre-wrap break-words">{reference.content}</pre>
+        </div>
+      )}
+
+      <!-- Admin Actions -->
+      <footer id="admin-actions" class="mt-16 pt-8 border-t hidden">
+        <div class="flex gap-4">
+          <Button href={`/admin/edit-reference/${reference.id}`} text="Edit Reference" />
+          <Button data-ref-id={reference.id} data-ref-title={reference.title} text="Delete Reference" id="delete-btn" />
+        </div>
+      </footer>
+    </main>
+  </div>
+</PageLayout>
+
+<textarea id="raw-content" class="hidden">{reference.content}</textarea>
+
+<script>
+  // Admin actions
+  const isAdmin = localStorage.getItem('isAdmin');
+  if (isAdmin === 'true') {
+    document.getElementById('admin-actions')?.classList.remove('hidden');
+  }
+
+  // Copy to clipboard
+  document.getElementById('copy-btn')?.addEventListener('click', async () => {
+    const content = (document.getElementById('raw-content') as HTMLTextAreaElement)?.value;
+    if (!content) return;
+
+    try {
+      await navigator.clipboard.writeText(content);
+      const copyText = document.getElementById('copy-text');
+      if (copyText) {
+        copyText.textContent = 'Copied!';
+        setTimeout(() => {
+          copyText.textContent = 'Copy to clipboard';
+        }, 2000);
+      }
+    } catch {
+      const copyText = document.getElementById('copy-text');
+      if (copyText) copyText.textContent = 'Failed to copy';
+    }
+  });
+
+  // Delete handler
+  document.getElementById('delete-btn')?.addEventListener('click', async (e) => {
+    const button = e.target as HTMLButtonElement;
+    const refId = button.dataset.refId;
+    const refTitle = button.dataset.refTitle;
+
+    if (!refId) return;
+
+    if (confirm(`Are you sure you want to delete "${refTitle}"? This action cannot be undone.`)) {
+      try {
+        const response = await fetch(`/api/references/${refId}`, { method: 'DELETE' });
+
+        if (response.ok) {
+          window.location.href = '/references';
+        } else {
+          const error = await response.json();
+          alert(`Error deleting reference: ${error.error}`);
+        }
+      } catch (error) {
+        alert('Failed to delete reference. Please try again.');
+        console.error('Error deleting reference:', error);
+      }
+    }
+  });
+</script>

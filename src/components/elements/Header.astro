@@ -24,6 +24,8 @@ function isActive(href: string | undefined): boolean {
   if (href === '/blog' && (currentPath.startsWith('/posts') || currentPath.startsWith('/tags'))) return true;
   // About tab should also be active on /about subpaths
   if (href === '/about' && currentPath.startsWith('/about')) return true;
+  // References tab should also be active on /references/* subpaths
+  if (href === '/references' && currentPath.startsWith('/references')) return true;
   return false;
 }
 ---

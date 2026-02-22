@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AdminNavigation from '../../components/admin/AdminNavigation.astro';
+import ReferenceForm from '../../components/admin/ReferenceForm.astro';
+import ReferenceFormHandler from '../../components/admin/ReferenceFormHandler.astro';
+
+const metadata = {
+  title: 'Create New Reference',
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="min-h-screen bg-background">
+    <AdminNavigation backUrl="/references" backText="Back to references" />
+
+    <main class="container mx-auto px-6 py-16 max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-12">New Reference</h1>
+
+      <ReferenceForm mode="create" />
+      <ReferenceFormHandler mode="create" />
+    </main>
+  </div>
+</Layout>

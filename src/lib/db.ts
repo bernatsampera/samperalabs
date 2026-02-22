@@ -39,6 +39,30 @@ export interface PostRow {
   updated_at: string;
 }
 
+export interface Reference {
+  id?: number;
+  title: string;
+  description?: string;
+  format: 'markdown' | 'plaintext';
+  tags: string[];
+  content: string;
+  slug: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ReferenceRow {
+  id: number;
+  title: string;
+  description: string | null;
+  format: string;
+  tags: string;
+  content: string;
+  slug: string;
+  created_at: string;
+  updated_at: string;
+}
+
 class PostDatabase {
   private db: Database.Database;
   private baseQuery = 'SELECT * FROM posts';
@@ -192,6 +216,84 @@ class PostDatabase {
   getPostsByTag(tag: string): EnhancedPost[] {
     const rows = this.executeQuery(`${this.baseQuery} WHERE tags LIKE ? ORDER BY pub_date DESC`, `%"${tag}"%`);
     return rows.map((row) => this.rowToPost(row));
+  }
+
+  // ── Reference methods ──
+
+  private rowToReference(row: ReferenceRow): Reference {
+    return {
+      ...row,
+      tags: JSON.parse(row.tags || '[]'),
+      description: row.description || undefined,
+      format: row.format as 'markdown' | 'plaintext',
+    };
+  }
+
+  getAllReferences(): Reference[] {
+    const stmt = this.db.prepare('SELECT * FROM refs ORDER BY updated_at DESC');
+    const rows = stmt.all() as ReferenceRow[];
+    return rows.map((row) => this.rowToReference(row));
+  }
+
+  getReferenceById(id: number): Reference | null {
+    const stmt = this.db.prepare('SELECT * FROM refs WHERE id = ?');
+    const row = stmt.get(id) as ReferenceRow | undefined;
+    return row ? this.rowToReference(row) : null;
+  }
+
+  getReferenceBySlug(slug: string): Reference | null {
+    const stmt = this.db.prepare('SELECT * FROM refs WHERE slug = ?');
+    const row = stmt.get(slug) as ReferenceRow | undefined;
+    return row ? this.rowToReference(row) : null;
+  }
+
+  getReferencesByTag(tag: string): Reference[] {
+    const stmt = this.db.prepare('SELECT * FROM refs WHERE tags LIKE ? ORDER BY updated_at DESC');
+    const rows = stmt.all(`%"${tag}"%`) as ReferenceRow[];
+    return rows.map((row) => this.rowToReference(row));
+  }
+
+  getReferencesByFormat(format: string): Reference[] {
+    const stmt = this.db.prepare('SELECT * FROM refs WHERE format = ? ORDER BY updated_at DESC');
+    const rows = stmt.all(format) as ReferenceRow[];
+    return rows.map((row) => this.rowToReference(row));
+  }
+
+  insertReference(ref: Omit<Reference, 'id' | 'created_at' | 'updated_at'>): number {
+    const stmt = this.db.prepare(
+      'INSERT INTO refs (title, description, format, tags, content, slug) VALUES (?, ?, ?, ?, ?, ?)'
+    );
+    const result = stmt.run(
+      ref.title,
+      ref.description || null,
+      ref.format,
+      JSON.stringify(ref.tags || []),
+      ref.content,
+      ref.slug
+    );
+    return result.lastInsertRowid as number;
+  }
+
+  updateReference(id: number, ref: Partial<Omit<Reference, 'id' | 'created_at' | 'updated_at'>>): boolean {
+    const updates = Object.entries(ref)
+      .filter(([, value]) => value !== undefined)
+      .map(([key, value]) => {
+        const dbValue = key === 'tags' ? JSON.stringify(value) : value;
+        return { key, value: dbValue };
+      });
+
+    if (updates.length === 0) return false;
+
+    const setClause = updates.map(({ key }) => `${key} = ?`).join(', ');
+    const values = [...updates.map(({ value }) => value), id];
+
+    const stmt = this.db.prepare(`UPDATE refs SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = ?`);
+    return stmt.run(...values).changes > 0;
+  }
+
+  deleteReference(id: number): boolean {
+    const stmt = this.db.prepare('DELETE FROM refs WHERE id = ?');
+    return stmt.run(id).changes > 0;
   }
 
   close() {

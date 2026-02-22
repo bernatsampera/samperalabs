@@ -1,0 +1,231 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ReferenceCard from '../components/common/ReferenceCard.astro';
+import {getDB} from '../lib/db';
+
+// Get filters from URL search params
+const url = new URL(Astro.request.url);
+const tag = url.searchParams.get('tag');
+const format = url.searchParams.get('format');
+
+// Fetch references from database
+const db = getDB();
+const allRefs = db.getAllReferences();
+
+// Get all unique tags with counts
+const allTags = allRefs.map((ref) => ref.tags).flat();
+const tagCounts = allTags.reduce(
+  (count, tagName) => {
+    count[tagName] = (count[tagName] || 0) + 1;
+    return count;
+  },
+  {} as Record<string, number>
+);
+const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+
+// Get format counts
+const formatCounts = allRefs.reduce(
+  (count, ref) => {
+    count[ref.format] = (count[ref.format] || 0) + 1;
+    return count;
+  },
+  {} as Record<string, number>
+);
+
+// Apply filters
+let refsToShow = allRefs;
+if (tag) {
+  refsToShow = refsToShow.filter((ref) => ref.tags.includes(tag));
+}
+if (format) {
+  refsToShow = refsToShow.filter((ref) => ref.format === format);
+}
+
+const metadata = {
+  title: 'References | Bernat Sampera',
+  description: 'Reference library for llms.txt files, markdown documents, and technical notes.',
+};
+---
+
+<PageLayout metadata={metadata}>
+  <div class="min-h-screen">
+    <!-- Header -->
+    <header class="border-b md:top-0 z-40">
+      <div class="container mx-auto px-6 py-4 md:py-6 max-w-6xl">
+        <div class="mb-4 md:mb-6">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            {
+              format && tag
+                ? `${format} references tagged "${tag}"`
+                : format
+                  ? `${format} references`
+                  : tag
+                    ? `References tagged "${tag}"`
+                    : 'References'
+            }
+          </h1>
+          <p class="text-gray-600 max-w-2xl">
+            {
+              tag || format
+                ? `${refsToShow.length} ${refsToShow.length === 1 ? 'reference' : 'references'} found.`
+                : 'Reference library for llms.txt files, markdown documents, and technical notes.'
+            }
+          </p>
+        </div>
+
+        <!-- Search -->
+        <div class="mb-4">
+          <input
+            type="text"
+            id="reference-search"
+            placeholder="Search references..."
+            class="w-full md:w-96 px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
+          />
+        </div>
+
+        <!-- Format Filter -->
+        <div class="mb-4">
+          <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by format:</h3>
+          <div class="flex flex-wrap gap-2">
+            <a
+              href={tag ? `/references?tag=${encodeURIComponent(tag)}` : '/references'}
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
+                !format ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              All ({allRefs.length})
+            </a>
+            <a
+              href={tag ? `/references?format=markdown&tag=${encodeURIComponent(tag)}` : '/references?format=markdown'}
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
+                format === 'markdown'
+                  ? 'bg-gray-900 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Markdown ({formatCounts.markdown || 0})
+            </a>
+            <a
+              href={tag ? `/references?format=plaintext&tag=${encodeURIComponent(tag)}` : '/references?format=plaintext'}
+              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
+                format === 'plaintext'
+                  ? 'bg-gray-900 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              Plain Text ({formatCounts.plaintext || 0})
+            </a>
+          </div>
+        </div>
+
+        <!-- Tag Filter -->
+        {sortedTags.length > 0 && (
+          <div class="mb-4">
+            <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by tags:</h3>
+            <div class="flex flex-wrap gap-2">
+              <a
+                href={format ? `/references?format=${format}` : '/references'}
+                class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
+                  !tag ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                All tags
+              </a>
+              {sortedTags.map(([tagName, count]) => (
+                <a
+                  href={
+                    format
+                      ? `/references?format=${format}&tag=${encodeURIComponent(tagName)}`
+                      : `/references?tag=${encodeURIComponent(tagName)}`
+                  }
+                  class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
+                    tag === tagName ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {tagName} ({count})
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="container mx-auto px-6 py-12 max-w-6xl">
+      <!-- Admin Actions -->
+      <div id="new-ref-button" class="mb-12 hidden">
+        <a
+          href="/admin/new-reference"
+          class="inline-flex items-center px-6 py-3 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm"
+        >
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+          </svg>
+          New Reference
+        </a>
+      </div>
+
+      {refsToShow.length === 0 ? (
+        <div class="text-center py-24">
+          <div class="max-w-md mx-auto">
+            <div class="w-16 h-16 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+              <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-3">No references yet</h3>
+            <p class="text-gray-600 mb-8">Start adding reference documents to build your library.</p>
+            <a
+              id="first-ref-button"
+              href="/admin/new-reference"
+              class="inline-flex items-center px-8 py-4 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm hidden"
+            >
+              Add your first reference
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="refs-grid">
+          {refsToShow.map((ref, index) => (
+            <div
+              data-ref-index={index}
+              data-ref-data={JSON.stringify({
+                title: ref.title,
+                description: ref.description || '',
+              })}
+            >
+              <ReferenceCard reference={ref} />
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
+  </div>
+</PageLayout>
+
+<script>
+  // Show admin buttons if logged in
+  const isAdmin = localStorage.getItem('isAdmin');
+  if (isAdmin === 'true') {
+    document.getElementById('new-ref-button')?.classList.remove('hidden');
+    document.getElementById('first-ref-button')?.classList.remove('hidden');
+  }
+
+  // Client-side search
+  const searchInput = document.getElementById('reference-search') as HTMLInputElement;
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const items = document.querySelectorAll('[data-ref-data]');
+
+      items.forEach((item) => {
+        const data = JSON.parse((item as HTMLElement).dataset.refData || '{}');
+        const matches = !query ||
+          data.title?.toLowerCase().includes(query) ||
+          data.description?.toLowerCase().includes(query);
+        (item as HTMLElement).style.display = matches ? '' : 'none';
+      });
+    });
+  }
+</script>

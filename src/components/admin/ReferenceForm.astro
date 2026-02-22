@@ -1,0 +1,100 @@
+---
+import FormField from './form/FormField.astro';
+import FormActions from './form/FormActions.astro';
+
+export interface Props {
+  reference?: {
+    id?: number;
+    title: string;
+    description?: string;
+    format: string;
+    tags?: string[];
+    content: string;
+    slug?: string;
+  };
+  mode: 'create' | 'edit';
+}
+
+const {reference, mode} = Astro.props;
+
+const defaultRef = {
+  title: '',
+  description: '',
+  format: 'markdown',
+  tags: [],
+  content: '',
+};
+
+const currentRef = reference || defaultRef;
+const cancelUrl = mode === 'create' ? '/references' : `/references/${reference?.slug}`;
+---
+
+<div id="content">
+  <form id="reference-form" class="space-y-8" style="display: none;">
+    {reference?.id && <input type="hidden" id="ref-id" value={reference.id} />}
+    <FormField label="Title" name="title" value={currentRef.title} required={true} />
+    <FormField label="Description" name="description" type="textarea" value={currentRef.description || ''} rows={2} />
+
+    <!-- Format selector -->
+    <div class="space-y-2">
+      <label for="format" class="block text-sm font-medium text-primary">
+        Format<span class="text-red-500">*</span>
+      </label>
+      <select
+        id="format"
+        name="format"
+        class="w-full px-4 py-3 border rounded-sm text-primary focus:outline-none focus:ring-2 focus:ring-ring"
+      >
+        <option value="markdown" selected={currentRef.format === 'markdown'}>Markdown</option>
+        <option value="plaintext" selected={currentRef.format === 'plaintext'}>Plain Text</option>
+      </select>
+    </div>
+
+    <FormField
+      label="Tags"
+      name="tags"
+      placeholder="llms-txt, ai, documentation"
+      value={currentRef.tags ? currentRef.tags.join(', ') : ''}
+      helpText="Separate tags with commas"
+    />
+
+    <!-- Content textarea -->
+    <div class="space-y-2">
+      <label for="ref-content" class="block text-sm font-medium text-primary">
+        Content<span class="text-red-500">*</span>
+      </label>
+      <textarea
+        id="ref-content"
+        name="content"
+        rows={20}
+        class="w-full px-4 py-3 border rounded-sm text-primary font-mono text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-y leading-relaxed"
+        required
+        placeholder="Paste or write your content here..."
+      >{currentRef.content}</textarea>
+    </div>
+
+    <FormActions
+      mode={mode}
+      cancelUrl={cancelUrl}
+      submitText={mode === 'create' ? 'Create Reference' : 'Update Reference'}
+    />
+  </form>
+  <div id="status-message" class="mt-8"></div>
+  <div id="unauthorized" class="hidden">
+    <p class="text-red-500">You do not have permission to access this page.</p>
+  </div>
+</div>
+
+<script>
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
+  const form = document.getElementById('reference-form');
+  const unauthorized = document.getElementById('unauthorized');
+
+  if (!isAdmin) {
+    unauthorized?.classList.remove('hidden');
+    window.location.href = '/';
+  } else {
+    // @ts-ignore
+    form.style.display = 'block';
+  }
+</script>

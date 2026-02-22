@@ -1,0 +1,33 @@
+---
+import Layout from '../../../layouts/PageLayout.astro';
+import AdminNavigation from '../../../components/admin/AdminNavigation.astro';
+import ReferenceForm from '../../../components/admin/ReferenceForm.astro';
+import ReferenceFormHandler from '../../../components/admin/ReferenceFormHandler.astro';
+import {getDB} from '../../../lib/db';
+
+const {id} = Astro.params;
+
+const db = getDB();
+const reference = db.getReferenceById(Number(id));
+
+if (!reference) {
+  return Astro.redirect('/404');
+}
+
+const metadata = {
+  title: `Edit: ${reference.title}`,
+};
+---
+
+<Layout metadata={metadata}>
+  <div class="min-h-screen bg-background">
+    <AdminNavigation backUrl={`/references/${reference.slug}`} backText="Back to reference" />
+
+    <main class="container mx-auto px-6 py-16 max-w-4xl">
+      <h1 class="text-4xl md:text-6xl font-bold text-primary mb-12">Edit Reference</h1>
+
+      <ReferenceForm reference={reference} mode="edit" />
+      <ReferenceFormHandler mode="edit" refId={reference.id} />
+    </main>
+  </div>
+</Layout>
