@@ -1,8 +1,8 @@
 # Frontend Application
 
-> Astro 5 server-rendered frontend with React 19 interactive components, Tailwind CSS + DaisyUI styling, and TypeScript throughout.
+> Astro 5 server-rendered frontend with React 19 interactive components, Tailwind CSS styling, and TypeScript throughout.
 
-The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19 for interactive components (admin editor, chronology timeline). Styling uses Tailwind CSS with the DaisyUI plugin and a custom "silentedge" theme. Content is sourced from a SQLite database at runtime rather than static Markdown files. The project uses TypeScript, astro-icon for iconography, and marked for Markdown rendering.
+The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19 for interactive components (admin editor, chronology timeline). Styling uses Tailwind CSS with a custom dark "ink" palette defined in `tailwind.config.cjs`. Content is sourced from a SQLite database at runtime rather than static Markdown files. The project uses TypeScript, astro-icon for iconography, and marked for Markdown rendering.
 
 ## Layouts
 
@@ -65,4 +65,4 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 ## Design System
 
-- [src/docs/design-system.md](design-system.md): Silent Edge design system — color palette, typography, DaisyUI theme configuration
+- [src/docs/design-system.md](design-system.md): Design system reference — color palette, typography, and theme tokens

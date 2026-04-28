@@ -24,22 +24,26 @@ const {
   ...rest
 } = Astro.props;
 
-// Build DaisyUI classes
+const sizeClasses =
+  size === 'xs'
+    ? 'px-3 py-1 text-xs'
+    : size === 'sm'
+      ? 'px-4 py-2 text-sm'
+      : size === 'lg'
+        ? 'px-8 py-4 text-base'
+        : 'px-6 py-3 text-sm';
+
+const variantClasses =
+  variant === 'outline' || variant === 'ghost' || variant === 'link'
+    ? 'bg-transparent border border-ink-border text-text-strong hover:bg-ink-3'
+    : variant === 'secondary'
+      ? 'bg-ink-2 border border-ink-border text-text-strong hover:bg-ink-3'
+      : 'bg-stamp text-ink hover:bg-stamp/90';
+
 const classes = [
-  'btn',
-  'font-medium',
-  'border-1 border-black',
-  'rounded-none',
-  'px-8 py-3',
-  variant === 'primary' && 'btn-primary',
-  variant === 'secondary' && 'btn-secondary',
-  variant === 'accent' && 'btn-accent',
-  variant === 'ghost' && 'btn-ghost',
-  variant === 'link' && 'btn-link',
-  variant === 'outline' && 'btn-outline',
-  size === 'xs' && 'btn-xs',
-  size === 'sm' && 'btn-sm',
-  size === 'lg' && 'btn-lg',
+  'inline-flex items-center justify-center font-medium rounded-sm transition-colors',
+  sizeClasses,
+  variantClasses,
   className,
 ]
   .filter(Boolean)

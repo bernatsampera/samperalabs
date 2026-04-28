@@ -1,0 +1,27 @@
+---
+import type {EnhancedPost} from '../../lib/db';
+
+export interface Props {
+  post: EnhancedPost;
+  showArrow?: boolean;
+}
+const {post, showArrow = false} = Astro.props;
+
+const date = new Date(post.pub_date).toISOString().slice(0, 10);
+---
+
+<a
+  href={`/posts/${post.slug}`}
+  class="grid grid-cols-[100px_1fr_auto] gap-5 items-baseline py-4 border-t border-ink-border-soft hover:bg-marker-soft transition-colors"
+>
+  <time class="font-mono text-[10.5px] text-stamp pt-1 tracking-wide">{date}</time>
+  <div>
+    <div class="text-[18px] font-semibold text-text-strong leading-snug tracking-tight">{post.title}</div>
+    {post.excerpt && (
+      <p class="text-[13px] text-text-muted mt-1 leading-relaxed">{post.excerpt}</p>
+    )}
+  </div>
+  <div class="font-mono text-[10.5px] text-text-faint whitespace-nowrap">
+    {showArrow ? <span class="text-marker">→</span> : `${post.readingTime} min`}
+  </div>
+</a>

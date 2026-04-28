@@ -1,3 +1,21 @@
 ---
-return Astro.redirect('/about#contact');
+import PageLayout from '../layouts/PageLayout.astro';
+import SocialFollow from '~/components/ui/SocialFollow.astro';
+
+const metadata = { title: 'Contact | Sampera Labs' };
 ---
+
+<PageLayout metadata={metadata}>
+  <main class="mx-auto px-6 max-w-[680px]">
+    <header class="pt-12 pb-2">
+      <h1 class="font-display font-bold lowercase text-[64px] leading-[0.9] tracking-[-0.045em] text-text-strong">
+        contact<span class="text-marker">.</span>
+      </h1>
+    </header>
+    <article class="post-prose mt-6">
+      <p>Email: <a href="mailto:info@samperalabs.com">info@samperalabs.com</a></p>
+      <p>Or find me here:</p>
+      <SocialFollow mode="maximal" />
+    </article>
+  </main>
+</PageLayout>

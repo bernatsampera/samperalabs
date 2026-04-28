@@ -10,12 +10,12 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-screen bg-ink">
     <AdminNavigation backUrl="/blog" backText="Back to blog" />
 
     <!-- Form -->
     <main class="container mx-auto px-6 py-16 max-w-4xl">
-      <h1 class="text-4xl md:text-6xl font-bold text-foreground mb-12">New Post</h1>
+      <h1 class="text-4xl md:text-6xl font-bold text-text-strong mb-12">New Post</h1>
 
       <PostForm mode="create" />
       <PostFormHandler mode="create" />

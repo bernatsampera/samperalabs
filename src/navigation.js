@@ -2,25 +2,16 @@ import { getPermalink } from './utils/permalinks';
 
 export const headerData = {
   links: [
-    {
-      text: 'About',
-      href: getPermalink('/about'),
-    },
-    {
-      text: 'Blog',
-      href: getPermalink('/blog'),
-    },
-    {
-      text: 'References',
-      href: getPermalink('/references'),
-    },
+    { text: 'writing', href: '/blog' },
+    { text: 'about', href: '/about' },
+    { text: 'contact', href: '/contact' },
   ],
 };
 
 export const footerData = {
   links: [
-    { text: 'About', href: getPermalink('/about') },
-    { text: 'Blog', href: getPermalink('/blog') },
-    { text: 'References', href: getPermalink('/references') },
+    { text: 'writing', href: '/blog' },
+    { text: 'about', href: '/about' },
+    { text: 'contact', href: '/contact' },
   ],
 };

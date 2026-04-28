@@ -1,371 +1,49 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import PostCard from '../components/common/PostCard.astro';
+import PostRow from '../components/common/PostRow.astro';
 import BlogSearch from '../components/common/BlogSearch.astro';
 import {getDB} from '../lib/db';
 
-// Get the selected tag and content type from URL search params
-const url = new URL(Astro.request.url);
-const tag = url.searchParams.get('tag');
-const contentType = url.searchParams.get('type');
-
-// Fetch posts from database instead of files
 const db = getDB();
-const allPosts = db.getAllPosts();
-
-// Get all unique tags with counts
-const allTags = allPosts.map((post) => post.tags).flat();
-const tagCounts = allTags.reduce(
-  (count, tagName) => {
-    count[tagName] = (count[tagName] || 0) + 1;
-    return count;
-  },
-  {} as Record<string, number>
-);
-
-// Sort tags by count (most popular first)
-const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
-
-// Get content type counts
-const contentTypeCounts = allPosts.reduce(
-  (count, post) => {
-    const type = post.contentType || 'post';
-    count[type] = (count[type] || 0) + 1;
-    return count;
-  },
-  {} as Record<string, number>
-);
-
-// Filter posts by tag if one is selected
-let postsToShow = tag ? db.getPostsByTag(tag) : allPosts;
-
-// Filter by content type if one is selected, otherwise hide quick posts by default
-if (contentType) {
-  postsToShow = postsToShow.filter((post) => post.contentType === contentType);
-}
-
-// Sort posts by date (newest first)
-const sortedPosts = postsToShow.sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
-
-// Generate title based on filters
-let title = 'Blog | Bernat Sampera';
-if (tag && contentType) {
-  title = `${contentType}s tagged with ${tag} | Sampera Labs Blog`;
-} else if (tag) {
-  title = `Posts tagged with ${tag} | Sampera Labs Blog`;
-} else if (contentType) {
-  title = `${contentType}s | Sampera Labs Blog`;
-}
+const posts = db.getAllPosts()
+  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 
 const metadata = {
-  title,
-  description: 'Thoughts, tutorials, and insights on software development, design, and technology.',
+  title: 'Writing | Sampera Labs',
+  description: 'All writing — essays, notes, and references.',
 };
 ---
 
 <PageLayout metadata={metadata}>
-  <div class="min-h-screen">
-    <!-- Blog Header -->
-    <header class="border-b md:top-0 z-40">
-      <div class="container mx-auto px-6 py-4 md:py-6 max-w-6xl">
-        <!-- Blog Title and Description -->
-        <div class="mb-4 md:mb-6">
-          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-            {
-              contentType && tag
-                ? `${contentType}s tagged "${tag}"`
-                : contentType
-                  ? `${contentType}s`
-                  : tag
-                    ? `Posts tagged "${tag}"`
-                    : 'Blog'
-            }
-          </h1>
-          <p class="text-gray-600 max-w-2xl">
-            {
-              tag || contentType
-                ? `${postsToShow.length} ${postsToShow.length === 1 ? 'post' : 'posts'} found${contentType ? ` in ${contentType}s` : ''}${tag ? ` tagged with "${tag}"` : ''}.`
-                : 'Thoughts, tutorials, and insights on software development, design, and technology. Quick posts are hidden by default.'
-            }
-          </p>
-        </div>
-
-        <!-- Search Bar -->
-        <BlogSearch />
-
-        <!-- Content Type Filter Bar -->
-        <div class="mb-4">
-          <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by type:</h3>
-          <div class="flex flex-wrap gap-2">
-            <a
-              href="/blog"
-              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
-                !contentType ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              All ({allPosts.filter((p) => p.contentType !== 'quick post').length})
-            </a>
-            <a
-              href="/blog?type=post"
-              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
-                contentType === 'post'
-                  ? 'bg-gray-900 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Posts ({contentTypeCounts.post || 0})
-            </a>
-            <a
-              href="/blog?type=article"
-              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
-                contentType === 'article'
-                  ? 'bg-gray-900 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Articles ({contentTypeCounts.article || 0})
-            </a>
-            <a
-              href="/blog?type=quick post"
-              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
-                contentType === 'quick post'
-                  ? 'bg-gray-900 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              Quick Posts ({contentTypeCounts['quick post'] || 0})
-            </a>
-          </div>
-        </div>
-
-        <!-- Tag Filter Bar -->
-        <div class="mb-4">
-          <h3 class="text-sm font-medium text-gray-700 mb-2">Filter by tags:</h3>
-          <div class="flex flex-wrap gap-2">
-            <a
-              href={contentType ? `/blog?type=${contentType}` : '/blog'}
-              class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
-                !tag ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              All tags
-            </a>
-            {
-              sortedTags.map(([tagName, count]) => (
-                <a
-                  href={
-                    contentType
-                      ? `/blog?type=${contentType}&tag=${encodeURIComponent(tagName)}`
-                      : `/blog?tag=${encodeURIComponent(tagName)}`
-                  }
-                  class={`px-3 py-1.5 text-sm font-medium rounded-none transition-all ${
-                    tag === tagName ? 'bg-gray-900 text-white shadow-sm' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                  }`}
-                >
-                  {tagName} ({count})
-                </a>
-              ))
-            }
-          </div>
-        </div>
-      </div>
+  <main class="mx-auto px-6 max-w-5xl">
+    <header class="pt-12 pb-2 flex items-end justify-between gap-6">
+      <h1 class="font-display font-bold lowercase text-[64px] leading-[0.9] tracking-[-0.045em] text-text-strong">
+        writing<span class="text-marker">.</span>
+      </h1>
+      <div class="font-mono text-[11px] text-text-faint">{posts.length} entries</div>
     </header>
 
-    <!-- Blog Content -->
-    <main class="container mx-auto px-6 py-12 max-w-6xl">
-      <!-- Admin Actions -->
-      <div id="new-post-button" class="mb-12 hidden">
-        <a
-          href="/admin/new-post"
-          class="inline-flex items-center px-6 py-3 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm"
-        >
-          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-          </svg>
-          New Post
-        </a>
-      </div>
+    <div class="mt-5 mb-2">
+      <BlogSearch />
+    </div>
 
-      <!-- Posts Grid or Empty State -->
-      {
-        sortedPosts.length === 0 ? (
-          <div class="text-center py-24">
-            {tag ? (
-              <div class="max-w-md mx-auto">
-                <div class="w-16 h-16 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">No posts found</h3>
-                <p class="text-gray-600 mb-8">
-                  No posts found with tag "{tag}". Try browsing all posts or search for something else.
-                </p>
-                <a
-                  href="/blog"
-                  class="inline-flex items-center px-6 py-3 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm"
-                >
-                  View all posts
-                </a>
-              </div>
-            ) : (
-              <div class="max-w-md mx-auto">
-                <div class="w-16 h-16 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                    />
-                  </svg>
-                </div>
-                <h3 class="text-xl font-semibold text-gray-900 mb-3">No posts yet</h3>
-                <p class="text-gray-600 mb-8">This blog is just getting started. Check back soon for new content!</p>
-                <a
-                  id="first-post-button"
-                  href="/admin/new-post"
-                  class="inline-flex items-center px-8 py-4 bg-gray-900 text-white hover:bg-gray-800 transition-colors border rounded-lg font-medium shadow-sm hidden"
-                >
-                  Write your first post
-                </a>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="posts-grid">
-            {sortedPosts.map((post, index) => (
-              <div
-                class={index >= 9 ? 'hidden' : ''}
-                data-post-index={index}
-                data-post-data={JSON.stringify({
-                  id: post.id,
-                  title: post.title,
-                  excerpt: post.excerpt,
-                  slug: post.slug,
-                  tags: post.tags,
-                  readingTime: post.readingTime,
-                  contentType: post.contentType,
-                })}
-              >
-                <PostCard post={post} />
-              </div>
-            ))}
-          </div>
-        )
-      }
+    <div id="posts-grid">
+      {posts.map((post) => (
+        <div data-post-data={JSON.stringify({ id: post.id, title: post.title, excerpt: post.excerpt, slug: post.slug })}>
+          <PostRow post={post} />
+        </div>
+      ))}
+    </div>
 
-      <!-- Load More Button -->
-      {
-        sortedPosts.length > 9 && (
-          <div class="text-center mt-12">
-            <button
-              id="load-more-btn"
-              class="px-8 py-3 bg-white text-gray-600 hover:bg-gray-50 transition-colors border border-gray-200 rounded-lg font-medium"
-              data-posts-shown="9"
-              data-total-posts={sortedPosts.length}
-            >
-              Load more posts
-            </button>
-          </div>
-        )
-      }
-    </main>
-  </div>
+    <div id="new-post-button" class="mt-8 hidden">
+      <a href="/admin/new-post" class="font-mono text-[12px] text-stamp hover:text-marker">// + new post</a>
+    </div>
+  </main>
 </PageLayout>
 
 <script>
-  // Check if user is admin and show/hide admin actions
-  const isAdmin = localStorage.getItem('isAdmin');
-  const newPostButton = document.getElementById('new-post-button');
-  const firstPostButton = document.getElementById('first-post-button');
-
-  if (isAdmin === 'true') {
-    newPostButton?.classList.remove('hidden');
-    firstPostButton?.classList.remove('hidden');
-
-    // Show admin actions on all cards
-    document.querySelectorAll('.admin-actions').forEach((el) => {
-      el.classList.remove('hidden');
-    });
-
-    // Handle delete button clicks
-    document.querySelectorAll('.admin-delete-btn').forEach((btn) => {
-      btn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const button = e.currentTarget as HTMLButtonElement;
-        const itemId = button.dataset.itemId;
-        const itemTitle = button.dataset.itemTitle;
-
-        if (!itemId) return;
-
-        if (confirm(`Are you sure you want to delete "${itemTitle}"? This action cannot be undone.`)) {
-          try {
-            const apiKey = localStorage.getItem('BLOG_API_KEY');
-            if (!apiKey) {
-              alert('Not signed in. Log in at /admin and try again.');
-              return;
-            }
-            const response = await fetch(`/api/posts/${itemId}`, {
-              method: 'DELETE',
-              headers: { Authorization: `Bearer ${apiKey}` },
-            });
-
-            if (response.ok) {
-              const card = button.closest('[data-post-index]');
-              if (card) {
-                card.remove();
-              } else {
-                window.location.reload();
-              }
-            } else {
-              const error = await response.json();
-              alert(`Error deleting post: ${error.error}`);
-            }
-          } catch (error) {
-            alert('Failed to delete post. Please try again.');
-            console.error('Error deleting post:', error);
-          }
-        }
-      });
-    });
-  }
-
-  // Load more posts functionality
-  const loadMoreBtn = document.getElementById('load-more-btn');
-  if (loadMoreBtn) {
-    let postsShown = 9;
-    const totalPosts = parseInt(loadMoreBtn.dataset.totalPosts || '0');
-
-    loadMoreBtn.addEventListener('click', () => {
-      const hiddenPosts = document.querySelectorAll('[data-post-index].hidden');
-      const postsToShow = Array.from(hiddenPosts).slice(0, 6); // Show 6 more posts
-
-      postsToShow.forEach((post) => {
-        post.classList.remove('hidden');
-      });
-
-      postsShown += postsToShow.length;
-
-      // Update button text
-      const remaining = totalPosts - postsShown;
-      if (remaining <= 0) {
-        loadMoreBtn.style.display = 'none';
-      } else {
-        loadMoreBtn.textContent = `Load ${Math.min(remaining, 6)} more posts`;
-      }
-    });
-
-    // Set initial button text
-    const remaining = totalPosts - postsShown;
-    if (remaining > 0) {
-      loadMoreBtn.textContent = `Load ${Math.min(remaining, 6)} more posts`;
-    }
+  // Admin "new post" affordance — preserved from prior version
+  if (localStorage.getItem('isAdmin') === 'true') {
+    document.getElementById('new-post-button')?.classList.remove('hidden');
   }
 </script>

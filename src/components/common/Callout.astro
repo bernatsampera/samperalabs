@@ -1,0 +1,7 @@
+---
+export interface Props { label?: string; }
+const {label = 'note to self'} = Astro.props;
+---
+<div class="my-6 px-4 py-3 bg-marker-soft border-l-[3px] border-marker font-mono text-[12px] text-text leading-relaxed">
+  <span class="text-marker">// {label}</span> — <slot />
+</div>

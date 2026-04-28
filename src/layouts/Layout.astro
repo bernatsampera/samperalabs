@@ -1,6 +1,8 @@
 ---
 import '~/assets/styles/tailwind.css';
 import '~/assets/styles/tiptap.css';
+import '~/styles/post-render.css';
+import '@fontsource-variable/jetbrains-mono';
 
 import {I18N} from 'samperalabs:config';
 
@@ -20,7 +22,7 @@ const {language, textDirection} = I18N;
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} data-theme="lofi">
+<html lang={language} dir={textDirection}>
   <head>
     <CommonMeta />
     <Favicons />
@@ -76,7 +78,6 @@ const {language, textDirection} = I18N;
       }
 
       html {
-        font-family: 'PP Neue Montreal', sans-serif;
         scroll-behavior: smooth;
       }
 
@@ -96,8 +97,22 @@ const {language, textDirection} = I18N;
     </style>
   </head>
 
-  <body class="bg-background">
+  <body class="bg-ink bg-notebook text-text font-sans antialiased min-h-screen">
     <slot />
     <BasicScripts />
+    <script>
+      document.addEventListener('click', (e) => {
+        const t = e.target as HTMLElement;
+        if (!t || !t.matches('button[data-copy]')) return;
+        const wrap = t.closest('.codewrap');
+        const code = wrap?.querySelector('pre code');
+        if (!code) return;
+        navigator.clipboard.writeText(code.textContent ?? '').then(() => {
+          const prev = t.textContent;
+          t.textContent = 'copied';
+          setTimeout(() => { t.textContent = prev; }, 1200);
+        });
+      });
+    </script>
   </body>
 </html>

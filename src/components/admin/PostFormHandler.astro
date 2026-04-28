@@ -22,7 +22,7 @@ const {mode, postId, redirectUrl} = Astro.props;
       const content = String(contentTextarea.value || '').trim();
       if (!content) {
         const statusEl = document.getElementById('status-message');
-        statusEl.innerHTML = '<div class="text-destructive">Content is required.</div>';
+        statusEl.innerHTML = '<div class="text-red-400">Content is required.</div>';
         try {
           editor?.commands?.focus?.();
         } catch {}
@@ -47,14 +47,14 @@ const {mode, postId, redirectUrl} = Astro.props;
     const statusEl = document.getElementById('status-message');
 
     try {
-      statusEl.innerHTML = '<div class="text-muted-foreground">Saving post...</div>';
+      statusEl.innerHTML = '<div class="text-text-muted">Saving post...</div>';
 
       const url = mode === 'create' ? '/api/posts' : `/api/posts/${postId}`;
       const method = mode === 'create' ? 'POST' : 'PATCH';
 
       const apiKey = localStorage.getItem('BLOG_API_KEY');
       if (!apiKey) {
-        statusEl.innerHTML = '<div class="text-destructive">Not signed in. <a class="underline" href="/admin">Log in</a> and try again.</div>';
+        statusEl.innerHTML = '<div class="text-red-400">Not signed in. <a class="underline" href="/admin">Log in</a> and try again.</div>';
         return;
       }
 
@@ -70,7 +70,7 @@ const {mode, postId, redirectUrl} = Astro.props;
       const result = await response.json();
 
       if (response.ok) {
-        statusEl.innerHTML = `<div class="text-primary">Post ${mode === 'create' ? 'created' : 'updated'} successfully!</div>`;
+        statusEl.innerHTML = `<div class="text-text-strong">Post ${mode === 'create' ? 'created' : 'updated'} successfully!</div>`;
 
         // Redirect to the post or specified URL
         const redirectTo = redirectUrl || `/posts/${result.slug}`;
@@ -78,10 +78,10 @@ const {mode, postId, redirectUrl} = Astro.props;
           window.location.href = redirectTo;
         }, 1500);
       } else {
-        statusEl.innerHTML = `<div class="text-destructive">Error: ${result.error}</div>`;
+        statusEl.innerHTML = `<div class="text-red-400">Error: ${result.error}</div>`;
       }
     } catch (error) {
-      statusEl.innerHTML = `<div class="text-destructive">Failed to ${mode} post. Please try again.</div>`;
+      statusEl.innerHTML = `<div class="text-red-400">Failed to ${mode} post. Please try again.</div>`;
       console.error(`Error ${mode}ing post:`, error);
     }
   });

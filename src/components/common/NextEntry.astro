@@ -1,0 +1,17 @@
+---
+import type {EnhancedPost} from '../../lib/db';
+export interface Props { post: EnhancedPost | null | undefined; }
+const {post} = Astro.props;
+---
+{post && (
+  <a
+    href={`/posts/${post.slug}`}
+    class="mt-4 grid grid-cols-[1fr_auto] gap-3 items-center border border-ink-border-soft rounded-lg px-5 py-4 hover:border-marker transition-colors"
+  >
+    <div>
+      <div class="font-mono text-[10.5px] text-stamp tracking-wide">// next entry</div>
+      <h4 class="text-[15px] text-text-strong font-semibold mt-1">{post.title}</h4>
+    </div>
+    <span class="font-mono text-marker">→</span>
+  </a>
+)}

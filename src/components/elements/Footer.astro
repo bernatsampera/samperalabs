@@ -1,72 +1,15 @@
 ---
-import {SITE} from 'samperalabs:config';
-import {getHomePermalink} from '~/utils/permalinks';
-import SocialFollow from '../ui/SocialFollow.astro';
+import SocialFollow from '~/components/ui/SocialFollow.astro';
 
-interface Link {
-  text?: string;
-  href?: string;
-}
-
-export interface Props {
-  links?: Array<Link>;
-}
-
-const {links = []} = Astro.props;
+const lastBuild = new Date().toISOString().slice(0, 10);
 ---
 
-<footer class="py-20 border-t border-gray-100 bg-background relative z-10">
-  <div class="container mx-auto px-6">
-    <div class="mb-16 flex flex-col md:flex-row justify-between items-center">
-      <a class="text-xl font-bold tracking-tighter mb-8 md:mb-0" href={getHomePermalink()}>
-        {SITE?.name}
-      </a>
-
-      {
-        links.length > 0 && (
-          <div class="flex flex-wrap gap-6 mb-8 md:mb-0 justify-center md:justify-start">
-            {links.map(({text, href}) => (
-              <a class="text-gray-500 hover:opacity-70 transition-colors duration-300" href={href}>
-                {text}
-              </a>
-            ))}
-          </div>
-        )
-      }
+<footer class="border-t border-ink-border mt-24">
+  <div class="mx-auto px-6 py-10 max-w-5xl text-text-faint font-mono text-xs leading-relaxed">
+    <div><span class="text-text-faint">// </span>samperalabs · since 2024</div>
+    <div><span class="text-text-faint">// </span>last updated {lastBuild}</div>
+    <div class="mt-4">
       <SocialFollow mode="minimal" />
-    </div>
-
-    <div class="text-center text-sm text-gray-400">
-      <p>© {new Date().getFullYear()} Bernat Sampera. All rights reserved.</p>
-    </div>
-
-    <div class="mt-12 text-center">
-      <a href="#" class="inline-flex items-center text-sm text-gray-500 hover:opacity-70">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-          <path
-            fill-rule="evenodd"
-            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-            clip-rule="evenodd"></path>
-        </svg>
-        Back to Top
-      </a>
     </div>
   </div>
 </footer>
-
-<script>
-  // Smooth scroll to top
-  document.addEventListener('DOMContentLoaded', () => {
-    const backToTopButton = document.querySelector('footer a[href="#"]');
-
-    if (backToTopButton) {
-      backToTopButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth',
-        });
-      });
-    }
-  });
-</script>

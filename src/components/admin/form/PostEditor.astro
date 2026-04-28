@@ -8,12 +8,12 @@ console.log(content, postId);
 ---
 
 <div class="space-y-2">
-  <label for="content" class="block text-sm font-medium text-primary">
-    Content<span class="text-red-500">*</span>
+  <label for="content" class="block text-sm font-medium text-text-strong">
+    Content<span class="text-red-400">*</span>
   </label>
   <div id="editor-container" data-post-id={postId}>
-    <div class="tiptap-editor-container border rounded-sm">
-      <div id="tiptap-toolbar" class="tiptap-toolbar border rounded-t-sm p-2 flex flex-wrap gap-1">
+    <div class="tiptap-editor-container border border-ink-border rounded-sm">
+      <div id="tiptap-toolbar" class="tiptap-toolbar border-b border-ink-border rounded-t-sm p-2 flex flex-wrap gap-1">
         <!-- Text Formatting -->
         <div class="flex gap-1 border-r pr-2 mr-2">
           <button type="button" id="bold-btn" class="toolbar-btn" title="Bold (Ctrl+B)">
@@ -152,22 +152,22 @@ console.log(content, postId);
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e9ecef;
+    background-color: #161b22;
+    border-bottom: 1px solid #1f2630;
     transition: box-shadow 0.2s ease;
     backdrop-filter: blur(8px);
   }
 
   .tiptap-toolbar.floating {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   }
 
   .tiptap-editor {
     font-family: 'Inter', sans-serif;
     min-height: 400px;
     padding: 1rem;
-    background: var(--color-background);
-    color: var(--color-text);
+    background: #161b22;
+    color: #d6e1f0;
   }
 
   .tiptap-editor:focus {
@@ -184,18 +184,18 @@ console.log(content, postId);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text);
+    color: #d6e1f0;
   }
 
   .toolbar-btn:hover {
-    background: var(--color-accent);
-    border-color: var(--color-border);
+    background: #060a10;
+    border-color: #1f2630;
   }
 
   .toolbar-btn.active {
-    background: var(--color-primary);
-    color: var(--color-primary-foreground);
-    border-color: var(--color-primary);
+    background: #6da0ff;
+    color: #0d1117;
+    border-color: #6da0ff;
   }
 
   .toolbar-btn svg {
@@ -246,21 +246,21 @@ console.log(content, postId);
     margin: 0.25em 0;
   }
   .tiptap-editor blockquote {
-    border-left: 4px solid var(--color-primary);
+    border-left: 4px solid #6da0ff;
     padding-left: 1rem;
     margin: 1rem 0;
     font-style: italic;
-    color: var(--color-muted-foreground);
+    color: #95a8c2;
   }
   .tiptap-editor code {
-    background: var(--color-muted);
+    background: #060a10;
     padding: 0.125rem 0.25rem;
     border-radius: 0.25rem;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
     font-size: 0.875em;
   }
   .tiptap-editor pre {
-    background: var(--color-muted);
+    background: #060a10;
     padding: 1rem;
     border-radius: 0.5rem;
     overflow-x: auto;
@@ -273,11 +273,11 @@ console.log(content, postId);
   }
   .tiptap-editor hr {
     border: none;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid #1f2630;
     margin: 2rem 0;
   }
   .tiptap-editor a {
-    color: var(--color-primary);
+    color: #6da0ff;
     text-decoration: underline;
   }
   .tiptap-editor a:hover {
@@ -292,7 +292,7 @@ console.log(content, postId);
   .tiptap-editor .is-editor-empty:first-child::before {
     content: attr(data-placeholder);
     float: left;
-    color: var(--color-muted-foreground);
+    color: #6b7a90;
     pointer-events: none;
     height: 0;
   }

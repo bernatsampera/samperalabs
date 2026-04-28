@@ -22,13 +22,13 @@ const {
 } = Astro.props;
 
 const isTextarea = type === 'textarea';
-const inputClasses = "w-full px-4 py-3 border rounded-sm text-primary placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring";
+const inputClasses = "w-full px-4 py-3 bg-ink-2 border border-ink-border rounded-sm text-text-strong placeholder:text-text-faint focus:outline-none focus:ring-2 focus:ring-marker";
 const textareaClasses = inputClasses + " resize-none";
 ---
 
 <div class="space-y-2">
-  <label for={name} class="block text-sm font-medium text-primary">
-    {label}{required && <span class="text-red-500">*</span>}
+  <label for={name} class="block text-sm font-medium text-text-strong">
+    {label}{required && <span class="text-red-400">*</span>}
   </label>
   
   {isTextarea ? (
@@ -53,6 +53,6 @@ const textareaClasses = inputClasses + " resize-none";
   )}
   
   {helpText && (
-    <p class="text-xs text-muted-foreground">{helpText}</p>
+    <p class="text-xs text-text-muted">{helpText}</p>
   )}
 </div>

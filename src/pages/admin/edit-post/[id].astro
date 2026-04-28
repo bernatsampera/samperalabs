@@ -23,12 +23,12 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <div class="min-h-screen bg-background">
+  <div class="min-h-screen bg-ink">
     <AdminNavigation backUrl={`/posts/${post.slug}`} backText="Back to post" />
 
     <!-- Form -->
     <main class="container mx-auto px-6 py-16 max-w-5xl">
-      <h1 class="text-4xl md:text-6xl font-bold text-primary mb-12">Edit Post</h1>
+      <h1 class="text-4xl md:text-6xl font-bold text-text-strong mb-12">Edit Post</h1>
 
       <PostForm post={post} mode="edit" />
       <PostFormHandler mode="edit" postId={post.id} />

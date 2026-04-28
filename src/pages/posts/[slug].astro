@@ -1,143 +1,75 @@
 ---
-import Button from '~/components/ui/Button.astro';
 import BlogLayout from '../../layouts/BlogLayout.astro';
-import TableOfContents from '../../components/common/TableOfContents.astro';
-import MobileTableOfContents from '../../components/common/MobileTableOfContents.astro';
-import RelatedPosts from '../../components/common/RelatedPosts.astro';
+import NextEntry from '../../components/common/NextEntry.astro';
 import {getDB} from '../../lib/db';
 import {Marked} from 'marked';
 import {markedHighlight} from 'marked-highlight';
 import {preprocessMarkdownContent} from '../../utils/markdown';
-import {extractHeadings, addHeadingIds} from '../../utils/tableOfContents';
-import {findRelatedPosts, getReadingTime} from '../../utils/utils';
+import {addHeadingIds} from '../../utils/tableOfContents';
+import {wrapCodeBlocks} from '../../utils/codeBlockWrap';
 import hljs from 'highlight.js';
 
-// Generate static paths for all blog posts
 export async function getStaticPaths() {
   const db = getDB();
-  const allPosts = db.getAllPosts();
-
-  return allPosts.map((post) => ({
-    params: {slug: post.slug},
-  }));
+  return db.getAllPosts().map((post) => ({ params: {slug: post.slug} }));
 }
 
-// Get the slug from the URL params
 const {slug} = Astro.params;
-
-// Fetch the post from the database
 const db = getDB();
 const post = db.getPostBySlug(slug ?? '');
+if (!post) return Astro.redirect('/404');
 
-// If post not found, return 404
-if (!post) {
-  return Astro.redirect('/404');
-}
-
-// Get all posts for related posts calculation
-const allPosts = db.getAllPosts();
-const relatedPosts = findRelatedPosts(post, allPosts, 3);
-
-// Configure marked with standard options
+const allPosts = db.getAllPosts()
+  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
+const idx = allPosts.findIndex((p) => p.slug === post.slug);
+const next = idx >= 0 && idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
 
 const marked = new Marked(
   markedHighlight({
     emptyLangClass: 'hljs',
-    langPrefix: 'hljs language-python',
+    langPrefix: 'hljs language-',
     highlight(code, lang) {
-      const language = hljs.getLanguage(lang) ? lang : 'python';
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
       return hljs.highlight(code, {language}).value;
     },
   })
 );
 
-// configureMarked(marked);
+let html = await marked.parse(preprocessMarkdownContent(post.content));
+html = addHeadingIds(html);
+html = wrapCodeBlocks(html);
 
-// Convert markdown to HTML with preprocessing
-const processedContent = preprocessMarkdownContent(post.content);
-let htmlContent = await marked.parse(processedContent);
-
-// Add IDs to headings for anchor navigation
-htmlContent = addHeadingIds(htmlContent);
-
-// Extract headings for table of contents
-const headings = extractHeadings(htmlContent);
-
-const metadata = {
-  title: post.title,
-  description: post.description,
-};
+const metadata = { title: post.title, description: post.description };
 ---
 
 <BlogLayout metadata={metadata} post={post}>
-  <!-- Mobile Table of Contents -->
-  {headings.length > 1 && <MobileTableOfContents headings={headings} />}
+  <div class="post-prose" set:html={html} />
 
-  <!-- Article Content -->
-  <div
-    class="tiptap-viewer prose prose-lg prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-foreground hover:prose-a:text-muted-foreground prose-code:text-foreground prose-pre:bg-muted"
-    set:html={htmlContent}
-  />
+  <div class="mt-14 mb-7 text-center font-mono text-[13px] text-marker tracking-[0.3em]">·  ·  ·</div>
 
-  <!-- Desktop Table of Contents - Fixed Sidebar -->
-  {
-    headings.length > 1 && (
-      <aside class="hidden lg:block fixed left-6 top-40 w-64 z-10">
-        <TableOfContents headings={headings} />
-      </aside>
-    )
-  }
+  <NextEntry post={next} />
 
-  <!-- Related Posts -->
-  <RelatedPosts relatedPosts={relatedPosts} />
-
-  <!-- Article Actions -->
-  <footer id="admin-actions" class="mt-16 pt-8 border-t hidden">
-    <div class="flex gap-4">
-      <Button href={`/admin/edit-post/${post.id}`} text="Edit Post" />
-      <Button data-post-id={post.id} data-post-title={post.title} text="Delete Post" id="delete-btn" />
+  <footer id="admin-actions" class="mt-12 pt-6 border-t border-ink-border-soft hidden">
+    <div class="flex gap-4 font-mono text-[11px]">
+      <a href={`/admin/edit-post/${post.id}`} class="text-stamp hover:text-marker">// edit</a>
+      <button id="delete-btn" type="button" data-post-id={post.id} data-post-title={post.title} class="text-marker hover:text-red-400">// delete</button>
     </div>
   </footer>
 </BlogLayout>
 
 <script>
-  // Check if user is admin and show/hide admin actions
-  const isAdmin = localStorage.getItem('isAdmin');
-  const adminActions = document.getElementById('admin-actions');
-
-  if (isAdmin === 'true') {
-    adminActions?.classList.remove('hidden');
+  if (localStorage.getItem('isAdmin') === 'true') {
+    document.getElementById('admin-actions')?.classList.remove('hidden');
   }
-
   document.getElementById('delete-btn')?.addEventListener('click', async (e) => {
-    const button = e.target as HTMLButtonElement;
-    const postId = button.dataset.postId;
-    const postTitle = button.dataset.postTitle;
-
+    const btn = e.currentTarget as HTMLButtonElement;
+    const postId = btn.dataset.postId;
+    const postTitle = btn.dataset.postTitle;
     if (!postId) return;
-
-    if (confirm(`Are you sure you want to delete "${postTitle}"? This action cannot be undone.`)) {
-      try {
-        const apiKey = localStorage.getItem('BLOG_API_KEY');
-        if (!apiKey) {
-          alert('Not signed in. Log in at /admin and try again.');
-          return;
-        }
-        const response = await fetch(`/api/posts/${postId}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${apiKey}` },
-        });
-
-        if (response.ok) {
-          window.location.href = '/blog';
-        } else {
-          const error = await response.json();
-          alert(`Error deleting post: ${error.error}`);
-        }
-      } catch (error) {
-        alert('Failed to delete post. Please try again.');
-        console.error('Error deleting post:', error);
-      }
-    }
+    if (!confirm(`Delete "${postTitle}"? This cannot be undone.`)) return;
+    const apiKey = localStorage.getItem('BLOG_API_KEY');
+    if (!apiKey) { alert('Not signed in. Log in at /admin and try again.'); return; }
+    const r = await fetch(`/api/posts/${postId}`, { method: 'DELETE', headers: {Authorization: `Bearer ${apiKey}`} });
+    if (r.ok) { window.location.href = '/blog'; } else { const err = await r.json(); alert(`Error deleting post: ${err.error}`); }
   });
 </script>
