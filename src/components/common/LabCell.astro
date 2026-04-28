@@ -1,0 +1,22 @@
+---
+export interface Props {
+  label: string;
+  allHref?: string;
+  allLabel?: string;
+}
+const {label, allHref, allLabel} = Astro.props;
+---
+
+<div class="py-7">
+  <div class="flex items-baseline justify-between mb-4">
+    <span class="font-mono text-[10.5px] text-stamp uppercase tracking-[0.15em]">// {label}</span>
+    {allHref && allLabel && (
+      <a href={allHref} class="font-mono text-[10px] text-text-muted hover:text-marker transition-colors">
+        {allLabel} <span class="text-marker">→</span>
+      </a>
+    )}
+  </div>
+  <div>
+    <slot />
+  </div>
+</div>
