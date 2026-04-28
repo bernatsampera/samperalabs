@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "HOST=0.0.0.0 PORT=4322 node ./dist/server/entry.mjs",
-    "build": "astro build",
+    "build": "NODE_OPTIONS='--max-old-space-size=2048' astro build",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier -w .",
