@@ -10,11 +10,16 @@ CREATE TABLE IF NOT EXISTS posts (
     tags TEXT, -- JSON string or comma-separated
     content TEXT NOT NULL,
     slug TEXT UNIQUE NOT NULL,
+    status TEXT NOT NULL DEFAULT 'published',
+    published_at TEXT,
+    deleted_at TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create index for faster queries
+-- (status and deleted_at indexes are added in db.ts migratePostsAddStatusColumns
+-- so they sequence after the ALTER TABLE statements on existing databases.)
 CREATE INDEX IF NOT EXISTS idx_posts_pub_date ON posts(pub_date);
 CREATE INDEX IF NOT EXISTS idx_posts_slug ON posts(slug);
 

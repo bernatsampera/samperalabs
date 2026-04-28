@@ -31,6 +31,10 @@ The blog system serves posts stored in SQLite (via better-sqlite3) with server-s
 
 ## API Routes
 
-- [src/pages/api/posts/index.ts](../api/posts/index.ts): GET all posts and POST to create a new post with auto-generated slug
-- [src/pages/api/posts/[id].ts](../api/posts/[id].ts): GET, PUT, and DELETE a single post by ID
-- [src/pages/api/posts/slug/[slug].ts](../api/posts/slug/[slug].ts): GET a single post by its URL slug
+All `/api/posts*` endpoints require `Authorization: Bearer $BLOG_API_KEY`. Errors return `{ error, code }` with codes `auth_required`, `validation_error`, `not_found`, `slug_conflict`, `server_error`.
+
+- [src/pages/api/posts/index.ts](../api/posts/index.ts): GET (list with status/limit/offset/include_deleted filters, returns `{posts, total, limit, offset}`) and POST (create; status defaults to `published`, slug auto-generated from title if omitted)
+- [src/pages/api/posts/[id].ts](../api/posts/[id].ts): GET (returns drafts and soft-deleted), PATCH (partial update; sets `published_at` on first transition to `published`), DELETE (soft delete — sets `deleted_at`)
+- [src/pages/api/posts/[id]/restore.ts](../api/posts/[id]/restore.ts): POST to clear `deleted_at` on a soft-deleted post
+- [src/pages/api/posts/slug/[slug].ts](../api/posts/slug/[slug].ts): GET a post by slug (admin view — returns drafts and soft-deleted)
+- [src/lib/apiAuth.ts](../../lib/apiAuth.ts): `requireAuth(request)` (constant-time Bearer check against `BLOG_API_KEY`) and `errorResponse(status, message, code, extra?)` envelope helper

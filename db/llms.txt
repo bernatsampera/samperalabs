@@ -6,7 +6,7 @@ The data layer uses SQLite via the `better-sqlite3` Node.js driver. The database
 
 ## Schema
 
-- [db/schema.sql](schema.sql): Posts and refs table definitions; posts has columns for title, author, description, image, pub_date, tags (JSON), content (Markdown), slug, and timestamps; refs has columns for title, description, format, tags (JSON), content, slug, and timestamps
+- [db/schema.sql](schema.sql): Posts and refs table definitions; posts has columns for title, author, description, image, pub_date, tags (JSON), content (Markdown), slug, status (`draft`/`published`, default `published`), published_at, deleted_at (soft-delete), and timestamps; refs has columns for title, description, format, tags (JSON), content, slug, and timestamps. Migrations for the status/published_at/deleted_at columns on existing databases run from `src/lib/db.ts` (`migratePostsAddStatusColumns`).
 
 ## Application Layer
 

@@ -307,7 +307,15 @@ const metadata = {
 
         if (confirm(`Are you sure you want to delete "${itemTitle}"? This action cannot be undone.`)) {
           try {
-            const response = await fetch(`/api/posts/${itemId}`, { method: 'DELETE' });
+            const apiKey = localStorage.getItem('BLOG_API_KEY');
+            if (!apiKey) {
+              alert('Not signed in. Log in at /admin and try again.');
+              return;
+            }
+            const response = await fetch(`/api/posts/${itemId}`, {
+              method: 'DELETE',
+              headers: { Authorization: `Bearer ${apiKey}` },
+            });
 
             if (response.ok) {
               const card = button.closest('[data-post-index]');

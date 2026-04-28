@@ -118,8 +118,14 @@ const metadata = {
 
     if (confirm(`Are you sure you want to delete "${postTitle}"? This action cannot be undone.`)) {
       try {
+        const apiKey = localStorage.getItem('BLOG_API_KEY');
+        if (!apiKey) {
+          alert('Not signed in. Log in at /admin and try again.');
+          return;
+        }
         const response = await fetch(`/api/posts/${postId}`, {
           method: 'DELETE',
+          headers: { Authorization: `Bearer ${apiKey}` },
         });
 
         if (response.ok) {

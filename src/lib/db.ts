@@ -2,6 +2,8 @@ import Database from 'better-sqlite3';
 import { readFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 
+export type PostStatus = 'draft' | 'published';
+
 export interface Post {
   id?: number;
   title: string;
@@ -13,6 +15,9 @@ export interface Post {
   tags: string[]; // Will be stored as JSON in DB
   content: string;
   slug: string;
+  status?: PostStatus;
+  published_at?: string | null;
+  deleted_at?: string | null;
   created_at?: string;
   updated_at?: string;
 }
@@ -35,6 +40,9 @@ export interface PostRow {
   tags: string; // JSON string in DB
   content: string;
   slug: string;
+  status: string;
+  published_at: string | null;
+  deleted_at: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -66,8 +74,9 @@ export interface ReferenceRow {
 class PostDatabase {
   private db: Database.Database;
   private baseQuery = 'SELECT * FROM posts';
-  private insertColumns = 'title, author, description, image_url, image_alt, pub_date, tags, content, slug';
-  private insertPlaceholders = '?, ?, ?, ?, ?, ?, ?, ?, ?';
+  private publicWhere = "status = 'published' AND deleted_at IS NULL";
+  private insertColumns = 'title, author, description, image_url, image_alt, pub_date, tags, content, slug, status, published_at';
+  private insertPlaceholders = '?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?';
 
   constructor() {
     // Use environment-specific database path
@@ -92,6 +101,27 @@ class PostDatabase {
     const schemaPath = join(process.cwd(), 'db', 'schema.sql');
     const schema = readFileSync(schemaPath, 'utf-8');
     this.db.exec(schema);
+    this.migratePostsAddStatusColumns();
+  }
+
+  private migratePostsAddStatusColumns() {
+    const cols = this.db.prepare("PRAGMA table_info('posts')").all() as Array<{ name: string }>;
+    const has = (name: string) => cols.some((c) => c.name === name);
+
+    if (!has('status')) {
+      this.db.exec("ALTER TABLE posts ADD COLUMN status TEXT NOT NULL DEFAULT 'published'");
+    }
+    if (!has('published_at')) {
+      this.db.exec('ALTER TABLE posts ADD COLUMN published_at TEXT');
+      // Backfill: existing rows are considered published as of their pub_date
+      this.db.exec('UPDATE posts SET published_at = pub_date WHERE published_at IS NULL');
+    }
+    if (!has('deleted_at')) {
+      this.db.exec('ALTER TABLE posts ADD COLUMN deleted_at TEXT');
+    }
+
+    this.db.exec('CREATE INDEX IF NOT EXISTS idx_posts_status ON posts(status)');
+    this.db.exec('CREATE INDEX IF NOT EXISTS idx_posts_deleted_at ON posts(deleted_at)');
   }
 
   private rowToPost(row: PostRow): EnhancedPost {
@@ -101,6 +131,9 @@ class PostDatabase {
       description: row.description || undefined,
       image_url: row.image_url || undefined,
       image_alt: row.image_alt || undefined,
+      status: (row.status as PostStatus) || 'published',
+      published_at: row.published_at,
+      deleted_at: row.deleted_at,
     };
 
     // Add computed properties
@@ -157,6 +190,8 @@ class PostDatabase {
       JSON.stringify(post.tags || []),
       post.content,
       post.slug,
+      post.status || 'draft',
+      post.published_at ?? null,
     ];
   }
 
@@ -171,16 +206,59 @@ class PostDatabase {
   }
 
   getAllPosts(): EnhancedPost[] {
-    const rows = this.executeQuery(`${this.baseQuery} ORDER BY pub_date DESC`);
+    const rows = this.executeQuery(`${this.baseQuery} WHERE ${this.publicWhere} ORDER BY pub_date DESC`);
     return rows.map((row) => this.rowToPost(row));
   }
 
+  // Admin/API: returns drafts, deleted, etc. based on filters. Includes total count for pagination.
+  getAllPostsAdmin(opts: {
+    status?: PostStatus;
+    includeDeleted?: boolean;
+    limit?: number;
+    offset?: number;
+  } = {}): { posts: EnhancedPost[]; total: number } {
+    const where: string[] = [];
+    const params: unknown[] = [];
+    if (opts.status) {
+      where.push('status = ?');
+      params.push(opts.status);
+    }
+    if (!opts.includeDeleted) {
+      where.push('deleted_at IS NULL');
+    }
+    const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
+
+    const totalRow = this.db
+      .prepare(`SELECT COUNT(*) as c FROM posts ${whereSql}`)
+      .get(...params) as { c: number };
+
+    const limit = Math.min(Math.max(opts.limit ?? 20, 1), 100);
+    const offset = Math.max(opts.offset ?? 0, 0);
+
+    const rows = this.executeQuery(
+      `${this.baseQuery} ${whereSql} ORDER BY COALESCE(published_at, pub_date) DESC, id DESC LIMIT ? OFFSET ?`,
+      ...params,
+      limit,
+      offset
+    );
+
+    return { posts: rows.map((row) => this.rowToPost(row)), total: totalRow.c };
+  }
+
+  // Admin/API: returns post regardless of status or soft-delete state.
   getPostById(id: number): EnhancedPost | null {
     const row = this.executeSingle(`${this.baseQuery} WHERE id = ?`, id);
     return row ? this.rowToPost(row) : null;
   }
 
+  // Public: only returns published, non-deleted posts.
   getPostBySlug(slug: string): EnhancedPost | null {
+    const row = this.executeSingle(`${this.baseQuery} WHERE slug = ? AND ${this.publicWhere}`, slug);
+    return row ? this.rowToPost(row) : null;
+  }
+
+  // Admin/API: returns post by slug regardless of status.
+  getPostBySlugAdmin(slug: string): EnhancedPost | null {
     const row = this.executeSingle(`${this.baseQuery} WHERE slug = ?`, slug);
     return row ? this.rowToPost(row) : null;
   }
@@ -208,13 +286,31 @@ class PostDatabase {
     return stmt.run(...values).changes > 0;
   }
 
+  // Hard delete — kept for tests/admin scripts; the API uses softDeletePost.
   deletePost(id: number): boolean {
     const stmt = this.db.prepare('DELETE FROM posts WHERE id = ?');
     return stmt.run(id).changes > 0;
   }
 
+  softDeletePost(id: number): boolean {
+    const stmt = this.db.prepare(
+      'UPDATE posts SET deleted_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND deleted_at IS NULL'
+    );
+    return stmt.run(id).changes > 0;
+  }
+
+  restorePost(id: number): boolean {
+    const stmt = this.db.prepare(
+      'UPDATE posts SET deleted_at = NULL, updated_at = CURRENT_TIMESTAMP WHERE id = ? AND deleted_at IS NOT NULL'
+    );
+    return stmt.run(id).changes > 0;
+  }
+
   getPostsByTag(tag: string): EnhancedPost[] {
-    const rows = this.executeQuery(`${this.baseQuery} WHERE tags LIKE ? ORDER BY pub_date DESC`, `%"${tag}"%`);
+    const rows = this.executeQuery(
+      `${this.baseQuery} WHERE tags LIKE ? AND ${this.publicWhere} ORDER BY pub_date DESC`,
+      `%"${tag}"%`
+    );
     return rows.map((row) => this.rowToPost(row));
   }
 

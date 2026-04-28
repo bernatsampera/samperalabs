@@ -1,47 +1,28 @@
 import type { APIRoute } from 'astro';
 import { getDB } from '../../../../lib/db';
+import { errorResponse, requireAuth } from '../../../../lib/apiAuth';
 
 export const prerender = false;
 
-// GET /api/posts/slug/[slug] - Get a single post by slug
-export const GET: APIRoute = async ({ params }) => {
+// GET /api/posts/slug/[slug] — admin/agent lookup by slug (returns drafts and soft-deleted too)
+export const GET: APIRoute = async ({ params, request }) => {
+  const unauthorized = requireAuth(request);
+  if (unauthorized) return unauthorized;
+
+  const { slug } = params;
+  if (!slug) {
+    return errorResponse(400, 'invalid slug', 'validation_error', { field: 'slug' });
+  }
+
   try {
-    const { slug } = params;
-
-    if (!slug) {
-      return new Response(JSON.stringify({ error: 'Invalid slug' }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
-    const db = getDB();
-    const post = db.getPostBySlug(slug);
-
-    if (!post) {
-      return new Response(JSON.stringify({ error: 'Post not found' }), {
-        status: 404,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
+    const post = getDB().getPostBySlugAdmin(slug);
+    if (!post) return errorResponse(404, 'post not found', 'not_found');
     return new Response(JSON.stringify(post), {
       status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
     console.error('Error fetching post by slug:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch post' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return errorResponse(500, 'failed to fetch post', 'server_error');
   }
 };

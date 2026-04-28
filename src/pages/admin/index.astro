@@ -13,12 +13,13 @@ const metadata = {
       <h1 class="text-2xl font-bold mb-6 text-center">Admin Login</h1>
       <form id="admin-login-form" class="space-y-4">
         <div>
-          <label for="password" class="block text-sm font-medium mb-2">Password</label>
+          <label for="password" class="block text-sm font-medium mb-2">API key</label>
           <input
             type="password"
             id="password"
             name="password"
             class="w-full px-3 py-2 border rounded-md bg-background text-foreground"
+            autocomplete="off"
             required
           />
         </div>
@@ -72,22 +73,40 @@ const metadata = {
     adminPanel?.classList.remove('hidden');
   }
 
-  // Handle login form submission
-  document.getElementById('admin-login-form')?.addEventListener('submit', (e) => {
+  // Handle login form submission — validate the pasted key against the API
+  document.getElementById('admin-login-form')?.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const formData = new FormData(e.target as HTMLFormElement);
-    const password = formData.get('password') as string;
+    const key = (formData.get('password') as string).trim();
     const errorMessage = document.getElementById('error-message');
 
-    // Replace 'admin123' with your desired password
-    if (password === 'admin123') {
-      localStorage.setItem('isAdmin', 'true');
-      loginForm?.classList.add('hidden');
-      adminPanel?.classList.remove('hidden');
-      errorMessage?.classList.add('hidden');
-    } else {
-      errorMessage!.textContent = 'Invalid password. Please try again.';
+    if (!key) {
+      errorMessage!.textContent = 'API key is required.';
+      errorMessage?.classList.remove('hidden');
+      return;
+    }
+
+    try {
+      const probe = await fetch('/api/posts?limit=1', {
+        headers: { Authorization: `Bearer ${key}` },
+      });
+      if (probe.ok) {
+        localStorage.setItem('BLOG_API_KEY', key);
+        localStorage.setItem('isAdmin', 'true');
+        loginForm?.classList.add('hidden');
+        adminPanel?.classList.remove('hidden');
+        errorMessage?.classList.add('hidden');
+      } else if (probe.status === 401) {
+        errorMessage!.textContent = 'Invalid API key.';
+        errorMessage?.classList.remove('hidden');
+      } else {
+        errorMessage!.textContent = `Login failed (${probe.status}).`;
+        errorMessage?.classList.remove('hidden');
+      }
+    } catch (err) {
+      console.error('Login check failed:', err);
+      errorMessage!.textContent = 'Network error. Try again.';
       errorMessage?.classList.remove('hidden');
     }
   });
@@ -95,14 +114,13 @@ const metadata = {
   // Handle logout
   document.getElementById('logout-btn')?.addEventListener('click', () => {
     localStorage.removeItem('isAdmin');
+    localStorage.removeItem('BLOG_API_KEY');
     adminPanel?.classList.add('hidden');
     loginForm?.classList.remove('hidden');
 
-    // Clear the password field
     const passwordField = document.getElementById('password') as HTMLInputElement;
     if (passwordField) passwordField.value = '';
 
-    // Hide error message
     document.getElementById('error-message')?.classList.add('hidden');
   });
 </script>

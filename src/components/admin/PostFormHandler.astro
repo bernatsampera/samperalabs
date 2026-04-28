@@ -50,12 +50,19 @@ const {mode, postId, redirectUrl} = Astro.props;
       statusEl.innerHTML = '<div class="text-muted-foreground">Saving post...</div>';
 
       const url = mode === 'create' ? '/api/posts' : `/api/posts/${postId}`;
-      const method = mode === 'create' ? 'POST' : 'PUT';
+      const method = mode === 'create' ? 'POST' : 'PATCH';
+
+      const apiKey = localStorage.getItem('BLOG_API_KEY');
+      if (!apiKey) {
+        statusEl.innerHTML = '<div class="text-destructive">Not signed in. <a class="underline" href="/admin">Log in</a> and try again.</div>';
+        return;
+      }
 
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
         },
         body: JSON.stringify(postData),
       });

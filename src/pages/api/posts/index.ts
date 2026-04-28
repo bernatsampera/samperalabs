@@ -1,118 +1,114 @@
 import type { APIRoute } from 'astro';
-import { getDB, type Post } from '../../../lib/db';
+import { getDB, type Post, type PostStatus } from '../../../lib/db';
+import { errorResponse, requireAuth } from '../../../lib/apiAuth';
 
 export const prerender = false;
 
 function slugify(text: string): string {
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/[\s_-]+/g, '-') // Replace spaces and underscores with hyphens
-    .replace(/^-+|-+$/g, ''); // Remove leading/trailing hyphens
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
-// GET /api/posts - Get all posts
-export const GET: APIRoute = async ({ url }) => {
+function jsonResponse(body: unknown, status = 200): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+function parseStatus(value: string | null): PostStatus | undefined {
+  if (value === 'draft' || value === 'published') return value;
+  return undefined;
+}
+
+// GET /api/posts — list posts (admin view: includes drafts; excludes deleted by default)
+export const GET: APIRoute = async ({ request, url }) => {
+  const unauthorized = requireAuth(request);
+  if (unauthorized) return unauthorized;
+
   try {
+    const params = new URL(url).searchParams;
+    const status = parseStatus(params.get('status'));
+    const includeDeleted = params.get('include_deleted') === 'true';
+    const limit = Math.min(Math.max(Number(params.get('limit') ?? 20), 1), 100);
+    const offset = Math.max(Number(params.get('offset') ?? 0), 0);
+
     const db = getDB();
-    const searchParams = new URL(url).searchParams;
-    const tag = searchParams.get('tag');
+    const { posts, total } = db.getAllPostsAdmin({ status, includeDeleted, limit, offset });
 
-    let posts: Post[];
-
-    if (tag) {
-      posts = db.getPostsByTag(tag);
-    } else {
-      posts = db.getAllPosts();
-    }
-
-    return new Response(JSON.stringify(posts), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse({ posts, total, limit, offset });
   } catch (error) {
     console.error('Error fetching posts:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch posts' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return errorResponse(500, 'failed to fetch posts', 'server_error');
   }
 };
 
-// POST /api/posts - Create a new post
+// POST /api/posts — create a new post
 export const POST: APIRoute = async ({ request }) => {
+  const unauthorized = requireAuth(request);
+  if (unauthorized) return unauthorized;
+
   try {
     const body = await request.json();
-    const { title, author, description, image_url, image_alt, pub_date, tags, content } = body;
+    const {
+      title,
+      author,
+      description,
+      image_url,
+      image_alt,
+      pub_date,
+      tags,
+      content,
+      slug: providedSlug,
+      status: providedStatus,
+    } = body ?? {};
 
-    // Validate required fields
     if (!title || !author || !content) {
-      return new Response(
-        JSON.stringify({
-          error: 'Missing required fields: title, author, and content are required',
-        }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+      return errorResponse(
+        400,
+        'missing required fields: title, author, content',
+        'validation_error',
+        { field: !title ? 'title' : !author ? 'author' : 'content' }
       );
     }
 
-    // Generate slug from title
-    const slug = slugify(title);
+    const status: PostStatus = providedStatus === 'draft' ? 'draft' : 'published';
+    const slug = (typeof providedSlug === 'string' && providedSlug.length ? slugify(providedSlug) : slugify(title));
+    if (!slug) {
+      return errorResponse(400, 'slug could not be derived from title', 'validation_error', {
+        field: 'slug',
+      });
+    }
 
     const db = getDB();
-
-    // Check if slug already exists
-    const existingPost = db.getPostBySlug(slug);
-    if (existingPost) {
-      return new Response(
-        JSON.stringify({
-          error: 'A post with this title already exists',
-        }),
-        {
-          status: 409,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+    if (db.getPostBySlugAdmin(slug)) {
+      return errorResponse(409, 'slug already exists', 'slug_conflict', { field: 'slug' });
     }
 
+    const nowIso = new Date().toISOString();
     const newPost: Omit<Post, 'id' | 'created_at' | 'updated_at'> = {
       title,
       author,
       description,
       image_url,
       image_alt,
-      pub_date: pub_date || new Date().toISOString().split('T')[0],
+      pub_date: pub_date || nowIso.split('T')[0],
       tags: Array.isArray(tags) ? tags : [],
       content,
       slug,
+      status,
+      published_at: status === 'published' ? nowIso : null,
     };
 
     const postId = db.insertPost(newPost);
-    const createdPost = db.getPostById(postId);
+    const created = db.getPostById(postId);
 
-    return new Response(JSON.stringify(createdPost), {
-      status: 201,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse(created, 201);
   } catch (error) {
     console.error('Error creating post:', error);
-    return new Response(JSON.stringify({ error: 'Failed to create post' }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return errorResponse(500, 'failed to create post', 'server_error');
   }
 };
