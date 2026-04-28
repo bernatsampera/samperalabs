@@ -1,38 +1,130 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import Hero from '../components/common/Hero.astro';
-import PostRow from '../components/common/PostRow.astro';
+import LabHero from '../components/common/LabHero.astro';
+import LabCell from '../components/common/LabCell.astro';
+import LabItem from '../components/common/LabItem.astro';
 import {getDB} from '../lib/db';
 
+const TAGLINE =
+  'A working lab on LLM orchestration and context management systems. ' +
+  'Run by Bernat Sampera — notes from putting AI into production software.';
+
+const PROJECT_SLUGS = [
+  'bleakai',
+  'kronologs',
+  'translateprompt',
+  'packdensack',
+  'bjjgym',
+] as const;
+
+const NOW_BUILDING: string[] = [
+  'BleakAI v2 — eval suite for tool-calling agents',
+  'OllamaGuard — CPU temp watchdog',
+  'Note-taking pipeline that survives context windows',
+];
+
+type FollowingItem = {
+  kind: 'person' | 'tool' | 'paper' | 'blog';
+  name: string;
+  href: string;
+  why: string;
+};
+
+const WORTH_FOLLOWING: FollowingItem[] = [
+  {
+    kind: 'person',
+    name: 'Simon Willison',
+    href: 'https://simonwillison.net',
+    why: 'Best running log of LLM tooling in the wild.',
+  },
+  {
+    kind: 'tool',
+    name: 'DSPy',
+    href: 'https://dspy.ai',
+    why: 'Structuring LLM programs so you can actually iterate.',
+  },
+  {
+    kind: 'paper',
+    name: '"Sleep-time compute"',
+    href: 'https://arxiv.org/',
+    why: 'Why offline reasoning is going to matter.',
+  },
+];
+
 const db = getDB();
-const recent = db.getAllPosts()
+const allPosts = db.getAllPosts();
+
+const projectSlugSet = new Set<string>(PROJECT_SLUGS);
+
+const projectPosts = allPosts
+  .filter((p) => projectSlugSet.has(p.slug))
+  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
+
+const recentWriting = allPosts
+  .filter((p) => !projectSlugSet.has(p.slug))
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime())
   .slice(0, 3);
 
-const today = new Date().toISOString().slice(0, 10);
+const topProjects = projectPosts.slice(0, 3);
+const allWritingCount = allPosts.length - projectPosts.length;
+
+const now = new Date();
+const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+const kicker = `SAMPERALABS · NOTEBOOK · ${yearMonth}`;
 
 const metadata = {
   title: 'Sampera Labs',
-  description: 'Working notes on AI integration by Bernat Sampera.',
+  description: 'A one-person lab on LLM orchestration and context management. Notes by Bernat Sampera.',
 };
 ---
 
 <PageLayout metadata={metadata}>
   <main class="mx-auto px-6 max-w-5xl">
-    <Hero
-      kicker={`notebook · ${today}`}
-      title="working notes on ai integration"
-      highlight="notes"
-      intro="I'm Bernat Sampera. I build software that uses LLMs in production — and I write down what I figure out along the way. Mostly evals, glue code, and the wrappers around the wrappers."
-    />
+    <LabHero kicker={kicker} tagline={TAGLINE} />
 
-    <div class="font-mono text-[10.5px] text-stamp tracking-wider uppercase mt-10 mb-1">// recent</div>
-    <div>
-      {recent.map((post) => <PostRow post={post} />)}
+    <div class="grid md:grid-cols-2 md:gap-x-10 border-t border-ink-border-soft mt-4">
+      <div class="border-b border-ink-border-soft md:border-r md:pr-10">
+        <LabCell label="now building">
+          {NOW_BUILDING.map((title) => (
+            <LabItem variant="bulleted" title={title} />
+          ))}
+        </LabCell>
+      </div>
+
+      <div class="border-b border-ink-border-soft md:pl-10">
+        <LabCell label="recent writing" allHref="/blog" allLabel={`all ${allWritingCount}`}>
+          {recentWriting.map((post) => (
+            <LabItem
+              variant="dated"
+              date={new Date(post.pub_date).toISOString().slice(0, 10)}
+              title={post.title}
+              excerpt={post.excerpt}
+              href={`/posts/${post.slug}`}
+            />
+          ))}
+        </LabCell>
+      </div>
+
+      <div class="border-b border-ink-border-soft md:border-r md:pr-10 md:border-b-0">
+        <LabCell label="projects">
+          {topProjects.map((post) => (
+            <LabItem
+              variant="bulleted"
+              title={post.title}
+              description={post.description ?? post.excerpt}
+              href={`/posts/${post.slug}`}
+            />
+          ))}
+        </LabCell>
+      </div>
+
+      <div class="md:pl-10">
+        <LabCell label="worth following">
+          {WORTH_FOLLOWING.map((f) => (
+            <LabItem variant="linked" kind={f.kind} name={f.name} href={f.href} why={f.why} />
+          ))}
+        </LabCell>
+      </div>
     </div>
-
-    <a href="/blog" class="mt-8 inline-block font-mono text-[12px] text-stamp hover:text-marker transition-colors">
-      // see all writing <span class="text-marker">→</span>
-    </a>
   </main>
 </PageLayout>
