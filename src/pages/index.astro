@@ -9,13 +9,7 @@ const TAGLINE =
   'A working lab on LLM orchestration and context management systems. ' +
   'Run by Bernat Sampera — notes from putting AI into production software.';
 
-const PROJECT_SLUGS = [
-  'bleakai',
-  'kronologs',
-  'translateprompt',
-  'packdensack',
-  'bjjgym',
-] as const;
+const PROJECT_SLUGS = ['bleakai', 'kronologs', 'translateprompt', 'packdensack', 'bjjgym'] as const;
 
 type FollowingItem = {
   kind: 'person' | 'tool' | 'paper' | 'blog';
@@ -28,19 +22,19 @@ const WORTH_FOLLOWING: FollowingItem[] = [
   {
     kind: 'person',
     name: 'Lance Martin',
-    href: '#',
+    href: 'https://x.com/RLanceMartin',
     why: 'Practical AI engineering — agents, evals, retrieval.',
   },
   {
     kind: 'person',
     name: 'levelsio',
-    href: '#',
-    why: 'Solo founder shipping AI products in public.',
+    href: 'https://x.com/levelsio',
+    why: 'Solo founder shipping in public.',
   },
   {
     kind: 'person',
     name: 'DHH',
-    href: '#',
+    href: 'https://x.com/dhh',
     why: 'Opinionated takes on software, simplicity, and the web.',
   },
 ];
@@ -79,37 +73,43 @@ const metadata = {
     <div class="border-t border-ink-border-soft mt-4">
       <div class="border-b border-ink-border-soft">
         <LabCell label="recent writing" allHref="/blog" allLabel={`all ${allWritingCount}`}>
-          {recentWriting.map((post) => (
-            <LabItem
-              variant="dated"
-              date={new Date(post.pub_date).toISOString().slice(0, 10)}
-              title={post.title}
-              excerpt={post.excerpt}
-              href={`/posts/${post.slug}`}
-            />
-          ))}
+          {
+            recentWriting.map((post) => (
+              <LabItem
+                variant="dated"
+                date={new Date(post.pub_date).toISOString().slice(0, 10)}
+                title={post.title}
+                excerpt={post.excerpt}
+                href={`/posts/${post.slug}`}
+              />
+            ))
+          }
         </LabCell>
       </div>
 
       <div class="grid md:grid-cols-2 md:gap-x-10">
         <div class="border-b border-ink-border-soft md:border-r md:pr-10 md:border-b-0">
           <LabCell label="projects">
-            {topProjects.map((post) => (
-              <LabItem
-                variant="bulleted"
-                title={post.title}
-                description={post.description ?? post.excerpt}
-                href={`/posts/${post.slug}`}
-              />
-            ))}
+            {
+              topProjects.map((post) => (
+                <LabItem
+                  variant="bulleted"
+                  title={post.title}
+                  description={post.description ?? post.excerpt}
+                  href={`/posts/${post.slug}`}
+                />
+              ))
+            }
           </LabCell>
         </div>
 
         <div class="md:pl-10">
           <LabCell label="worth following">
-            {WORTH_FOLLOWING.map((f) => (
-              <LabItem variant="linked" kind={f.kind} name={f.name} href={f.href} why={f.why} />
-            ))}
+            {
+              WORTH_FOLLOWING.map((f) => (
+                <LabItem variant="linked" kind={f.kind} name={f.name} href={f.href} why={f.why} />
+              ))
+            }
           </LabCell>
         </div>
       </div>
