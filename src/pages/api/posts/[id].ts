@@ -46,7 +46,7 @@ export const GET: APIRoute = async ({ params, request }) => {
   if (id === null) return errorResponse(400, 'invalid post id', 'validation_error', { field: 'id' });
 
   try {
-    const post = getDB().getPostById(id);
+    const post = await getDB().getPostById(id);
     if (!post) return errorResponse(404, 'post not found', 'not_found');
     return jsonResponse(post);
   } catch (error) {
@@ -70,7 +70,7 @@ export const PATCH: APIRoute = async ({ params, request }) => {
     }
 
     const db = getDB();
-    const existing = db.getPostById(id);
+    const existing = await db.getPostById(id);
     if (!existing) return errorResponse(404, 'post not found', 'not_found');
 
     // Whitelist fields the API allows updating
@@ -88,7 +88,7 @@ export const PATCH: APIRoute = async ({ params, request }) => {
         return errorResponse(400, 'slug cannot be empty', 'validation_error', { field: 'slug' });
       }
       if (newSlug !== existing.slug) {
-        const collision = db.getPostBySlugAdmin(newSlug);
+        const collision = await db.getPostBySlugAdmin(newSlug);
         if (collision && collision.id !== id) {
           return errorResponse(409, 'slug already exists', 'slug_conflict', { field: 'slug' });
         }
@@ -114,13 +114,13 @@ export const PATCH: APIRoute = async ({ params, request }) => {
       return errorResponse(400, 'tags must be an array', 'validation_error', { field: 'tags' });
     }
 
-    const changed = db.updatePost(id, update);
+    const changed = await db.updatePost(id, update);
     if (!changed) {
       // Nothing to update — return current state
       return jsonResponse(existing);
     }
 
-    return jsonResponse(db.getPostById(id));
+    return jsonResponse(await db.getPostById(id));
   } catch (error) {
     console.error('Error updating post:', error);
     return errorResponse(500, 'failed to update post', 'server_error');
@@ -137,12 +137,12 @@ export const DELETE: APIRoute = async ({ params, request }) => {
 
   try {
     const db = getDB();
-    const existing = db.getPostById(id);
+    const existing = await db.getPostById(id);
     if (!existing || existing.deleted_at) {
       return errorResponse(404, 'post not found', 'not_found');
     }
 
-    db.softDeletePost(id);
+    await db.softDeletePost(id);
     return new Response(null, { status: 204 });
   } catch (error) {
     console.error('Error deleting post:', error);

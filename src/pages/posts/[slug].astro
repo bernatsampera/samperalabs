@@ -11,15 +11,16 @@ import hljs from 'highlight.js';
 
 export async function getStaticPaths() {
   const db = getDB();
-  return db.getAllPosts().map((post) => ({ params: {slug: post.slug} }));
+  const posts = await db.getAllPosts();
+  return posts.map((post) => ({ params: {slug: post.slug} }));
 }
 
 const {slug} = Astro.params;
 const db = getDB();
-const post = db.getPostBySlug(slug ?? '');
+const post = await db.getPostBySlug(slug ?? '');
 if (!post) return Astro.redirect('/404');
 
-const allPosts = db.getAllPosts()
+const allPosts = (await db.getAllPosts())
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 const idx = allPosts.findIndex((p) => p.slug === post.slug);
 const next = idx >= 0 && idx < allPosts.length - 1 ? allPosts[idx + 1] : null;

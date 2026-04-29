@@ -17,13 +17,13 @@ export const POST: APIRoute = async ({ params, request }) => {
 
   try {
     const db = getDB();
-    const existing = db.getPostById(id);
+    const existing = await db.getPostById(id);
     if (!existing || !existing.deleted_at) {
       return errorResponse(404, 'post not found', 'not_found');
     }
 
-    db.restorePost(id);
-    return new Response(JSON.stringify(db.getPostById(id)), {
+    await db.restorePost(id);
+    return new Response(JSON.stringify(await db.getPostById(id)), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });

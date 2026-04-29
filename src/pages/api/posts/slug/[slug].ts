@@ -15,7 +15,7 @@ export const GET: APIRoute = async ({ params, request }) => {
   }
 
   try {
-    const post = getDB().getPostBySlugAdmin(slug);
+    const post = await getDB().getPostBySlugAdmin(slug);
     if (!post) return errorResponse(404, 'post not found', 'not_found');
     return new Response(JSON.stringify(post), {
       status: 200,

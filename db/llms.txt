@@ -10,8 +10,8 @@ The data layer uses SQLite via the `better-sqlite3` Node.js driver. The database
 
 ## Application Layer
 
-- [src/lib/db.ts](../src/lib/db.ts): Database connection singleton and query class — provides CRUD methods for posts (getAllPosts, getPostBySlug, etc.) and references (getAllReferences, getReferenceBySlug, insertReference, updateReference, deleteReference) using better-sqlite3
-- [db/README.md](README.md): Database documentation covering schema, setup, migration, API endpoints, and production deployment
+- [src/lib/db.ts](../src/lib/db.ts): `PostStore` interface with two async implementations — `SqliteStore` (better-sqlite3, default) and `RemoteStore` (HTTP client against `/api/posts` using `BLOG_API_KEY`). `getDB()` picks remote when `BLOG_DB_MODE=remote` and `BLOG_REMOTE_URL` is set; otherwise local SQLite. All methods are Promise-returning.
+- [db/README.md](README.md): Database documentation covering schema, setup, migration, API endpoints, remote-mode env vars, and production deployment
 
 ## Scripts
 

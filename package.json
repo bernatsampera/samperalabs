@@ -15,8 +15,6 @@
     "astro": "astro",
     "format": "prettier -w .",
     "lint:eslint": "eslint .",
-    "pull-db": "uv run scripts/manage-sqlite/index.py pull",
-    "push-db": "uv run scripts/manage-sqlite/index.py push",
     "generate-sitemap": "npx tsx scripts/create-sitemaps/index.ts",
     "test": "vitest run"
   },

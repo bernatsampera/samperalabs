@@ -37,7 +37,7 @@ export const GET: APIRoute = async ({ request, url }) => {
     const offset = Math.max(Number(params.get('offset') ?? 0), 0);
 
     const db = getDB();
-    const { posts, total } = db.getAllPostsAdmin({ status, includeDeleted, limit, offset });
+    const { posts, total } = await db.getAllPostsAdmin({ status, includeDeleted, limit, offset });
 
     return jsonResponse({ posts, total, limit, offset });
   } catch (error) {
@@ -84,7 +84,7 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const db = getDB();
-    if (db.getPostBySlugAdmin(slug)) {
+    if (await db.getPostBySlugAdmin(slug)) {
       return errorResponse(409, 'slug already exists', 'slug_conflict', { field: 'slug' });
     }
 
@@ -103,8 +103,8 @@ export const POST: APIRoute = async ({ request }) => {
       published_at: status === 'published' ? nowIso : null,
     };
 
-    const postId = db.insertPost(newPost);
-    const created = db.getPostById(postId);
+    const postId = await db.insertPost(newPost);
+    const created = await db.getPostById(postId);
 
     return jsonResponse(created, 201);
   } catch (error) {

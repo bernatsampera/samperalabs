@@ -60,3 +60,24 @@ For production deployments:
 1. Ensure the `db/` directory is writable by the server
 2. The database file will be created automatically
 3. Consider setting up regular backups of `content.db`
+
+## Remote Mode (use prod DB from local dev)
+
+`src/lib/db.ts` supports two backends behind the same `PostStore` interface:
+
+- `SqliteStore` (default): opens `content.db` directly via better-sqlite3.
+- `RemoteStore`: calls the production `/api/posts` endpoints over HTTP using `BLOG_API_KEY`.
+
+To run local dev against the prod database (no SCP sync needed), set in `.env`:
+
+```
+BLOG_DB_MODE=remote
+BLOG_REMOTE_URL=https://samperalabs.com
+BLOG_API_KEY=<prod blog api key>
+```
+
+Notes:
+- **Never set `BLOG_DB_MODE=remote` on the prod VPS** — `RemoteStore` would call the same server's `/api/posts`, which calls `getDB()` again, causing an infinite loop. Production must always run in default (local SQLite) mode.
+- Every page render in remote mode does a network round-trip to prod. Dev will be slower and offline work breaks.
+- Writes from dev mutate prod. There is no read-only gate; treat the dev environment with the same care as the admin panel.
+- `deletePost` (hard delete) is not exposed via the API and will throw in remote mode. Use `softDeletePost`.

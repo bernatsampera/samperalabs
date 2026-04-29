@@ -10,7 +10,7 @@ const {id} = Astro.params;
 
 // Fetch the post from the database
 const db = getDB();
-const post = db.getPostById(Number(id));
+const post = await db.getPostById(Number(id));
 
 // If post not found, return 404
 if (!post) {

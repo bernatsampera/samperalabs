@@ -4,7 +4,7 @@ import {projectSlugSet} from '../lib/projects';
 
 export async function GET(context) {
   const db = getDB();
-  const posts = db.getAllPosts()
+  const posts = (await db.getAllPosts())
     .filter((post) => !projectSlugSet.has(post.slug))
     .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 

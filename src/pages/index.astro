@@ -45,7 +45,7 @@ const WORTH_FOLLOWING: FollowingItem[] = [
 ];
 
 const db = getDB();
-const allPosts = db.getAllPosts();
+const allPosts = await db.getAllPosts();
 
 const projectPosts = allPosts
   .filter((p) => projectSlugSet.has(p.slug))

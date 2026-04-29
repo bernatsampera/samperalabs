@@ -6,7 +6,7 @@ import {getDB} from '../lib/db';
 import {projectSlugSet} from '../lib/projects';
 
 const db = getDB();
-const posts = db.getAllPosts()
+const posts = (await db.getAllPosts())
   .filter((p) => !projectSlugSet.has(p.slug))
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 
