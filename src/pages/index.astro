@@ -17,12 +17,6 @@ const PROJECT_SLUGS = [
   'bjjgym',
 ] as const;
 
-const NOW_BUILDING: string[] = [
-  'BleakAI v2 — eval suite for tool-calling agents',
-  'OllamaGuard — CPU temp watchdog',
-  'Note-taking pipeline that survives context windows',
-];
-
 type FollowingItem = {
   kind: 'person' | 'tool' | 'paper' | 'blog';
   name: string;
@@ -82,16 +76,8 @@ const metadata = {
   <main class="mx-auto px-6 max-w-5xl">
     <LabHero kicker={kicker} tagline={TAGLINE} />
 
-    <div class="grid md:grid-cols-2 md:gap-x-10 border-t border-ink-border-soft mt-4">
-      <div class="border-b border-ink-border-soft md:border-r md:pr-10">
-        <LabCell label="now building">
-          {NOW_BUILDING.map((title) => (
-            <LabItem variant="bulleted" title={title} />
-          ))}
-        </LabCell>
-      </div>
-
-      <div class="border-b border-ink-border-soft md:pl-10">
+    <div class="border-t border-ink-border-soft mt-4">
+      <div class="border-b border-ink-border-soft">
         <LabCell label="recent writing" allHref="/blog" allLabel={`all ${allWritingCount}`}>
           {recentWriting.map((post) => (
             <LabItem
@@ -105,25 +91,27 @@ const metadata = {
         </LabCell>
       </div>
 
-      <div class="border-b border-ink-border-soft md:border-r md:pr-10 md:border-b-0">
-        <LabCell label="projects">
-          {topProjects.map((post) => (
-            <LabItem
-              variant="bulleted"
-              title={post.title}
-              description={post.description ?? post.excerpt}
-              href={`/posts/${post.slug}`}
-            />
-          ))}
-        </LabCell>
-      </div>
+      <div class="grid md:grid-cols-2 md:gap-x-10">
+        <div class="border-b border-ink-border-soft md:border-r md:pr-10 md:border-b-0">
+          <LabCell label="projects">
+            {topProjects.map((post) => (
+              <LabItem
+                variant="bulleted"
+                title={post.title}
+                description={post.description ?? post.excerpt}
+                href={`/posts/${post.slug}`}
+              />
+            ))}
+          </LabCell>
+        </div>
 
-      <div class="md:pl-10">
-        <LabCell label="worth following">
-          {WORTH_FOLLOWING.map((f) => (
-            <LabItem variant="linked" kind={f.kind} name={f.name} href={f.href} why={f.why} />
-          ))}
-        </LabCell>
+        <div class="md:pl-10">
+          <LabCell label="worth following">
+            {WORTH_FOLLOWING.map((f) => (
+              <LabItem variant="linked" kind={f.kind} name={f.name} href={f.href} why={f.why} />
+            ))}
+          </LabCell>
+        </div>
       </div>
     </div>
   </main>
