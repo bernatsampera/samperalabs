@@ -4,14 +4,41 @@ export interface Props {
   tagline: string;
 }
 const {kicker, tagline} = Astro.props;
+
+const ctaLink =
+  'font-mono text-[12px] text-text-muted hover:text-text-strong transition-colors ' +
+  'focus-visible:outline-none focus-visible:text-text-strong focus-visible:ring-1 ' +
+  'focus-visible:ring-marker focus-visible:ring-offset-2 focus-visible:ring-offset-ink rounded-sm';
 ---
 
-<section class="pt-16 pb-10">
+<section class="pt-10 pb-8 md:pt-16 md:pb-10">
   <div class="font-mono text-[11px] text-stamp tracking-[0.12em] mb-5">// {kicker}</div>
   <h1 class="font-display font-bold lowercase text-[56px] md:text-[88px] leading-[0.95] tracking-[-0.05em] text-text-strong">
     samperalabs<span class="text-marker">.</span>
   </h1>
-  <p class="mt-6 text-[16px] md:text-[17px] leading-[1.55] text-text-muted max-w-xl">
+  <p class="mt-6 text-[18px] md:text-[20px] leading-[1.5] text-text max-w-2xl">
     {tagline}
   </p>
+  <div class="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+    <a
+      href="https://x.com/bsampera97"
+      target="_blank"
+      rel="noreferrer"
+      class={ctaLink}
+    >
+      by Bernat Sampera <span class="text-marker">↗</span>
+    </a>
+    <span class="hidden sm:inline font-mono text-[10px] text-text-faint" aria-hidden="true">·</span>
+    <a href="/rss.xml" class={ctaLink}>
+      rss <span class="text-marker">→</span>
+    </a>
+    <a
+      href="https://x.com/bsampera97"
+      target="_blank"
+      rel="noreferrer"
+      class={ctaLink}
+    >
+      follow on x <span class="text-marker">↗</span>
+    </a>
+  </div>
 </section>

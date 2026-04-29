@@ -8,7 +8,7 @@ import {projectSlugSet} from '../lib/projects';
 
 const TAGLINE =
   'A working lab on LLM orchestration and context management systems. ' +
-  'Run by Bernat Sampera. Notes from putting AI into production software.';
+  'Notes from putting AI into production software.';
 
 type FollowingItem = {
   kind: 'person' | 'tool' | 'paper' | 'blog';
@@ -100,6 +100,7 @@ const metadata = {
                   title={post.title}
                   description={post.description ?? post.excerpt}
                   href={`/posts/${post.slug}`}
+                  date={new Date(post.pub_date).toISOString().slice(0, 10)}
                 />
               ))
             }

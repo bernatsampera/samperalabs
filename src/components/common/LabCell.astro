@@ -8,10 +8,13 @@ const {label, allHref, allLabel} = Astro.props;
 ---
 
 <div class="py-7">
-  <div class="flex items-baseline justify-between mb-4">
-    <span class="font-mono text-[10.5px] text-stamp uppercase tracking-[0.15em]">// {label}</span>
+  <div class="flex flex-col items-start gap-1.5 mb-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-3">
+    <span class="font-mono text-[11px] text-stamp uppercase tracking-[0.15em]">// {label}</span>
     {allHref && allLabel && (
-      <a href={allHref} class="font-mono text-[10px] text-text-muted hover:text-marker transition-colors">
+      <a
+        href={allHref}
+        class="font-mono text-[11px] text-text-muted hover:text-marker transition-colors focus-visible:outline-none focus-visible:text-marker focus-visible:ring-1 focus-visible:ring-marker rounded-sm"
+      >
         {allLabel} <span class="text-marker">→</span>
       </a>
     )}

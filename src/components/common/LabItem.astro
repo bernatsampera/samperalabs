@@ -11,6 +11,7 @@ export interface BulletedItem {
   title: string;
   description?: string;
   href?: string;
+  date?: string;
 }
 export interface LinkedItem {
   variant: 'linked';
@@ -23,28 +24,32 @@ export type Props = DatedItem | BulletedItem | LinkedItem;
 
 const item = Astro.props;
 
-const baseRow = 'block py-2 transition-colors';
-const hoverable = 'hover:bg-marker-soft -mx-3 px-3 rounded-sm';
+const baseRow = 'block py-2.5 transition-colors';
+const hoverable =
+  'hover:bg-marker-soft -mx-3 px-3 rounded-sm ' +
+  'focus-visible:outline-none focus-visible:bg-marker-soft-strong ' +
+  'focus-visible:ring-1 focus-visible:ring-marker';
+const datedGrid = 'grid grid-cols-[auto_1fr] gap-x-4 items-baseline';
 ---
 
 {item.variant === 'dated' && (
   item.href ? (
-    <a href={item.href} class={`${baseRow} ${hoverable} grid grid-cols-[88px_1fr] gap-3 items-baseline`}>
-      <time class="font-mono text-[10.5px] text-text-faint tracking-wide">{item.date}</time>
+    <a href={item.href} class={`${baseRow} ${hoverable} ${datedGrid}`}>
+      <time class="font-mono text-[12px] text-text-faint tracking-wide whitespace-nowrap">{item.date}</time>
       <div>
-        <div class="text-[14px] font-medium text-text-strong leading-snug">{item.title}</div>
+        <div class="text-[16px] font-medium text-text-strong leading-snug">{item.title}</div>
         {item.excerpt && (
-          <p class="text-[12px] text-text-muted mt-1 leading-relaxed">{item.excerpt}</p>
+          <p class="text-[14px] text-text-muted mt-1.5 leading-relaxed">{item.excerpt}</p>
         )}
       </div>
     </a>
   ) : (
-    <div class={`${baseRow} grid grid-cols-[88px_1fr] gap-3 items-baseline`}>
-      <time class="font-mono text-[10.5px] text-text-faint tracking-wide">{item.date}</time>
+    <div class={`${baseRow} ${datedGrid}`}>
+      <time class="font-mono text-[12px] text-text-faint tracking-wide whitespace-nowrap">{item.date}</time>
       <div>
-        <div class="text-[14px] font-medium text-text-strong leading-snug">{item.title}</div>
+        <div class="text-[16px] font-medium text-text-strong leading-snug">{item.title}</div>
         {item.excerpt && (
-          <p class="text-[12px] text-text-muted mt-1 leading-relaxed">{item.excerpt}</p>
+          <p class="text-[14px] text-text-muted mt-1.5 leading-relaxed">{item.excerpt}</p>
         )}
       </div>
     </div>
@@ -54,33 +59,43 @@ const hoverable = 'hover:bg-marker-soft -mx-3 px-3 rounded-sm';
 {item.variant === 'bulleted' && (
   item.href ? (
     <a href={item.href} class={`${baseRow} ${hoverable}`}>
-      <div class="text-[14px] font-medium text-text-strong leading-snug">
-        <span class="text-marker mr-2">·</span>{item.title}
+      <div class="flex items-baseline gap-3">
+        <div class="text-[16px] font-medium text-text-strong leading-snug flex-1">
+          <span class="text-marker mr-2">·</span>{item.title}
+        </div>
+        {item.date && (
+          <time class="font-mono text-[12px] text-text-faint tracking-wide whitespace-nowrap">{item.date}</time>
+        )}
       </div>
       {item.description && (
-        <p class="text-[12px] text-text-muted mt-1 leading-relaxed pl-4">{item.description}</p>
+        <p class="text-[14px] text-text-muted mt-1.5 leading-relaxed pl-4">{item.description}</p>
       )}
     </a>
   ) : (
     <div class={baseRow}>
-      <div class="text-[14px] font-medium text-text-strong leading-snug">
-        <span class="text-marker mr-2">·</span>{item.title}
+      <div class="flex items-baseline gap-3">
+        <div class="text-[16px] font-medium text-text-strong leading-snug flex-1">
+          <span class="text-marker mr-2">·</span>{item.title}
+        </div>
+        {item.date && (
+          <time class="font-mono text-[12px] text-text-faint tracking-wide whitespace-nowrap">{item.date}</time>
+        )}
       </div>
       {item.description && (
-        <p class="text-[12px] text-text-muted mt-1 leading-relaxed pl-4">{item.description}</p>
+        <p class="text-[14px] text-text-muted mt-1.5 leading-relaxed pl-4">{item.description}</p>
       )}
     </div>
   )
 )}
 
 {item.variant === 'linked' && (
-  <a href={item.href} target="_blank" rel="noreferrer" class={`${baseRow} ${hoverable} grid grid-cols-[72px_1fr] gap-3 items-baseline`}>
-    <span class="font-mono text-[9.5px] text-text-faint tracking-[0.1em] uppercase pt-1">{item.kind}</span>
+  <a href={item.href} target="_blank" rel="noreferrer" class={`${baseRow} ${hoverable} grid grid-cols-[auto_1fr] gap-x-4 items-baseline`}>
+    <span class="font-mono text-[11px] text-text-faint tracking-[0.1em] uppercase pt-1 whitespace-nowrap">{item.kind}</span>
     <div>
-      <div class="text-[14px] font-medium text-text-strong leading-snug">
-        {item.name}<span class="text-marker font-mono text-[11px] ml-1">↗</span>
+      <div class="text-[16px] font-medium text-text-strong leading-snug">
+        {item.name}<span class="text-marker font-mono text-[12px] ml-1">↗</span>
       </div>
-      <p class="text-[12px] text-text-muted mt-1 leading-relaxed">{item.why}</p>
+      <p class="text-[14px] text-text-muted mt-1.5 leading-relaxed">{item.why}</p>
     </div>
   </a>
 )}
