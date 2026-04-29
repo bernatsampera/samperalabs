@@ -6,12 +6,15 @@ const {post} = Astro.props;
 {post && (
   <a
     href={`/posts/${post.slug}`}
-    class="mt-4 grid grid-cols-[1fr_auto] gap-3 items-center border border-ink-border-soft rounded-lg px-5 py-4 hover:border-marker transition-colors"
+    class="group mt-4 grid grid-cols-[110px_1fr_auto] gap-5 items-baseline py-5 border-t border-ink-border-soft hover:bg-marker-soft focus-visible:bg-marker-soft transition-colors"
   >
-    <div>
-      <div class="font-mono text-[10.5px] text-stamp tracking-wide">// next entry</div>
-      <h4 class="text-[15px] text-text-strong font-semibold mt-1">{post.title}</h4>
-    </div>
-    <span class="font-mono text-marker">→</span>
+    <span class="font-mono text-[10.5px] text-stamp tracking-wide pt-1">// next entry</span>
+    <span class="text-[18px] font-semibold text-text-strong leading-snug tracking-tight transition-colors group-hover:text-marker">{post.title}</span>
+    <span class="font-mono text-[13px] text-marker transition-transform group-hover:translate-x-1">→</span>
   </a>
 )}
+
+<style>
+  /* Neutralize the .post-prose a underline gradient bleeding onto this block link. */
+  a { background-image: none; }
+</style>

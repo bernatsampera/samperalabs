@@ -1,14 +1,15 @@
 /**
  * Wrap each <pre>…</pre> emitted by marked-highlight with a header bar
- * (filename or language) and a copy button. Idempotent — won't re-wrap
- * already-wrapped blocks.
+ * (filename or language) and a copy button. Matches both tagged fences
+ * (`<code class="hljs language-X">`) and bare fences (`<code class="hljs">`).
+ * Idempotent — won't re-wrap already-wrapped blocks.
  */
-const PRE_RE = /<pre>(<code class="hljs language-([^"]+)">)([\s\S]*?)<\/code><\/pre>/g;
+const PRE_RE = /<pre>(<code class="hljs(?: language-([^"]+))?">)([\s\S]*?)<\/code><\/pre>/g;
 
 export function wrapCodeBlocks(html: string): string {
   return html.replace(PRE_RE, (_full, openTag, lang, body) => {
     const m = String(body).match(/^\s*(?:<span [^>]*>)*\s*\/\/\s*([^\n<]+?)\s*(?:<\/span>)*\n/);
-    const filename = m ? m[1].trim() : lang;
+    const filename = m ? m[1].trim() : (lang || 'code');
     return (
       `<div class="codewrap">` +
         `<div class="codehead">` +

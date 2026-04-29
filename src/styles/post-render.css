@@ -15,7 +15,32 @@
 }
 .codewrap .codehead .copy { background: none; border: 0; color: #6da0ff; font: inherit; cursor: pointer; }
 .codewrap .codehead .copy:hover { color: #f0a14a; }
-.codewrap pre { margin: 0; padding: 14px 16px; font: 12.5px/1.65 'JetBrains Mono Variable', 'JetBrains Mono', monospace; color: #d6e1f0; overflow-x: auto; background: transparent; }
+.codewrap pre { margin: 0; padding: 14px 16px; font: 12.5px/1.65 'JetBrains Mono Variable', 'JetBrains Mono', monospace; color: #d6e1f0; overflow-x: auto; background: transparent; scrollbar-width: thin; scrollbar-color: #2a3340 transparent; }
+.codewrap pre::-webkit-scrollbar { height: 8px; width: 8px; }
+.codewrap pre::-webkit-scrollbar-track { background: transparent; }
+.codewrap pre::-webkit-scrollbar-thumb { background: #2a3340; border-radius: 4px; }
+.codewrap pre::-webkit-scrollbar-thumb:hover { background: #3a4556; }
+
+/* Syntax highlighting (highlight.js token classes).
+   Shared between public posts (.codewrap) and the admin editor (.tiptap). */
+:where(.codewrap pre, .tiptap pre, .tiptap-viewer pre) {
+  .hljs-comment, .hljs-quote { color: #6b7a90; font-style: italic; }
+  .hljs-string, .hljs-literal, .hljs-regexp, .hljs-doctag, .hljs-meta-string { color: #a6e3a1; }
+  .hljs-keyword, .hljs-built_in, .hljs-selector-tag, .hljs-name, .hljs-tag { color: #cba6f7; }
+  .hljs-symbol, .hljs-bullet, .hljs-link { color: #f5c2e7; }
+  .hljs-number { color: #fab387; }
+  .hljs-type, .hljs-class .hljs-title { color: #f9e2af; }
+  .hljs-title, .hljs-title.class_, .hljs-title.function_, .hljs-section { color: #89b4fa; font-weight: 600; }
+  .hljs-variable, .hljs-template-variable, .hljs-subst { color: #f38ba8; }
+  .hljs-params, .hljs-attr, .hljs-property { color: #f0a14a; }
+  .hljs-attribute, .hljs-selector-attr, .hljs-selector-class, .hljs-selector-id, .hljs-selector-pseudo { color: #94e2d5; }
+  .hljs-meta, .hljs-meta-keyword { color: #f0c6c6; }
+  .hljs-operator, .hljs-punctuation { color: #89dceb; }
+  .hljs-deletion { color: #f38ba8; background: rgba(243, 139, 168, 0.08); }
+  .hljs-addition { color: #a6e3a1; background: rgba(166, 227, 161, 0.08); }
+  .hljs-emphasis { font-style: italic; }
+  .hljs-strong { font-weight: 700; }
+}
 
 .post-prose { max-width: 640px; color: #d6e1f0; line-height: 1.72; font-size: 16px; }
 .post-prose strong { color: #f3f7ff; font-weight: 600; }
