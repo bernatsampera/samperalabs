@@ -17,13 +17,11 @@ pnpm-debug.log*
 .env.production
 
 # database files (for development)
-db/content.db
-db/content.db-shm
-db/content.db-wal
 scripts/manage-sqlite/content.db
 scripts/manage-sqlite/content.db-shm
 scripts/manage-sqlite/content.db-wal
 scripts/manage-sqlite/*.db.backup-*
+scripts/manage-sqlite/*.bak-*
 
 # macOS-specific files
 .DS_Store

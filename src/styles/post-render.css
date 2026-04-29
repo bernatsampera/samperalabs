@@ -47,6 +47,8 @@
 .post-prose p { margin: 0 0 22px; }
 .post-prose h2 { position: relative; padding-left: 14px; margin: 40px 0 14px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em; color: #f3f7ff; }
 .post-prose h2::before { content: ""; position: absolute; left: 0; top: 8px; width: 6px; height: 18px; background: #f0a14a; }
+.post-prose h3 { margin: 32px 0 12px; font-size: 19px; font-weight: 700; letter-spacing: -0.005em; color: #f3f7ff; }
+.post-prose h4 { margin: 26px 0 10px; font-size: 17px; font-weight: 600; color: #f3f7ff; }
 .post-prose a { color: #f3f7ff; text-decoration: none; background-image: linear-gradient(transparent 92%, #f0a14a 92%); }
 .post-prose code:not(pre code) { background: #1a2230; color: #f3f7ff; padding: 1px 6px; border-radius: 3px; font: 13px/1 'JetBrains Mono Variable', monospace; }
 .post-prose blockquote { margin: 28px 0; padding: 4px 0 4px 18px; border-left: 3px solid #f0a14a; font-style: italic; font-size: 17px; line-height: 1.5; color: #f3f7ff; }

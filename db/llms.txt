@@ -2,7 +2,7 @@
 
 > SQLite-based content storage for blog posts and references with file-based database and remote sync tooling.
 
-The data layer uses SQLite via the `better-sqlite3` Node.js driver. The database file (`content.db`) stores blog posts and reference documents with Markdown/plaintext content, tags (as JSON), and metadata. The database is initialized automatically on first run using the schema definition. A Python sync script handles pulling and pushing the database file to/from the production VPS via SCP.
+The data layer uses SQLite via the `better-sqlite3` Node.js driver. The database file stores blog posts and reference documents with Markdown/plaintext content, tags (as JSON), and metadata. In development the DB lives at `scripts/manage-sqlite/content.db`; in production at `/app/data/content.db` (Docker volume). The path is resolved by `getDB()` in `src/lib/db.ts`. The database is initialized automatically on first run using the schema definition. A Python sync script handles pulling and pushing the database file to/from the production VPS via SCP.
 
 ## Schema
 

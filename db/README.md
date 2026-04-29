@@ -5,7 +5,13 @@ This directory contains the SQLite database setup for the blog posts system.
 ## Files
 
 - `schema.sql` - Database schema definition
-- `content.db` - SQLite database file (created automatically, not in git)
+
+The SQLite database file itself is not in this directory:
+
+- **Development:** `scripts/manage-sqlite/content.db` (created automatically, gitignored)
+- **Production:** `/app/data/content.db` (Docker volume on the VPS)
+
+The path is resolved by `getDB()` in `src/lib/db.ts`.
 
 ## Setup
 
@@ -57,15 +63,15 @@ The `posts` table contains:
 
 For production deployments:
 
-1. Ensure the `db/` directory is writable by the server
+1. Ensure `/app/data/` is mounted from a Docker volume and writable by the server
 2. The database file will be created automatically
-3. Consider setting up regular backups of `content.db`
+3. Consider setting up regular backups of `/app/data/content.db` (the `scripts/manage-sqlite/index.py` script can pull it locally via SCP)
 
 ## Remote Mode (use prod DB from local dev)
 
 `src/lib/db.ts` supports two backends behind the same `PostStore` interface:
 
-- `SqliteStore` (default): opens `content.db` directly via better-sqlite3.
+- `SqliteStore` (default): opens the resolved `content.db` (see *Files* above) directly via better-sqlite3.
 - `RemoteStore`: calls the production `/api/posts` endpoints over HTTP using `BLOG_API_KEY`.
 
 To run local dev against the prod database (no SCP sync needed), set in `.env`:
