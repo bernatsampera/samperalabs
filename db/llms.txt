@@ -1,18 +1,20 @@
 # Database Layer
 
-> SQLite-based content storage for blog posts and references with file-based database and remote sync tooling.
+> SQLite content store for blog posts and references. The dev server reads the prod DB over HTTPS; only the prod Docker container reads the file.
 
-The data layer uses SQLite via the `better-sqlite3` Node.js driver. The database file stores blog posts and reference documents with Markdown/plaintext content, tags (as JSON), and metadata. In development the DB lives at `scripts/manage-sqlite/content.db`; in production at `/app/data/content.db` (Docker volume). The path is resolved by `getDB()` in `src/lib/db.ts`. The database is initialized automatically on first run using the schema definition. A Python sync script handles pulling and pushing the database file to/from the production VPS via SCP.
+There is one source of truth: `/app/data/content.db` inside the prod Docker container on the VPS. `getDB()` in `src/lib/db.ts` returns `SqliteStore` when running in prod (`import.meta.env.PROD`) and `RemoteStore` (HTTPS client) everywhere else. There is no `BLOG_DB_MODE` toggle and no separate local DB the app reads. Dev requires `BLOG_API_KEY` in `.env`; `BLOG_REMOTE_URL` defaults to `https://samperalabs.com`.
+
+A separate `scripts/manage-sqlite/content.db` file exists only as a working copy for ad-hoc CLI scripts (migrations, sitemap generation, batch retags). It is never read by the running app. Push/pull it via `scripts/manage-sqlite/index.py`.
 
 ## Schema
 
-- [db/schema.sql](schema.sql): Posts and refs table definitions; posts has columns for title, author, description, image, pub_date, tags (JSON), content (Markdown), slug, status (`draft`/`published`, default `published`), published_at, deleted_at (soft-delete), and timestamps; refs has columns for title, description, format, tags (JSON), content, slug, and timestamps. Migrations for the status/published_at/deleted_at columns on existing databases run from `src/lib/db.ts` (`migratePostsAddStatusColumns`).
+- [db/schema.sql](schema.sql): Posts and refs table definitions. `posts` has title, author, description, image_url/alt, pub_date, tags (JSON), content (Markdown), slug, status (`draft`/`published`, default `published`), published_at, deleted_at (soft-delete), timestamps. `refs` has title, description, format, tags (JSON), content, slug, timestamps. Status/published_at/deleted_at migrations on existing DBs run from `src/lib/db.ts` (`migratePostsAddStatusColumns`).
 
 ## Application Layer
 
-- [src/lib/db.ts](../src/lib/db.ts): `PostStore` interface with two async implementations — `SqliteStore` (better-sqlite3, default) and `RemoteStore` (HTTP client against `/api/posts` using `BLOG_API_KEY`). `getDB()` picks remote when `BLOG_DB_MODE=remote` and `BLOG_REMOTE_URL` is set; otherwise local SQLite. All methods are Promise-returning.
-- [db/README.md](README.md): Database documentation covering schema, setup, migration, API endpoints, remote-mode env vars, and production deployment
+- [src/lib/db.ts](../src/lib/db.ts): `PostStore` interface with two implementations — `SqliteStore` (better-sqlite3, used only when `import.meta.env.PROD`) and `RemoteStore` (HTTPS client against `/api/posts` using `BLOG_API_KEY`, used everywhere else). `getDB()` picks automatically. All methods Promise-returning.
+- [db/README.md](README.md): Setup (dev + prod), schema, API endpoints, migration commands.
 
 ## Scripts
 
-- [scripts/manage-sqlite/index.py](../scripts/manage-sqlite/index.py): Python CLI tool for syncing the SQLite database to/from the production VPS via SCP (pull and push commands)
+- [scripts/manage-sqlite/index.py](../scripts/manage-sqlite/index.py): SCP pull/push of the prod DB file to a local working copy at `scripts/manage-sqlite/content.db`. Used by ad-hoc migration scripts; not by the app.

@@ -1,89 +1,74 @@
 # Blog Database
 
-This directory contains the SQLite database setup for the blog posts system.
+SQLite-backed storage for blog posts and project pages. One DB, two execution contexts:
 
-## Files
+| Where | What `getDB()` returns | DB location |
+|---|---|---|
+| Local dev (`npm run dev`, scripts importing `~/lib/db`) | `RemoteStore` — talks to the prod API over HTTPS | n/a (no local file is read) |
+| Production Docker on the VPS | `SqliteStore` — reads the file directly | `/app/data/content.db` (Docker volume) |
 
-- `schema.sql` - Database schema definition
+The dev server hits prod. There is no separate "local" copy of the data the app cares about. If you want a writable local snapshot for one-off scripts, use `scripts/manage-sqlite/index.py pull` — that file is read by ad-hoc scripts (migrations, sitemap generation), never by the app.
 
-The SQLite database file itself is not in this directory:
+## Setup (dev)
 
-- **Development:** `scripts/manage-sqlite/content.db` (created automatically, gitignored)
-- **Production:** `/app/data/content.db` (Docker volume on the VPS)
+Set in `.env`:
 
-The path is resolved by `getDB()` in `src/lib/db.ts`.
+```
+BLOG_API_KEY=<prod blog api key>
+```
 
-## Setup
+Optional override (defaults to `https://samperalabs.com`):
 
-The database is initialized automatically when you first run the application. The schema is applied automatically.
+```
+BLOG_REMOTE_URL=https://samperalabs.com
+```
+
+That's it. No mode flag. Dev always runs against prod.
+
+**Caveats** (since dev = prod for data):
+- Writes from `npm run dev` mutate prod. Treat the local admin panel like the live one.
+- Every page render is a network round-trip. Offline work breaks.
+- `deletePost` (hard delete) is not exposed by the API and throws. Use `softDeletePost`.
+
+## Setup (production)
+
+Mount `/app/data/` from a Docker volume so the SQLite file survives redeploys. The schema is applied automatically on first run.
+
+For backups: `uv run --no-project python scripts/manage-sqlite/index.py pull` copies the prod file into `scripts/manage-sqlite/content.db`.
+
+## Database Schema
+
+See [`schema.sql`](schema.sql) for the canonical definition. The `posts` table contains:
+
+- `id` — primary key
+- `title`, `author`, `description`, `image_url`, `image_alt`
+- `pub_date`, `published_at`, `deleted_at`
+- `tags` — JSON array
+- `content` — Markdown
+- `slug` — unique
+- `status` — `draft` | `published`
+- `created_at`, `updated_at`
+
+The `refs` table mirrors a similar shape for reference documents.
+
+## API Endpoints
+
+All under `/api/posts`. Auth: `Authorization: Bearer $BLOG_API_KEY`.
+
+- `GET /api/posts?status=published&limit=20&offset=0&include_deleted=false`
+- `GET /api/posts/[id]`
+- `GET /api/posts/slug/[slug]`
+- `POST /api/posts`
+- `PATCH /api/posts/[id]`
+- `DELETE /api/posts/[id]` — soft-delete (sets `deleted_at`)
+- `POST /api/posts/[id]/restore`
 
 ## Migration
 
-To migrate existing markdown posts to the database, run:
+To migrate markdown posts from `src/pages/posts/` into the DB:
 
 ```bash
 node scripts/migrate-posts.mjs
 ```
 
-This will:
-
-1. Read all `.md` files from `src/pages/posts/`
-2. Parse frontmatter and content
-3. Insert into the SQLite database
-4. Generate slugs from filenames
-
-## Database Schema
-
-The `posts` table contains:
-
-- `id` - Primary key (auto-increment)
-- `title` - Post title
-- `author` - Post author
-- `description` - Post description (optional)
-- `image_url` - Featured image URL (optional)
-- `image_alt` - Image alt text (optional)
-- `pub_date` - Publication date
-- `tags` - JSON array of tags
-- `content` - Markdown content
-- `slug` - URL slug (unique)
-- `created_at` - Timestamp when created
-- `updated_at` - Timestamp when last updated
-
-## API Endpoints
-
-- `GET /api/posts` - Get all posts
-- `GET /api/posts?tag=tagname` - Get posts by tag
-- `GET /api/posts/[id]` - Get post by ID
-- `GET /api/posts/slug/[slug]` - Get post by slug
-- `POST /api/posts` - Create new post
-- `PUT /api/posts/[id]` - Update post
-- `DELETE /api/posts/[id]` - Delete post
-
-## Production Setup
-
-For production deployments:
-
-1. Ensure `/app/data/` is mounted from a Docker volume and writable by the server
-2. The database file will be created automatically
-3. Consider setting up regular backups of `/app/data/content.db` (the `scripts/manage-sqlite/index.py` script can pull it locally via SCP)
-
-## Remote Mode (use prod DB from local dev)
-
-`src/lib/db.ts` supports two backends behind the same `PostStore` interface:
-
-- `SqliteStore` (default): opens the resolved `content.db` (see *Files* above) directly via better-sqlite3.
-- `RemoteStore`: calls the production `/api/posts` endpoints over HTTP using `BLOG_API_KEY`.
-
-To run local dev against the prod database (no SCP sync needed), set in `.env`:
-
-```
-BLOG_DB_MODE=remote
-BLOG_REMOTE_URL=https://samperalabs.com
-BLOG_API_KEY=<prod blog api key>
-```
-
-Notes:
-- **Never set `BLOG_DB_MODE=remote` on the prod VPS** — `RemoteStore` would call the same server's `/api/posts`, which calls `getDB()` again, causing an infinite loop. Production must always run in default (local SQLite) mode.
-- Every page render in remote mode does a network round-trip to prod. Dev will be slower and offline work breaks.
-- Writes from dev mutate prod. There is no read-only gate; treat the dev environment with the same care as the admin panel.
-- `deletePost` (hard delete) is not exposed via the API and will throw in remote mode. Use `softDeletePost`.
+This script writes to `scripts/manage-sqlite/content.db` (the local working file). After it runs, `uv run --no-project python scripts/manage-sqlite/index.py push` to ship the result to prod.

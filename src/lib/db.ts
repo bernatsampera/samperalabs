@@ -2,6 +2,17 @@ import type Database from 'better-sqlite3';
 import { readFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { createRequire } from 'module';
+import { loadEnv } from 'vite';
+
+// Astro integrations (sitemap, etc.) load before Vite's .env handling kicks in,
+// so process.env doesn't yet contain user vars when this module is first imported.
+// Pull them in explicitly so getDB() works in every context.
+if (!import.meta.env.PROD) {
+  const env = loadEnv(process.env.NODE_ENV ?? 'development', process.cwd(), '');
+  for (const [k, v] of Object.entries(env)) {
+    if (process.env[k] === undefined) process.env[k] = v;
+  }
+}
 
 export type PostStatus = 'draft' | 'published';
 
@@ -436,23 +447,31 @@ class RemoteStore implements PostStore {
 
 let dbInstance: PostStore | null = null;
 
-function isRemoteMode(): boolean {
-  return import.meta.env.BLOG_DB_MODE === 'remote';
-}
+// Single rule: prod Docker reads its own SQLite (it IS the API server).
+// Anywhere else — local dev, scripts that import this module — hits the prod API.
+// No toggles. No BLOG_DB_MODE. Set BLOG_API_KEY in .env and you're done.
+const DEFAULT_REMOTE_URL = 'https://samperalabs.com';
 
 export function getDB(): PostStore {
   if (dbInstance) return dbInstance;
 
-  if (isRemoteMode()) {
-    const url = import.meta.env.BLOG_REMOTE_URL as string | undefined;
-    const key = import.meta.env.BLOG_API_KEY as string | undefined;
-    if (!url) throw new Error('BLOG_DB_MODE=remote but BLOG_REMOTE_URL is not set');
-    if (!key) throw new Error('BLOG_DB_MODE=remote but BLOG_API_KEY is not set');
-    console.log(`[db] using remote store at ${url}`);
-    dbInstance = new RemoteStore(url, key);
-  } else {
+  if (import.meta.env.PROD) {
+    console.log('[db] sqlite (prod) at /app/data/content.db');
     dbInstance = new SqliteStore();
+    return dbInstance;
   }
+
+  // Use process.env (not import.meta.env) — non-PUBLIC_ vars aren't exposed via
+  // import.meta.env in integration contexts (e.g. sitemap startup).
+  const url = process.env.BLOG_REMOTE_URL ?? DEFAULT_REMOTE_URL;
+  const key = process.env.BLOG_API_KEY;
+  if (!key) {
+    throw new Error(
+      'BLOG_API_KEY is required in dev. The dev server reads the prod database over HTTPS — set it in .env.'
+    );
+  }
+  console.log(`[db] remote ${url}`);
+  dbInstance = new RemoteStore(url, key);
   return dbInstance;
 }
 
