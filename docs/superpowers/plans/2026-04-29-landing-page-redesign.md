@@ -273,7 +273,7 @@ import {getDB} from '../lib/db';
 
 const TAGLINE =
   'A working lab on LLM orchestration and context management systems. ' +
-  'Run by Bernat Sampera — notes from putting AI into production software.';
+  'Run by Bernat Sampera. Notes from putting AI into production software.';
 
 const PROJECT_SLUGS = [
   'bleakai',

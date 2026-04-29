@@ -4,12 +4,11 @@ import LabHero from '../components/common/LabHero.astro';
 import LabCell from '../components/common/LabCell.astro';
 import LabItem from '../components/common/LabItem.astro';
 import {getDB} from '../lib/db';
+import {projectSlugSet} from '../lib/projects';
 
 const TAGLINE =
   'A working lab on LLM orchestration and context management systems. ' +
-  'Run by Bernat Sampera — notes from putting AI into production software.';
-
-const PROJECT_SLUGS = ['bleakai', 'kronologs', 'translateprompt', 'packdensack', 'bjjgym'] as const;
+  'Run by Bernat Sampera. Notes from putting AI into production software.';
 
 type FollowingItem = {
   kind: 'person' | 'tool' | 'paper' | 'blog';
@@ -37,12 +36,16 @@ const WORTH_FOLLOWING: FollowingItem[] = [
     href: 'https://x.com/dhh',
     why: 'Opinionated takes on software, simplicity, and the web.',
   },
+  {
+    kind: 'person',
+    name: 'Nassim Taleb',
+    href: 'https://x.com/nntaleb',
+    why: 'Risk, uncertainty, and antifragility.',
+  },
 ];
 
 const db = getDB();
 const allPosts = db.getAllPosts();
-
-const projectSlugSet = new Set<string>(PROJECT_SLUGS);
 
 const projectPosts = allPosts
   .filter((p) => projectSlugSet.has(p.slug))
