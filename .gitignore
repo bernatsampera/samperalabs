@@ -20,6 +20,10 @@ pnpm-debug.log*
 db/content.db
 db/content.db-shm
 db/content.db-wal
+scripts/manage-sqlite/content.db
+scripts/manage-sqlite/content.db-shm
+scripts/manage-sqlite/content.db-wal
+scripts/manage-sqlite/*.db.backup-*
 
 # macOS-specific files
 .DS_Store
