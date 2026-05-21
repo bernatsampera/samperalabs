@@ -106,7 +106,8 @@ export class RemoteLikeStore implements LikeStore {
   }
 
   async getAllLikes(): Promise<Like[]> {
-    return this.fetchJson<Like[]>('/api/likes');
+    const data = await this.fetchJson<{ likes: Like[] }>('/api/likes');
+    return data.likes;
   }
 
   async getLikeById(id: number): Promise<Like | null> {

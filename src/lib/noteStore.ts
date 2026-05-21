@@ -113,7 +113,8 @@ export class RemoteNoteStore implements NoteStore {
   }
 
   async getAllNotes(): Promise<Note[]> {
-    return this.fetchJson<Note[]>('/api/notes');
+    const data = await this.fetchJson<{ notes: Note[] }>('/api/notes');
+    return data.notes;
   }
 
   async getNoteBySlug(slug: string): Promise<Note | null> {
