@@ -1,8 +1,9 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import EssayList from '../components/common/EssayList.astro';
+import ProjectList from '../components/common/ProjectList.astro';
 import {getDB} from '../lib/db';
-import {projectSlugSet} from '../lib/projects';
+import {projectSlugSet, PROJECT_SLUGS} from '../lib/projects';
 
 const db = getDB();
 const allPosts = await db.getAllPosts();
@@ -10,6 +11,9 @@ const allPosts = await db.getAllPosts();
 const essays = allPosts
   .filter((p) => !projectSlugSet.has(p.slug))
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
+
+const projectsBySlug = new Map(allPosts.filter((p) => projectSlugSet.has(p.slug)).map((p) => [p.slug, p]));
+const projects = PROJECT_SLUGS.map((slug) => projectsBySlug.get(slug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
 
 const metadata = {
   title: 'Bernat Sampera',
@@ -30,6 +34,7 @@ const metadata = {
     </section>
 
     <EssayList essays={essays} />
+    {projects.length > 0 && <ProjectList projects={projects} />}
   </main>
 </PageLayout>
 
