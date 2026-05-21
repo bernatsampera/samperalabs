@@ -1,15 +1,8 @@
 ---
-import SocialFollow from '~/components/ui/SocialFollow.astro';
-
-const lastBuild = new Date().toISOString().slice(0, 10);
 ---
 
-<footer class="border-t border-ink-border mt-24">
-  <div class="mx-auto px-6 py-10 max-w-5xl text-text-faint font-mono text-xs leading-relaxed">
-    <div><span class="text-text-faint">// </span>samperalabs · since 2024</div>
-    <div><span class="text-text-faint">// </span>last updated {lastBuild}</div>
-    <div class="mt-4">
-      <SocialFollow mode="minimal" />
-    </div>
+<footer class="mt-24 border-t border-stone-200">
+  <div class="mx-auto max-w-[44rem] px-5 sm:px-8 py-10 text-[13px] text-stone-400">
+    <p>Bernat Sampera · {new Date().getFullYear()}</p>
   </div>
 </footer>

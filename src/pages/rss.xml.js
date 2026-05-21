@@ -9,8 +9,8 @@ export async function GET(context) {
     .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 
   return rss({
-    title: 'Sampera Labs | Writing',
-    description: 'Working notes on AI integration by Bernat Sampera.',
+    title: 'Bernat Sampera',
+    description: 'Essays on building with AI and software.',
     site: context.site,
     items: posts.map((post) => ({
       title: post.title,

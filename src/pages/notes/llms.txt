@@ -1,0 +1,21 @@
+# Notes System
+
+> Database-driven notes with category grouping, pill-style nav, and Markdown rendering.
+
+Notes are stored in SQLite and served via SSR. They support optional categories for grouping, and individual note pages use the same `marked` + `highlight.js` pipeline as blog posts.
+
+## Pages
+
+- [src/pages/notes/index.astro](index.astro): Notes listing page — groups all notes by category with anchor-linked pill nav at the top
+- [src/pages/notes/[slug].astro]([slug].astro): Individual note page with header (back link, title, category badge) and full Markdown rendering
+
+## Data Layer
+
+- [src/lib/db.ts](../../lib/db.ts): `getNoteDB()` returns a `SqliteNoteStore` (prod) or `RemoteNoteStore` (dev) with `getAllNotes()` and `getNoteBySlug()` methods
+- [src/lib/noteStore.ts](../../lib/noteStore.ts): NoteStore interface and SQLite/remote implementations
+
+## Utilities (shared with blog)
+
+- [src/utils/markdown.ts](../../utils/markdown.ts): `preprocessMarkdownContent` — fixes double-escaped links before rendering
+- [src/utils/tableOfContents.ts](../../utils/tableOfContents.ts): `addHeadingIds` — injects id attributes on headings for anchor links
+- [src/utils/codeBlockWrap.ts](../../utils/codeBlockWrap.ts): `wrapCodeBlocks` — wraps `<pre>` blocks for scroll/copy affordances

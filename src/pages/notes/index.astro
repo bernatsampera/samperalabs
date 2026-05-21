@@ -1,0 +1,78 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import {getNoteDB} from '../../lib/db';
+
+const db = getNoteDB();
+const allNotes = await db.getAllNotes();
+
+// Group by category
+const byCategory = new Map<string, typeof allNotes>();
+for (const note of allNotes) {
+  const cat = note.category || 'Uncategorized';
+  if (!byCategory.has(cat)) byCategory.set(cat, []);
+  byCategory.get(cat)!.push(note);
+}
+const categories = [...byCategory.keys()];
+
+const metadata = {
+  title: 'Notes',
+  description: 'Ideas, patterns, and things I keep coming back to.',
+};
+---
+
+<PageLayout metadata={metadata}>
+  <main class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12 sm:pt-16 pb-16 animate-fade-in">
+    <h1 class="text-[28px] font-semibold text-stone-900 mb-2">Notes</h1>
+    <p class="text-[15px] text-stone-500 leading-relaxed mb-8">
+      Ideas, patterns, and things I keep coming back to. Collected from building, reading, and paying attention.
+    </p>
+
+    {categories.length > 1 && (
+      <div class="flex flex-wrap gap-2 mb-8 pb-4 border-b border-stone-200">
+        {categories.map((cat) => (
+          <a
+            href={`#${cat.toLowerCase().replace(/\s+/g, '-')}`}
+            class="text-[12px] text-stone-500 px-2.5 py-1 bg-stone-100 rounded hover:bg-stone-200 transition-colors"
+          >{cat}</a>
+        ))}
+      </div>
+    )}
+
+    {categories.map((cat) => (
+      <div>
+        <h3
+          id={cat.toLowerCase().replace(/\s+/g, '-')}
+          class="text-[14px] font-semibold text-stone-900 pt-8 sm:pt-10 pb-3 sm:pb-4"
+        >{cat}</h3>
+        <ul class="border-t border-stone-100/80">
+          {byCategory.get(cat)!.map((note) => (
+            <li class="border-b border-stone-100/80">
+              <a
+                href={`/notes/${note.slug}`}
+                class="group block py-3 sm:py-2.5"
+              >
+                <h2 class="text-[16px] text-stone-900 group-hover:text-stone-600 transition-colors break-words">
+                  {note.title}
+                </h2>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+
+    {categories.length === 0 && (
+      <p class="text-[15px] text-stone-400 py-8">No notes yet.</p>
+    )}
+  </main>
+</PageLayout>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+</style>

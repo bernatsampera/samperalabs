@@ -4,44 +4,87 @@ import {getHomePermalink} from '~/utils/permalinks';
 interface Link { text?: string; href?: string; }
 export interface Props { links?: Array<Link>; isSticky?: boolean; }
 
-const {links = [], isSticky = false} = Astro.props;
-const currentPath = new URL(Astro.url).pathname;
-
-function isActive(href?: string): boolean {
-  if (!href) return false;
-  if (currentPath === href) return true;
-  if (href === '/blog' && (currentPath.startsWith('/posts') || currentPath.startsWith('/blog'))) return true;
-  if (href === '/about' && currentPath.startsWith('/about')) return true;
-  return false;
-}
+const {links = [], isSticky = true} = Astro.props;
 ---
 
-<header
-  class:list={[
-    {sticky: isSticky, relative: !isSticky},
-    'top-0 z-40 w-full border-b border-ink-border bg-ink/85 backdrop-blur-sm',
-    'transition-all ease-in-out',
-  ]}
-  {...isSticky ? {'data-sticky-header': true} : {}}
->
-  <div class="mx-auto px-6 py-4 max-w-5xl flex justify-between items-center">
-    <a href={getHomePermalink()} class="font-mono text-xs tracking-wide text-text-muted hover:text-text-strong transition-colors">
-      <span class="text-text-faint">// </span><span class="text-text-strong font-bold">samperalabs</span>
+<header class="sticky top-0 z-40 w-full bg-stone-50/85 backdrop-blur-sm">
+  <div class="mx-auto max-w-[44rem] px-5 sm:px-8 h-14 flex items-center justify-between">
+    <a href={getHomePermalink()} class="text-[15px] font-medium text-stone-900 hover:text-stone-600 transition-colors">
+      Bernat Sampera
     </a>
-    <nav>
-      <ul class="flex space-x-7 text-sm text-text-muted">
-        {links.map(({text, href}) => (
-          <li>
-            <a
-              href={href}
-              class:list={[
-                'transition-colors hover:text-text-strong',
-                isActive(href) ? 'text-text-strong border-b-2 border-marker pb-1' : '',
-              ]}
-            >{text}</a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+    <button
+      id="menu-toggle"
+      class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors"
+      aria-expanded="false"
+      aria-controls="menu-overlay"
+    >
+      Open menu
+    </button>
   </div>
 </header>
+
+<!-- Menu Overlay -->
+<div
+  id="menu-overlay"
+  class="fixed inset-0 z-50 bg-stone-50 hidden opacity-0 transition-opacity duration-200"
+>
+  <div class="mx-auto max-w-[44rem] px-5 sm:px-8 h-14 flex items-center justify-between">
+    <a href={getHomePermalink()} class="text-[15px] font-medium text-stone-900 hover:text-stone-600 transition-colors">
+      Bernat Sampera
+    </a>
+    <button
+      id="menu-close"
+      class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors"
+    >
+      Close
+    </button>
+  </div>
+
+  <nav class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12">
+    <div class="flex flex-col gap-6">
+      {links.map(({text, href}) => (
+        <a
+          href={href}
+          class="text-[28px] text-stone-900 hover:text-stone-600 transition-colors"
+        >{text}</a>
+      ))}
+    </div>
+
+    <div class="mt-12 pt-6 border-t border-stone-200 flex gap-6">
+      <a href="https://x.com/bsampera97" target="_blank" rel="noreferrer" class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">X ↗</a>
+      <a href="https://github.com/bernatsampera" target="_blank" rel="noreferrer" class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">GitHub ↗</a>
+      <a href="/rss.xml" class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors underline underline-offset-2">RSS</a>
+    </div>
+  </nav>
+</div>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const overlay = document.getElementById('menu-overlay');
+  const close = document.getElementById('menu-close');
+
+  function openMenu() {
+    overlay?.classList.remove('hidden');
+    requestAnimationFrame(() => {
+      overlay?.classList.remove('opacity-0');
+      overlay?.classList.add('opacity-100');
+    });
+    toggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    overlay?.classList.remove('opacity-100');
+    overlay?.classList.add('opacity-0');
+    setTimeout(() => overlay?.classList.add('hidden'), 200);
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', openMenu);
+  close?.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+</script>

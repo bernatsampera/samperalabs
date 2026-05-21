@@ -1,0 +1,62 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import {getNoteDB} from '../../lib/db';
+import {Marked} from 'marked';
+import {markedHighlight} from 'marked-highlight';
+import {preprocessMarkdownContent} from '../../utils/markdown';
+import {addHeadingIds} from '../../utils/tableOfContents';
+import {wrapCodeBlocks} from '../../utils/codeBlockWrap';
+import hljs from 'highlight.js';
+
+const {slug} = Astro.params;
+const db = getNoteDB();
+const note = await db.getNoteBySlug(slug!);
+
+if (!note) {
+  return Astro.redirect('/404');
+}
+
+const marked = new Marked(
+  markedHighlight({
+    emptyLangClass: 'hljs',
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+      return hljs.highlight(code, {language}).value;
+    },
+  })
+);
+
+let html = await marked.parse(preprocessMarkdownContent(note.content));
+html = addHeadingIds(html);
+html = wrapCodeBlocks(html);
+
+const metadata = {
+  title: note.title,
+  description: `${note.title} — a note by Bernat Sampera.`,
+};
+---
+
+<PageLayout metadata={metadata}>
+  <article class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12 sm:pt-16 pb-16 animate-fade-in">
+    <header class="mb-10">
+      <a href="/notes" class="text-[13px] text-stone-400 hover:text-stone-600 transition-colors">← Notes</a>
+      <h1 class="mt-4 text-[28px] font-semibold text-stone-900 leading-tight">{note.title}</h1>
+      {note.category && (
+        <span class="mt-2 inline-block text-[12px] text-stone-400">{note.category}</span>
+      )}
+    </header>
+
+    <div class="post-prose" set:html={html} />
+  </article>
+</PageLayout>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+</style>

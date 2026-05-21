@@ -1,122 +1,85 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import LabHero from '../components/common/LabHero.astro';
-import LabCell from '../components/common/LabCell.astro';
-import LabItem from '../components/common/LabItem.astro';
 import {getDB} from '../lib/db';
 import {projectSlugSet} from '../lib/projects';
-
-const TAGLINE =
-  'A working lab on LLM orchestration and context management systems. ' +
-  'Notes from putting AI into production software.';
-
-type FollowingItem = {
-  kind: 'person' | 'tool' | 'paper' | 'blog';
-  name: string;
-  href: string;
-  why: string;
-};
-
-const WORTH_FOLLOWING: FollowingItem[] = [
-  {
-    kind: 'person',
-    name: 'Lance Martin',
-    href: 'https://x.com/RLanceMartin',
-    why: 'Practical AI engineering — agents, evals, retrieval.',
-  },
-  {
-    kind: 'person',
-    name: 'levelsio',
-    href: 'https://x.com/levelsio',
-    why: 'Solo founder shipping in public.',
-  },
-  {
-    kind: 'person',
-    name: 'DHH',
-    href: 'https://x.com/dhh',
-    why: 'Opinionated takes on software, simplicity, and the web.',
-  },
-  {
-    kind: 'person',
-    name: 'Nassim Taleb',
-    href: 'https://x.com/nntaleb',
-    why: 'Risk, uncertainty, and antifragility.',
-  },
-];
 
 const db = getDB();
 const allPosts = await db.getAllPosts();
 
-const projectPosts = allPosts
-  .filter((p) => projectSlugSet.has(p.slug))
+const essays = allPosts
+  .filter((p) => !projectSlugSet.has(p.slug))
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
 
-const recentWriting = allPosts
-  .filter((p) => !projectSlugSet.has(p.slug))
-  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime())
-  .slice(0, 3);
-
-const topProjects = projectPosts.slice(0, 3);
-const allWritingCount = allPosts.length - projectPosts.length;
-
-const now = new Date();
-const yearMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-const kicker = `SAMPERALABS · NOTEBOOK · ${yearMonth}`;
+// Group by year
+const byYear = new Map<number, typeof essays>();
+for (const post of essays) {
+  const year = new Date(post.pub_date).getFullYear();
+  if (!byYear.has(year)) byYear.set(year, []);
+  byYear.get(year)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
 
 const metadata = {
-  title: 'Sampera Labs',
-  description: 'A one-person lab on LLM orchestration and context management. Notes by Bernat Sampera.',
+  title: 'Bernat Sampera',
+  description: 'Builder and writer at the intersection of AI and software.',
 };
 ---
 
 <PageLayout metadata={metadata}>
-  <main class="mx-auto px-6 max-w-5xl">
-    <LabHero kicker={kicker} tagline={TAGLINE} />
+  <main class="animate-fade-in">
+    <!-- Hero -->
+    <section class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-8 sm:pt-12 pb-10 sm:pb-14">
+      <p class="text-[20px] text-stone-500 leading-relaxed">
+        Everything is context.
+      </p>
+      <p class="mt-4 text-[15px] text-stone-400 leading-relaxed">
+        Builder and writer working at the intersection of AI and software.
+      </p>
+    </section>
 
-    <div class="border-t border-ink-border-soft mt-4">
-      <div class="border-b border-ink-border-soft">
-        <LabCell label="recent writing" allHref="/blog" allLabel={`all ${allWritingCount}`}>
-          {
-            recentWriting.map((post) => (
-              <LabItem
-                variant="dated"
-                date={new Date(post.pub_date).toISOString().slice(0, 10)}
-                title={post.title}
-                excerpt={post.excerpt}
-                href={`/posts/${post.slug}`}
-              />
-            ))
-          }
-        </LabCell>
-      </div>
-
-      <div class="grid md:grid-cols-2 md:gap-x-10">
-        <div class="border-b border-ink-border-soft md:border-r md:pr-10 md:border-b-0">
-          <LabCell label="projects">
-            {
-              topProjects.map((post) => (
-                <LabItem
-                  variant="bulleted"
-                  title={post.title}
-                  description={post.description ?? post.excerpt}
-                  href={`/posts/${post.slug}`}
-                  date={new Date(post.pub_date).toISOString().slice(0, 10)}
-                />
-              ))
-            }
-          </LabCell>
+    <!-- Essays by year -->
+    <section class="mx-auto max-w-[44rem] px-5 sm:px-8 pb-16">
+      {years.map((year) => (
+        <div>
+          <h3 class="text-[14px] font-semibold text-stone-900 pt-8 sm:pt-10 pb-3 sm:pb-4">
+            {year}
+          </h3>
+          <ul class="border-t border-stone-100/80">
+            {byYear.get(year)!.map((post) => {
+              const date = new Date(post.pub_date);
+              const month = date.toLocaleDateString('en-US', { month: 'short' });
+              const day = date.getDate();
+              return (
+                <li class="border-b border-stone-100/80">
+                  <a
+                    href={`/posts/${post.slug}`}
+                    class="group block py-3 sm:py-2.5"
+                  >
+                    <div class="flex justify-between items-baseline gap-4">
+                      <h2 class="text-[16px] text-stone-900 group-hover:text-stone-600 transition-colors break-words">
+                        {post.title}
+                      </h2>
+                      <span class="text-[13px] text-stone-400 tabular-nums whitespace-nowrap">
+                        {post.readingTime} min · {month} {day}
+                      </span>
+                    </div>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
         </div>
-
-        <div class="md:pl-10">
-          <LabCell label="worth following">
-            {
-              WORTH_FOLLOWING.map((f) => (
-                <LabItem variant="linked" kind={f.kind} name={f.name} href={f.href} why={f.why} />
-              ))
-            }
-          </LabCell>
-        </div>
-      </div>
-    </div>
+      ))}
+    </section>
   </main>
 </PageLayout>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+</style>

@@ -22,3 +22,30 @@ CREATE TABLE IF NOT EXISTS posts (
 -- so they sequence after the ALTER TABLE statements on existing databases.)
 CREATE INDEX IF NOT EXISTS idx_posts_pub_date ON posts(pub_date);
 CREATE INDEX IF NOT EXISTS idx_posts_slug ON posts(slug);
+
+CREATE TABLE IF NOT EXISTS notes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  content TEXT NOT NULL DEFAULT '',
+  category TEXT NOT NULL DEFAULT '',
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_notes_slug ON notes(slug);
+CREATE INDEX IF NOT EXISTS idx_notes_category ON notes(category);
+
+CREATE TABLE IF NOT EXISTS likes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  author TEXT NOT NULL DEFAULT '',
+  url TEXT NOT NULL DEFAULT '',
+  type TEXT NOT NULL DEFAULT 'article',
+  category TEXT NOT NULL DEFAULT '',
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_likes_category ON likes(category);

@@ -1,17 +1,10 @@
-import { getPermalink } from './utils/permalinks';
-
 export const headerData = {
   links: [
-    { text: 'writing', href: '/blog' },
-    { text: 'about', href: '/about' },
-    { text: 'contact', href: '/contact' },
+    { text: 'Essays', href: '/' },
+    { text: 'About', href: '/about' },
+    { text: 'Notes', href: '/notes' },
+    { text: 'Things I Like', href: '/things-i-like' },
   ],
 };
 
-export const footerData = {
-  links: [
-    { text: 'writing', href: '/blog' },
-    { text: 'about', href: '/about' },
-    { text: 'contact', href: '/contact' },
-  ],
-};
+export const footerData = {};

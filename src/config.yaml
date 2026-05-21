@@ -9,9 +9,9 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: Bernat Sampera - AI Integration Specialist
-    template: '%s  samperalabs'
-  description: 'Integrating AI solutions into your websites and applications. Helping businesses leverage artificial intelligence technology for better user experiences.'
+    default: Bernat Sampera
+    template: '%s — Bernat Sampera'
+  description: 'Builder and writer at the intersection of AI and software.'
   robots:
     index: true
     follow: true
@@ -35,6 +35,3 @@ analytics:
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
-
-ui:
-  theme: 'lofi' # Values: "system" | "light" | "dark" | "light:only" | "only"

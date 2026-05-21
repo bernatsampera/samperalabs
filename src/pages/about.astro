@@ -2,106 +2,45 @@
 import PageLayout from '../layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'About | Sampera Labs',
-  description: 'About Bernat Sampera.',
+  title: 'About',
+  description: 'About Bernat Sampera — builder and writer at the intersection of AI and software.',
 };
-
-const experience = [
-  {
-    visible: true,
-    company: 'Ampeers Energy',
-    position: 'Full Stack Software Developer',
-    location: 'Munich, Germany',
-    date: 'May 2022 – April 2025',
-    summary: 'Developed a billing tenant application for buildings with renewable energy systems.',
-    url: {label: '', href: ''},
-  },
-  {
-    visible: true,
-    company: 'Sport1',
-    position: 'Frontend Developer',
-    location: 'Munich, Germany',
-    date: 'September 2020 – May 2022',
-    summary: 'Developed and maintained frontend components and the overall website for sport1.de.',
-    url: {label: 'sport1.de', href: 'https://sport1.de'},
-  },
-  {
-    visible: true,
-    company: 'Rücker Lypsa (Seat)',
-    position: 'Software Developer',
-    location: 'Barcelona, Spain',
-    date: 'May 2019 – September 2020',
-    summary: 'Implemented in-car web applications for Seat and Cupra models on tablet-based infotainment systems.',
-    url: {label: '', href: ''},
-  },
-  {
-    visible: true,
-    company: 'Engineering & Project Management',
-    position: 'Junior Web Developer',
-    location: 'Barcelona, Spain',
-    date: 'April 2018 – May 2019',
-    summary: 'Development of the prototype of a Webapp based on ReactJS and Redux using the cloud based platform Autodesk Forge.',
-    url: {label: '', href: ''},
-  },
-  {
-    visible: true,
-    company: 'Independent Contractor',
-    position: 'Junior Web Developer',
-    location: 'Remote',
-    date: 'April 2018 – September 2018',
-    summary: 'Provided freelance support for a hotel website, focusing on client and admin portal maintenance.',
-    url: {label: '', href: ''},
-  },
-];
 ---
 
 <PageLayout metadata={metadata}>
-  <main class="mx-auto px-6 max-w-[680px]">
-    <header class="pt-12 pb-2">
-      <h1 class="font-display font-bold lowercase text-[64px] leading-[0.9] tracking-[-0.045em] text-text-strong">
-        about<span class="text-marker">.</span>
-      </h1>
-    </header>
+  <main class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12 sm:pt-16 pb-16 animate-fade-in">
+    <h1 class="text-[28px] font-semibold text-stone-900 mb-8">About</h1>
 
-    <article class="post-prose mt-8">
-      <p>
-        Hi, I'm Bernat — an AI Engineer & Full Stack Developer exploring the current AI landscape and building awesome
-        things with it.
-      </p>
-      <p>
-        Sampera Labs specializes in integrating AI solutions into websites and applications. With expertise in both AI
-        development and web technologies, we help businesses leverage cutting-edge artificial intelligence to create
-        better user experiences.
-      </p>
-      <p>
-        Our approach focuses on practical AI implementations that provide real value, from chatbots and recommendation
-        systems to content generation and data analysis tools.
-      </p>
+    <div class="text-[15px] text-stone-700 leading-[1.75] space-y-4">
+      <p>I'm Bernat Sampera. I build software that puts AI into production — not demos, not proofs of concept, but systems that run in the real world and do useful work.</p>
+      <p>I've spent the last years working at the intersection of language models and application development. I care about context management, orchestration, and making AI tools that people actually use.</p>
+      <p>Before that, I worked across the stack — frontend, backend, infrastructure. That range matters when you're integrating AI into existing systems.</p>
+    </div>
 
-      <h2 id="experience">Experience</h2>
-      <ul>
-        {
-          experience
-            .filter((exp) => exp.visible)
-            .map((exp) => (
-              <li>
-                <strong>{exp.position}</strong> — {exp.company}, {exp.location}
-                <br />
-                <em>{exp.date}</em>
-                <br />
-                {exp.summary}
-                {exp.url?.href && (
-                  <>
-                    {' '}
-                    <a href={exp.url.href} target="_blank" rel="noopener noreferrer">
-                      {exp.url.label || exp.company}
-                    </a>
-                  </>
-                )}
-              </li>
-            ))
-        }
-      </ul>
-    </article>
+    <h3 class="text-[14px] font-semibold text-stone-900 pt-10 pb-4">What I Believe</h3>
+    <div class="text-[15px] text-stone-700 leading-[1.75] space-y-4">
+      <p><strong class="text-stone-900">Context is everything.</strong> The model matters less than what you feed it. Most AI failures are context failures.</p>
+      <p><strong class="text-stone-900">Ship, then refine.</strong> Working software teaches you more than planning documents. Get it in front of users.</p>
+      <p><strong class="text-stone-900">Simple beats clever.</strong> The best systems are the ones you can explain in a sentence. Complexity is a cost, not a feature.</p>
+      <p><strong class="text-stone-900">Writing is thinking.</strong> If you can't write it clearly, you don't understand it yet.</p>
+    </div>
+
+    <h3 class="text-[14px] font-semibold text-stone-900 pt-10 pb-4">Connect</h3>
+    <div class="text-[15px] text-stone-700 leading-[1.75]">
+      <p>
+        Find me on
+        <a href="https://x.com/bsampera97" target="_blank" rel="noreferrer" class="text-stone-900 underline underline-offset-2 decoration-stone-300 hover:decoration-stone-400 transition-colors">X <span class="text-stone-400">↗</span></a>.
+      </p>
+    </div>
   </main>
 </PageLayout>
+
+<style>
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out;
+  }
+</style>

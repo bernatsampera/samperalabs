@@ -8,11 +8,13 @@ A separate `scripts/manage-sqlite/content.db` file exists only as a working copy
 
 ## Schema
 
-- [db/schema.sql](schema.sql): Posts and refs table definitions. `posts` has title, author, description, image_url/alt, pub_date, tags (JSON), content (Markdown), slug, status (`draft`/`published`, default `published`), published_at, deleted_at (soft-delete), timestamps. `refs` has title, description, format, tags (JSON), content, slug, timestamps. Status/published_at/deleted_at migrations on existing DBs run from `src/lib/db.ts` (`migratePostsAddStatusColumns`).
+- [db/schema.sql](schema.sql): Posts, notes, and likes table definitions. `posts` has title, author, description, image_url/alt, pub_date, tags (JSON), content (Markdown), slug, status (`draft`/`published`, default `published`), published_at, deleted_at (soft-delete), timestamps. `notes` has title, slug, content, category, sort_order, timestamps. `likes` has title, author, url, type, category, sort_order, created_at. Status/published_at/deleted_at migrations on existing DBs run from `src/lib/db.ts` (`migratePostsAddStatusColumns`).
 
 ## Application Layer
 
-- [src/lib/db.ts](../src/lib/db.ts): `PostStore` interface with two implementations — `SqliteStore` (better-sqlite3, used only when `import.meta.env.PROD`) and `RemoteStore` (HTTPS client against `/api/posts` using `BLOG_API_KEY`, used everywhere else). `getDB()` picks automatically. All methods Promise-returning.
+- [src/lib/db.ts](../src/lib/db.ts): `PostStore` interface with two implementations — `SqliteStore` (better-sqlite3, used only when `import.meta.env.PROD`) and `RemoteStore` (HTTPS client against `/api/posts` using `BLOG_API_KEY`, used everywhere else). `getDB()`, `getNoteDB()`, and `getLikeDB()` pick automatically. All methods Promise-returning. Re-exports `Note`, `NoteStore`, `Like`, `LikeStore` types.
+- [src/lib/noteStore.ts](../src/lib/noteStore.ts): `NoteStore` interface with `SqliteNoteStore` (better-sqlite3, shared DB connection) and `RemoteNoteStore` (HTTPS client against `/api/notes`) implementations. CRUD for notes with ordering by category, sort_order, created_at.
+- [src/lib/likeStore.ts](../src/lib/likeStore.ts): `LikeStore` interface with `SqliteLikeStore` (better-sqlite3, shared DB connection) and `RemoteLikeStore` (HTTPS client against `/api/likes`) implementations. CRUD for likes with ordering by category, sort_order, created_at.
 - [db/README.md](README.md): Setup (dev + prod), schema, API endpoints, migration commands.
 
 ## Scripts

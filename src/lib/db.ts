@@ -3,6 +3,10 @@ import { readFileSync, mkdirSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { createRequire } from 'module';
 import { loadEnv } from 'vite';
+import { SqliteNoteStore, RemoteNoteStore } from './noteStore';
+import { SqliteLikeStore, RemoteLikeStore } from './likeStore';
+export type { Note, NoteStore } from './noteStore';
+export type { Like, LikeStore } from './likeStore';
 
 // Astro integrations (sitemap, etc.) load before Vite's .env handling kicks in,
 // so process.env doesn't yet contain user vars when this module is first imported.
@@ -307,6 +311,10 @@ class SqliteStore implements PostStore {
   close() {
     this.db.close();
   }
+
+  getConnection(): Database.Database {
+    return this.db;
+  }
 }
 
 class RemoteStore implements PostStore {
@@ -446,6 +454,8 @@ class RemoteStore implements PostStore {
 }
 
 let dbInstance: PostStore | null = null;
+let noteInstance: SqliteNoteStore | RemoteNoteStore | null = null;
+let likeInstance: SqliteLikeStore | RemoteLikeStore | null = null;
 
 // Single rule: prod Docker reads its own SQLite (it IS the API server).
 // Anywhere else — local dev, scripts that import this module — hits the prod API.
@@ -480,4 +490,46 @@ export function closeDB() {
     dbInstance.close();
     dbInstance = null;
   }
+  noteInstance = null;
+  likeInstance = null;
+}
+
+export function getNoteDB(): SqliteNoteStore | RemoteNoteStore {
+  if (noteInstance) return noteInstance;
+
+  if (import.meta.env.PROD) {
+    const conn = (getDB() as SqliteStore).getConnection();
+    noteInstance = new SqliteNoteStore(conn);
+    return noteInstance;
+  }
+
+  const url = process.env.BLOG_REMOTE_URL ?? DEFAULT_REMOTE_URL;
+  const key = process.env.BLOG_API_KEY;
+  if (!key) {
+    throw new Error(
+      'BLOG_API_KEY is required in dev. The dev server reads the prod database over HTTPS — set it in .env.'
+    );
+  }
+  noteInstance = new RemoteNoteStore(url, key);
+  return noteInstance;
+}
+
+export function getLikeDB(): SqliteLikeStore | RemoteLikeStore {
+  if (likeInstance) return likeInstance;
+
+  if (import.meta.env.PROD) {
+    const conn = (getDB() as SqliteStore).getConnection();
+    likeInstance = new SqliteLikeStore(conn);
+    return likeInstance;
+  }
+
+  const url = process.env.BLOG_REMOTE_URL ?? DEFAULT_REMOTE_URL;
+  const key = process.env.BLOG_API_KEY;
+  if (!key) {
+    throw new Error(
+      'BLOG_API_KEY is required in dev. The dev server reads the prod database over HTTPS — set it in .env.'
+    );
+  }
+  likeInstance = new RemoteLikeStore(url, key);
+  return likeInstance;
 }
