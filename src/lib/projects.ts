@@ -1,4 +1,4 @@
-export const PROJECT_SLUGS = ['contextagora', 'bjjgym', 'packdensack'] as const;
+export const PROJECT_SLUGS = ['contextagora', 'bjjgym', 'packdensack', 'everythingiscontext'] as const;
 
 export const projectSlugSet = new Set<string>(PROJECT_SLUGS);
 
