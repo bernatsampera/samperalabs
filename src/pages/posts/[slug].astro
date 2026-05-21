@@ -1,6 +1,8 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
+import InteractiveEssay from '../../components/react/InteractiveEssay';
 import {getDB} from '../../lib/db';
+import {hasInteractiveComponent} from '../../lib/interactiveEssays';
 import {Marked} from 'marked';
 import {markedHighlight} from 'marked-highlight';
 import {preprocessMarkdownContent} from '../../utils/markdown';
@@ -35,10 +37,17 @@ html = addHeadingIds(html);
 html = wrapCodeBlocks(html);
 
 const metadata = { title: post.title, description: post.description };
+const hasInteractive = hasInteractiveComponent(slug ?? '');
 ---
 
 <BlogLayout metadata={metadata} post={post}>
   <div class="post-prose" set:html={html} />
+
+  {hasInteractive && (
+    <div class="mt-12 mb-8">
+      <InteractiveEssay slug={slug!} client:visible />
+    </div>
+  )}
 
   <div class="mt-14 mb-7 text-center text-[13px] text-stone-300">·  ·  ·</div>
 
