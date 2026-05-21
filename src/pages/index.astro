@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
+import EssayList from '../components/common/EssayList.astro';
 import {getDB} from '../lib/db';
 import {projectSlugSet} from '../lib/projects';
 
@@ -9,15 +10,6 @@ const allPosts = await db.getAllPosts();
 const essays = allPosts
   .filter((p) => !projectSlugSet.has(p.slug))
   .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
-
-// Group by year
-const byYear = new Map<number, typeof essays>();
-for (const post of essays) {
-  const year = new Date(post.pub_date).getFullYear();
-  if (!byYear.has(year)) byYear.set(year, []);
-  byYear.get(year)!.push(post);
-}
-const years = [...byYear.keys()].sort((a, b) => b - a);
 
 const metadata = {
   title: 'Bernat Sampera',
@@ -37,40 +29,7 @@ const metadata = {
       </p>
     </section>
 
-    <!-- Essays by year -->
-    <section class="mx-auto max-w-[44rem] px-5 sm:px-8 pb-16">
-      {years.map((year) => (
-        <div>
-          <h3 class="text-[14px] font-semibold text-stone-900 pt-8 sm:pt-10 pb-3 sm:pb-4">
-            {year}
-          </h3>
-          <ul class="border-t border-stone-100/80">
-            {byYear.get(year)!.map((post) => {
-              const date = new Date(post.pub_date);
-              const month = date.toLocaleDateString('en-US', { month: 'short' });
-              const day = date.getDate();
-              return (
-                <li class="border-b border-stone-100/80">
-                  <a
-                    href={`/posts/${post.slug}`}
-                    class="group block py-3 sm:py-2.5"
-                  >
-                    <div class="flex justify-between items-baseline gap-4">
-                      <h2 class="text-[16px] text-stone-900 group-hover:text-stone-600 transition-colors break-words">
-                        {post.title}
-                      </h2>
-                      <span class="text-[13px] text-stone-400 tabular-nums whitespace-nowrap">
-                        {post.readingTime} min · {month} {day}
-                      </span>
-                    </div>
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      ))}
-    </section>
+    <EssayList essays={essays} />
   </main>
 </PageLayout>
 

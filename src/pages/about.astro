@@ -11,25 +11,16 @@ const metadata = {
   <main class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12 sm:pt-16 pb-16 animate-fade-in">
     <h1 class="text-[28px] font-semibold text-stone-900 mb-8">About</h1>
 
-    <div class="text-[15px] text-stone-700 leading-[1.75] space-y-4">
-      <p>I'm Bernat Sampera. I build software that puts AI into production — not demos, not proofs of concept, but systems that run in the real world and do useful work.</p>
-      <p>I've spent the last years working at the intersection of language models and application development. I care about context management, orchestration, and making AI tools that people actually use.</p>
-      <p>Before that, I worked across the stack — frontend, backend, infrastructure. That range matters when you're integrating AI into existing systems.</p>
-    </div>
-
-    <h3 class="text-[14px] font-semibold text-stone-900 pt-10 pb-4">What I Believe</h3>
-    <div class="text-[15px] text-stone-700 leading-[1.75] space-y-4">
-      <p><strong class="text-stone-900">Context is everything.</strong> The model matters less than what you feed it. Most AI failures are context failures.</p>
-      <p><strong class="text-stone-900">Ship, then refine.</strong> Working software teaches you more than planning documents. Get it in front of users.</p>
-      <p><strong class="text-stone-900">Simple beats clever.</strong> The best systems are the ones you can explain in a sentence. Complexity is a cost, not a feature.</p>
-      <p><strong class="text-stone-900">Writing is thinking.</strong> If you can't write it clearly, you don't understand it yet.</p>
-    </div>
-
-    <h3 class="text-[14px] font-semibold text-stone-900 pt-10 pb-4">Connect</h3>
     <div class="text-[15px] text-stone-700 leading-[1.75]">
       <p>
         Find me on
-        <a href="https://x.com/bsampera97" target="_blank" rel="noreferrer" class="text-stone-900 underline underline-offset-2 decoration-stone-300 hover:decoration-stone-400 transition-colors">X <span class="text-stone-400">↗</span></a>.
+        <a
+          href="https://x.com/bsampera97"
+          target="_blank"
+          rel="noreferrer"
+          class="text-stone-900 underline underline-offset-2 decoration-stone-300 hover:decoration-stone-400 transition-colors"
+          >X <span class="text-stone-400">↗</span></a
+        >.
       </p>
     </div>
   </main>
@@ -37,8 +28,14 @@ const metadata = {
 
 <style>
   @keyframes fade-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .animate-fade-in {
     animation: fade-in 0.4s ease-out;
