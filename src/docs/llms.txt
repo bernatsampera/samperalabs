@@ -29,7 +29,11 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/components/Favicons.astro](../components/Favicons.astro): Favicon link tags
 - [src/components/ui/Button.astro](../components/ui/Button.astro): Reusable button component
 - [src/components/common/Image.astro](../components/common/Image.astro): Optimized image component
+- [src/components/common/EssayList.astro](../components/common/EssayList.astro): Essay listing grouped by year, used on the homepage
+- [src/components/common/ProjectList.astro](../components/common/ProjectList.astro): Project listing with title and description, used on the homepage below essays
 - [src/components/react/index.tsx](../components/react/index.tsx): React chronology timeline component
+- [src/components/react/InteractiveEssay.tsx](../components/react/InteractiveEssay.tsx): Wrapper component that lazy-loads per-essay interactive React components
+- [src/components/react/essays/](../components/react/essays/): Directory for per-essay interactive components (default-exported React components)
 
 ## Lib
 
@@ -37,6 +41,7 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/lib/noteStore.ts](../lib/noteStore.ts): NoteStore interface and SqliteNoteStore / RemoteNoteStore implementations
 - [src/lib/likeStore.ts](../lib/likeStore.ts): LikeStore interface and SqliteLikeStore / RemoteLikeStore implementations
 - [src/lib/projects.ts](../lib/projects.ts): Project slug set for filtering posts
+- [src/lib/interactiveEssays.ts](../lib/interactiveEssays.ts): Registry mapping essay slugs to lazy-loaded interactive React components
 - [src/lib/apiAuth.ts](../lib/apiAuth.ts): API key authentication helper
 
 ## Utilities
@@ -73,3 +78,7 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 ## Design System
 
 - [src/docs/design-system.md](design-system.md): Design system reference — color palette, typography, and theme tokens
+
+## Prompts
+
+- [src/docs/interactive-essay-prompt.md](interactive-essay-prompt.md): Prompt for creating interactive React components that demonstrate an essay's core principle
