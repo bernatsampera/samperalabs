@@ -14,7 +14,8 @@ type LazyImport = () => Promise<{ default: ComponentType }>;
  *   'my-essay-slug': () => import('../components/react/essays/MyEssayInteractive'),
  */
 export const interactiveEssayRegistry: Record<string, LazyImport> = {
-  // Add entries here as you create interactive components for essays
+  'lessons-learned-building-a-real-world-ai-agent-with-langgraph': () =>
+    import('../components/react/essays/TranslationFeedbackLoop'),
 };
 
 export function hasInteractiveComponent(slug: string): boolean {
