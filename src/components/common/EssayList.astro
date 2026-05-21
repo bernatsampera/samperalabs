@@ -1,5 +1,7 @@
 ---
 import type {EnhancedPost} from '../../lib/db';
+import InteractiveEssay from '../react/InteractiveEssay';
+import {hasInteractiveComponent} from '../../lib/interactiveEssays';
 
 export interface Props {
   essays: EnhancedPost[];
@@ -28,11 +30,13 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
           const date = new Date(post.pub_date);
           const month = date.toLocaleDateString('en-US', { month: 'short' });
           const day = date.getDate();
+          const preview = post.description || post.excerpt;
           return (
-            <li class="border-b border-stone-100/80">
-              <a
-                href={`/posts/${post.slug}`}
-                class="group block py-3 sm:py-2.5"
+            <li class="essay-row border-b border-stone-100/80">
+              <button
+                type="button"
+                class="essay-toggle group w-full text-left py-3 sm:py-2.5 cursor-pointer"
+                aria-expanded="false"
               >
                 <div class="flex justify-between items-baseline gap-4">
                   <h2 class="text-[16px] text-stone-900 group-hover:text-stone-600 transition-colors break-words">
@@ -42,7 +46,27 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
                     {post.readingTime} min · {month} {day}
                   </span>
                 </div>
-              </a>
+              </button>
+              <div class="essay-preview" aria-hidden="true">
+                <div class="pb-3 sm:pb-2.5">
+                  {hasInteractiveComponent(post.slug) && (
+                    <div class="mb-4">
+                      <InteractiveEssay slug={post.slug} client:visible />
+                    </div>
+                  )}
+                  {preview && (
+                    <p class="text-[14px] text-stone-500 leading-relaxed mb-3">
+                      {preview}
+                    </p>
+                  )}
+                  <a
+                    href={`/posts/${post.slug}`}
+                    class="inline-block text-[13px] text-stone-400 hover:text-stone-600 transition-colors"
+                  >
+                    Read &rarr;
+                  </a>
+                </div>
+              </div>
             </li>
           );
         })}
@@ -50,3 +74,45 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
     </div>
   ))}
 </section>
+
+<style is:global>
+  .essay-preview {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    transition: grid-template-rows 0.25s ease-out, visibility 0s 0.25s;
+    visibility: hidden;
+  }
+  .essay-preview > div {
+    overflow: hidden;
+    min-height: 0;
+  }
+  .essay-row.expanded .essay-preview {
+    grid-template-rows: 1fr;
+    visibility: visible;
+    transition: grid-template-rows 0.25s ease-out, visibility 0s 0s;
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.essay-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const row = btn.closest('.essay-row')!;
+      const wasExpanded = row.classList.contains('expanded');
+
+      // Collapse any other expanded row
+      document.querySelectorAll('.essay-row.expanded').forEach((r) => {
+        r.classList.remove('expanded');
+        r.querySelector('.essay-toggle')?.setAttribute('aria-expanded', 'false');
+        r.querySelector('.essay-preview')?.setAttribute('aria-hidden', 'true');
+      });
+
+      // Toggle this row
+      if (!wasExpanded) {
+        row.classList.add('expanded');
+        btn.setAttribute('aria-expanded', 'true');
+        row.querySelector('.essay-preview')?.setAttribute('aria-hidden', 'false');
+      }
+    });
+  });
+</script>
