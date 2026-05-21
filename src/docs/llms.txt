@@ -81,4 +81,5 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 ## Prompts
 
+- [src/docs/new-essay-prompt.md](new-essay-prompt.md): End-to-end prompt for writing a blog essay from raw content, publishing it, and optionally creating an interactive component
 - [src/docs/interactive-essay-prompt.md](interactive-essay-prompt.md): Prompt for creating interactive React components that demonstrate an essay's core principle

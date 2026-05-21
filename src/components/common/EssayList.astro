@@ -1,6 +1,7 @@
 ---
 import type {EnhancedPost} from '../../lib/db';
 import InteractiveEssay from '../react/InteractiveEssay';
+import InteractiveEssayPreview from '../react/InteractiveEssayPreview';
 import {hasInteractiveComponent} from '../../lib/interactiveEssays';
 
 export interface Props {
@@ -41,6 +42,12 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
                 <div class="flex justify-between items-baseline gap-4">
                   <h2 class="text-[16px] text-stone-900 group-hover:text-stone-600 transition-colors break-words">
                     {post.title}
+                    {hasInteractiveComponent(post.slug) && (
+                      <span class="inline-flex items-center gap-1 ml-2 align-middle text-[10px] font-mono text-stone-400 relative -top-px">
+                        <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                        Interactive
+                      </span>
+                    )}
                   </h2>
                   <span class="text-[13px] text-stone-400 tabular-nums whitespace-nowrap">
                     {post.readingTime} min · {month} {day}

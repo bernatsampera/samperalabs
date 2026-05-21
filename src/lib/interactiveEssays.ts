@@ -16,6 +16,8 @@ type LazyImport = () => Promise<{ default: ComponentType }>;
 export const interactiveEssayRegistry: Record<string, LazyImport> = {
   'lessons-learned-building-a-real-world-ai-agent-with-langgraph': () =>
     import('../components/react/essays/TranslationFeedbackLoop'),
+  'context-is-everything': () =>
+    import('../components/react/essays/ContextComparison'),
 };
 
 export function hasInteractiveComponent(slug: string): boolean {
@@ -24,4 +26,15 @@ export function hasInteractiveComponent(slug: string): boolean {
 
 export function getInteractiveComponent(slug: string): LazyImport | null {
   return interactiveEssayRegistry[slug] ?? null;
+}
+
+export const interactiveEssayPreviewRegistry: Record<string, LazyImport> = {
+  'lessons-learned-building-a-real-world-ai-agent-with-langgraph': () =>
+    import('../components/react/essays/TranslationFeedbackLoopPreview'),
+  'context-is-everything': () =>
+    import('../components/react/essays/ContextComparisonPreview'),
+};
+
+export function getPreviewComponent(slug: string): LazyImport | null {
+  return interactiveEssayPreviewRegistry[slug] ?? null;
 }

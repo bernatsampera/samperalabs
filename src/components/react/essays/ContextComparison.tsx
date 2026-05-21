@@ -3,90 +3,76 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 // ── Item types ──
 
-type SessionItem = { type: 'session'; label: string; at: number };
+type SessionItem = { type: 'session'; id: number; at: number };
 type UserItem = { type: 'user'; text: string; at: number };
-type AiItem = { type: 'ai'; text: string; at: number; highlight?: string };
-type CorrectionItem = { type: 'correction'; from: string; to: string; at: number };
-type GlossaryItem = { type: 'glossary'; text: string; at: number };
-type DividerItem = { type: 'divider'; label: string; at: number };
-type Item = SessionItem | UserItem | AiItem | CorrectionItem | GlossaryItem | DividerItem;
+type AiItem = { type: 'ai'; text: string; at: number; question?: boolean };
+type ToolItem = { type: 'tool'; text: string; at: number };
+type DividerItem = { type: 'divider'; at: number };
+type Item = SessionItem | UserItem | AiItem | ToolItem | DividerItem;
 
-// ── Data: Stateless translator ──
+// ── Data: No context (stateless) ──
 
 const STATELESS_ITEMS: Item[] = [
-  { type: 'session', label: 'Translation 1', at: 0 },
-  { type: 'user', text: 'The board meeting was moved to Friday.', at: 0.04 },
+  { type: 'session', id: 1, at: 0 },
+  { type: 'user', text: 'Investigate support ticket SUP-123', at: 0.04 },
   {
     type: 'ai',
-    text: 'La reunión de consejo se ha movido al viernes.',
-    at: 0.14,
-    highlight: 'reunión de consejo',
+    text: "I don't have access to that ticket. What system is it tracked in? What's the issue?",
+    at: 0.15,
+    question: true,
   },
-  { type: 'correction', from: 'reunión de consejo', to: 'reunión directiva', at: 0.26 },
   {
-    type: 'ai',
-    text: 'La reunión directiva se ha movido al viernes.',
-    at: 0.38,
+    type: 'user',
+    text: "It's in Linear. User hasn't received payment - probably Supabase. Here are the logs:\n[14:31:02] ERR payment.webhook timeout\n[14:31:03] ERR edge_fn: payment-process",
+    at: 0.29,
   },
-  { type: 'divider', label: 'next day', at: 0.48 },
-  { type: 'session', label: 'Translation 2', at: 0.52 },
-  { type: 'user', text: 'Prepare the board meeting agenda.', at: 0.56 },
   {
     type: 'ai',
-    text: 'Prepara la agenda de la reunión de consejo.',
-    at: 0.68,
-    highlight: 'reunión de consejo',
+    text: 'Based on those logs, the webhook timed out - likely a Supabase edge function failure. Check payment-process errors around 14:31.',
+    at: 0.43,
   },
-  { type: 'correction', from: 'reunión de consejo', to: 'reunión directiva', at: 0.80 },
+  { type: 'divider', at: 0.55 },
+  { type: 'session', id: 2, at: 0.57 },
+  { type: 'user', text: "What's the status of SUP-123?", at: 0.63 },
   {
     type: 'ai',
-    text: 'Prepara la agenda de la reunión directiva.',
-    at: 0.92,
+    text: "I don't have context for that ticket.",
+    at: 0.79,
   },
 ];
 
-// ── Data: Learning translator ──
+// ── Data: With context (persistent) ──
 
-const LEARNING_ITEMS: Item[] = [
-  { type: 'session', label: 'Translation 1', at: 0 },
-  { type: 'user', text: 'The board meeting was moved to Friday.', at: 0.04 },
+const PERSISTENT_ITEMS: Item[] = [
+  { type: 'session', id: 1, at: 0 },
+  { type: 'user', text: 'Investigate support ticket SUP-123', at: 0.04 },
+  { type: 'tool', text: 'Fetching Linear · SUP-123', at: 0.07 },
+  { type: 'tool', text: 'Querying Supabase · payment_logs', at: 0.14 },
+  { type: 'tool', text: 'Pulling Datadog · traces', at: 0.21 },
   {
     type: 'ai',
-    text: 'La reunión de consejo se ha movido al viernes.',
-    at: 0.14,
-    highlight: 'reunión de consejo',
+    text: 'Root cause: Supabase edge_fn timed out at 500ms - webhook never fired. Applying fix...',
+    at: 0.30,
   },
-  { type: 'correction', from: 'reunión de consejo', to: 'reunión directiva', at: 0.26 },
+  { type: 'tool', text: 'Updating Supabase · edge_fn timeout → 2s', at: 0.38 },
+  { type: 'tool', text: 'Closing Linear · SUP-123 → Done', at: 0.45 },
   {
     type: 'ai',
-    text: 'La reunión directiva se ha movido al viernes.',
-    at: 0.38,
+    text: 'Done. Timeout bumped to 2s and deployed. Ticket closed.',
+    at: 0.52,
   },
-  { type: 'glossary', text: 'board meeting → reunión directiva', at: 0.44 },
-  { type: 'divider', label: 'next day', at: 0.48 },
-  { type: 'session', label: 'Translation 2', at: 0.52 },
-  { type: 'user', text: 'Prepare the board meeting agenda.', at: 0.56 },
+  { type: 'divider', at: 0.61 },
+  { type: 'session', id: 2, at: 0.63 },
+  { type: 'user', text: "What's the status of SUP-123?", at: 0.69 },
+  { type: 'tool', text: 'Checking Linear · SUP-123', at: 0.73 },
   {
     type: 'ai',
-    text: 'Prepara la agenda de la reunión directiva.',
-    at: 0.68,
+    text: 'Resolved. Agent closed it at 15:45 UTC - status: Done. Fix: edge function timeout bumped to 2s.',
+    at: 0.81,
   },
 ];
 
 // ── Shared sub-components ──
-
-function HighlightedText({ text, highlight }: { text: string; highlight?: string }) {
-  if (!highlight) return <>{text}</>;
-  const idx = text.indexOf(highlight);
-  if (idx === -1) return <>{text}</>;
-  return (
-    <>
-      {text.slice(0, idx)}
-      <span className="bg-red-100 text-red-700 rounded px-0.5">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </>
-  );
-}
 
 function TypingDots() {
   return (
@@ -109,29 +95,32 @@ function TypingDots() {
 
 // ── Panel component ──
 
-function TranslatorPanel({
+function ChatPanel({
   items,
-  progress,
+  complexity,
   hasStarted,
   label,
   badge,
+  badgeStyle,
 }: {
   items: Item[];
-  progress: number;
+  complexity: number;
   hasStarted: boolean;
   label: string;
   badge: string;
+  badgeStyle: 'muted' | 'active';
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const visible = items.filter((item) => progress >= item.at);
+  const visible = items.filter((item) => complexity >= item.at);
 
   const nextItem = items[visible.length];
   const lastVisible = visible[visible.length - 1];
   const showTyping =
     nextItem?.type === 'ai' &&
     lastVisible &&
-    (lastVisible.type === 'user' || lastVisible.type === 'correction') &&
-    progress >= lastVisible.at + 0.03;
+    (lastVisible.type === 'user' || lastVisible.type === 'tool') &&
+    complexity >= lastVisible.at + 0.02 &&
+    complexity < nextItem.at;
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -146,7 +135,13 @@ function TranslatorPanel({
         <span className="text-[10px] font-mono text-stone-500 tracking-wider uppercase font-medium">
           {label}
         </span>
-        <span className="text-[10px] font-mono text-stone-400 border border-stone-200 rounded-sm px-1.5 py-px">
+        <span
+          className={`text-[10px] font-mono rounded-sm px-1.5 py-px ${
+            badgeStyle === 'active'
+              ? 'text-stone-600 border border-stone-300 bg-stone-100/50'
+              : 'text-stone-400 border border-dashed border-stone-300'
+          }`}
+        >
           {badge}
         </span>
       </div>
@@ -163,7 +158,7 @@ function TranslatorPanel({
               if (item.type === 'session') {
                 return (
                   <motion.div
-                    key={`s${i}`}
+                    key={`s${item.id}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.2 }}
@@ -171,7 +166,7 @@ function TranslatorPanel({
                   >
                     <div className="w-1.5 h-1.5 rounded-full bg-stone-400 shrink-0" />
                     <span className="text-[10px] font-mono text-stone-500 font-medium">
-                      {item.label}
+                      Chat {item.id}
                     </span>
                   </motion.div>
                 );
@@ -180,7 +175,7 @@ function TranslatorPanel({
               if (item.type === 'divider') {
                 return (
                   <motion.div
-                    key={`d${i}`}
+                    key="div"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.25 }}
@@ -188,7 +183,7 @@ function TranslatorPanel({
                   >
                     <div className="flex-1 border-t border-stone-200" />
                     <span className="text-[10px] font-mono text-stone-400 shrink-0 tracking-widest uppercase">
-                      {item.label}
+                      new chat
                     </span>
                     <div className="flex-1 border-t border-stone-200" />
                   </motion.div>
@@ -204,8 +199,35 @@ function TranslatorPanel({
                     transition={{ duration: 0.22, ease: 'easeOut' }}
                     className="flex justify-end"
                   >
-                    <div className="max-w-[82%] px-2.5 py-1.5 rounded-2xl rounded-tr-sm bg-stone-100 border border-stone-200">
-                      <p className="text-[11px] text-stone-700 leading-relaxed">{item.text}</p>
+                    <div className="max-w-[78%] px-2.5 py-1.5 rounded-2xl rounded-tr-sm bg-stone-100 border border-stone-200">
+                      <p className="text-[11px] text-stone-700 leading-relaxed whitespace-pre-line">
+                        {item.text}
+                      </p>
+                    </div>
+                  </motion.div>
+                );
+              }
+
+              if (item.type === 'tool') {
+                return (
+                  <motion.div
+                    key={`t${i}`}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.18, ease: 'easeOut' }}
+                    className="flex justify-start"
+                  >
+                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-stone-100/80 border border-stone-200">
+                      <svg
+                        className="w-2.5 h-2.5 text-stone-500 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                      >
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      <span className="text-[10px] font-mono text-stone-600">{item.text}</span>
                     </div>
                   </motion.div>
                 );
@@ -220,67 +242,16 @@ function TranslatorPanel({
                     transition={{ duration: 0.22, ease: 'easeOut' }}
                     className="flex justify-start"
                   >
-                    <div className="max-w-[82%] px-2.5 py-1.5 rounded-2xl rounded-tl-sm bg-stone-50 border border-stone-200">
-                      <p className="text-[11px] text-stone-700 leading-relaxed">
-                        <HighlightedText text={item.text} highlight={item.highlight} />
+                    <div
+                      className={`max-w-[82%] px-2.5 py-1.5 rounded-2xl rounded-tl-sm border ${
+                        (item as AiItem).question
+                          ? 'bg-stone-100/60 border-stone-200'
+                          : 'bg-stone-50 border-stone-200'
+                      }`}
+                    >
+                      <p className="text-[11px] leading-relaxed whitespace-pre-line text-stone-700">
+                        {item.text}
                       </p>
-                    </div>
-                  </motion.div>
-                );
-              }
-
-              if (item.type === 'correction') {
-                return (
-                  <motion.div
-                    key={`c${i}`}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, ease: 'easeOut' }}
-                    className="flex justify-end"
-                  >
-                    <div className="max-w-[82%] flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-amber-50 border border-amber-200">
-                      <svg
-                        className="w-3 h-3 text-amber-500 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-                      </svg>
-                      <span className="text-[10px] text-amber-700 font-mono">
-                        <span className="line-through opacity-60">{item.from}</span>
-                        {' → '}
-                        <span className="font-medium">{item.to}</span>
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              }
-
-              if (item.type === 'glossary') {
-                return (
-                  <motion.div
-                    key={`g${i}`}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="flex justify-start"
-                  >
-                    <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-50 border border-emerald-200">
-                      <svg
-                        className="w-2.5 h-2.5 text-emerald-600 shrink-0"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                      <span className="text-[10px] font-mono text-emerald-700">
-                        Saved: {item.text}
-                      </span>
                     </div>
                   </motion.div>
                 );
@@ -313,15 +284,18 @@ function TranslatorPanel({
 
 // ── Main component ──
 
-export default function TranslationFeedbackLoop() {
+export default function ContextComparison() {
+  // progress: 0 -> 2. Left panel uses 0->1, right panel uses 1->2 (mapped to 0->1).
   const [progress, setProgress] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-  const [activeTab, setActiveTab] = useState<'stateless' | 'learns'>('stateless');
+  const [activeTab, setActiveTab] = useState<'without' | 'with'>('without');
   const animationRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const prefersReducedMotion = useReducedMotion();
 
-  const displayProgress = hasStarted ? progress : 1;
+  // Preview (not started): show full end state so user can see both panels before playing.
+  const leftComplexity = hasStarted ? Math.min(progress, 1) : 1;
+  const rightComplexity = hasStarted ? Math.max(Math.min(progress - 1, 1), 0) : 1;
 
   useEffect(() => {
     return () => {
@@ -329,21 +303,22 @@ export default function TranslationFeedbackLoop() {
     };
   }, []);
 
+  // Two phases: left panel 0->1, then right panel 0->1 (progress 0->2)
   const runAnimation = useCallback(() => {
     setIsAnimating(true);
     setHasStarted(true);
 
     if (prefersReducedMotion) {
-      setProgress(1);
+      setProgress(2);
       setIsAnimating(false);
       return;
     }
 
     let current = 0;
     animationRef.current = setInterval(() => {
-      current += 0.005;
-      if (current >= 1) {
-        setProgress(1);
+      current += 0.01;
+      if (current >= 2) {
+        setProgress(2);
         if (animationRef.current) clearInterval(animationRef.current);
         setIsAnimating(false);
       } else {
@@ -354,7 +329,7 @@ export default function TranslationFeedbackLoop() {
 
   const startAnimation = useCallback(() => {
     if (isAnimating) return;
-    if (progress >= 1) {
+    if (progress >= 2) {
       if (animationRef.current) clearInterval(animationRef.current);
       setProgress(0);
       setTimeout(runAnimation, prefersReducedMotion ? 0 : 300);
@@ -365,7 +340,7 @@ export default function TranslationFeedbackLoop() {
 
   const skipToEnd = useCallback(() => {
     if (animationRef.current) clearInterval(animationRef.current);
-    setProgress(1);
+    setProgress(2);
     setIsAnimating(false);
   }, []);
 
@@ -417,52 +392,54 @@ export default function TranslationFeedbackLoop() {
       <div className="lg:hidden">
         <div className="flex rounded-lg border border-stone-200 overflow-hidden mb-3">
           <button
-            onClick={() => setActiveTab('stateless')}
+            onClick={() => setActiveTab('without')}
             className={`flex-1 px-4 py-2 font-mono text-[11px] tracking-wider uppercase transition-colors cursor-pointer ${
-              activeTab === 'stateless'
+              activeTab === 'without'
                 ? 'bg-stone-100 text-stone-600'
                 : 'text-stone-400 hover:text-stone-500'
             }`}
           >
-            stateless
+            no context
           </button>
           <button
-            onClick={() => setActiveTab('learns')}
+            onClick={() => setActiveTab('with')}
             className={`flex-1 px-4 py-2 font-mono text-[11px] tracking-wider uppercase transition-colors border-l border-stone-200 cursor-pointer ${
-              activeTab === 'learns'
+              activeTab === 'with'
                 ? 'bg-white text-stone-700'
                 : 'text-stone-400 hover:text-stone-500'
             }`}
           >
-            learns
+            with context
           </button>
         </div>
 
         <div className="relative">
           <motion.div
-            className={`relative w-full h-[380px] rounded-xl overflow-hidden border ${
-              activeTab === 'learns'
+            className={`relative w-full h-[340px] rounded-xl overflow-hidden border ${
+              activeTab === 'with'
                 ? 'border-stone-200 bg-white'
                 : 'border-stone-200 bg-stone-50/50'
             }`}
             animate={panelBlur}
             transition={panelTransition}
           >
-            {activeTab === 'stateless' ? (
-              <TranslatorPanel
+            {activeTab === 'without' ? (
+              <ChatPanel
                 items={STATELESS_ITEMS}
-                progress={displayProgress}
+                complexity={leftComplexity}
                 hasStarted={hasStarted}
-                label="stateless"
+                label="no context"
                 badge="no memory"
+                badgeStyle="muted"
               />
             ) : (
-              <TranslatorPanel
-                items={LEARNING_ITEMS}
-                progress={displayProgress}
+              <ChatPanel
+                items={PERSISTENT_ITEMS}
+                complexity={rightComplexity}
                 hasStarted={hasStarted}
-                label="learns"
-                badge="remembers"
+                label="with context"
+                badge="context aware"
+                badgeStyle="active"
               />
             )}
           </motion.div>
@@ -485,36 +462,34 @@ export default function TranslationFeedbackLoop() {
             transition={panelTransition}
           >
             <div className="grid grid-cols-2 divide-x divide-stone-200 h-[420px]">
-              {/* Left — stateless */}
+              {/* Left - dims when right phase is active */}
               <motion.div
                 className="relative h-full bg-stone-50/50"
-                animate={{
-                  opacity: isAnimating && progress >= 0.48 ? 0.4 : 1,
-                }}
+                animate={{ opacity: isAnimating && progress >= 1 ? 0.32 : 1 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.7, ease: 'easeInOut' }}
               >
-                <TranslatorPanel
+                <ChatPanel
                   items={STATELESS_ITEMS}
-                  progress={displayProgress}
+                  complexity={leftComplexity}
                   hasStarted={hasStarted}
-                  label="stateless"
+                  label="no context"
                   badge="no memory"
+                  badgeStyle="muted"
                 />
               </motion.div>
-              {/* Right — learns */}
+              {/* Right - dims when left phase is active */}
               <motion.div
                 className="relative h-full bg-white"
-                animate={{
-                  opacity: isAnimating && progress < 0.48 ? 0.4 : 1,
-                }}
+                animate={{ opacity: isAnimating && progress < 1 ? 0.32 : 1 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.7, ease: 'easeInOut' }}
               >
-                <TranslatorPanel
-                  items={LEARNING_ITEMS}
-                  progress={displayProgress}
+                <ChatPanel
+                  items={PERSISTENT_ITEMS}
+                  complexity={rightComplexity}
                   hasStarted={hasStarted}
-                  label="learns"
-                  badge="remembers"
+                  label="with context"
+                  badge="context aware"
+                  badgeStyle="active"
                 />
               </motion.div>
             </div>
