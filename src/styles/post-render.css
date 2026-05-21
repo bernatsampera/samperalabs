@@ -63,15 +63,87 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* ── Code block wrapper ── */
+.post-prose .codewrap {
+  margin: 1.5em 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #1c1917;
+}
+
+.post-prose .codehead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5em 1em;
+  background: #292524;
+  border-bottom: 1px solid #3a3633;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+}
+
+.post-prose .codehead .filename {
+  color: #a8a29e;
+}
+
+.post-prose .codehead .copy {
+  background: none;
+  border: none;
+  color: #78716c;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 0;
+}
+
+.post-prose .codehead .copy:hover {
+  color: #d6d3d1;
+}
+
+/* ── Code blocks ── */
 .post-prose pre {
   background: #1c1917;
   color: #e7e5e4;
   padding: 1em 1.25em;
-  border-radius: 6px;
   overflow-x: auto;
-  margin: 1.5em 0;
   font-size: 14px;
   line-height: 1.6;
+  margin: 0;
+  scrollbar-width: thin;
+  scrollbar-color: #44403c transparent;
+}
+
+.post-prose pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.post-prose pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.post-prose pre::-webkit-scrollbar-thumb {
+  background: #44403c;
+  border-radius: 3px;
+}
+
+.post-prose pre::-webkit-scrollbar-thumb:hover {
+  background: #57534e;
+}
+
+.post-prose .codewrap + *,
+.post-prose * + .codewrap {
+  /* spacing handled by .codewrap margin */
+}
+
+/* Standalone pre (not inside .codewrap) */
+.post-prose > pre {
+  border-radius: 8px;
+  margin: 1.5em 0;
+}
+
+/* pre inside .codewrap — no border-radius on top */
+.post-prose .codewrap pre {
+  border-radius: 0;
 }
 
 .post-prose pre code {
@@ -80,6 +152,12 @@
   padding: 0;
   border-radius: 0;
   font-size: inherit;
+}
+
+/* Override highlight.js theme background to match site */
+.post-prose pre code.hljs {
+  background: transparent;
+  padding: 0;
 }
 
 .post-prose img {
@@ -91,13 +169,4 @@
   border: none;
   border-top: 1px solid #e7e5e4;
   margin: 2em 0;
-}
-
-.copy-code-button {
-  color: #a8a29e;
-  font-size: 12px;
-  cursor: pointer;
-}
-.copy-code-button:hover {
-  color: #78716c;
 }
