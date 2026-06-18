@@ -63,6 +63,18 @@ const seoProps: AstroSeoProps = merge(
     twitter: twitter,
   }
 );
+
+const openGraphAdapted = await adaptOpenGraphImages(seoProps?.openGraph, Astro.site);
+
+// X/Twitter often won't render a card from og:image alone — emit explicit twitter:* tags too.
+const twitterImage = openGraphAdapted?.images?.[0]?.url;
+const additionalMetaTags = twitterImage
+  ? [
+      {name: 'twitter:image', content: twitterImage},
+      ...(seoProps.title ? [{name: 'twitter:title', content: String(seoProps.title)}] : []),
+      ...(seoProps.description ? [{name: 'twitter:description', content: String(seoProps.description)}] : []),
+    ]
+  : [];
 ---
 
-<AstroSeo {...{...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site)}} />
+<AstroSeo {...{...seoProps, openGraph: openGraphAdapted, additionalMetaTags}} />

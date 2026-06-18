@@ -38,7 +38,7 @@ export const GET: APIRoute = async ({params}) => {
     const note = await getNoteDB().getNoteBySlug(slug ?? '');
     if (note) {
       title = note.title;
-      description = note.category ?? '';
+      description = excerpt(note.content ?? '', note.title);
     }
   }
 
