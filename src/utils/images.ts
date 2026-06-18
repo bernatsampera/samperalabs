@@ -63,11 +63,16 @@ export const adaptOpenGraphImages = async (
   const adaptedImages = await Promise.all(
     images.map(async (image) => {
       if (image?.url) {
-        const resolvedImage = (await findImage(image.url)) as ImageMetadata | undefined;
+        const resolvedImage = (await findImage(image.url)) as ImageMetadata | string | undefined;
         if (!resolvedImage) {
           return {
             url: '',
           };
+        }
+
+        // Already-final URL (absolute or remote, e.g. generated OG endpoint): emit as-is, skip image optimization.
+        if (typeof resolvedImage === 'string') {
+          return {url: String(new URL(resolvedImage, astroSite)), width: image?.width, height: image?.height};
         }
 
         const _image = await getImage({

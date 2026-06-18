@@ -20,6 +20,7 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/pages/notes/index.astro](../pages/notes/index.astro): Notes listing page with pill-style category nav and grouped note links
 - [src/pages/notes/[slug].astro](../pages/notes/[slug].astro): Individual note page with full Markdown rendering pipeline
 - [src/pages/things-i-like.astro](../pages/things-i-like.astro): Things I Like page — curated books, podcasts, talks, and articles grouped by category
+- [src/pages/og/[type]/[slug].png.ts](../pages/og/[type]/[slug].png.ts): SSR endpoint generating 1200x630 social-preview PNGs (title + subtitle) for posts and notes via astro-og-canvas
 
 ## Components
 

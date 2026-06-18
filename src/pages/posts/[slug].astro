@@ -36,7 +36,11 @@ let html = await marked.parse(preprocessMarkdownContent(post.content));
 html = addHeadingIds(html);
 html = wrapCodeBlocks(html);
 
-const metadata = { title: post.title, description: post.description };
+const metadata = {
+  title: post.title,
+  description: post.description,
+  openGraph: { images: [{ url: `/og/posts/${slug}.png`, width: 1200, height: 630 }] },
+};
 const hasInteractive = hasInteractiveComponent(slug ?? '');
 ---
 
