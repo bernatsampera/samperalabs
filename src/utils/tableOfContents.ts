@@ -1,3 +1,5 @@
+import {parseFragment, type DefaultTreeAdapterMap} from 'parse5';
+
 export interface TOCItem {
   id: string;
   text: string;
@@ -5,143 +7,91 @@ export interface TOCItem {
   children?: TOCItem[];
 }
 
-/**
- * Generates a URL-friendly slug from text
- */
 export function generateSlug(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters
-    .replace(/\s+/g, '-') // Replace spaces with hyphens
-    .replace(/-+/g, '-') // Replace multiple hyphens with single
-    .trim()
-    .replace(/^-|-$/g, ''); // Remove leading/trailing hyphens
+  return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-')
+    .replace(/-+/g, '-').trim().replace(/^-|-$/g, '');
 }
 
-/**
- * Extracts headings from HTML content and generates a flat list of TOC items
- */
+type Node = DefaultTreeAdapterMap['node'];
+type Element = DefaultTreeAdapterMap['element'];
+
+function textContent(node: Node): string {
+  if (node.nodeName === '#text') return (node as DefaultTreeAdapterMap['textNode']).value;
+  if (['script', 'style', 'template'].includes(node.nodeName)) return '';
+  return 'childNodes' in node ? node.childNodes.map(textContent).join('') : '';
+}
+
+/** Add heading anchors and build their contents list from the same parsed HTML. */
+export function prepareTableOfContents(html: string): {html: string; headings: TOCItem[]} {
+  const root = parseFragment(html, {sourceCodeLocationInfo: true});
+  const reserved = new Set<string>();
+  const headings: Element[] = [];
+  function visit(node: Node) {
+    if ('attrs' in node) {
+      const id = node.attrs.find((attr) => attr.name === 'id');
+      if (id) reserved.add(id.value);
+      if (/^h[1-6]$/.test(node.tagName)) headings.push(node);
+    }
+    if ('childNodes' in node) node.childNodes.forEach(visit);
+  }
+  visit(root);
+
+  // Reserve plain-heading anchors before new formatted headings can claim them.
+  // Use the source text here to keep old anchors for entity-encoded headings.
+  const legacyIds = new Map<Element, string>();
+  for (const heading of headings) {
+    const location = heading.sourceCodeLocation;
+    if (heading.attrs.some((attr) => attr.name === 'id') || !location?.startTag || !location.endTag) continue;
+    const source = html.slice(location.startTag.endOffset, location.endTag.startOffset);
+    const legacy = !source.includes('<') ? generateSlug(source.trim()) : '';
+    if (legacy && !reserved.has(legacy)) {
+      legacyIds.set(heading, legacy);
+      reserved.add(legacy);
+    }
+  }
+
+  const items: TOCItem[] = [];
+  const insertions: {offset: number; text: string}[] = [];
+  for (const heading of headings) {
+    const text = textContent(heading).replace(/\s+/g, ' ').trim();
+    const existing = heading.attrs.find((attr) => attr.name === 'id');
+    let id = existing?.value ?? legacyIds.get(heading);
+    if (id === undefined) {
+      const base = generateSlug(text) || 'section';
+      id = base;
+      let suffix = 2;
+      while (reserved.has(id)) id = `${base}-${suffix++}`;
+      reserved.add(id);
+    }
+    if (!existing && heading.sourceCodeLocation?.startTag) {
+      insertions.push({offset: heading.sourceCodeLocation.startTag.endOffset - 1, text: ` id="${id}"`});
+    }
+    // An empty label or ID cannot provide a useful navigation link.
+    if (text && id) items.push({id, text, level: Number(heading.tagName[1])});
+  }
+  for (const insertion of insertions.sort((a, b) => b.offset - a.offset)) {
+    html = html.slice(0, insertion.offset) + insertion.text + html.slice(insertion.offset);
+  }
+  return {html, headings: items};
+}
+
 export function extractHeadings(htmlContent: string): TOCItem[] {
-  // Create a temporary DOM element to parse the HTML
-  if (typeof document === 'undefined') {
-    // Server-side: use a simple regex approach
-    return extractHeadingsFromString(htmlContent);
-  }
-
-  // Client-side: use DOM parsing
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = htmlContent;
-
-  const headings = tempDiv.querySelectorAll('h1, h2, h3, h4, h5, h6');
-  const tocItems: TOCItem[] = [];
-
-  headings.forEach((heading) => {
-    const text = heading.textContent?.trim() || '';
-    const level = parseInt(heading.tagName.substring(1));
-    const id = generateSlug(text);
-
-    // Add ID to the heading for anchor navigation
-    heading.id = id;
-
-    tocItems.push({
-      id,
-      text,
-      level,
-    });
-  });
-
-  return tocItems;
+  return prepareTableOfContents(htmlContent).headings;
 }
 
-/**
- * Decodes HTML entities in text
- */
-function decodeHtmlEntities(text: string): string {
-  // Common HTML entities that might appear in headings
-  const entities: Record<string, string> = {
-    '&#39;': "'",
-    '&quot;': '"',
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&nbsp;': ' ',
-    '&#x27;': "'",
-    '&#x22;': '"',
-    '&#x26;': '&',
-    '&#x3C;': '<',
-    '&#x3E;': '>',
-  };
-
-  return text.replace(/&#?\w+;/g, (entity) => entities[entity] || entity);
+export function addHeadingIds(htmlContent: string): string {
+  return prepareTableOfContents(htmlContent).html;
 }
 
-/**
- * Server-side fallback for extracting headings using regex
- */
-function extractHeadingsFromString(htmlContent: string): TOCItem[] {
-  const headingRegex = /<h([1-6])[^>]*>([^<]+)<\/h[1-6]>/gi;
-  const tocItems: TOCItem[] = [];
-  let match;
-
-  while ((match = headingRegex.exec(htmlContent)) !== null) {
-    const level = parseInt(match[1]);
-    const rawText = match[2].trim();
-    // Decode HTML entities to get the actual text content
-    const text = decodeHtmlEntities(rawText);
-    const id = generateSlug(text);
-
-    tocItems.push({
-      id,
-      text,
-      level,
-    });
-  }
-
-  return tocItems;
-}
-
-/**
- * Converts a flat list of headings into a nested structure
- */
 export function buildNestedTOC(flatItems: TOCItem[]): TOCItem[] {
   const nested: TOCItem[] = [];
   const stack: TOCItem[] = [];
-
-  flatItems.forEach((item) => {
-    const newItem: TOCItem = { ...item, children: [] };
-
-    // Find the appropriate parent
-    while (stack.length > 0 && stack[stack.length - 1].level >= newItem.level) {
-      stack.pop();
-    }
-
-    if (stack.length === 0) {
-      nested.push(newItem);
-    } else {
-      const parent = stack[stack.length - 1];
-      if (!parent.children) parent.children = [];
-      parent.children.push(newItem);
-    }
-
-    stack.push(newItem);
-  });
-
+  for (const item of flatItems) {
+    const current: TOCItem = {...item, children: []};
+    while (stack.length && stack[stack.length - 1].level >= current.level) stack.pop();
+    if (stack.length) stack[stack.length - 1].children!.push(current);
+    else nested.push(current);
+    stack.push(current);
+  }
   return nested;
-}
-
-/**
- * Adds IDs to heading elements in HTML content for anchor navigation
- */
-export function addHeadingIds(htmlContent: string): string {
-  return htmlContent.replace(/<h([1-6])([^>]*)>([^<]+)<\/h[1-6]>/gi, (match, level, attributes, text) => {
-    const cleanText = text.trim();
-    const id = generateSlug(cleanText);
-
-    // Check if ID already exists in attributes
-    if (attributes.includes('id=')) {
-      return match; // Don't modify if ID already exists
-    }
-
-    return `<h${level}${attributes} id="${id}">${cleanText}</h${level}>`;
-  });
 }

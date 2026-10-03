@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bernat Sampera | Read & try</title>
+  <link rel="stylesheet" href="playground.css">
+</head>
+<body>
+  <div class="review-bar"><span><b>02</b> LOCAL DESIGN SKETCH</span><span>Working previews · Sample data</span><button data-action="phone">Phone preview</button><a href="index.html#post">Approved post design ↗</a></div>
+  <div class="site">
+    <header class="masthead">
+      <a class="identity" href="#home"><img src="../src/assets/images/profile.jpeg" alt=""><span>Bernat Sampera<small>Software builder. Curious by default.</small></span></a>
+      <nav aria-label="Main navigation"><a href="#home" data-view="home">Overview</a><a href="#work" data-view="work">Play with my work <span>↗</span></a><button class="about-button" data-action="about">About</button></nav>
+    </header>
+    <main>
+      <div class="intro"><h1>Things I’ve learned.<br><span>Things you can use.</span></h1><p>I build tools for AI, travel, and everyday problems.<br>Read the idea. Try the result.</p></div>
+      <div class="mobile-switch" aria-label="Choose what to explore"><button data-panel="read" aria-pressed="false">Read <span>3 posts</span></button><button data-panel="try" aria-pressed="true">Try <span>3 products</span></button></div>
+      <div class="workspace" id="workspace">
+        <section class="writing" aria-labelledby="writing-title">
+          <div class="section-title"><h2 id="writing-title"><span class="section-dot"></span>Read</h2><span>Ideas you can use</span></div>
+          <div class="topic-filters" aria-label="Filter posts"><button data-topic="all" aria-pressed="true">All</button><button data-topic="context" aria-pressed="false">AI context</button><button data-topic="building" aria-pressed="false">Building agents</button></div>
+          <div id="essay-list"></div>
+          <a class="archive" href="https://samperalabs.com" target="_blank" rel="noreferrer">All published posts <span>↗</span></a>
+        </section>
+        <section class="work" aria-labelledby="work-title">
+          <div class="section-title"><h2 id="work-title"><span class="section-dot green"></span>Try</h2><span>Small demos. Real product ideas.</span></div>
+          <div class="product-picker" aria-label="Choose a product">
+            <button data-product="bjj" aria-pressed="true"><span class="product-symbol bjj-symbol">b.</span><span><strong>BJJGym</strong><small>Find a place to train.</small></span><span class="selected-mark">↗</span></button>
+            <button data-product="context" aria-pressed="false"><span class="product-symbol context-symbol">[c]</span><span><strong>ContextAgora</strong><small>Give AI the right context.</small></span><span class="selected-mark">↗</span></button>
+            <button data-product="pack" aria-pressed="false"><span class="product-symbol pack-symbol">p.</span><span><strong>Pack den Sack</strong><small>Know what to pack.</small></span><span class="selected-mark">↗</span></button>
+          </div>
+          <div class="product-stage" id="product-stage"></div>
+          <div class="stage-footer"><span id="stage-caption"></span><a href="#work" id="expand">Open the playground ↗</a></div>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer"><span>Made by Bernat. Best understood by trying.</span><button data-action="notes">Design notes</button><a href="index.html#workflow">Image principle ↗</a></footer>
+  </div>
+  <dialog id="detail"><div class="dialog-top"><span id="dialog-label">A closer look</span><button data-action="close" aria-label="Close dialog">✕</button></div><div id="dialog-content"></div></dialog>
+  <div class="sr-only" id="announcement" role="status" aria-live="polite"></div>
+  <script src="playground.js"></script>
+</body>
+</html>

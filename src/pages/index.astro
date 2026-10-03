@@ -1,49 +1,48 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
-import EssayList from '../components/common/EssayList.astro';
 import ProjectList from '../components/common/ProjectList.astro';
-import {getDB} from '../lib/db';
-import {projectSlugSet, PROJECT_SLUGS} from '../lib/projects';
+import PostSection from '../components/home/PostSection.astro';
+import {getPublicPostStore} from '../lib/publicPostStore';
+import type {EnhancedPost} from '../lib/db';
+import '../assets/styles/home.css';
+import '../assets/styles/content-shell.css';
 
-const db = getDB();
-const allPosts = await db.getAllPosts();
-
-const essays = allPosts
-  .filter((p) => !projectSlugSet.has(p.slug))
-  .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());
-
-const projectsBySlug = new Map(allPosts.filter((p) => projectSlugSet.has(p.slug)).map((p) => [p.slug, p]));
-const projects = PROJECT_SLUGS.map((slug) => projectsBySlug.get(slug)).filter((p): p is NonNullable<typeof p> => Boolean(p));
-
-const metadata = {
-  title: 'Bernat Sampera',
-  description: 'Builder and writer at the intersection of AI and software.',
-};
+const featuredSlugs = ['context-tree-agent-support-tasks', 'express-the-general', 'your-ai-agent-deserves-its-own-repo', 'lessons-learned-building-a-real-world-ai-agent-with-langgraph', 'analyzing-open-deep-research'];
+const allPosts = await getPublicPostStore().getAllPosts();
+const postsBySlug = new Map(allPosts.map(post => [post.slug, post]));
+function groupPosts(posts: EnhancedPost[]) {
+  const years = new Map<number, Map<number, EnhancedPost[]>>();
+  for (const post of posts) {
+    const date = new Date(post.pub_date);
+    const year = date.getUTCFullYear(), month = date.getUTCMonth();
+    if (!years.has(year)) years.set(year, new Map());
+    const months = years.get(year)!;
+    if (!months.has(month)) months.set(month, []);
+    months.get(month)!.push(post);
+  }
+  return [...years].sort(([a],[b]) => b-a).map(([year, months]) => ({year, months:[...months].sort(([a],[b]) => b-a).map(([month,posts]) => ({name:new Date(Date.UTC(2000,month,1)).toLocaleDateString('en-GB',{month:'long',timeZone:'UTC'}),posts}))}));
+}
+const essays = featuredSlugs.map(slug => postsBySlug.get(slug)).filter((post): post is NonNullable<typeof post> => Boolean(post));
+const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Projects and notes from building AI systems.'};
 ---
-
 <PageLayout metadata={metadata}>
-  <main class="animate-fade-in">
-    <!-- Hero -->
-    <section class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-8 sm:pt-12 pb-10 sm:pb-14">
-      <p class="text-[20px] text-stone-500 leading-relaxed">
-        Everything is context.
-      </p>
-      <p class="mt-4 text-[15px] text-stone-400 leading-relaxed">
-        Builder and writer working at the intersection of AI and software.
-      </p>
-    </section>
-
-    <EssayList essays={essays} />
-    {projects.length > 0 && <ProjectList projects={projects} />}
-  </main>
+  <div class="home-notebook content-shell content-shell-grid" id="home-top">
+    <a class="home-skip" href="#writing">Skip to writing</a>
+    <aside class="home-rail" aria-label="Page navigation">
+      <details class="home-index" id="all-posts" open>
+        <summary>Posts</summary>
+        <nav class="home-contents" aria-label="Posts by year and month">
+          {groupPosts(essays).map(group => <section class="rail-year"><h2>{group.year}</h2>{group.months.map(month => <section class="rail-month"><h3>{month.name}</h3>{month.posts.map(post => <a href={`#essay-${post.slug}`} data-home-link>{post.title}</a>)}</section>)}</section>)}
+        </nav>
+      </details>
+    </aside>
+    <div class="home-body">
+      <h1 class="sr-only">Writing on AI.</h1>
+      <div id="writing" class="writing-sections">
+        {essays.map((post,index) => <PostSection post={post} index={index} />)}
+      </div>
+    </div>
+  </div>
+  <div id="work" class="home-work content-shell"><ProjectList /></div>
 </PageLayout>
-
-<style>
-  @keyframes fade-in {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .animate-fade-in {
-    animation: fade-in 0.4s ease-out;
-  }
-</style>
+<script>import '../scripts/home';</script>

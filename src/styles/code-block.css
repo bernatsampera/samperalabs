@@ -1,0 +1,15 @@
+/* Public code component. Plain text stays light; source code keeps syntax color. */
+.post-prose .codewrap.code-block{border:1px solid #cdd1d5;border-radius:7px;overflow:hidden;margin:32px 0;background:#24282d;box-shadow:0 2px 4px #00000005}
+.post-prose .code-block .codehead{display:flex;align-items:center;justify-content:space-between;min-height:42px;padding:4px 16px;background:#2e3339;border-bottom:1px solid #444b53;font:12px/1.4 ui-monospace,SFMono-Regular,monospace}
+.post-prose .code-block .filename{color:#d4d9df}
+.post-prose .code-block .copy{margin-left:auto;color:#d4d9df;min-height:32px;padding:4px 8px;border-radius:4px}
+.post-prose .code-block .copy:hover{background:#414952;color:#fff}
+.post-prose .code-block pre{background:transparent;color:#edf0f3;padding:20px 22px;max-width:100%;overflow:auto;font:13px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace;tab-size:2;white-space:pre}
+.post-prose .code-block pre code{background:transparent;color:inherit;font:inherit;white-space:inherit;padding:0}
+.post-prose .codewrap.code-block-plain{background:#f1f3f5;border-color:#d8dce0;box-shadow:none}
+.post-prose .code-block-plain .codehead{background:transparent;border:0;min-height:34px;padding:4px 12px 0}
+.post-prose .code-block-plain .copy{color:#545e68}
+.post-prose .code-block-plain .copy:hover{background:#e0e4e8;color:#20272e}
+.post-prose .code-block-plain pre{color:#303942;padding:8px 22px 24px;font-size:13px}
+.post-prose .code-block :is(pre,button):focus-visible{outline:2px solid #738396;outline-offset:-3px}
+@media(max-width:600px){.post-prose .code-block pre{font-size:12px;padding:16px}.post-prose .code-block-plain pre{padding-top:4px}}

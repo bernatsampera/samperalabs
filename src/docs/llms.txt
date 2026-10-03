@@ -13,6 +13,8 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 ## Public Pages
 
+- [src/pages/writing.astro](../pages/writing.astro): Redirect from the retired writing page to the grouped homepage post list.
+
 - [src/pages/index.astro](../pages/index.astro): Homepage / landing page
 - [src/pages/about.astro](../pages/about.astro): About page
 - [src/pages/blog.astro](../pages/blog.astro): Redirects to homepage (301)
@@ -23,6 +25,17 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/pages/og/[type]/[slug].png.ts](../pages/og/[type]/[slug].png.ts): SSR endpoint generating 1200x630 social-preview PNGs (title + subtitle) for posts and notes via astro-og-canvas
 
 ## Components
+
+- [src/components/common/ReadingContents.astro](../components/common/ReadingContents.astro): Recursive article contents links with real heading subdivisions on desktop and phone.
+
+- [src/components/content/CodeBlock.ts](../components/content/CodeBlock.ts): Shared public code renderer with source-code and light plain-text variants.
+- [src/styles/code-block.css](../styles/code-block.css): Public code and text-diagram surfaces, copy controls, and scroll behavior.
+
+- [src/components/home/PostSection.astro](../components/home/PostSection.astro): Numbered homepage essay sections with visible reading links and text fallbacks.
+- [src/components/home/PostScene.astro](../components/home/PostScene.astro): Monochrome visual explanations grounded in selected essay content.
+- [src/assets/styles/home.css](../assets/styles/home.css): Responsive homepage layout, contents navigation, and motion styles.
+- [src/assets/styles/content-shell.css](../assets/styles/content-shell.css): Shared page gutters, sidebar widths, and responsive content columns.
+- [src/scripts/home.ts](../scripts/home.ts): Current-section tracking and accessible homepage motion preferences.
 
 - [src/components/elements/Header.astro](../components/elements/Header.astro): Site header with navigation
 - [src/components/elements/Footer.astro](../components/elements/Footer.astro): Site footer
@@ -37,6 +50,12 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/components/react/essays/](../components/react/essays/): Directory for per-essay interactive components (default-exported React components)
 
 ## Lib
+
+- [src/lib/publicPostStore.ts](../lib/publicPostStore.ts): Public post reads with source revisions and refreshed reading metadata.
+- [src/lib/postRevisions.ts](../lib/postRevisions.ts): Explicit public text and summary overrides for two source-managed articles.
+- [src/editorial/revisions/index.md](../editorial/revisions/index.md): Revised Markdown articles and instructions for source and database edits.
+
+- [src/lib/postPresentation.ts](../lib/postPresentation.ts): Optional slug-keyed homepage scene metadata for published essays.
 
 - [src/lib/db.ts](../lib/db.ts): Database access layer — getDB(), getNoteDB(), getLikeDB() factories supporting SQLite (prod) and remote HTTP (dev)
 - [src/lib/noteStore.ts](../lib/noteStore.ts): NoteStore interface and SqliteNoteStore / RemoteNoteStore implementations
@@ -81,6 +100,8 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/docs/design-system.md](design-system.md): Design system reference — color palette, typography, and theme tokens
 
 ## Prompts
+
+- [src/docs/post-image-workflow.md](post-image-workflow.md): Small optional illustration brief and manual Markdown image review workflow.
 
 - [src/docs/new-essay-prompt.md](new-essay-prompt.md): End-to-end prompt for writing a blog essay from raw content, publishing it, and optionally creating an interactive component
 - [src/docs/interactive-essay-prompt.md](interactive-essay-prompt.md): Prompt for creating interactive React components that demonstrate an essay's core principle

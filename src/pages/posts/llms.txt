@@ -15,18 +15,20 @@ The blog system serves posts stored in SQLite (via better-sqlite3) with server-s
 
 - [src/components/common/PostCard.astro](../../components/common/PostCard.astro): Blog post card with title, description, date, tags, and content type badge
 - [src/components/common/BlogSearch.astro](../../components/common/BlogSearch.astro): Client-side search input that filters posts by title and description
-- [src/components/common/TableOfContents.astro](../../components/common/TableOfContents.astro): Desktop sidebar table of contents generated from post headings
-- [src/components/common/MobileTableOfContents.astro](../../components/common/MobileTableOfContents.astro): Collapsible mobile table of contents
+- [src/layouts/BlogLayout.astro](../../layouts/BlogLayout.astro): Reading layout with a desktop contents rail, mobile contents, and scoped serif article styles
 - [src/components/common/RelatedPosts.astro](../../components/common/RelatedPosts.astro): Related posts section based on shared tags
 
 ## Data Layer
+
+- [src/lib/publicPostStore.ts](../../lib/publicPostStore.ts): Shared public reads for article pages, homepage, RSS, and post preview images.
+- [src/editorial/revisions/index.md](../../editorial/revisions/index.md): Source-managed article revisions, editing instructions, and database behavior.
 
 - [src/lib/db.ts](../../lib/db.ts): Database connection and query class using better-sqlite3 — provides getAllPosts, getPostBySlug, getPostById, getPostsByTag, and CRUD operations
 
 ## Utilities
 
 - [src/utils/markdown.ts](../../utils/markdown.ts): Markdown preprocessing to fix double-escaped links and formatting issues before rendering
-- [src/utils/tableOfContents.ts](../../utils/tableOfContents.ts): Heading extraction and slug generation for auto-generated table of contents
+- [src/utils/tableOfContents.ts](../../utils/tableOfContents.ts): Parsed heading IDs and contents generated together, with explicit and legacy anchors preserved
 - [src/utils/utils.ts](../../utils/utils.ts): General utilities including findRelatedPosts and getReadingTime
 
 ## API Routes

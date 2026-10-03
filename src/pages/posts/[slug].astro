@@ -1,23 +1,23 @@
 ---
 import BlogLayout from '../../layouts/BlogLayout.astro';
 import InteractiveEssay from '../../components/react/InteractiveEssay';
-import {getDB} from '../../lib/db';
+import {getPublicPostStore} from '../../lib/publicPostStore';
 import {hasInteractiveComponent} from '../../lib/interactiveEssays';
 import {Marked} from 'marked';
 import {markedHighlight} from 'marked-highlight';
 import {preprocessMarkdownContent} from '../../utils/markdown';
-import {addHeadingIds} from '../../utils/tableOfContents';
+import {prepareTableOfContents} from '../../utils/tableOfContents';
 import {wrapCodeBlocks} from '../../utils/codeBlockWrap';
 import hljs from 'highlight.js';
 
 export async function getStaticPaths() {
-  const db = getDB();
+  const db = getPublicPostStore();
   const posts = await db.getAllPosts();
   return posts.map((post) => ({ params: {slug: post.slug} }));
 }
 
 const {slug} = Astro.params;
-const db = getDB();
+const db = getPublicPostStore();
 const post = await db.getPostBySlug(slug ?? '');
 if (!post) return Astro.redirect('/404');
 
@@ -33,7 +33,8 @@ const marked = new Marked(
 );
 
 let html = await marked.parse(preprocessMarkdownContent(post.content));
-html = addHeadingIds(html);
+const prepared = prepareTableOfContents(html);
+html = prepared.html;
 html = wrapCodeBlocks(html);
 
 const metadata = {
@@ -44,14 +45,14 @@ const metadata = {
 const hasInteractive = hasInteractiveComponent(slug ?? '');
 ---
 
-<BlogLayout metadata={metadata} post={post}>
+<BlogLayout metadata={metadata} post={post} headings={prepared.headings}>
   {hasInteractive && (
     <div class="mb-12">
       <InteractiveEssay slug={slug!} client:visible />
     </div>
   )}
 
-  <div class="post-prose" set:html={html} />
+  <div class="post-prose reading-prose" set:html={html} />
 
   <div class="mt-14 mb-7 text-center text-[13px] text-stone-300">·  ·  ·</div>
 

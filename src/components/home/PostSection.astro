@@ -1,0 +1,31 @@
+---
+import type { EnhancedPost } from '../../lib/db';
+import { getPostPresentation, getPostSummary } from '../../lib/postPresentation';
+import PostScene from './PostScene.astro';
+interface Props {
+  post: EnhancedPost;
+  index: number;
+}
+const { post } = Astro.props;
+const presentation = getPostPresentation(post.slug);
+const id = `essay-${post.slug}`;
+const summary = getPostSummary(post.slug) || post.description?.trim() || post.excerpt?.trim();
+---
+
+<section
+  id={id}
+  class:list={['home-post', { 'home-post-feature': presentation }]}
+  data-home-section
+  aria-labelledby={`${id}-title`}
+>
+  <div class="home-post-grid">
+    <div class="home-post-copy">
+      <h2 id={`${id}-title`}>{post.title}</h2>
+      <time class="post-date" datetime={post.pub_date}>{new Date(post.pub_date).toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'})}</time>
+      {summary && <p class="home-post-summary">{summary}</p>}
+      <a class="home-read" href={`/posts/${post.slug}`} aria-label={`Read: ${post.title}`}
+        >Read the article <span class="home-read-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span></a>
+    </div>
+    {presentation && <PostScene presentation={presentation} id={id} />}
+  </div>
+</section>

@@ -1,9 +1,9 @@
 import rss from '@astrojs/rss';
-import {getDB} from '../lib/db';
+import {getPublicPostStore} from '../lib/publicPostStore';
 import {projectSlugSet} from '../lib/projects';
 
 export async function GET(context) {
-  const db = getDB();
+  const db = getPublicPostStore();
   const posts = (await db.getAllPosts())
     .filter((post) => !projectSlugSet.has(post.slug))
     .sort((a, b) => new Date(b.pub_date).getTime() - new Date(a.pub_date).getTime());

@@ -5,6 +5,7 @@ import AdminNavigation from '../../../components/admin/AdminNavigation.astro';
 import PostForm from '../../../components/admin/PostForm.astro';
 import PostFormHandler from '../../../components/admin/PostFormHandler.astro';
 import {getDB} from '../../../lib/db';
+import {getPostRevisionSource} from '../../../lib/postRevisions';
 
 // Get the post ID from the URL params
 const {id} = Astro.params;
@@ -21,6 +22,7 @@ if (!post) {
 const metadata = {
   title: `Edit: ${post.title}`,
 };
+const revisionSource = getPostRevisionSource(post.slug);
 ---
 
 <Layout metadata={metadata}>
@@ -30,6 +32,12 @@ const metadata = {
     <!-- Form -->
     <main class="container mx-auto px-6 py-16 max-w-5xl">
       <h1 class="text-4xl md:text-6xl font-bold text-text-strong mb-12">Edit Post</h1>
+
+      {revisionSource && <aside class="mb-8 border border-zinc-300 bg-zinc-100 p-5 text-zinc-900">
+        <p class="font-semibold">This article uses a source revision.</p>
+        <p class="mt-2">Edit <code class="break-all">{revisionSource}</code> to change its public text. The public summary is in <code>src/lib/postRevisions.ts</code>.</p>
+        <p class="mt-2">This form edits the stored database version. Its title, date, and publication status still apply to the public article.</p>
+      </aside>}
 
       <PostForm post={post} mode="edit" />
       <PostFormHandler mode="edit" postId={post.id} />

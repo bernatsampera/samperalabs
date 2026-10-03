@@ -1,0 +1,204 @@
+---
+import type { PostPresentation } from '../../lib/postPresentation';
+interface Props {
+  presentation: PostPresentation;
+  id: string;
+}
+const { presentation, id } = Astro.props;
+---
+
+<figure class="home-scene" data-home-scene>
+  {
+    presentation.scene === 'translation-loop' && (
+      <svg viewBox="0 0 600 390" role="img" aria-labelledby={`${id}-scene-title ${id}-scene-desc`}>
+        <title id={`${id}-scene-title`}>A translation loop with a separate background job</title>
+        <desc id={`${id}-scene-desc`}>
+          An initial translation reaches the user. The supervisor waits for feedback. A refinement returns to the user.
+          A separate background job suggests glossary changes.
+        </desc>
+        <defs>
+          <marker
+            id={`${id}-arrow`}
+            viewBox="0 0 10 10"
+            refX="9"
+            refY="5"
+            markerWidth="6"
+            markerHeight="6"
+            orient="auto-start-reverse"
+          >
+            <path d="M0 0 10 5 0 10" fill="none" stroke="currentColor" stroke-width="1.5" />
+          </marker>
+        </defs>
+        <g fill="none" stroke="#999" stroke-width="1.5" marker-end={`url(#${id}-arrow)`}>
+          <path d="M176 118H223" />
+          <path d="M369 118H416" />
+          <path d="M488 160V197H296V160" />
+          <path d="M488 198V268H369" stroke-dasharray="5 6" />
+        </g>
+        <g class="scene-node" data-scene-step="0">
+          <rect x="30" y="72" width="146" height="88" rx="4" fill="#f4f4f4" stroke="#bbb" />
+
+          <text x="46" y="129" class="scene-title">
+            Translate
+          </text>
+        </g>
+        <g class="scene-node" data-scene-step="1">
+          <rect x="223" y="72" width="146" height="88" rx="4" fill="#f4f4f4" stroke="#bbb" />
+
+          <text x="239" y="129" class="scene-title">
+            Ask the user
+          </text>
+        </g>
+        <g class="scene-node" data-scene-step="2">
+          <rect x="416" y="72" width="154" height="88" rx="4" fill="#f4f4f4" stroke="#bbb" />
+
+          <text x="432" y="129" class="scene-title">
+            Refine
+          </text>
+        </g>
+        <text x="296" y="222" text-anchor="middle" class="scene-note">
+          The conversation continues.
+        </text>
+        <g class="scene-node" data-scene-step="3">
+          <rect x="168" y="240" width="201" height="92" rx="4" fill="#fff" stroke="#999" stroke-dasharray="4 4" />
+
+          <text x="185" y="293" class="scene-title">
+            Suggest glossary
+          </text>
+          <text x="185" y="313" class="scene-title">
+            changes
+          </text>
+        </g>
+
+      </svg>
+    )
+  }
+
+  {
+    presentation.scene === 'context-tree' && (
+      <svg viewBox="0 0 600 390" role="img" aria-labelledby={`${id}-scene-title ${id}-scene-desc`}>
+        <title id={`${id}-scene-title`}>Follow the context tree to a support runbook</title>
+        <desc id={`${id}-scene-desc`}>
+          The root index links to Stripe, Firestore, and Support. The Support index links to runbooks and logs. A
+          runbook describes how to resolve a membership mismatch.
+        </desc>
+
+        <g fill="none" stroke="#b0b0b0" stroke-width="1.5">
+          <>
+            <path d="M300 99V126H111V151M300 126V151M300 126H489V151" />
+            <path d="M489 208V233H392V258M489 233H519V258" />
+            <path d="M392 302V328H160" />
+          </>
+        </g>
+        <g class="scene-node" data-scene-step="0">
+          <>
+            <rect x="213" y="53" width="174" height="46" rx="3" fill="#f2f2f2" stroke="#999" />
+            <text x="300" y="81" text-anchor="middle" class="scene-title">
+              llms.txt
+            </text>
+          </>
+        </g>
+        <g fill="#fff" stroke="#bcbcbc">
+          <>
+            <rect x="37" y="151" width="148" height="57" rx="3" />
+            <rect x="226" y="151" width="148" height="57" rx="3" />
+          </>
+        </g>
+        <>
+          <text x="111" y="183" text-anchor="middle" class="scene-title">
+            stripe/
+          </text>
+          <text x="300" y="183" text-anchor="middle" class="scene-title">
+            firestore/
+          </text>
+        </>
+        <g class="scene-node" data-scene-step="1">
+          <>
+            <rect x="415" y="151" width="148" height="57" rx="3" fill="#f2f2f2" stroke="#999" />
+            <text x="489" y="183" text-anchor="middle" class="scene-title">
+              support/
+            </text>
+          </>
+        </g>
+        <g class="scene-node" data-scene-step="2">
+          <>
+            <rect x="322" y="258" width="140" height="44" rx="3" fill="#f2f2f2" stroke="#999" />
+            <text x="392" y="285" text-anchor="middle" class="scene-title">
+              runbooks/
+            </text>
+          </>
+        </g>
+        <>
+          <rect x="479" y="258" width="83" height="44" rx="3" fill="#fff" stroke="#bcbcbc" />
+          <text x="520" y="285" text-anchor="middle" class="scene-title">
+            logs/
+          </text>
+        </>
+        <g class="scene-node" data-scene-step="3">
+          <>
+            <rect x="39" y="312" width="279" height="48" rx="3" fill="#f2f2f2" stroke="#999" />
+            <text x="56" y="341" class="scene-title">
+              fix-membership-mismatch.md
+            </text>
+          </>
+        </g>
+      </svg>
+    )
+  }
+  {
+    presentation.scene === 'context-repo' && (
+      <svg viewBox="0 0 600 390" role="img" aria-labelledby={`${id}-scene-title ${id}-scene-desc`}>
+        <title id={`${id}-scene-title`}>Load useful context from a version-controlled repo</title>
+        <desc id={`${id}-scene-desc`}>
+          The repo contains integration, workflow, and task modules. A session can load the relevant file. The knowledge
+          stays in the repo for later sessions.
+        </desc>
+
+        <path d="M50 84H177L197 104H349V316H50Z" fill="#fafafa" stroke="#aaa" stroke-width="1.5" />
+
+        <g class="scene-node" data-scene-step="0">
+          <>
+            <rect x="72" y="150" width="253" height="39" rx="2" fill="#fff" stroke="#bbb" />
+            <text x="88" y="175" class="scene-title">
+              Integration: Stripe setup
+            </text>
+          </>
+        </g>
+        <g class="scene-node" data-scene-step="1">
+          <>
+            <rect x="72" y="202" width="253" height="39" rx="2" fill="#fff" stroke="#bbb" />
+            <text x="88" y="227" class="scene-title">
+              Workflow: deploy steps
+            </text>
+          </>
+        </g>
+        <g class="scene-node" data-scene-step="2">
+          <>
+            <rect x="72" y="254" width="253" height="39" rx="2" fill="#fff" stroke="#bbb" />
+            <text x="88" y="279" class="scene-title">
+              Task: active bug
+            </text>
+          </>
+        </g>
+        <path d="M350 221H403M395 214L403 221 395 228" fill="none" stroke="#777" stroke-width="1.5" />
+        <g class="scene-node" data-scene-step="3">
+          <>
+            <rect x="415" y="159" width="151" height="126" rx="5" fill="#f2f2f2" stroke="#999" />
+
+            <text x="431" y="215" class="scene-title">
+              Load what
+            </text>
+            <text x="431" y="237" class="scene-title">
+              the task needs.
+            </text>
+            <path d="M431 263H524" stroke="#bbb" stroke-width="3" />
+          </>
+        </g>
+        <text x="50" y="351" class="scene-note">
+          The files stay. The context can evolve.
+        </text>
+      </svg>
+    )
+  }
+
+</figure>

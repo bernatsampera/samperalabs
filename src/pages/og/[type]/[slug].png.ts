@@ -1,6 +1,7 @@
 import type {APIRoute} from 'astro';
 import {generateOpenGraphImage} from 'astro-og-canvas';
-import {getDB, getNoteDB} from '~/lib/db';
+import {getNoteDB} from '~/lib/db';
+import {getPublicPostStore} from '~/lib/publicPostStore';
 
 export const prerender = false;
 
@@ -29,7 +30,7 @@ export const GET: APIRoute = async ({params}) => {
   let description = '';
 
   if (type === 'posts') {
-    const post = await getDB().getPostBySlug(slug ?? '');
+    const post = await getPublicPostStore().getPostBySlug(slug ?? '');
     if (post) {
       title = post.title;
       description = post.description?.trim() || excerpt(post.content ?? '', post.title);

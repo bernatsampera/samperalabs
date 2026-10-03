@@ -1,0 +1,19 @@
+---
+import type {TOCItem} from '../../utils/tableOfContents';
+
+interface Props {
+  items: TOCItem[];
+  nested?: boolean;
+}
+
+const {items, nested = false} = Astro.props;
+---
+
+<ol class:list={['reading-contents-list', {'reading-contents-nested': nested}]}>
+  {items.map((item) => (
+    <li>
+      <a href={`#${encodeURIComponent(item.id)}`} data-reading-link>{item.text}</a>
+      {item.children?.length ? <Astro.self items={item.children} nested /> : null}
+    </li>
+  ))}
+</ol>

@@ -89,7 +89,7 @@ export interface PostStore {
   close(): void;
 }
 
-function enhancePostWithMetadata(post: Post): EnhancedPost {
+export function enhancePostWithMetadata(post: Post): EnhancedPost {
   const readingTime = Math.max(Math.floor(post.content.length / 1000), 1);
 
   const cleanText = post.content

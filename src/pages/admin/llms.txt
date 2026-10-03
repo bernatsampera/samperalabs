@@ -24,6 +24,8 @@ The admin panel provides authenticated access to create and edit blog posts. It 
 
 ## Utilities
 
+- [src/lib/postRevisions.ts](../../lib/postRevisions.ts): Identifies source-managed public articles so the edit form can explain which text remains controlled by source.
+
 - [src/utils/editorUtils.ts](../../utils/editorUtils.ts): Tiptap editor factory, keyboard shortcuts, and event handlers with syntax highlighting via lowlight
 - [src/utils/clientImageUpload.ts](../../utils/clientImageUpload.ts): Client-side image upload function that posts files to the upload API endpoint
 - [src/utils/CodeBlockComponent.tsx](../../utils/CodeBlockComponent.tsx): React node view for syntax-highlighted code blocks in the Tiptap editor

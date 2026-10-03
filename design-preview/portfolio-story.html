@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BJJGym | Project story sketch</title>
+<style>
+:root{font-family:Arial,Helvetica,sans-serif;color:#18292a;background:#f5f4ee;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,a{-webkit-tap-highlight-color:transparent}a{color:inherit}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #087b61;outline-offset:5px}.bar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 5vw;border-bottom:1px solid #cdd2c9}.bar small{font-size:12px;color:#52645b}.tabs{display:flex;gap:6px}.tabs button{border:1px solid #a8b4aa;background:transparent;border-radius:30px;padding:10px 16px}.tabs button[aria-pressed=true]{color:white;background:#183f35;border-color:#183f35}main{max-width:1220px;padding:65px 5vw 90px;margin:auto}.eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:11px;font-weight:700;color:#52645b}.titleline{display:flex;align-items:center;gap:14px;margin:30px 0 20px}.mark{background:#c9ef65;color:#203b2d;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;font-size:25px}.brand{font-size:22px;font-weight:700;letter-spacing:-1px}h1{font-size:clamp(40px,5.5vw,73px);line-height:1.04;letter-spacing:-.055em;max-width:860px;margin:0 0 28px;font-weight:500}h1 em{font-style:normal;color:#28725a}.intro{font-size:19px;line-height:1.5;max-width:580px;color:#52645b}.overview{display:grid;grid-template-columns:1fr 1fr;gap:65px;margin-top:48px;align-items:start}.row{border-top:1px solid #c5cdc3;padding:20px 0;display:grid;grid-template-columns:84px 1fr;gap:15px}.row h2{font-size:12px;margin:4px 0;color:#52705f}.row p{font-size:17px;line-height:1.5;margin:0}.link{display:inline-block;margin-top:20px;font-size:16px;font-weight:bold;text-underline-offset:6px}.visual{background:#e7ecdf;padding:30px;position:relative}.visual .eyebrow{font-size:10px}.question{font-size:26px;letter-spacing:-1px;line-height:1.15;margin:13px 0 27px}.quote{font-family:Georgia,serif;font-size:18px;line-height:1.55;border-left:2px solid #6f9072;padding-left:18px;margin:16px 0}mark{background:#c9ef65;color:inherit;padding:0 2px}.flow{font-size:12px;color:#4c6655;margin:22px 0 15px}.labels{display:flex;gap:8px;flex-wrap:wrap}.labels span{padding:7px 10px;background:#f9fbf5;border:1px solid #b7c7b1;border-radius:4px;font-size:12px}.note{font-size:11px;line-height:1.5;color:#5d6d60;margin:22px 0 0}.detail{margin-top:55px;border-top:1px solid #adbba9;padding-top:32px}.detail h2{font-size:34px;letter-spacing:-1px;font-weight:500;margin:0 0 25px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}.steps b{font-size:11px;color:#28725a}.steps h3{font-size:20px;font-weight:500}.steps p{font-size:15px;line-height:1.6;color:#52645b}.pageonly{display:none}body.project .pageonly{display:block}body.project .homeonly{display:none}.foot{margin-top:50px;color:#52645b;font-size:12px}body.project .steps{display:grid}@media(max-width:700px){.bar{align-items:flex-start;flex-direction:column;gap:12px}main{padding-top:36px}.overview{grid-template-columns:1fr;gap:24px;margin-top:30px}.visual{padding:24px}.steps{grid-template-columns:1fr;gap:8px}.row{grid-template-columns:65px 1fr}.intro{font-size:17px}h1{font-size:43px}.titleline{margin-top:24px}}
+</style>
+<header class="bar"><small>LOCAL SKETCH / BJJGYM PROJECT STORY</small><nav class="tabs" aria-label="Preview surface"><button data-view="home" aria-pressed="true">Homepage entry</button><button data-view="project" aria-pressed="false">Project page</button></nav></header>
+<main>
+<div class="eyebrow homeonly">Selected work / after the posts</div>
+<a class="eyebrow pageonly" href="#home">Back to homepage entry</a>
+<div class="titleline"><span class="mark" aria-hidden="true">↗</span><span class="brand">BJJGym</span></div>
+<h1>Find a BJJ gym.<br><em>Wherever you travel.</em></h1>
+<p class="intro">A way to find Brazilian jiu-jitsu gyms around the world, with the details that help you choose where to train.</p>
+<div class="overview">
+<section aria-label="Project summary">
+<div class="row"><h2>WHAT IT IS</h2><p>A gym discovery project for people who want to keep training while travelling.</p></div>
+<div class="row"><h2>PROBLEM</h2><p>A name and an address are not enough. Useful details, such as no-gi training, clean mats, and teaching quality, are often missing from gym listings.</p></div>
+<div class="row"><h2>SOLUTION</h2><p>I used AI to extract labels from public reviews and present useful information about each gym.</p></div>
+</section>
+<aside class="visual" aria-label="Example of the solution">
+<div class="eyebrow">The solution, at a glance</div>
+<p class="question">The useful details are<br>already in people's words.</p>
+<div class="eyebrow">Public review</div>
+<blockquote class="quote">“Dropped in for <mark>no-gi</mark>. The mats were <mark>clean</mark>, the coach <mark>explained every step</mark>, and the experienced group gave me <mark>tough rounds</mark>.”</blockquote>
+<div class="flow">↓ AI extracts labels for the gym</div>
+<div class="labels"><span>No-gi</span><span>Clean</span><span>Good teacher</span><span>High level</span></div>
+<p class="note">Illustrative review and labels. These describe review evidence, not verified facts about a gym.</p>
+</aside>
+</div>
+<section class="detail pageonly">
+<div class="eyebrow">How I approached it</div>
+<h2>From public reviews to a better choice.</h2>
+<div class="steps">
+<div><b>01 / FIND THE SIGNAL</b><h3>Use what visitors share.</h3><p>Public reviews contain clues about the training, the space, and the teachers. Those details are hard to compare when they sit inside long blocks of text.</p></div>
+<div><b>02 / MAKE IT USEFUL</b><h3>Extract clear labels.</h3><p>Use AI to identify details such as BJJ, no-gi, cleanliness, teaching quality, and training level.</p></div>
+<div><b>03 / HELP THE TRAVELLER</b><h3>Present the gym's details.</h3><p>Show this information with each gym so a visitor can understand what to expect before choosing where to train.</p></div>
+</div>
+</section>
+<p class="foot">Design direction: explain the project first, then the problem and the solution.</p>
+</main>
+<script>
+function render(){const view=location.hash==='#project'?'project':'home';document.body.classList.toggle('project',view==='project');document.querySelectorAll('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===view)));}
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{location.hash=button.dataset.view;}));window.addEventListener('hashchange',render);render();
+</script>
+</html>

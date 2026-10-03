@@ -1,5 +1,5 @@
 import React, { lazy, Suspense, useMemo } from 'react';
-import { interactiveEssayPreviewRegistry } from '../../lib/interactiveEssays';
+import { getInteractiveComponent } from '../../lib/interactiveEssays';
 
 interface Props {
   slug: string;
@@ -7,7 +7,7 @@ interface Props {
 
 export default function InteractiveEssayPreview({ slug }: Props) {
   const Component = useMemo(() => {
-    const loader = interactiveEssayPreviewRegistry[slug];
+    const loader = getInteractiveComponent(slug);
     if (!loader) return null;
     return lazy(loader);
   }, [slug]);
