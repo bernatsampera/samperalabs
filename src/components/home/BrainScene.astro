@@ -1,0 +1,40 @@
+<div class="brain-scene">
+  <p class="brain-scene-label">A shared path through knowledge</p>
+  <div class="brain-scene-index" data-scene-step="0"><strong>Start here</strong><span>A shared index for people + AI</span></div>
+  <div class="brain-scene-branches">
+    <div class="brain-scene-branch"><strong>Connections</strong><span>Stripe, other services</span></div>
+    <div class="brain-scene-branch brain-scene-route" data-scene-step="1"><strong>Support</strong><span>Find the right procedure</span></div>
+    <div class="brain-scene-branch"><strong>Migrations</strong><span>Guides for moving data</span></div>
+  </div>
+  <div class="brain-scene-procedure" data-scene-step="2"><span class="brain-scene-check" aria-hidden="true">✓</span><div><strong>An approved procedure</strong><span>Steps, limits, and checks</span></div></div>
+  <div class="brain-scene-team" data-scene-step="3"><strong>The team can use it</strong><span>Shared knowledge + AI support</span><div aria-hidden="true" class="brain-people"><i></i><i></i><i></i></div></div>
+  <p class="brain-scene-caption">Illustrative structure. Each action keeps its access rules.</p>
+</div>
+
+<style>
+  .brain-scene { padding:16px 10px 8px; font-size:13px; line-height:1.5; }
+  .brain-scene strong { display:block; font-weight:600; }
+  .brain-scene span { display:block; font-size:11px; color:#52525b; margin-top:4px; }
+  .brain-scene-label { font-size:12px; text-align:center; padding-bottom:20px; color:#52525b; }
+  .brain-scene-index { max-width:260px; margin:auto; padding:16px; border:1px solid #a1a1aa; background:white; text-align:center; border-radius:4px; }
+  .brain-scene-branches { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding-top:28px; position:relative; }
+  .brain-scene-branches::before { content:''; position:absolute; top:14px; left:16.66%; right:16.66%; height:1px; background:#a1a1aa; }
+  .brain-scene-branch { position:relative; text-align:center; border:1px solid #d4d4d8; padding:12px 4px; background:#fafafa; border-radius:4px; font-size:11px; }
+  .brain-scene-branch::before { content:''; position:absolute; top:-15px; height:14px; width:1px; background:#a1a1aa; left:50%; }
+  .brain-scene-route::before { top:-29px; height:28px; }
+  .brain-scene-branch span { font-size:10px; }
+  .brain-scene-procedure,.brain-scene-team { position:relative; max-width:280px; margin:24px auto 0; padding:14px; border:1px solid #a1a1aa; background:white; border-radius:4px; }
+  .brain-scene-procedure::before,.brain-scene-team::before { content:''; position:absolute; top:-25px; left:50%; width:1px; height:24px; background:#a1a1aa; }
+  .brain-scene-procedure { display:flex; align-items:center; gap:12px; }
+  .brain-scene .brain-scene-check { display:grid; place-items:center; border:1px solid #a1a1aa; border-radius:50%; width:28px; height:28px; margin:0; font-size:16px; }
+  .brain-scene-team { text-align:center; }
+  .brain-people { display:flex; justify-content:center; gap:18px; margin-top:12px; }
+  .brain-people i { width:22px; height:12px; border:1.5px solid currentColor; border-radius:12px 12px 3px 3px; position:relative; margin-top:12px; }
+  .brain-people i::before { content:''; position:absolute; width:10px; height:10px; border:1.5px solid currentColor; border-radius:50%; top:-14px; left:4.5px; }
+  .brain-scene-caption { padding-top:16px; font-size:10px; color:#52525b; text-align:center; }
+  [data-scene-step] { transition:background .25s,color .25s,border-color .25s,box-shadow .25s; }
+  [data-scene-step].is-current { background:#18181b; color:white; border-color:#18181b; box-shadow:0 0 0 3px #d4d4d8; }
+  [data-scene-step].is-current span { color:#e4e4e7; }
+  @media(max-width:420px) { .brain-scene { padding:10px 0 4px; } .brain-scene-branches { gap:5px; } }
+  @media(prefers-reduced-motion:reduce) { [data-scene-step] { transition:none; } }
+</style>

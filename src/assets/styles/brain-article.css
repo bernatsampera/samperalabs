@@ -1,0 +1,26 @@
+.brain-figure { border-block: 1px solid #e4e4e7; padding: 28px 0 20px; }
+.brain-comic { scroll-margin-top:120px; }
+.brain-map,.brain-example,.brain-growth { font-family:var(--font-sans); font-size:15px; line-height:1.5; }
+.brain-map { max-width:480px; margin:auto; }
+.brain-map-root { background:#18181b; color:white; padding:18px; text-align:center; font-weight:600; }
+.brain-map-root span,.brain-map-branch>span { display:block; font-size:12px; font-weight:400; margin-top:4px; }
+.brain-map-branches { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding-top:28px; }
+.brain-map-branch { position:relative; border:1px solid #d4d4d8; padding:16px; background:#fafafa; }
+.brain-map-branch::before { content:''; position:absolute; height:29px; width:1px; background:#a1a1aa; top:-29px; left:50%; }
+.brain-map-leaf { border-left:2px solid #a1a1aa; padding:8px 12px; background:white; margin-top:12px; }
+.reading-page .reading-prose .brain-example { list-style:none; padding:0; margin:0; }
+.reading-page .reading-prose .brain-example li { display:flex; gap:18px; padding:15px 8px; margin:0; border-bottom:1px solid #e4e4e7; }
+.brain-example li>span { color:#71717a; font-size:12px; padding-top:3px; }
+.brain-example small,.brain-growth small { display:block; font-size:13px; font-weight:400; color:#52525b; margin-top:4px; }
+.brain-growth { max-width:320px; margin:auto; text-align:center; }
+.brain-growth>div { border:1px solid #d4d4d8; padding:14px; }
+.brain-growth>span { display:block; padding:6px; color:#71717a; }
+.brain-growth-review { background:#f4f4f5; }
+.brain-fragments { font:14px/1.5 var(--font-sans); max-width:520px; margin:auto; text-align:center; }
+.brain-fragment-row { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.brain-fragment-row>div { border:1px solid #d4d4d8; background:#fafafa; padding:16px 8px; }
+.brain-fragment-row strong { display:block; font-size:13px; }
+.brain-fragment-row span,.brain-fragment-result small { display:block; font-size:12px; color:#52525b; margin-top:6px; }
+.brain-join { padding:10px; color:#71717a; }
+.brain-fragment-result { padding:16px; border:1px solid #a1a1aa; }
+@media(max-width:420px) { .brain-fragment-row { gap:5px; } .brain-fragment-row>div { padding:12px 4px; } .brain-fragment-row strong { font-size:11px; } .brain-fragment-row span { font-size:11px; } }

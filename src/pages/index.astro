@@ -7,7 +7,7 @@ import type {EnhancedPost} from '../lib/db';
 import '../assets/styles/home.css';
 import '../assets/styles/content-shell.css';
 
-const featuredSlugs = ['context-tree-agent-support-tasks', 'express-the-general', 'your-ai-agent-deserves-its-own-repo', 'lessons-learned-building-a-real-world-ai-agent-with-langgraph', 'analyzing-open-deep-research'];
+const featuredSlugs = ['building-an-ai-brain-at-maat', 'context-tree-agent-support-tasks', 'express-the-general', 'your-ai-agent-deserves-its-own-repo', 'lessons-learned-building-a-real-world-ai-agent-with-langgraph', 'analyzing-open-deep-research'];
 const allPosts = await getPublicPostStore().getAllPosts();
 const postsBySlug = new Map(allPosts.map(post => [post.slug, post]));
 function groupPosts(posts: EnhancedPost[]) {

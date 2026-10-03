@@ -9,6 +9,7 @@ import {preprocessMarkdownContent} from '../../utils/markdown';
 import {prepareTableOfContents} from '../../utils/tableOfContents';
 import {wrapCodeBlocks} from '../../utils/codeBlockWrap';
 import hljs from 'highlight.js';
+import '../../assets/styles/brain-article.css';
 
 export async function getStaticPaths() {
   const db = getPublicPostStore();

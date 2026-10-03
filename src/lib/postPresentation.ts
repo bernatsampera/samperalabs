@@ -1,6 +1,6 @@
 /** Editorial scenes must describe the published article, not a proposed feature. */
 export interface PostPresentation {
-  scene: 'translation-loop' | 'context-tree' | 'context-repo';
+  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain';
   label: string;
   heading: string;
   summary: string;
@@ -10,6 +10,13 @@ export interface PostPresentation {
 // Verified against the published article on 2026-10-03.
 // `context-is-everything` is not a published essay, so it has no scene.
 const presentations: Record<string, PostPresentation> = {
+  'building-an-ai-brain-at-maat': {
+    scene: 'shared-brain',
+    label: 'Shared company context',
+    heading: 'One structure. Shared knowledge.',
+    summary: 'We are building context that people and AI can follow. A clear hierarchy connects company knowledge to reviewed procedures, so more of the team can use it. Adding knowledge as it grows is the next challenge.',
+    caption: 'A simplified example: follow the hierarchy, find an approved procedure, and use it across the team.',
+  },
   'context-tree-agent-support-tasks': {
     scene: 'context-tree',
     label: 'Context for support',
