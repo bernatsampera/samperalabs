@@ -1,0 +1,4 @@
+interface:
+  display_name: "New SamperaLabs Post"
+  short_description: "Prepare a post from a draft, repository, or folder"
+  default_prompt: "Use $new-post with my source path and topic to prepare a SamperaLabs article."

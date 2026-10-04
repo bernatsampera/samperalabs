@@ -1,0 +1,91 @@
+{
+  "slug": "gym-schedule-image-to-classes",
+  "assets": {
+    "schedule-import-comic-v2.png": "https://samperalabs.com/images/gym-schedule-import-comic.png?v=1bb8138",
+    "02-markdown-review.jpg": "https://samperalabs.com/images/gym-schedule-import-review.jpg?v=1bb8138",
+    "03-schedule-editor.jpg": "https://samperalabs.com/images/gym-schedule-import-editor.jpg?v=1bb8138"
+  },
+  "status": "published",
+  "failedUpload": {
+    "schedule-import-comic-v2.png": "https://8b1a7027b28ba48345dff59035386634.r2.cloudflarestorage.com/samperalabs/draft-1791120658711-1791120658711-09dt1t.png"
+  },
+  "commit": "1bb8138c72d238bb0883dc4b5629566717a87afa",
+  "assetChecks": [
+    {
+      "file": "schedule-import-comic-v2.png",
+      "url": "https://samperalabs.com/images/gym-schedule-import-comic.png?v=1bb8138",
+      "status": 200,
+      "width": 1536,
+      "height": 1024
+    },
+    {
+      "file": "02-markdown-review.jpg",
+      "url": "https://samperalabs.com/images/gym-schedule-import-review.jpg?v=1bb8138",
+      "status": 200,
+      "width": 1728,
+      "height": 935
+    },
+    {
+      "file": "03-schedule-editor.jpg",
+      "url": "https://samperalabs.com/images/gym-schedule-import-editor.jpg?v=1bb8138",
+      "status": 200,
+      "width": 1713,
+      "height": 927
+    }
+  ],
+  "contentHash": "9526fb96565239598c60e380cd0df3f24b3a5c3ebb1b3f794a5b2fa8d62d6a99",
+  "id": 50,
+  "url": "https://samperalabs.com/posts/gym-schedule-image-to-classes",
+  "pub_date": "2026-10-04",
+  "published_at": "2026-10-04T13:38:02.855Z",
+  "deployment": "hqvscsplwihskku31vrmmo1e",
+  "deployment_status": "finished",
+  "publicChecks": [
+    {
+      "path": "/posts/gym-schedule-image-to-classes",
+      "status": 200,
+      "cache": "DYNAMIC",
+      "containsSlug": true,
+      "hasAnimation": false,
+      "hasComic": true
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "cache": "DYNAMIC",
+      "containsSlug": true,
+      "hasAnimation": true,
+      "hasComic": false
+    },
+    {
+      "path": "/rss.xml",
+      "status": 200,
+      "cache": "DYNAMIC",
+      "containsSlug": true,
+      "hasAnimation": false,
+      "hasComic": false
+    },
+    {
+      "path": "/sitemap-index.xml",
+      "status": 200,
+      "cache": "DYNAMIC",
+      "containsSlug": false,
+      "hasAnimation": false,
+      "hasComic": false
+    },
+    {
+      "path": "/sitemap-0.xml",
+      "status": 200,
+      "cache": "DYNAMIC",
+      "containsSlug": false,
+      "hasAnimation": false,
+      "hasComic": false
+    }
+  ],
+  "sitemap": {
+    "status": 200,
+    "url": "https://samperalabs.com/sitemap-0.xml",
+    "containsArticle": true,
+    "method": "Refresh generated artifact after database publication"
+  }
+}

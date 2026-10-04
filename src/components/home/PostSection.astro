@@ -21,11 +21,52 @@ const summary = getPostSummary(post.slug) || post.description?.trim() || post.ex
   <div class="home-post-grid">
     <div class="home-post-copy">
       <h2 id={`${id}-title`}>{post.title}</h2>
-      {post.status === 'draft' ? <span class="post-date">Local draft · For review</span> : <time class="post-date" datetime={post.pub_date}>{new Date(post.pub_date).toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric', timeZone:'UTC'})}</time>}
+      {
+        post.status === 'draft' ? (
+          <span class="post-date">Local draft · For review</span>
+        ) : (
+          <time class="post-date" datetime={post.pub_date}>
+            {new Date(post.pub_date).toLocaleDateString('en-GB', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+              timeZone: 'UTC',
+            })}
+          </time>
+        )
+      }
       {summary && <p class="home-post-summary">{summary}</p>}
       <a class="home-read" href={`/posts/${post.slug}`} aria-label={`Read: ${post.title}`}
-        >Read the article <span class="home-read-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span></a>
+        >Read the article <span class="home-read-icon" aria-hidden="true"
+          ><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"
+            ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+          ></span
+        ></a
+      >
     </div>
-    {presentation && <PostScene presentation={presentation} id={id} />}
+    {
+      presentation && (
+        <div class="home-scene-panel">
+          <PostScene presentation={presentation} id={id} />
+          <div class="home-scene-controls" data-scene-controls hidden>
+            <span data-scene-hint>Scroll to animate</span>
+            <button type="button" data-scene-play aria-label={`Play animation: ${post.title}`}>
+              <span data-scene-play-label>Play</span>
+            </button>
+            <div
+              class="home-scene-progress"
+              data-scene-progress
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              aria-label={`Animation progress: ${post.title}`}
+            >
+              <span data-scene-progress-fill />
+            </div>
+          </div>
+        </div>
+      )
+    }
   </div>
 </section>

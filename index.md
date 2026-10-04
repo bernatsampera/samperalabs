@@ -1,5 +1,21 @@
 # SamperaLabs navigation
 
+- [src/docs/deploy-post-command.md](src/docs/deploy-post-command.md): One-command post publication, release manifests, and saved results.
+- [src/docs/commands/deploy-post/SKILL.md](src/docs/commands/deploy-post/SKILL.md): Shared Codex and Claude Code publication command.
+- [src/docs/commands/deploy-post/failure-modes.md](src/docs/commands/deploy-post/failure-modes.md): Release failures defined before script implementation.
+- [scripts/deploy-post.mjs](scripts/deploy-post.mjs): Post publication with image delivery, optional code release, and HTTP checks.
+- [scripts/install-deploy-post-command.mjs](scripts/install-deploy-post-command.mjs): Installs the deploy-post skill without replacing existing entries.
+- [.codex/skills/deploy-post/SKILL.md](.codex/skills/deploy-post/SKILL.md): Project Codex activation link for post publication.
+- [.claude/skills/deploy-post/SKILL.md](.claude/skills/deploy-post/SKILL.md): Project Claude Code activation link for post publication.
+
+- [src/docs/new-post-command.md](src/docs/new-post-command.md): Shared Codex and Claude Code article command, input examples, and installation.
+- [src/docs/commands/new-post/SKILL.md](src/docs/commands/new-post/SKILL.md): Command instructions for text files, repositories, and folders.
+- [src/docs/commands/new-post/agents/openai.yaml](src/docs/commands/new-post/agents/openai.yaml): Codex display metadata for the shared command.
+- [src/docs/article-site-reference.md](src/docs/article-site-reference.md): Site purpose, content API, image delivery, homepage rules, and Coolify releases.
+- [scripts/install-post-command.mjs](scripts/install-post-command.mjs): Installs shared skill links without replacing existing entries.
+- [.codex/skills/new-post/SKILL.md](.codex/skills/new-post/SKILL.md): Project Codex activation link to the shared article command.
+- [.claude/skills/new-post/SKILL.md](.claude/skills/new-post/SKILL.md): Project Claude Code activation link to the shared article command.
+
 - [.agents/skills/asd-ste100/SKILL.md](.agents/skills/asd-ste100/SKILL.md): Project-local Simplified Technical English skill for clear sentences and consistent terms.
 
 - [src/editorial/drafts/index.md](src/editorial/drafts/index.md): Local article drafts and the MAAT Brain page preview.

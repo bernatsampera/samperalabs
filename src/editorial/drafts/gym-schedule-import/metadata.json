@@ -1,0 +1,14 @@
+{
+  "title": "From a gym schedule picture to classes in MAAT",
+  "description": "How we combined Docling, editable Markdown, and Gemini to reduce schedule entry from 30 minutes to five minutes for the MAAT sales team.",
+  "author": "Bernat Sampera",
+  "slug": "gym-schedule-image-to-classes",
+  "tags": [
+    "AI",
+    "ocr"
+  ],
+  "status": "published",
+  "pub_date": "2026-10-04",
+  "image_url": null,
+  "image_alt": null
+}

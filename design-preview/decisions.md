@@ -2,6 +2,14 @@
 
 ## Approved and locked
 
+### Homepage scroll timing and playback controls
+
+Keep each animated section fixed while its scene progresses on desktop screens where the full section fits. Calculate progress from the available fixed scroll distance. Complete the animation at 80 percent of that distance so readers can see the final state before the section moves away. Keep section dimensions stable during scroll.
+
+Use one minimal control row with a thin gray progress line, the text "Scroll to animate", and a plain Play button. Omit the panel, border, icons, and extra instructions. Keep Play available during scrolling. Show Replay after completion without a completion label. On phones (760px or less), play each illustration once when most of it enters view. Keep normal page scrolling and provide Replay. Stop playback when the illustration leaves view or the tab becomes hidden. Do not automatically repeat it. On larger screens where the section is too tall, use Play and Replay controls. Timed playback lasts 3.6 seconds and includes Stop. In desktop scroll mode, scrolling returns control to the scroll position. Keep the article link available throughout. Use explicit page colors for the progress bar instead of native control colors.
+
+Show a complete static scene when JavaScript is unavailable or reduced motion is active. Hide playback controls in these cases. This decision replaces the earlier removal of progress indicators.
+
 ### Distinct article visuals and homepage motion
 
 The user requested different diagram styles and homepage animations. Color changes alone do not solve the repetition. Each article needs a distinct composition and drawing style. Each homepage scene needs movement that explains its subject.

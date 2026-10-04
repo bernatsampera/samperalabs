@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Local homepage preview: gym schedule import</title>
+<style>
+@font-face{font-family:Poppins;src:url(data:font/woff2;base64,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) format('woff2');font-weight:400;font-display:swap}
+:root{--font-sans:Poppins,sans-serif}body{margin:0;font-family:var(--font-sans)}
+:root {
+  --home-ink: #18181b;
+  --home-muted: #52525b;
+  --home-line: #d4d4d8;
+  --home-surface: #fafafa;
+  --home-panel: #f4f4f5;
+}
+body:has(.home-notebook) {
+  background: var(--home-surface);
+}
+.home-notebook {
+  color: var(--home-ink);
+}
+.home-notebook * {
+  box-sizing: border-box;
+}
+.home-notebook a {
+  text-decoration: none;
+}
+.home-notebook :is(a, button, summary):focus-visible {
+  outline: 2px solid #18181b;
+  outline-offset: 4px;
+}
+.home-notebook :is(p, h1, h2, figure) {
+  margin: 0;
+}
+.home-skip {
+  position: fixed;
+  top: -100px;
+  left: 20px;
+  z-index: 100;
+  padding: 12px;
+  background: white;
+}
+.home-skip:focus {
+  top: 12px;
+}
+.home-body {
+  min-width: 0;
+}
+.home-rail {
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  max-height: calc(100svh - 112px);
+  overflow: auto;
+  scrollbar-width: thin;
+  padding: 24px 8px 24px 0;
+}
+.home-index > summary {
+  display: none;
+}
+.rail-year + .rail-year {
+  margin-top: 26px;
+}
+.rail-year > h2 {
+  font-size: 18px;
+  font-weight: 650;
+  margin-bottom: 16px;
+}
+.rail-month {
+  margin-bottom: 20px;
+}
+.rail-month > h3 {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--home-muted);
+  margin: 0 0 6px;
+}
+.rail-month > a {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #52525b;
+  padding: 10px 12px;
+  border-left: 2px solid transparent;
+}
+.rail-month > a:hover {
+  color: #18181b;
+  background: #f4f4f5;
+}
+.rail-month > a[aria-current] {
+  background: #e4e4e7;
+  border-left-color: #18181b;
+  color: #18181b;
+  font-weight: 550;
+}
+.writing-sections {
+  scroll-margin-top: 88px;
+}
+.home-post {
+  padding: 48px 0 max(64px, 22svh);
+  border-bottom: 1px solid var(--home-line);
+  scroll-margin-top: 88px;
+}
+.home-post-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 28px;
+  align-items: center;
+}
+.home-post-copy {
+  min-width: 0;
+}
+.home-post h2 {
+  font-size: clamp(26px, 2.6vw, 36px);
+  font-weight: 550;
+  letter-spacing: -0.04em;
+  line-height: 1.16;
+  overflow-wrap: break-word;
+}
+.post-date {
+  display: block;
+  font-size: 13px;
+  color: var(--home-muted);
+  margin-top: 16px;
+}
+.home-post-summary {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #3f3f46;
+  margin-top: 20px !important;
+}
+.home-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 52px;
+  padding: 8px 8px 8px 20px;
+  margin-top: 28px;
+  background: #18181b;
+  color: #fff;
+  border: 1px solid #18181b;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.home-read-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  background: #3f3f46;
+  border-radius: 2px;
+}
+.home-read:hover {
+  background: #000;
+}
+.home-read:hover .home-read-icon {
+  background: #52525b;
+}
+.home-read:focus-visible {
+  outline: 3px solid #18181b;
+  outline-offset: 5px;
+}
+.home-scene {
+  min-width: 0;
+  padding: 12px 0;
+  color: var(--home-ink);
+}
+.home-scene svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  color: #52525b;
+}
+.scene-note {
+  font: 12px var(--font-sans);
+  letter-spacing: 0.1em;
+  fill: #52525b;
+}
+.scene-label {
+  font: 17px var(--font-sans);
+  fill: #27272a;
+}
+.scene-small {
+  font: 13px var(--font-sans);
+  fill: #52525b;
+}
+.scene-display {
+  font:
+    54px Georgia,
+    serif;
+  fill: #18181b;
+}
+.scene-correction {
+  font:
+    italic 52px Georgia,
+    serif;
+  fill: #18181b;
+}
+.scene-document-title {
+  font:
+    23px Georgia,
+    serif;
+  fill: #18181b;
+}
+.scene-session {
+  font:
+    29px Georgia,
+    serif;
+  fill: #18181b;
+}
+.scene-annotation {
+  font:
+    italic 25px Georgia,
+    serif;
+  fill: #3f3f46;
+}
+.scene-rule {
+  fill: none;
+  stroke: #a1a1aa;
+  stroke-width: 1;
+}
+.scene-pen {
+  fill: none;
+  stroke: #3f3f46;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.scene-reader circle,
+.scene-reader path {
+  fill: #fafafa;
+  stroke: #52525b;
+  stroke-width: 1.5;
+}
+.schedule-scene-heading {
+  font: 600 23px var(--font-sans);
+  fill: #18181b;
+}
+.schedule-scene-text {
+  font: 20px var(--font-sans);
+  fill: #27272a;
+}
+.schedule-scene-code {
+  font: 23px monospace;
+  fill: #27272a;
+}
+.schedule-scene-time {
+  font: 600 40px var(--font-sans);
+  fill: #18181b;
+}
+.schedule-scene-time-before {
+  fill: #71717a;
+}
+.schedule-scene-caption {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--home-muted);
+  margin-top: 14px;
+  max-width: 54ch;
+}
+/* Show a complete, readable composition before JavaScript and without motion. */
+.home-scene [data-motion='leave'] {
+  opacity: 0;
+}
+
+.home-work {
+  min-width: 0;
+  margin-top: 64px;
+  padding-bottom: 48px;
+  scroll-margin-top: 100px;
+}
+@media (max-width: 1100px) {
+  .home-post-grid {
+    grid-template-columns: 1fr;
+  }
+  .home-scene {
+    max-width: 580px;
+    width: 100%;
+  }
+}
+@media (max-width: 760px) {
+  .home-rail {
+    position: relative;
+    top: auto;
+    max-height: none;
+    padding: 16px 0 0;
+  }
+  .home-index > summary {
+    display: block;
+    cursor: pointer;
+    min-height: 44px;
+    padding: 12px 0;
+    font-size: 14px;
+    font-weight: 550;
+    border-bottom: 1px solid var(--home-line);
+  }
+  .home-index > summary::after {
+    content: '+';
+    float: right;
+  }
+  .home-index[open] > summary::after {
+    content: '−';
+  }
+  .home-contents {
+    max-height: 50svh;
+    overflow: auto;
+    padding: 18px 4px;
+  }
+  .home-post {
+    padding: 36px 0 max(64px, 18svh);
+  }
+  .home-post h2 {
+    font-size: 29px;
+  }
+  .home-post-grid {
+    gap: 24px;
+  }
+  .home-scene {
+    padding: 8px;
+  }
+  .home-work {
+    margin-top: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (min-width: 1200px) and (min-height: 800px) {
+  .home-post {
+    min-height: 110svh;
+    padding: 48px 0 96px;
+  }
+  .home-post-grid {
+    position: sticky;
+    top: 112px;
+  }
+}
+.home-post:not(.home-post-feature) {
+  min-height: 0;
+  padding: 64px 0;
+}
+.home-post:not(.home-post-feature) .home-post-grid {
+  display: block;
+  position: static;
+}
+.home-post:not(.home-post-feature) .home-post-copy {
+  max-width: 680px;
+}
+@media (max-width: 760px) {
+  .home-post:not(.home-post-feature) {
+    padding: 40px 0;
+  }
+}
+
+.preview-note{max-width:1160px;margin:0 auto;padding:32px 24px;color:#52525b;font-size:14px}
+.preview-note h1{color:#18181b;font-size:24px}.home-notebook{max-width:1160px;margin:auto;padding:0 24px}
+.preview-end{min-height:60svh;padding:36px 24px;color:#52525b}
+</style></head><body>
+<header class="preview-note"><h1>Local homepage preview</h1><p>Scroll to turn the schedule picture into a table, then editable classes.</p><p>The complete result remains visible with reduced motion or no JavaScript.</p></header>
+<main class="home-notebook"><div class="home-body"><div class="writing-sections">
+<section id="essay-gym-schedule-image-to-classes" class="home-post home-post-feature" data-home-section aria-labelledby="preview-title">
+<div class="home-post-grid"><div class="home-post-copy"><h2 id="preview-title">From a gym schedule picture to classes in MAAT</h2>
+<span class="post-date">Local draft · For review</span><p class="home-post-summary">We combined Docling OCR, an editable Markdown table, and structured output to import gym schedules. Our sales team reduced schedule setup from about 30 minutes to five minutes, with review before saving.</p>
+<a class="home-read" href="article.md">Read the local draft</a></div>
+<figure class="home-scene home-scene-schedule-import" data-home-scene><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-labelledby="essay-gym-schedule-image-to-classes-scene-title essay-gym-schedule-image-to-classes-scene-desc" class="schedule-scene">
+  <title id="essay-gym-schedule-image-to-classes-scene-title">A gym schedule becomes editable classes</title>
+  <desc id="essay-gym-schedule-image-to-classes-scene-desc">A fictional timetable becomes a Markdown table through Docling OCR. Structured output fills a calendar. A person checks the classes before saving. The MAAT sales team reports about 30 minutes for manual schedule entry and five minutes with the tool. These times cover schedule setup only.</desc>
+  <text x="30" y="32" class="scene-label">Docling OCR + structured output</text>
+  <text x="30" y="64" class="scene-small">Picture to table to editable classes</text>
+  <!-- The document frame stays fixed throughout the conversion. -->
+  <rect x="30" y="89" width="540" height="248" rx="6" fill="white" stroke="#a1a1aa"/>
+  <!-- Source picture: a printed timetable. -->
+  <g data-motion="leave" data-start="0.22" data-end="0.38" data-y="-12">
+    <text x="54" y="125" class="schedule-scene-heading">Schedule picture</text>
+    <path d="M54 143H546M54 188H546M54 238H546M54 288H546M214 143V288M380 143V288" class="scene-rule"/>
+    <g class="schedule-scene-text">
+      <text x="65" y="174">Mon</text><text x="232" y="174">Tue</text><text x="399" y="174">Wed</text>
+      <text x="65" y="218">18:00 BJJ</text><text x="232" y="218">18:00 No-Gi</text><text x="399" y="218">18:00 BJJ</text>
+      <text x="65" y="269">19:00 Mat</text><text x="232" y="269">19:00 Mat</text><text x="399" y="269">19:00 Mat</text>
+    </g>
+    <g data-motion="leave" data-start="0.15" data-end="0.34" data-y="152">
+      <path d="M48 151H552" stroke="#18181b" stroke-width="2"/>
+      <path d="M48 149V157M552 149V157" stroke="#18181b" stroke-width="2"/>
+    </g>
+  </g>
+  <!-- OCR text arrives before it gives way to the calendar. -->
+  <g data-motion="leave" data-start="0.5" data-end="0.64" data-x="-18">
+    <g data-motion="reveal" data-start="0.3" data-end="0.44" data-y="18">
+      <text x="54" y="125" class="schedule-scene-heading">Markdown table</text>
+      <g class="schedule-scene-code">
+        <text x="54" y="156">Day | Time  | Class</text>
+        <text x="54" y="182">Mon | 18:00 | BJJ</text>
+        <text x="54" y="208">Mon | 19:00 | Mat</text>
+        <text x="54" y="234">Tue | 18:00 | No-Gi</text>
+        <text x="54" y="260">Tue | 19:00 | Mat</text>
+        <text x="54" y="286">Wed | 18:00 | BJJ</text>
+        <text x="54" y="312">Wed | 19:00 | Mat</text>
+      </g>
+      <path d="M53 320H369" class="scene-pen" pathLength="1" data-motion="draw" data-start="0.43" data-end="0.5"/>
+    </g>
+  </g>
+  <!-- Final calendar is the default when JavaScript or motion is unavailable. -->
+  <g data-motion="reveal" data-start="0.57" data-end="0.7" data-y="14">
+    <text x="54" y="125" class="schedule-scene-heading">Editable classes</text>
+    <path d="M54 143H546M214 143V314M380 143V314" class="scene-rule"/>
+    <g class="schedule-scene-text">
+      <text x="65" y="174">Mon</text><text x="232" y="174">Tue</text><text x="399" y="174">Wed</text>
+    </g>
+    <g data-motion="reveal" data-start="0.65" data-end="0.76" data-y="-25">
+      <rect x="54" y="191" width="148" height="55" rx="4" fill="#e4e4e7"/>
+      <text x="65" y="226" class="schedule-scene-text">18:00 BJJ</text>
+    </g>
+    <g data-motion="reveal" data-start="0.7" data-end="0.81" data-y="-25">
+      <rect x="226" y="191" width="142" height="55" rx="4" fill="#e4e4e7"/>
+      <text x="236" y="226" class="schedule-scene-text">18:00 No-Gi</text>
+    </g>
+    <g data-motion="reveal" data-start="0.75" data-end="0.86" data-y="-25">
+      <rect x="392" y="191" width="154" height="55" rx="4" fill="#e4e4e7"/>
+      <text x="404" y="226" class="schedule-scene-text">18:00 BJJ</text>
+    </g>
+    <g data-motion="reveal" data-start="0.79" data-end="0.9" data-y="-15">
+      <rect x="54" y="255" width="148" height="55" rx="4" fill="#f4f4f5"/>
+      <rect x="226" y="255" width="142" height="55" rx="4" fill="#f4f4f5"/>
+      <rect x="392" y="255" width="154" height="55" rx="4" fill="#f4f4f5"/>
+      <text x="65" y="290" class="schedule-scene-text">19:00 Mat</text>
+      <text x="236" y="290" class="schedule-scene-text">19:00 Mat</text>
+      <text x="404" y="290" class="schedule-scene-text">19:00 Mat</text>
+    </g>
+  </g>
+  <text x="30" y="378" class="scene-small">Manual entry</text>
+  <text x="30" y="420" class="schedule-scene-time schedule-scene-time-before">30 min</text>
+  <g data-motion="reveal" data-start="0.87" data-end="0.98" data-x="16">
+    <path d="M318 371L326 379L342 361" class="scene-pen"/>
+    <text x="352" y="378" class="scene-small">Review + save</text>
+    <text x="352" y="420" class="schedule-scene-time">5 min</text>
+  </g>
+  <text x="30" y="451" class="scene-small">Illustrative classes. Schedule setup only.</text>
+</svg>
+<figcaption class="schedule-scene-caption">Docling reads the picture into a table. Structured output creates editable classes. The team checks the result before saving. Schedule setup: about 30 minutes to five minutes.</figcaption></figure></div>
+</section></div></div></main>
+<footer class="preview-end">Illustrative classes. The times cover schedule setup only.</footer>
+<script type="module">const notebook = document.querySelector(".home-notebook");
+if (notebook) {
+  const sections = [...notebook.querySelectorAll("[data-home-section]")];
+  const links = [...notebook.querySelectorAll("[data-home-link]")];
+  const motionPreference = matchMedia("(prefers-reduced-motion: reduce)");
+  let queued = false;
+  let activeId = "";
+  const clamp = (value) => Math.min(1, Math.max(0, value));
+  const sceneParts = new Map(
+    sections.map((section) => [
+      section,
+      [...section.querySelectorAll("[data-motion]")].map((element) => ({
+        element,
+        kind: element.dataset.motion,
+        start: Number(element.dataset.start ?? 0),
+        end: Number(element.dataset.end ?? 1),
+        x: Number(element.dataset.x ?? 0),
+        y: Number(element.dataset.y ?? 0)
+      }))
+    ])
+  );
+  const update = () => {
+    queued = false;
+    const activationLine = Math.min(160, innerHeight * 0.3);
+    const bounds = sections.map((section) => section.getBoundingClientRect());
+    const active = bounds.findIndex((rect) => rect.top <= activationLine && rect.bottom > activationLine);
+    sections.forEach((section, index) => {
+      const rect = bounds[index];
+      const scene = section.querySelector("[data-home-scene]");
+      if (scene) {
+        const travel = Math.max(1, ((bounds[index + 1]?.top ?? rect.bottom) - rect.top) * 0.65);
+        const progress = motionPreference.matches ? 1 : clamp((activationLine - rect.top) / travel);
+        for (const part of sceneParts.get(section) ?? []) {
+          const fraction = clamp((progress - part.start) / Math.max(1e-3, part.end - part.start));
+          const eased = fraction * fraction * (3 - 2 * fraction);
+          if (part.kind === "draw") {
+            part.element.style.strokeDasharray = "1";
+            part.element.style.strokeDashoffset = String(1 - eased);
+          } else {
+            const leaving = part.kind === "leave";
+            const offset = leaving ? eased : 1 - eased;
+            part.element.style.opacity = String(leaving ? 1 - eased : eased);
+            part.element.style.transform = "translate(" + part.x * offset + "px, " + part.y * offset + "px)";
+          }
+        }
+      }
+    });
+    const nextId = sections[active]?.id ?? "";
+    if (nextId !== activeId) {
+      activeId = nextId;
+      links.forEach((link) => {
+        if (link.hash === `#${activeId}`) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    }
+  };
+  const requestUpdate = () => {
+    if (!queued) {
+      queued = true;
+      requestAnimationFrame(update);
+    }
+  };
+  const setMotion = () => {
+    const reduced = motionPreference.matches;
+    notebook.dataset.motion = reduced ? "reduced" : "enabled";
+    requestUpdate();
+  };
+  motionPreference.addEventListener("change", setMotion);
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate, { passive: true });
+  window.addEventListener("pageshow", requestUpdate);
+  setMotion();
+}
+function revealPostIndex() {
+  if (location.hash === "#all-posts") {
+    const index = document.querySelector("#all-posts");
+    if (index) index.open = true;
+  }
+}
+window.addEventListener("hashchange", revealPostIndex);
+revealPostIndex();
+const postIndex = document.querySelector(".home-index");
+const phoneIndex = matchMedia("(max-width: 760px)");
+const setIndexLayout = () => {
+  if (postIndex) postIndex.open = !phoneIndex.matches || location.hash === "#all-posts";
+};
+phoneIndex.addEventListener("change", setIndexLayout);
+setIndexLayout();
+</script></body></html>

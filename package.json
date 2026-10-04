@@ -8,6 +8,7 @@
     "node": "^18.17.1 || ^20.3.0 || >= 21.0.0"
   },
   "scripts": {
+    "deploy-post": "node scripts/deploy-post.mjs",
     "dev": "astro dev",
     "start": "HOST=0.0.0.0 PORT=4322 node ./dist/server/entry.mjs",
     "build": "NODE_OPTIONS='--max-old-space-size=2048' astro build",

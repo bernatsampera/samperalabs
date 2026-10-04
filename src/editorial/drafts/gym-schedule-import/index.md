@@ -1,0 +1,23 @@
+# Gym schedule import article
+
+- [article.md](article.md): Approved article source with staged frontend images and measured costs.
+- [metadata.json](metadata.json): Published title, description, slug, tags, and publication date.
+- [deploy.json](deploy.json): Image manifest for repeatable publication with the deploy-post command.
+- [review-notes.md](review-notes.md): Evidence paths, visual concepts, capture steps, and review limits.
+- [mock-schedule.svg](mock-schedule.svg): Editable fictional weekly schedule used for the demonstration.
+- [mock-schedule.png](mock-schedule.png): Raster image of the fictional weekly schedule.
+- [01-upload.jpg](01-upload.jpg): Real frontend upload screen before staged input.
+- [02-markdown-review.jpg](02-markdown-review.jpg): Real frontend review screen with staged image and Markdown.
+- [03-schedule-editor.jpg](03-schedule-editor.jpg): Real frontend editor after a local mock conversion response.
+- [capture-server.mjs](capture-server.mjs): Local response fixtures that block saving and other API operations.
+- [schedule-import-comic.png](schedule-import-comic.png): Rejected barbell illustration, retained as an unused local asset.
+- [schedule-import-comic-prompt.txt](schedule-import-comic-prompt.txt): Generation prompt for the rejected barbell illustration.
+- [schedule-import-comic-v2.png](schedule-import-comic-v2.png): Selected before-and-after comic about faster schedule setup with Docling and structured output.
+- [schedule-import-comic-v2-prompt.txt](schedule-import-comic-v2-prompt.txt): Exact prompt and generation mode for the replacement comic.
+- [homepage-preview.html](homepage-preview.html): Local animated homepage section with the draft summary and static fallback.
+- [build-homepage-preview.mjs](build-homepage-preview.mjs): Repeatable preview generator that uses the site's SVG, CSS, metadata, and motion controller.
+- [homepage-scene-static.png](homepage-scene-static.png): Non-browser render of the complete static calendar scene.
+- [../../../components/home/ScheduleScene.astro](../../../components/home/ScheduleScene.astro): Production component for the article's homepage animation.
+- [../../../components/home/schedule-scene.svg](../../../components/home/schedule-scene.svg): Editable source drawing for the production scene and local preview.
+- [publication-body.json](publication-body.json): Prepared public article body with site image URLs and publication metadata.
+- [publication.json](publication.json): Publication receipt with image URLs, record ID, commit, and check results.

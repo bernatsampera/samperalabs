@@ -103,6 +103,13 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 ## Editorial workflow and prompts
 
+- [src/docs/deploy-post-command.md](deploy-post-command.md): One-command publication with images, optional code release, and saved checks.
+- [src/docs/commands/deploy-post/SKILL.md](commands/deploy-post/SKILL.md): Shared agent command for approved post releases.
+
+- [src/docs/new-post-command.md](new-post-command.md): Shared Codex and Claude Code article command, source inputs, and installation.
+- [src/docs/commands/new-post/SKILL.md](commands/new-post/SKILL.md): Article command instructions for written files and project evidence.
+- [src/docs/article-site-reference.md](article-site-reference.md): Site purpose, content operations, image delivery, homepage rules, and deployment.
+
 - [src/editorial/drafts/index.md](../editorial/drafts/index.md): Development-only article drafts and preview instructions.
 - [src/components/home/BrainScene.astro](../components/home/BrainScene.astro): Shared handbook illustration with readers and separate motion intervals.
 - [src/assets/styles/brain-article.css](../assets/styles/brain-article.css): Responsive diagrams for the shared context article.

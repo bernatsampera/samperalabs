@@ -2,6 +2,8 @@
 
 Use this prompt when you have a draft, notes, or a completed project brief. Paste the request below into an AI session with access to this repository.
 
+For the shared Codex and Claude Code command, use [new-post-command.md](new-post-command.md). It accepts a written file, repository, or folder.
+
 ## Request
 
 Help me prepare a SamperaLabs article. Read the root index first. Follow the editorial guide and image workflow linked below.
