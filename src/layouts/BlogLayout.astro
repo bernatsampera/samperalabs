@@ -15,6 +15,7 @@ export interface Props {
     pub_date: string;
     description?: string;
     content: string;
+    status?: 'draft' | 'published';
   };
 }
 
@@ -40,7 +41,7 @@ const contents = buildNestedTOC(headings.map((heading) => ({...heading, level: M
       <a class="reading-back" href="/#all-posts">All writing</a>
       <header class="reading-head">
         <div class="reading-byline">
-          <time datetime={post.pub_date}>{formattedDate}</time>
+          {post.status === 'draft' ? <span>Draft for review</span> : <time datetime={post.pub_date}>{formattedDate}</time>}
           <span>{readingTime} min read</span>
         </div>
         <h1>{post.title}</h1>
