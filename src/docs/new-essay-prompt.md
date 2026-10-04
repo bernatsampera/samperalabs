@@ -1,130 +1,68 @@
-# New Essay Prompt
+# SamperaLabs article prompt
 
-Write a blog essay from raw source content (notes, ideas, code, rough drafts) and optionally create an interactive component for it.
+Use this prompt when you have a draft, notes, or a completed project brief. Paste the request below into an AI session with access to this repository.
 
-## Inputs
+## Request
 
-The user provides:
-- **Source content**: Raw material — notes, code snippets, rough drafts, a topic description, or a link to reference material
-- **Optional direction**: Any specific angle, audience, or emphasis the user wants
+Help me prepare a SamperaLabs article. Read the root index first. Follow the editorial guide and image workflow linked below.
 
-## Workflow
+- Material: [draft, notes, or project brief]
+- Reader: [who this should help]
+- Reader benefit: [what they should understand or do]
+- Mode: [presentation only, edit with me, or draft from evidence]
+- My main point: [your opinion or lesson]
+- Keep unchanged: [passages, facts, or tone]
+- Limits: [private details, length, or subjects to exclude]
 
-### Step 1: Understand the source material
+Default to presentation only when I supply a draft without a mode. If I supply raw project material, propose a story before drafting.
 
-Read and analyze all provided content. Identify:
+## First response
 
-- **The core idea**: What is the one thing this essay should leave the reader understanding?
-- **The key insight**: What is surprising, non-obvious, or useful about this topic?
-- **The audience**: What should the reader already know? What will they learn?
-- **Code examples**: Which pieces of code best illustrate the concepts?
+Read the whole source. Identify the main claim and the reader benefit. Give a short assessment of what already works and what needs attention.
 
-State these back to the user for alignment before writing.
+Return:
 
-### Step 2: Write the essay
+1. A proposed title and a one-sentence main claim.
+2. A section outline with H2 sections and useful H3 subsections. For project articles, follow the problem, available tools, implementation decisions, and resulting capabilities. Use the editorial guide's decision structure.
+3. An image plan with placement, purpose, format, and source needs for each image. Propose two distinct visual concepts. Compare their composition and drawing style with recent posts. For a homepage scene, describe its specific movement and static fallback.
+4. The few missing facts that prevent an accurate draft.
+5. A short sample edit if I requested language changes.
 
-Write the essay in Markdown following the site's voice and structure.
+Ask for my decisions together. Do not rewrite the whole article in presentation-only mode. Do not make finished images before the direction is selected, unless I already requested them.
 
-#### Voice
+## After I select the direction
 
-Study the existing essays on samperalabs.com for tone. The writing style is:
+Prepare the article and the selected assets within the agreed scope. Follow the image workflow for screenshots, diagrams, and illustrations. Keep captions and alt text with each image.
 
-- **Direct and conversational** — first person, no filler, no hedging
-- **Practical** — grounded in real code and real problems, not abstract theory
-- **Opinionated** — shares lessons learned and specific recommendations
-- **Approachable** — explains technical concepts without assuming expertise, but doesn't dumb things down
+Use short prose with code samples, folder trees, and diagrams where they explain the mechanism more clearly. Label simplified examples. Make the nested table of contents useful without padding the article.
 
-Things to avoid:
-- Marketing language ("powerful", "seamless", "cutting-edge", "game-changer")
-- Unnecessary qualifiers ("very", "really", "quite", "basically")
-- Meta-commentary about the article itself ("In this article, we will discuss...")
-- Over-explaining obvious things to pad length
+Preserve my point of view. Mark unsupported claims as open questions in the review notes. Keep those notes outside the article. Do not invent results or personal experience.
 
-#### Structure
+Return the complete draft, image previews, source notes, and a brief list of meaningful edits. Identify missing assets. Do not call a draft complete while it contains placeholders.
 
-The essay should follow this general pattern (adapt as needed):
+Prepare metadata with the draft:
 
-1. **Hook** (1-2 paragraphs): Open with a relatable scenario, question, or problem the reader recognizes. No abstract introductions.
-2. **Context** (1-2 paragraphs): Set up why this matters and what you built or explored.
-3. **Body** (bulk of the essay): Walk through the technical content with code examples. Organize by concept, not chronologically. Each section should teach one thing.
-4. **Key learnings** (2-4 points): The non-obvious insights or lessons. These are the most valuable part — things the reader wouldn't find in documentation.
-5. **Conclusion** (1 paragraph): Short recap of takeaways. No fluff.
+- Title and short description.
+- Author: Bernat Sampera.
+- Proposed slug and relevant existing tags.
+- Cover image and alt text, if useful.
+- Status: draft.
+- Publication date: leave undecided until scheduling or publication is requested.
 
-#### Code examples
+## Submission and publication
 
-- Use fenced code blocks with language tags (```python, ```typescript, etc.)
-- Include comments that explain *why*, not *what*
-- Show simplified/relevant code, not full files — trim imports and boilerplate unless they're the point
-- If showing a pattern, show a concrete example first, then explain the general principle
+Keep this work local until I request submission. If I ask you to create a remote draft, send `status: "draft"` explicitly. The current create API otherwise defaults to published. Confirm the returned status after creation. Local development uses the remote content service, so it is not an isolated writing sandbox.
 
-#### Length
+Show the final article in the actual reading layout before publication. If a private rendered preview is unavailable, report that gap. Do not publish to obtain a preview.
 
-Aim for 8-15 minute read (roughly 2000-4000 words). Don't pad for length — shorter and clear beats longer and thorough.
+Publish only when I explicitly instruct you to publish the reviewed version. Draft approval alone is not a publication instruction. Do not commit, deploy, or change the curated homepage selection unless requested.
 
-### Step 3: Create the post metadata
+For an existing article, check whether it has a source revision before editing. For a new article, use the existing post system after submission is requested. Do not add it to the source revision map as a shortcut.
 
-Prepare the post data:
+## References
 
-- **title**: Clear and specific. Describe what the reader will learn, not what you did. Good: "How to handle Human in the loop with Langgraph and FastAPI". Avoid clickbait.
-- **description**: 1-2 sentences. What will the reader learn and why should they care? This shows in the essay preview on the homepage.
-- **author**: "Bernat Sampera"
-- **tags**: Array of lowercase tags. Use existing tags when possible (check existing posts). Common: "llm", "langgraph", "python", "ai", "mcp"
-- **slug**: Lowercase, hyphenated, derived from title. Keep it reasonably short.
-- **status**: "draft" (always create as draft first so the user can review)
-
-### Step 4: Publish as draft
-
-Create the post via the API:
-
-```bash
-source .env && curl -s -X POST "https://samperalabs.com/api/posts" \
-  -H "Authorization: Bearer $BLOG_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "...",
-    "author": "Bernat Sampera",
-    "description": "...",
-    "tags": ["..."],
-    "content": "...",
-    "slug": "...",
-    "status": "draft"
-  }'
-```
-
-Show the user the full essay content and metadata before publishing. Wait for confirmation.
-
-### Step 5: Create the interactive component (optional)
-
-After the essay is written and the user is happy with it, ask if they want an interactive component.
-
-If yes, follow the workflow in `src/docs/interactive-essay-prompt.md`:
-
-1. Extract the core principle from the essay you just wrote
-2. Choose the right interaction pattern for this specific idea
-3. Build the component in `src/components/react/essays/`
-4. Register it in `src/lib/interactiveEssays.ts`
-5. Verify in the browser
-
-The interactive component renders before the essay content and also appears in the expandable essay preview on the homepage.
-
-### Step 6: Publish
-
-Once everything is reviewed, change the post status from draft to published:
-
-```bash
-source .env && curl -s -X PATCH "https://samperalabs.com/api/posts/{id}" \
-  -H "Authorization: Bearer $BLOG_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"status": "published"}'
-```
-
-## Checklist
-
-- [ ] Core idea and key insight confirmed with user
-- [ ] Essay written in the site's voice
-- [ ] Code examples are clean, commented, and relevant
-- [ ] Description is compelling (shows in homepage preview)
-- [ ] Post created as draft via API
-- [ ] User reviewed and approved the content
-- [ ] Interactive component created (if applicable)
-- [ ] Post published
+- [editorial-guide.md](editorial-guide.md): Reader criteria, writing rules, and review decisions.
+- [post-image-workflow.md](post-image-workflow.md): Visual planning, production, and checks.
+- [project-story-brief.md](project-story-brief.md): Evidence collection from another project.
+- [../pages/admin/llms.txt](../pages/admin/llms.txt): Existing editor and upload tools.
+- [../editorial/revisions/index.md](../editorial/revisions/index.md): Source-managed article editing rules.

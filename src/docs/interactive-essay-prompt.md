@@ -29,6 +29,14 @@ Ask yourself: **what is the simplest interaction that would make a reader say "o
 
 Study the reference examples to understand the range of possibilities, then design something specific to this essay's principle. Present the concept to the user before building.
 
+### Visual variety
+
+Follow [post-image-workflow.md](post-image-workflow.md) for visual concepts and checks against recent posts.
+
+Propose two compositions before implementation. Do not default to boxes, arrows, chat panels, or successive highlights. Choose the drawing style and movement from the idea. State what remains fixed and what changes. Define timing for this scene and a complete static fallback.
+
+Compare the result with the previous three available posts. Check composition, shapes, drawing style, and motion. A different color or label does not make a new concept.
+
 ### Step 4: Build the component
 
 Create the component following these technical constraints:
@@ -81,6 +89,8 @@ export const interactiveEssayRegistry: Record<string, LazyImport> = {
 ```
 
 ### Step 6: Verify
+
+Run source checks and the build first. Run the browser checks below only when the user explicitly requests them. Otherwise, report browser checks as not run.
 
 1. Start the dev server (`npm run dev`)
 2. Navigate to the essay page

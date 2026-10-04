@@ -1,5 +1,8 @@
 # Design preview
 
+- [maat-brain/index.md](maat-brain/index.md): MAAT Brain article, homepage scroll scene, and review screenshots.
+
+- [article-trial/index.md](article-trial/index.md): Local context article trial with an original comic, a diagram, and a full reading preview.
 - [implementation-plan.md](implementation-plan.md): Production implementation scope, agent work split, and validation plan.
 - [implementation-review.md](implementation-review.md): Implementation results, repeatable checks, and known limits.
 

@@ -33,3 +33,9 @@ pnpm-lock.yaml
 
 # brainstorming companion mockups
 .superpowers/
+
+# Private gcontext evidence and machine-specific client setup
+.gcontext/
+.context.gcontext.lock
+.claude/settings.local.json
+.codex/hooks.json

@@ -2,6 +2,15 @@
 
 ## Approved and locked
 
+### Distinct article visuals and homepage motion
+
+The user requested different diagram styles and homepage animations. Color changes alone do not solve the repetition. Each article needs a distinct composition and drawing style. Each homepage scene needs movement that explains its subject.
+
+The current scenes use text correction, document annotation, session replacement beside a fixed reference, and readers consulting a shared handbook. This replaces the common box-highlight sequence. Preserve the page layout, reading links, stable section dimensions, and reduced-motion support.
+
+Follow the visual concept and variety checks in [../src/docs/post-image-workflow.md](../src/docs/post-image-workflow.md).
+
+
 ### About and contact
 
 The approved biography lives at /about. The header links to it as About & contact beside Writing and Projects. The homepage introduction and contact link are removed. The about page uses the user's approved four-paragraph text about production agents and the context layer. Contact options include info@samperalabs.com, the existing X profile, and the user-supplied LinkedIn profile at https://www.linkedin.com/in/bernat-sampera-195152107/.

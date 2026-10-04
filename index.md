@@ -1,5 +1,16 @@
 # SamperaLabs navigation
 
+- [.agents/skills/asd-ste100/SKILL.md](.agents/skills/asd-ste100/SKILL.md): Project-local Simplified Technical English skill for clear sentences and consistent terms.
+
+- [src/editorial/drafts/index.md](src/editorial/drafts/index.md): Local article drafts and the MAAT Brain page preview.
+
+- [context/index.md](context/index.md): Project context tree loaded through the local gcontext hook.
+- [gcontext-guide.md](gcontext-guide.md): Setup scope, daily commands, version details, and improvement inbox.
+
+- [src/docs/editorial-guide.md](src/docs/editorial-guide.md): Manual article workflow, reader criteria, writing rules, and review decisions.
+- [src/docs/project-story-brief.md](src/docs/project-story-brief.md): Portable brief for turning project features into evidence for an article.
+- [src/docs/post-image-workflow.md](src/docs/post-image-workflow.md): Image planning, production, captions, and a worked article example.
+- [src/docs/new-essay-prompt.md](src/docs/new-essay-prompt.md): Reusable prompt for preparing a draft and submitting it only on request.
 - [design-preview/decisions.md](design-preview/decisions.md): Approved design decisions and constraints to preserve during future work.
 - [design-preview/implementation-review.md](design-preview/implementation-review.md): Current site implementation, verification results, and remaining content work.
 - [llms.txt](llms.txt): Existing guide to the site, database, scripts, and configuration.
@@ -8,6 +19,8 @@
 - [src/editorial/revisions/index.md](src/editorial/revisions/index.md): Source-managed public article revisions and their editing rules.
 - [design-preview/index.md](design-preview/index.md): Local design sketch for review before site changes.
 
-- [src/components/home/BrainScene.astro](src/components/home/BrainScene.astro): Scroll scene for the MAAT Brain article.
+- [src/components/home/BrainScene.astro](src/components/home/BrainScene.astro): Shared handbook scene with several readers for the MAAT Brain article.
 - [src/assets/styles/brain-article.css](src/assets/styles/brain-article.css): Article diagrams and comic layout.
 - [public/images/maat-brain-comic.png](public/images/maat-brain-comic.png): Published article comic.
+
+- [public/images/express-the-general-comic.png](public/images/express-the-general-comic.png): Original comic for the published Express the General revision.

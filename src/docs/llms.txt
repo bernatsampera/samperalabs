@@ -32,7 +32,7 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/styles/code-block.css](../styles/code-block.css): Public code and text-diagram surfaces, copy controls, and scroll behavior.
 
 - [src/components/home/PostSection.astro](../components/home/PostSection.astro): Numbered homepage essay sections with visible reading links and text fallbacks.
-- [src/components/home/PostScene.astro](../components/home/PostScene.astro): Monochrome visual explanations grounded in selected essay content.
+- [src/components/home/PostScene.astro](../components/home/PostScene.astro): Distinct editorial scenes for text correction, document annotation, and persistent context.
 - [src/assets/styles/home.css](../assets/styles/home.css): Responsive homepage layout, contents navigation, and motion styles.
 - [src/assets/styles/content-shell.css](../assets/styles/content-shell.css): Shared page gutters, sidebar widths, and responsive content columns.
 - [src/scripts/home.ts](../scripts/home.ts): Current-section tracking and accessible homepage motion preferences.
@@ -99,9 +99,15 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 - [src/docs/design-system.md](design-system.md): Design system reference — color palette, typography, and theme tokens
 
-## Prompts
+## Editorial workflow and prompts
 
-- [src/docs/post-image-workflow.md](post-image-workflow.md): Small optional illustration brief and manual Markdown image review workflow.
+- [src/editorial/drafts/index.md](../editorial/drafts/index.md): Development-only article drafts and preview instructions.
+- [src/components/home/BrainScene.astro](../components/home/BrainScene.astro): Shared handbook illustration with readers and separate motion intervals.
+- [src/assets/styles/brain-article.css](../assets/styles/brain-article.css): Responsive diagrams for the shared context article.
 
-- [src/docs/new-essay-prompt.md](new-essay-prompt.md): End-to-end prompt for writing a blog essay from raw content, publishing it, and optionally creating an interactive component
+- [src/docs/editorial-guide.md](editorial-guide.md): Reader criteria, writing modes, and manual article review decisions.
+- [src/docs/project-story-brief.md](project-story-brief.md): Portable project evidence brief with a proposed BJJGym article example.
+- [src/docs/post-image-workflow.md](post-image-workflow.md): Image selection, production briefs, captions, and article preview checks.
+
+- [src/docs/new-essay-prompt.md](new-essay-prompt.md): Reusable draft preparation prompt with explicit submission and publication instructions.
 - [src/docs/interactive-essay-prompt.md](interactive-essay-prompt.md): Prompt for creating interactive React components that demonstrate an essay's core principle

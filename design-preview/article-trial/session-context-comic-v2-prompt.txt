@@ -1,0 +1,18 @@
+Use case: illustration-story.
+Edit the supplied comic into a much simpler and more immediately understandable editorial comic. Keep the same original human character and black-and-white ink style, but replace the scene and all lettering as specified below. Keep two panels stacked vertically, roughly square overall, with large lettering readable when the whole image is 335 pixels wide.
+The one point: a person explains billing to an AI, then starts a new chat and gets asked to explain billing again. A reader must understand this without a caption.
+REMOVE the stacks of paper, loose papers, desk clutter, shading texture, and the vague phrase "A little context?". Use simple bold outlines and mostly white space. Only a person on the left and a friendly laptop on the right in each panel, resting on a simple desk line. Same people and placement in both panels. Put a small clear "AI" label on the laptop so its identity is explicit.
+TOP PANEL:
+Header at top left, exactly: "First chat"
+One large speech bubble at upper left with its tail clearly pointing at the HUMAN, exactly: "Here's how our billing works."
+Split it into short legible lines.
+One small speech bubble at upper right with its tail clearly pointing at the LAPTOP, exactly: "Got it."
+The person gestures as they explain. The laptop shows a simple friendly face.
+BOTTOM PANEL:
+Header at top left, exactly: "New chat"
+One large speech bubble at upper right with its tail clearly pointing at the LAPTOP, exactly: "How does your billing work?"
+Split it into short legible lines.
+The human looks directly at the reader with an unmistakably exhausted, deadpan expression. Both palms rest flat on the desk. Human has no speech bubble in this panel. Friendly laptop face remains cheerful. The contrast is visually obvious.
+Typography should dominate over detail. Make dialogue large, high contrast, clean and accurately spelled. Avoid tiny handwritten text. In the two billing sentences give the word "billing" slightly heavier weight, so the repeated subject stands out.
+No other text apart from First chat, New chat, the three exact dialogue strings and the small AI labels. No watermark, logos or software branding. No arrows, symbolic stacks or metaphorical props. No fake product UI. White opaque background.
+This is a humorous illustration of repeating setup between sessions, not a factual claim about every AI product.

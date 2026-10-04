@@ -1,0 +1,8 @@
+Mode: Built-in image_gen tool. New image. Opaque background.
+
+Use case: illustration-story.
+Create an original funny editorial comic for an essay called Express the General about stating a goal instead of prescribing a foolish method. This is a comic, not a diagram.
+Two panels, side by side, wide landscape. Hand-drawn black ink with warm off-white paper and muted orange accents. Expressive faces, spare backgrounds, generous readable speech balloons. Same human and small friendly robot in both panels.
+Panel 1: human solemnly supervises a robot constructing an absurd chair made from a towering stack of six ordinary chairs tied together. Human speech balloon exactly: "Stack six chairs. Add wheels." The robot holds a wrench and looks doubtful. No one stands on the dangerous construction.
+Panel 2: wider reveal shows a single light bulb hanging from the ceiling, directly above the ridiculous chair tower. The robot points toward a perfectly ordinary stepladder standing safely nearby and asks exactly: "Are we changing that bulb?" Human, sheepish, replies exactly: "Yes."
+Make the absurd chair tower and sheepish admission the visual joke. Clear balloon tails. Only the three specified speech balloons. Large legible lettering. No title, labels, arrows, charts, logos, watermarks, or extra text. Keep the focus on how a hidden goal leads to needless instructions.

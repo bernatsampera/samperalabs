@@ -1,0 +1,8 @@
+Mode: built-in image generation. New image, no reference images. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic inside an article titled Building an AI Brain at MAAT.
+Create a square black-and-white two-panel comic, panels stacked vertically so all words are readable at 340px display width. Clean expressive pen outlines, white background, very light gray shading, friendly understated humor, simple office scene, no logos. Clear humans with distinct hairstyles and clothes, no realistic likenesses.
+Top panel small heading exactly "Before". A colleague on left asks the knowledgeable coworker on right, speech bubble with unmistakable tail to left person, exact text: "Can you explain it again?" Coworker with round glasses has patient slightly weary expression, beginning to explain. Small laptop on desk, no other text or paperwork.
+Bottom panel small heading exactly "With shared context". Same coworker with glasses on right points at a single open guide on desk, shared with the same left colleague and a small friendly AI robot beside the colleague. One speech bubble with unmistakable tail to glasses coworker, exact text: "Start with the shared guide." The open guide has a few bold connected boxes, no small words. Everyone can clearly see it. The coworker looks relaxed.
+Composition: two spacious panels, faces large, bubbles in upper half with large black sans-serif lettering, strong reading order, generous white gutters. Exact four text strings only, no tiny lettering, no watermarks, no extra captions. The joke is repeated explanation becoming reusable knowledge. Make meaning immediately obvious without a caption. No implication that AI replaces people or that all work is automatic.
