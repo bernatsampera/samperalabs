@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="schedule-scene">
+  <title id="__SCENE_ID__-scene-title">A gym schedule becomes editable classes</title>
+  <desc id="__SCENE_ID__-scene-desc">A fictional timetable becomes a Markdown table through Docling OCR. Structured output fills a calendar. A person checks the classes before saving. The MAAT sales team reports about 30 minutes for manual schedule entry and five minutes with the tool. These times cover schedule setup only.</desc>
+  <text x="30" y="32" class="scene-label">Docling OCR + structured output</text>
+  <text x="30" y="64" class="scene-small">Picture to table to editable classes</text>
+  <!-- The document frame stays fixed throughout the conversion. -->
+  <rect x="30" y="89" width="540" height="248" rx="6" fill="white" stroke="#a1a1aa"/>
+  <!-- Source picture: a printed timetable. -->
+  <g data-motion="leave" data-start="0.22" data-end="0.38" data-y="-12">
+    <text x="54" y="125" class="schedule-scene-heading">Schedule picture</text>
+    <path d="M54 143H546M54 188H546M54 238H546M54 288H546M214 143V288M380 143V288" class="scene-rule"/>
+    <g class="schedule-scene-text">
+      <text x="65" y="174">Mon</text><text x="232" y="174">Tue</text><text x="399" y="174">Wed</text>
+      <text x="65" y="218">18:00 BJJ</text><text x="232" y="218">18:00 No-Gi</text><text x="399" y="218">18:00 BJJ</text>
+      <text x="65" y="269">19:00 Mat</text><text x="232" y="269">19:00 Mat</text><text x="399" y="269">19:00 Mat</text>
+    </g>
+    <g data-motion="leave" data-start="0.15" data-end="0.34" data-y="152">
+      <path d="M48 151H552" stroke="#18181b" stroke-width="2"/>
+      <path d="M48 149V157M552 149V157" stroke="#18181b" stroke-width="2"/>
+    </g>
+  </g>
+  <!-- OCR text arrives before it gives way to the calendar. -->
+  <g data-motion="leave" data-start="0.5" data-end="0.64" data-x="-18">
+    <g data-motion="reveal" data-start="0.3" data-end="0.44" data-y="18">
+      <text x="54" y="125" class="schedule-scene-heading">Markdown table</text>
+      <g class="schedule-scene-code">
+        <text x="54" y="156">Day | Time  | Class</text>
+        <text x="54" y="182">Mon | 18:00 | BJJ</text>
+        <text x="54" y="208">Mon | 19:00 | Mat</text>
+        <text x="54" y="234">Tue | 18:00 | No-Gi</text>
+        <text x="54" y="260">Tue | 19:00 | Mat</text>
+        <text x="54" y="286">Wed | 18:00 | BJJ</text>
+        <text x="54" y="312">Wed | 19:00 | Mat</text>
+      </g>
+      <path d="M53 320H369" class="scene-pen" pathLength="1" data-motion="draw" data-start="0.43" data-end="0.5"/>
+    </g>
+  </g>
+  <!-- Final calendar is the default when JavaScript or motion is unavailable. -->
+  <g data-motion="reveal" data-start="0.57" data-end="0.7" data-y="14">
+    <text x="54" y="125" class="schedule-scene-heading">Editable classes</text>
+    <path d="M54 143H546M214 143V314M380 143V314" class="scene-rule"/>
+    <g class="schedule-scene-text">
+      <text x="65" y="174">Mon</text><text x="232" y="174">Tue</text><text x="399" y="174">Wed</text>
+    </g>
+    <g data-motion="reveal" data-start="0.65" data-end="0.76" data-y="-25">
+      <rect x="54" y="191" width="148" height="55" rx="4" fill="#e4e4e7"/>
+      <text x="65" y="226" class="schedule-scene-text">18:00 BJJ</text>
+    </g>
+    <g data-motion="reveal" data-start="0.7" data-end="0.81" data-y="-25">
+      <rect x="226" y="191" width="142" height="55" rx="4" fill="#e4e4e7"/>
+      <text x="236" y="226" class="schedule-scene-text">18:00 No-Gi</text>
+    </g>
+    <g data-motion="reveal" data-start="0.75" data-end="0.86" data-y="-25">
+      <rect x="392" y="191" width="154" height="55" rx="4" fill="#e4e4e7"/>
+      <text x="404" y="226" class="schedule-scene-text">18:00 BJJ</text>
+    </g>
+    <g data-motion="reveal" data-start="0.79" data-end="0.9" data-y="-15">
+      <rect x="54" y="255" width="148" height="55" rx="4" fill="#f4f4f5"/>
+      <rect x="226" y="255" width="142" height="55" rx="4" fill="#f4f4f5"/>
+      <rect x="392" y="255" width="154" height="55" rx="4" fill="#f4f4f5"/>
+      <text x="65" y="290" class="schedule-scene-text">19:00 Mat</text>
+      <text x="236" y="290" class="schedule-scene-text">19:00 Mat</text>
+      <text x="404" y="290" class="schedule-scene-text">19:00 Mat</text>
+    </g>
+  </g>
+  <text x="30" y="378" class="scene-small">Manual entry</text>
+  <text x="30" y="420" class="schedule-scene-time schedule-scene-time-before">30 min</text>
+  <g data-motion="reveal" data-start="0.87" data-end="0.98" data-x="16">
+    <path d="M318 371L326 379L342 361" class="scene-pen"/>
+    <text x="352" y="378" class="scene-small">Review + save</text>
+    <text x="352" y="420" class="schedule-scene-time">5 min</text>
+  </g>
+  <text x="30" y="451" class="scene-small">Illustrative classes. Schedule setup only.</text>
+</svg>

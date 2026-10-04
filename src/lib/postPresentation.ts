@@ -1,15 +1,23 @@
-/** Editorial scenes must describe the published article, not a proposed feature. */
+/** Editorial scenes describe approved article content. Public reads control publication. */
 export interface PostPresentation {
-  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain';
+  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain' | 'schedule-import';
   label: string;
   heading: string;
   summary: string;
   caption: string;
 }
 
-// Verified against the published article on 2026-10-03.
+// Existing scenes were checked against published articles on 2026-10-03.
+// The schedule scene uses the approved local article and author-reported times.
 // `context-is-everything` is not a published essay, so it has no scene.
 const presentations: Record<string, PostPresentation> = {
+  'gym-schedule-image-to-classes': {
+    scene: 'schedule-import',
+    label: 'Gym schedule import',
+    heading: 'A picture becomes editable classes.',
+    summary: 'We combined Docling OCR, an editable Markdown table, and structured output to import gym schedules. Our sales team reduced schedule setup from about 30 minutes to five minutes, with review before saving.',
+    caption: 'Docling reads the picture into a table. Structured output creates editable classes. The team checks the result before saving. Schedule setup: about 30 minutes to five minutes.',
+  },
   'building-an-ai-brain-at-maat': {
     scene: 'shared-brain',
     label: 'Shared company context',

@@ -33,6 +33,8 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 - [src/components/home/PostSection.astro](../components/home/PostSection.astro): Numbered homepage essay sections with visible reading links and text fallbacks.
 - [src/components/home/PostScene.astro](../components/home/PostScene.astro): Distinct editorial scenes for text correction, document annotation, and persistent context.
+- [src/components/home/ScheduleScene.astro](../components/home/ScheduleScene.astro): Scroll scene for the gym schedule article, with accessible labels and static fallback.
+- [src/components/home/schedule-scene.svg](../components/home/schedule-scene.svg): Shared timetable, Markdown, and calendar drawing with motion intervals.
 - [src/assets/styles/home.css](../assets/styles/home.css): Responsive homepage layout, contents navigation, and motion styles.
 - [src/assets/styles/content-shell.css](../assets/styles/content-shell.css): Shared page gutters, sidebar widths, and responsive content columns.
 - [src/scripts/home.ts](../scripts/home.ts): Current-section tracking and accessible homepage motion preferences.

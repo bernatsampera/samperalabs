@@ -226,6 +226,32 @@ body:has(.home-notebook) {
   stroke: #52525b;
   stroke-width: 1.5;
 }
+.schedule-scene-heading {
+  font: 600 23px var(--font-sans);
+  fill: #18181b;
+}
+.schedule-scene-text {
+  font: 20px var(--font-sans);
+  fill: #27272a;
+}
+.schedule-scene-code {
+  font: 23px monospace;
+  fill: #27272a;
+}
+.schedule-scene-time {
+  font: 600 40px var(--font-sans);
+  fill: #18181b;
+}
+.schedule-scene-time-before {
+  fill: #71717a;
+}
+.schedule-scene-caption {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--home-muted);
+  margin-top: 14px;
+  max-width: 54ch;
+}
 /* Show a complete, readable composition before JavaScript and without motion. */
 .home-scene [data-motion='leave'] {
   opacity: 0;

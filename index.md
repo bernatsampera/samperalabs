@@ -20,6 +20,11 @@
 - [design-preview/index.md](design-preview/index.md): Local design sketch for review before site changes.
 
 - [src/components/home/BrainScene.astro](src/components/home/BrainScene.astro): Shared handbook scene with several readers for the MAAT Brain article.
+- [src/components/home/ScheduleScene.astro](src/components/home/ScheduleScene.astro): Homepage schedule import scene with unique accessible labels.
+- [src/components/home/schedule-scene.svg](src/components/home/schedule-scene.svg): Shared drawing that changes from a picture to Markdown and editable classes.
+- [public/images/gym-schedule-import-comic.png](public/images/gym-schedule-import-comic.png): Approved comic that compares manual entry with the schedule import tool.
+- [public/images/gym-schedule-import-review.jpg](public/images/gym-schedule-import-review.jpg): Staged frontend view of the image and Markdown review.
+- [public/images/gym-schedule-import-editor.jpg](public/images/gym-schedule-import-editor.jpg): Staged frontend view of editable schedule classes.
 - [src/assets/styles/brain-article.css](src/assets/styles/brain-article.css): Article diagrams and comic layout.
 - [public/images/maat-brain-comic.png](public/images/maat-brain-comic.png): Published article comic.
 

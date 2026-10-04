@@ -1,6 +1,7 @@
 ---
 import type { PostPresentation } from '../../lib/postPresentation';
 import BrainScene from './BrainScene.astro';
+import ScheduleScene from './ScheduleScene.astro';
 interface Props {
   presentation: PostPresentation;
   id: string;
@@ -10,6 +11,8 @@ const { presentation, id } = Astro.props;
 
 <figure class:list={['home-scene', `home-scene-${presentation.scene}`]} data-home-scene>
   {presentation.scene === 'shared-brain' && <BrainScene id={id} />}
+  {presentation.scene === 'schedule-import' && <ScheduleScene id={id} />}
+  {presentation.scene === 'schedule-import' && <figcaption class="schedule-scene-caption">{presentation.caption}</figcaption>}
   {
     presentation.scene === 'translation-loop' && (
       <svg viewBox="0 0 600 420" role="img" aria-labelledby={`${id}-scene-title ${id}-scene-desc`}>

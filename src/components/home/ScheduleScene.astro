@@ -1,0 +1,10 @@
+---
+import drawing from './schedule-scene.svg?raw';
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+const safeId = id.replaceAll('&', '&amp;').replaceAll('"', '&quot;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+---
+
+<Fragment set:html={drawing.replaceAll('__SCENE_ID__', safeId)} />
