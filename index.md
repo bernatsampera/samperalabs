@@ -1,5 +1,7 @@
 # SamperaLabs navigation
 
+- [.github/workflows/deploy.yml](.github/workflows/deploy.yml): Builds the application image and requests a Coolify deployment.
+
 - [src/docs/deploy-post-command.md](src/docs/deploy-post-command.md): One-command post publication, release manifests, and saved results.
 - [src/docs/commands/deploy-post/SKILL.md](src/docs/commands/deploy-post/SKILL.md): Shared Codex and Claude Code publication command.
 - [src/docs/commands/deploy-post/failure-modes.md](src/docs/commands/deploy-post/failure-modes.md): Release failures defined before script implementation.
