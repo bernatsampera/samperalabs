@@ -20,6 +20,8 @@ FROM node:22-alpine AS prod-deps
 
 WORKDIR /app
 
+RUN apk add --no-cache python3 make g++
+
 COPY package.json package-lock.json .npmrc ./
 RUN npm ci --omit=dev
 
