@@ -5,7 +5,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 make g++
 
 COPY package.json package-lock.json .npmrc ./
-RUN npm ci
+RUN npm ci --include=dev
 
 FROM node:22-alpine AS build
 
