@@ -60,6 +60,6 @@ jobs:
       - name: Trigger Coolify deploy
         if: ${{ success() }}
         run: >-
-          curl -fsS
+          curl -fsS -X POST
           -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}"
           "https://coolify.samperalabs.com/api/v1/deploy?uuid=g08c40g44o88s8wwc488w0k8&force=false"
