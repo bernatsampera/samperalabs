@@ -6,6 +6,7 @@
 - [src/docs/commands/deploy-post/SKILL.md](src/docs/commands/deploy-post/SKILL.md): Shared Codex and Claude Code publication command.
 - [src/docs/commands/deploy-post/failure-modes.md](src/docs/commands/deploy-post/failure-modes.md): Release failures defined before script implementation.
 - [scripts/deploy-post.mjs](scripts/deploy-post.mjs): Post publication with image delivery, optional code release, and HTTP checks.
+- [scripts/home-layout-e2e.mjs](scripts/home-layout-e2e.mjs): Homepage composition check for the four layout rules, with screenshots and a report.
 - [scripts/install-deploy-post-command.mjs](scripts/install-deploy-post-command.mjs): Installs the deploy-post skill without replacing existing entries.
 - [.codex/skills/deploy-post/SKILL.md](.codex/skills/deploy-post/SKILL.md): Project Codex activation link for post publication.
 - [.claude/skills/deploy-post/SKILL.md](.claude/skills/deploy-post/SKILL.md): Project Claude Code activation link for post publication.

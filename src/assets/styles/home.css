@@ -4,6 +4,29 @@
   --home-line: #d4d4d8;
   --home-surface: #fafafa;
   --home-panel: #f4f4f5;
+  --home-card: #fff;
+  /* One type scale. Five sizes, one role each; heading and lede share 18px. SVG text is drawing text and stays off this scale. */
+  --home-text-display: clamp(30px, 3.2vw, 48px);
+  --home-text-lede: 18px;
+  --home-text-heading: 18px;
+  --home-text-body: 16px;
+  --home-text-ui: 14px;
+  --home-text-meta: 12px;
+  /* One spacing scale. */
+  --home-space-1: 8px;
+  --home-space-2: 16px;
+  --home-space-3: 24px;
+  --home-space-4: 32px;
+  --home-space-6: 48px;
+  --home-space-8: 64px;
+  /* One composition beside the rail: copy 5 parts, figure card 7 parts, the shell gutter between them. */
+  --home-composition: 1440px;
+  --home-copy-column: calc((var(--home-composition) - var(--shell-gap, 48px)) * 5 / 12);
+  --home-figure-column: calc((var(--home-composition) - var(--shell-gap, 48px)) * 7 / 12);
+  /* The drawing area inside the card keeps one height on desktop, so every card and button line up. */
+  --home-drawing-height: clamp(360px, 48svh, 520px);
+  /* Rail highlights hang into the page gutter so every line of rail text keeps the rail's left edge. */
+  --home-rail-bleed: 16px;
 }
 body:has(.home-notebook) {
   background: var(--home-surface);
@@ -29,118 +52,167 @@ body:has(.home-notebook) {
   top: -100px;
   left: 20px;
   z-index: 100;
-  padding: 12px;
+  padding: var(--home-space-1) var(--home-space-2);
   background: white;
 }
 .home-skip:focus {
-  top: 12px;
+  top: var(--home-space-2);
 }
 .home-body {
   min-width: 0;
 }
 .home-rail {
   position: sticky;
-  top: 88px;
+  top: 89px;
   align-self: start;
-  max-height: calc(100svh - 112px);
+  max-height: calc(100svh - 113px);
   overflow: auto;
   scrollbar-width: thin;
-  padding: 24px 8px 24px 0;
+  margin-left: calc(-1 * var(--home-rail-bleed));
+  padding: var(--home-space-3) var(--home-space-1) var(--home-space-3) var(--home-rail-bleed);
 }
 .home-index > summary {
   display: none;
 }
+.rail-work-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--home-space-2);
+  margin-left: calc(-1 * var(--home-rail-bleed));
+  margin-bottom: var(--home-space-4);
+  padding: var(--home-space-2) var(--home-space-2) var(--home-space-2) calc(var(--home-rail-bleed) - 1px);
+  background: var(--home-card);
+  border: 1px solid var(--home-line);
+}
+.rail-work-link small {
+  display: block;
+  font-size: var(--home-text-meta);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--home-muted);
+}
+.rail-work-link b {
+  font-size: var(--home-text-body);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.rail-work-link > span:last-child {
+  color: var(--home-muted);
+}
+.rail-work-link:hover {
+  border-color: var(--home-ink);
+}
+.rail-work-link:hover > span:last-child {
+  color: var(--home-ink);
+  transform: translateY(3px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rail-work-link,
+  .rail-work-link > span:last-child {
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+}
 .rail-year + .rail-year {
-  margin-top: 26px;
+  margin-top: var(--home-space-4);
 }
 .rail-year > h2 {
-  font-size: 18px;
+  font-size: var(--home-text-heading);
   font-weight: 650;
-  margin-bottom: 16px;
+  margin-bottom: var(--home-space-2);
 }
 .rail-month {
-  margin-bottom: 20px;
+  margin-bottom: var(--home-space-3);
+}
+.rail-month:last-child {
+  margin-bottom: 0;
 }
 .rail-month > h3 {
-  font-size: 12px;
+  font-size: var(--home-text-meta);
   font-weight: 600;
   color: var(--home-muted);
-  margin: 0 0 6px;
+  margin: 0 0 var(--home-space-1);
 }
 .rail-month > a {
   display: block;
-  font-size: 13px;
+  font-size: var(--home-text-ui);
   line-height: 1.5;
-  color: #52525b;
-  padding: 10px 12px;
+  color: var(--home-muted);
+  margin-left: calc(-1 * var(--home-rail-bleed));
+  padding: var(--home-space-1) var(--home-space-2) var(--home-space-1) calc(var(--home-rail-bleed) - 2px);
   border-left: 2px solid transparent;
 }
 .rail-month > a:hover {
-  color: #18181b;
-  background: #f4f4f5;
+  color: var(--home-ink);
+  background: var(--home-panel);
 }
 .rail-month > a[aria-current] {
   background: #e4e4e7;
-  border-left-color: #18181b;
-  color: #18181b;
+  border-left-color: var(--home-ink);
+  color: var(--home-ink);
   font-weight: 550;
 }
 .writing-sections {
   scroll-margin-top: 88px;
 }
 .home-post {
-  padding: 48px 0 max(64px, 22svh);
+  padding: var(--home-space-6) 0 max(var(--home-space-8), 22svh);
   border-bottom: 1px solid var(--home-line);
   scroll-margin-top: 88px;
 }
 .home-post-grid {
   display: grid;
-  grid-template-columns: 0.95fr 1.05fr;
-  gap: 28px;
-  align-items: center;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--shell-gap, 48px);
+  align-items: stretch;
+  max-width: var(--home-composition);
 }
 .home-post-copy {
   min-width: 0;
 }
 .home-post h2 {
-  font-size: clamp(26px, 2.6vw, 36px);
+  font-size: var(--home-text-display);
   font-weight: 550;
   letter-spacing: -0.04em;
-  line-height: 1.16;
+  line-height: 1.1;
   overflow-wrap: break-word;
 }
 .post-date {
   display: block;
-  font-size: 13px;
+  font-size: var(--home-text-ui);
   color: var(--home-muted);
-  margin-top: 16px;
+  margin-top: var(--home-space-2);
 }
-.home-post-summary {
-  font-size: 16px;
-  line-height: 1.65;
+.home-notebook .home-post-summary {
+  font-size: var(--home-text-lede);
+  line-height: 1.6;
   color: #3f3f46;
-  margin-top: 20px !important;
+  margin-top: var(--home-space-3);
 }
 .home-read {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
-  min-height: 52px;
-  padding: 8px 8px 8px 20px;
-  margin-top: 28px;
+  gap: var(--home-space-2);
+  min-height: 48px;
+  padding: var(--home-space-1) var(--home-space-1) var(--home-space-1) var(--home-space-2);
+  margin-top: var(--home-space-4);
   background: #18181b;
   color: #fff;
   border: 1px solid #18181b;
   border-radius: 4px;
-  font-size: 15px;
+  font-size: var(--home-text-ui);
   font-weight: 600;
   transition: background 0.2s;
 }
 .home-read-icon {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   background: #3f3f46;
   border-radius: 2px;
 }
@@ -154,20 +226,51 @@ body:has(.home-notebook) {
   outline: 3px solid #18181b;
   outline-offset: 5px;
 }
-.home-scene {
+/* The figure card: drawing area, hairline, caption, controls. It echoes the portfolio box in the rail. */
+.home-scene-panel {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
-  padding: 12px 0;
+  background: var(--home-card);
+  border: 1px solid var(--home-line);
+}
+.home-scene {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
   color: var(--home-ink);
 }
-.home-scene-panel {
-  min-width: 0;
+.home-scene-drawing {
+  height: var(--home-drawing-height);
+  padding: var(--home-space-3);
+}
+/* Each scene's viewBox is cropped to its drawing, so the drawing is centered in the area with no inner margin. */
+.home-scene-drawing svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #52525b;
+}
+.home-scene-caption {
+  margin-top: auto;
+  border-top: 1px solid var(--home-line);
+  padding: var(--home-space-2) var(--home-space-3) var(--home-space-1);
+  font-size: var(--home-text-ui);
+  line-height: 1.6;
+  color: var(--home-muted);
+}
+.home-scene-panel:has(> [data-scene-controls][hidden]) .home-scene-caption {
+  padding-bottom: var(--home-space-2);
 }
 .home-scene-controls:not([hidden]) {
   display: grid;
   grid-template-columns: auto minmax(32px, 1fr) auto;
   align-items: center;
-  gap: 12px;
-  font-size: 12px;
+  gap: var(--home-space-2);
+  padding: 0 var(--home-space-3) var(--home-space-1);
+  font-size: var(--home-text-meta);
   color: var(--home-muted);
 }
 .home-scene-progress {
@@ -189,23 +292,16 @@ body:has(.home-notebook) {
   grid-row: 1;
   min-width: 48px;
   min-height: 44px;
-  padding: 8px 0 8px 8px;
+  padding: var(--home-space-1) 0 var(--home-space-1) var(--home-space-1);
   border: 0;
   background: transparent;
   color: var(--home-ink);
-  font-size: 12px;
+  font-size: var(--home-text-meta);
   cursor: pointer;
 }
 .home-scene-controls button:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
-}
-.home-scene svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: hidden;
-  color: #52525b;
 }
 .scene-note {
   font: 12px var(--font-sans);
@@ -286,13 +382,6 @@ body:has(.home-notebook) {
 .schedule-scene-time-before {
   fill: #71717a;
 }
-.schedule-scene-caption {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--home-muted);
-  margin-top: 14px;
-  max-width: 54ch;
-}
 .agent-scene-question {
   font: 16px var(--font-sans);
   fill: #18181b;
@@ -346,32 +435,68 @@ body:has(.home-notebook) {
 
 .home-work {
   min-width: 0;
-  margin-top: 64px;
-  padding-bottom: 48px;
+  margin-top: var(--home-space-8);
+  padding-bottom: var(--home-space-6);
   scroll-margin-top: 100px;
+}
+@media (min-width: 1101px) {
+  /* Desktop feature posts: the copy column matches the card height and the button sits on the card's bottom edge. */
+  .home-post-feature .home-post-copy {
+    display: flex;
+    flex-direction: column;
+  }
+  .home-post-feature .home-post-summary {
+    margin-bottom: var(--home-space-4);
+  }
+  .home-post-feature .home-read {
+    align-self: flex-start;
+    margin-top: auto;
+  }
 }
 @media (max-width: 1100px) {
   .home-post-grid {
     grid-template-columns: 1fr;
+    gap: var(--home-space-3);
   }
   .home-scene-panel {
-    max-width: 580px;
+    max-width: var(--home-figure-column);
     width: 100%;
+  }
+  .home-scene-drawing {
+    height: auto;
+  }
+  .home-scene-drawing svg {
+    height: auto;
   }
 }
 @media (max-width: 760px) {
+  :root {
+    --home-text-display: 30px;
+    /* Rail rows run edge to edge on phones. Their text keeps the page gutter. */
+    --home-rail-bleed: var(--shell-gutter, 20px);
+  }
   .home-rail {
     position: relative;
     top: auto;
     max-height: none;
-    padding: 16px 0 0;
+    overflow: visible;
+    padding: var(--home-space-2) 0 0 var(--home-rail-bleed);
+  }
+  .rail-work-link,
+  .rail-month > a {
+    margin-right: calc(-1 * var(--home-rail-bleed));
+  }
+  .rail-work-link {
+    margin-bottom: var(--home-space-1);
+    padding-left: var(--home-rail-bleed);
+    border-inline: 0;
   }
   .home-index > summary {
     display: block;
     cursor: pointer;
     min-height: 44px;
-    padding: 12px 0;
-    font-size: 14px;
+    padding: var(--home-space-1) 0;
+    font-size: var(--home-text-ui);
     font-weight: 550;
     border-bottom: 1px solid var(--home-line);
   }
@@ -385,22 +510,23 @@ body:has(.home-notebook) {
   .home-contents {
     max-height: 50svh;
     overflow: auto;
-    padding: 18px 4px;
+    margin-inline: calc(-1 * var(--home-rail-bleed));
+    padding: var(--home-space-2) var(--home-rail-bleed);
   }
   .home-post {
-    padding: 36px 0 max(64px, 18svh);
+    padding: var(--home-space-4) 0 max(var(--home-space-8), 18svh);
   }
-  .home-post h2 {
-    font-size: 29px;
+  .home-scene-drawing {
+    padding: var(--home-space-2);
   }
-  .home-post-grid {
-    gap: 24px;
+  .home-scene-caption {
+    padding-inline: var(--home-space-2);
   }
-  .home-scene {
-    padding: 8px;
+  .home-scene-controls:not([hidden]) {
+    padding-inline: var(--home-space-2);
   }
   .home-work {
-    margin-top: 32px;
+    margin-top: var(--home-space-4);
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -410,28 +536,29 @@ body:has(.home-notebook) {
 }
 
 @media (min-width: 1101px) and (prefers-reduced-motion: no-preference) {
+  /* The motion script assumes 48px of section padding at each end. */
   .home-post[data-scene-mode='scroll'] {
     min-height: calc(var(--scene-height) + 96px + clamp(280px, 45svh, 480px));
     padding: 48px 0;
   }
   .home-post[data-scene-mode='scroll'] .home-post-grid {
     position: sticky;
-    top: 112px;
+    top: 113px;
   }
 }
 .home-post:not(.home-post-feature) {
   min-height: 0;
-  padding: 64px 0;
+  padding: var(--home-space-8) 0;
 }
 .home-post:not(.home-post-feature) .home-post-grid {
   display: block;
   position: static;
 }
 .home-post:not(.home-post-feature) .home-post-copy {
-  max-width: 680px;
+  max-width: var(--home-copy-column);
 }
 @media (max-width: 760px) {
   .home-post:not(.home-post-feature) {
-    padding: 40px 0;
+    padding: var(--home-space-4) 0;
   }
 }

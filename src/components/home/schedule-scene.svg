@@ -1,8 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="schedule-scene">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="28 87 544 371" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="schedule-scene">
   <title id="__SCENE_ID__-scene-title">A gym schedule becomes editable classes</title>
   <desc id="__SCENE_ID__-scene-desc">A fictional timetable becomes a Markdown table through Docling OCR. Structured output fills a calendar. A person checks the classes before saving. The MAAT sales team reports about 30 minutes for manual schedule entry and five minutes with the tool. These times cover schedule setup only.</desc>
-  <text x="30" y="32" class="scene-label">Docling OCR + structured output</text>
-  <text x="30" y="64" class="scene-small">Picture to table to editable classes</text>
   <!-- The document frame stays fixed throughout the conversion. -->
   <rect x="30" y="89" width="540" height="248" rx="6" fill="white" stroke="#a1a1aa"/>
   <!-- Source picture: a printed timetable. -->

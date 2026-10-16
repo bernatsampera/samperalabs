@@ -34,7 +34,7 @@ ${css}
 <div class="home-post-grid"><div class="home-post-copy"><h2 id="preview-title">${escape(metadata.title)}</h2>
 <span class="post-date">Local draft · For review</span><p class="home-post-summary">${escape(presentation.summary)}</p>
 <a class="home-read" href="article.md">Read the local draft</a></div>
-<figure class="home-scene home-scene-schedule-import" data-home-scene>${scene}<figcaption class="schedule-scene-caption">${escape(presentation.caption)}</figcaption></figure></div>
+<figure class="home-scene home-scene-schedule-import" data-home-scene>${scene}<figcaption class="home-scene-caption">${escape(presentation.caption)}</figcaption></figure></div>
 </section></div></div></main>
 <footer class="preview-end">Illustrative classes. The times cover schedule setup only.</footer>
 <script type="module">${script.code}</script></body></html>`;

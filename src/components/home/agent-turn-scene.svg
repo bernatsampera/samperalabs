@@ -1,8 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="agent-turn-scene">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="28 87 544 371" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="agent-turn-scene">
   <title id="__SCENE_ID__-scene-title">One owner question becomes a member status widget</title>
   <desc id="__SCENE_ID__-scene-desc">The MAAT Admin Agent receives a gym owner's question. Jev plans the turn. An action reads member data. A table lists three illustrative members who are past due.</desc>
-  <text x="30" y="32" class="scene-label">MAAT Admin Agent</text>
-  <text x="30" y="64" class="scene-small">One owner turn</text>
 
   <!-- The frame and owner question stay fixed throughout the turn. -->
   <rect x="30" y="89" width="540" height="322" rx="6" fill="white" stroke="#a1a1aa"/>

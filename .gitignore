@@ -39,3 +39,6 @@ pnpm-lock.yaml
 .context.gcontext.lock
 .claude/settings.local.json
 .codex/hooks.json
+
+# Homepage layout E2E artifacts
+tests/artifacts/

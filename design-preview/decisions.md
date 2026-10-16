@@ -2,6 +2,19 @@
 
 ## Approved and locked
 
+### Homepage composition rules
+
+The author found the homepage sloppy as a whole, not in its parts, and asked for a visibly stronger composition. These rules now hold the page together. Keep them during later homepage work.
+
+1. One top line per section. The rail content, the post title, and the figure card start on the same line. Scene chrome text (scene titles and subtitles) is removed from the drawings. The post title names the subject.
+2. One left edge per column, one gutter everywhere. Every scene viewBox is cropped to its drawing and motion travel. Inside the card, the drawing, the caption, and the controls share one left edge. The rail highlight and the portfolio link box hang 16px into the page gutter, so all rail text shares the rail's left edge with the header name. Both desktop gutters use the shell gap. On phones the rail rows run edge to edge.
+3. One type scale and one spacing scale. Homepage text uses five sizes with one role each: display 30 to 48px, heading and lede 18px, body 16px, interface 14px, meta 12px. Spacing uses 8, 16, 24, 32, 48, and 64px. SVG text is drawing text and stays off this scale. The values live as custom properties at the top of src/assets/styles/home.css.
+4. One composition: copy and figure card. The feature grid is capped at 1440px and split 5:7 between the copy and a white figure card with a 1px zinc border, like the portfolio box in the rail. The card holds the drawing area (one shared height on desktop, 360 to 520px by viewport height), a hairline, the caption, and the Scroll to animate controls. Every scene shows its caption. The copy column matches the card height and the read button sits on the card's bottom edge. Text-only posts use the copy column width.
+
+The global context scene shows its question bubble from the start, so the card is full at rest. The drawer and the price card still animate.
+
+Verification: npm run home-layout:e2e checks the fourteen failure modes listed in scripts/home-layout-e2e.mjs against a running site and saves screenshots and a report under tests/artifacts/home-layout/latest. Applied on 2026-10-17.
+
 ### Homepage scroll timing and playback controls
 
 Keep each animated section fixed while its scene progresses on desktop screens where the full section fits. Calculate progress from the available fixed scroll distance. Complete the animation at 80 percent of that distance so readers can see the final state before the section moves away. Keep section dimensions stable during scroll.
