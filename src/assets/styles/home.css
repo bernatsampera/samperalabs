@@ -293,6 +293,34 @@ body:has(.home-notebook) {
   margin-top: 14px;
   max-width: 54ch;
 }
+.agent-scene-question {
+  font: 16px var(--font-sans);
+  fill: #18181b;
+}
+.agent-scene-detail {
+  font: 13px var(--font-sans);
+  fill: #27272a;
+}
+.agent-scene-code {
+  font: 13px monospace;
+  fill: #27272a;
+}
+.agent-scene-table-heading {
+  font: 600 12px var(--font-sans);
+  fill: #27272a;
+}
+.agent-scene-table-text {
+  font: 13px var(--font-sans);
+  fill: #27272a;
+}
+.agent-scene-status {
+  font: 12px monospace;
+  fill: #27272a;
+}
+.agent-scene-answer {
+  font: 600 14px var(--font-sans);
+  fill: #18181b;
+}
 /* Show a complete, readable composition before JavaScript and without motion. */
 .home-scene [data-motion='leave'] {
   opacity: 0;

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="agent-turn-scene">
+  <title id="__SCENE_ID__-scene-title">One owner question becomes a member status widget</title>
+  <desc id="__SCENE_ID__-scene-desc">The MAAT Admin Agent receives a gym owner's question. Jev plans the turn. An action reads member data. A table lists three illustrative members who are past due.</desc>
+  <text x="30" y="32" class="scene-label">MAAT Admin Agent</text>
+  <text x="30" y="64" class="scene-small">One owner turn</text>
+
+  <!-- The frame and owner question stay fixed throughout the turn. -->
+  <rect x="30" y="89" width="540" height="322" rx="6" fill="white" stroke="#a1a1aa"/>
+  <rect x="250" y="104" width="296" height="48" rx="18" fill="#f4f4f5" stroke="#a1a1aa"/>
+  <text x="526" y="134" text-anchor="end" class="agent-scene-question">Which members are past due?</text>
+
+  <!-- Start state: a thinking indicator and placeholders show where the turn will appear. Each placeholder leaves when its content arrives. Hidden in the static final view. -->
+  <g data-motion="leave" data-start="0.1" data-end="0.16">
+    <circle cx="62" cy="174" r="4" fill="#a1a1aa"/><circle cx="76" cy="174" r="4" fill="#d4d4d8"/><circle cx="90" cy="174" r="4" fill="#e4e4e7"/>
+    <text x="104" y="179" class="scene-small">Agent is thinking</text>
+  </g>
+  <g data-motion="leave" data-start="0.12" data-end="0.24">
+    <rect x="54" y="192" width="160" height="12" rx="6" fill="#ececee"/><rect x="300" y="192" width="120" height="12" rx="6" fill="#ececee"/>
+    <rect x="54" y="215" width="190" height="12" rx="6" fill="#ececee"/><rect x="300" y="215" width="150" height="12" rx="6" fill="#ececee"/>
+  </g>
+  <g data-motion="leave" data-start="0.32" data-end="0.4">
+    <rect x="54" y="238" width="250" height="32" rx="16" fill="#ececee"/>
+  </g>
+  <rect x="54" y="282" width="492" height="24" rx="4" fill="#ececee" data-motion="leave" data-start="0.48" data-end="0.58"/>
+  <rect x="68" y="314" width="440" height="10" rx="5" fill="#ececee" data-motion="leave" data-start="0.58" data-end="0.66"/>
+  <rect x="68" y="337" width="400" height="10" rx="5" fill="#ececee" data-motion="leave" data-start="0.67" data-end="0.75"/>
+  <rect x="68" y="360" width="420" height="10" rx="5" fill="#ececee" data-motion="leave" data-start="0.76" data-end="0.84"/>
+  <rect x="54" y="386" width="230" height="12" rx="6" fill="#ececee" data-motion="leave" data-start="0.88" data-end="0.96"/>
+
+  <!-- Jev's compact plan appears and stays beside the completed result. -->
+  <g data-motion="reveal" data-start="0.12" data-end="0.3" data-y="12">
+    <text x="54" y="178" class="scene-small">Jev plan</text>
+    <text x="54" y="202" class="agent-scene-detail">Scope: gym</text>
+    <text x="300" y="202" class="agent-scene-detail">Effort: low</text>
+    <text x="54" y="225" class="agent-scene-detail">Language: English</text>
+    <text x="300" y="225" class="agent-scene-detail">Domain: members</text>
+    <path d="M112 169L119 176L132 162" class="scene-pen" pathLength="1" stroke-dasharray="1" data-motion="draw" data-start="0.28" data-end="0.34"/>
+  </g>
+
+  <g data-motion="reveal" data-start="0.32" data-end="0.44" data-x="-12">
+    <rect x="54" y="238" width="250" height="32" rx="16" fill="#e4e4e7"/>
+    <text x="69" y="259" class="agent-scene-code">run_action members.list</text>
+  </g>
+
+  <!-- The widget header arrives first. Each result row follows in sequence. -->
+  <g data-motion="reveal" data-start="0.48" data-end="0.58" data-y="10">
+    <rect x="54" y="282" width="492" height="24" rx="4" fill="#e4e4e7"/>
+    <text x="68" y="299" class="agent-scene-table-heading">Name</text>
+    <text x="226" y="299" class="agent-scene-table-heading">Last name</text>
+    <text x="403" y="299" class="agent-scene-table-heading">Status</text>
+  </g>
+  <g data-motion="reveal" data-start="0.58" data-end="0.68" data-y="10">
+    <path d="M54 328H546" class="scene-rule"/>
+    <text x="68" y="323" class="agent-scene-table-text">Ana</text>
+    <text x="226" y="323" class="agent-scene-table-text">Ruiz</text>
+    <text x="403" y="323" class="agent-scene-status">past_due</text>
+  </g>
+  <g data-motion="reveal" data-start="0.67" data-end="0.77" data-y="10">
+    <path d="M54 351H546" class="scene-rule"/>
+    <text x="68" y="346" class="agent-scene-table-text">Marc</text>
+    <text x="226" y="346" class="agent-scene-table-text">Puig</text>
+    <text x="403" y="346" class="agent-scene-status">past_due</text>
+  </g>
+  <g data-motion="reveal" data-start="0.76" data-end="0.86" data-y="10">
+    <path d="M54 374H546" class="scene-rule"/>
+    <text x="68" y="369" class="agent-scene-table-text">Leo</text>
+    <text x="226" y="369" class="agent-scene-table-text">Serra</text>
+    <text x="403" y="369" class="agent-scene-status">past_due</text>
+  </g>
+
+  <text x="54" y="397" class="agent-scene-answer" data-motion="reveal" data-start="0.88" data-end="0.98" data-y="8">These 3 members are past due.</text>
+  <text x="30" y="451" class="scene-small">Illustrative members. Simplified turn.</text>
+</svg>

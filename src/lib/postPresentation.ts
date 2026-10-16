@@ -1,6 +1,6 @@
 /** Editorial scenes describe approved article content. Public reads control publication. */
 export interface PostPresentation {
-  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain' | 'schedule-import';
+  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain' | 'schedule-import' | 'agent-turn';
   label: string;
   heading: string;
   summary: string;
@@ -11,6 +11,15 @@ export interface PostPresentation {
 // The schedule scene uses the approved local article and author-reported times.
 // `context-is-everything` is not a published essay, so it has no scene.
 const presentations: Record<string, PostPresentation> = {
+  'how-we-built-the-maat-admin-agent': {
+    scene: 'agent-turn',
+    label: 'Gym owner agent',
+    heading: 'A question. A plan. A widget.',
+    summary:
+      'We built an agent inside the MAAT Admin Dashboard. It reads the backend API through MCP-style actions, uses Jev to plan each turn, shows widgets in the chat, and is tested with a bench and real conversations.',
+    caption:
+      'Jev plans the turn. The AI model reads the data through an action and shows it as a widget. Illustrative members.',
+  },
   'gym-schedule-image-to-classes': {
     scene: 'schedule-import',
     label: 'Gym schedule import',
@@ -54,7 +63,6 @@ const presentations: Record<string, PostPresentation> = {
 export const getPostPresentation = (slug: string): PostPresentation | undefined => presentations[slug];
 
 const textSummaries: Record<string, string> = {
-  'how-we-built-the-maat-admin-agent': 'How we built the MAAT Admin Agent for gym owners: MCP-style actions on the backend API, Jev for decisions and GLM for answers, widgets in the chat, a bench of fixed cases, and intent analysis of real conversations.',
   'express-the-general': 'State what you want and the constraints that matter. A short essay on prompting, inspired by Kierkegaard, and why guesses about the method can hide the goal.',
   'analyzing-open-deep-research': 'An analysis of how Open Deep Research splits work across agents and carries context between steps. Includes architecture tradeoffs, limits, and practical takeaways.',
 };
