@@ -165,9 +165,19 @@ async function main() {
     git('push', 'origin', 'main');
     console.log('Waiting for the site deployment.');
     const deadline = Date.now() + 20 * 60 * 1000;
+    // GitHub Actions builds the image for the commit, then asks Coolify to deploy it (.github/workflows/deploy.yml).
+    let build;
+    while (Date.now() < deadline) {
+      [build] = JSON.parse(run('gh', ['run', 'list', '--workflow', 'deploy.yml', '--commit', receipt.commit, '--json', 'databaseId,status,conclusion,createdAt']));
+      if (build?.status === 'completed') break;
+      await delay(10000);
+    }
+    if (build?.status !== 'completed') throw new Error('The image build did not finish within 20 minutes. The receipt allows a later resume.');
+    if (build.conclusion !== 'success') throw new Error(`Image build ${build.databaseId} ended with ${build.conclusion}.`);
     let finished = false;
     while (Date.now() < deadline) {
-      const sql = `SELECT deployment_uuid, status FROM application_deployment_queues WHERE application_id = '${appId}' AND commit = '${receipt.commit}' ORDER BY id DESC LIMIT 1;`;
+      const since = new Date(build.createdAt).toISOString().replace('T', ' ').replace(/\..*$/, '');
+      const sql = `SELECT deployment_uuid, status FROM application_deployment_queues WHERE application_id = '${appId}' AND created_at >= '${since}' ORDER BY id DESC LIMIT 1;`;
       const result = ssh(`docker exec coolify-db psql -U coolify -d coolify -At -c ${quote(sql)}`);
       const [id, status] = result.split('|');
       if (status === 'failed' || status === 'cancelled') throw new Error(`Deployment ${id} ${status}.`);
@@ -176,7 +186,7 @@ async function main() {
     }
     if (!finished) throw new Error('Deployment did not finish within 20 minutes. The receipt allows a later resume.');
     const images = ssh(`docker ps --filter name=${appUUID} --format '{{.Image}}'`);
-    if (!images.split('\n').some(image => image.endsWith(':' + receipt.commit))) throw new Error('The running site does not use the release commit.');
+    if (!images.split('\n').some(image => image.startsWith('ghcr.io/bernatsampera/samperalabs:'))) throw new Error('The running site does not use the built image.');
     receipt.phase = 'assets-ready'; save();
   }
   console.log('Checking public images.');
