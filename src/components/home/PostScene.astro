@@ -2,6 +2,7 @@
 import type { PostPresentation } from '../../lib/postPresentation';
 import AgentTurnScene from './AgentTurnScene.astro';
 import BrainScene from './BrainScene.astro';
+import GlobalContextScene from './GlobalContextScene.astro';
 import ScheduleScene from './ScheduleScene.astro';
 interface Props {
   presentation: PostPresentation;
@@ -12,10 +13,16 @@ const { presentation, id } = Astro.props;
 
 <figure class:list={['home-scene', `home-scene-${presentation.scene}`]} data-home-scene>
   {presentation.scene === 'agent-turn' && <AgentTurnScene id={id} />}
+  {presentation.scene === 'global-context' && <GlobalContextScene id={id} />}
   {presentation.scene === 'shared-brain' && <BrainScene id={id} />}
   {presentation.scene === 'schedule-import' && <ScheduleScene id={id} />}
   {
     presentation.scene === 'agent-turn' && (
+      <figcaption class="schedule-scene-caption">{presentation.caption}</figcaption>
+    )
+  }
+  {
+    presentation.scene === 'global-context' && (
       <figcaption class="schedule-scene-caption">{presentation.caption}</figcaption>
     )
   }

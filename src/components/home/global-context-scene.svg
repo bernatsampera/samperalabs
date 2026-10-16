@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-labelledby="__SCENE_ID__-scene-title __SCENE_ID__-scene-desc" class="global-context-scene">
+  <title id="__SCENE_ID__-scene-title">One question opens one drawer</title>
+  <desc id="__SCENE_ID__-scene-desc">A fictional example. A question about the Team plan opens only the Sales drawer. A Prices card rises from it with the answer. The People and Product drawers stay closed.</desc>
+
+  <text x="30" y="34" class="scene-label">Global context</text>
+
+  <!-- All three drawer fronts have the same size. Only Sales moves. -->
+  <rect x="40" y="170" width="290" height="268" rx="3" fill="#f4f4f5" stroke="#71717a" stroke-width="2"/>
+  <rect x="54" y="184" width="262" height="72" rx="2" fill="#e4e4e7" stroke="#a1a1aa"/>
+
+  <g>
+    <rect x="54" y="268" width="262" height="72" rx="2" fill="#fafafa" stroke="#a1a1aa"/>
+    <rect x="76" y="291" width="126" height="26" rx="2" fill="white" stroke="#a1a1aa"/>
+    <text x="139" y="309" text-anchor="middle" class="scene-label">People</text>
+    <path d="M239 298V310H285V298" class="global-scene-handle"/>
+  </g>
+  <g>
+    <rect x="54" y="352" width="262" height="72" rx="2" fill="#fafafa" stroke="#a1a1aa"/>
+    <rect x="76" y="375" width="126" height="26" rx="2" fill="white" stroke="#a1a1aa"/>
+    <text x="139" y="393" text-anchor="middle" class="scene-label">Product</text>
+    <path d="M239 382V394H285V382" class="global-scene-handle"/>
+  </g>
+
+  <g data-motion="reveal" data-start="0.10" data-end="0.25" data-x="12">
+    <path d="M381 105H555Q573 105 573 123V143L591 159L573 153V157Q573 175 555 175H381Q363 175 363 157V123Q363 105 381 105Z" fill="white" stroke="#a1a1aa" stroke-linejoin="round"/>
+    <text x="468" y="134" text-anchor="middle" class="global-scene-bubble">How much is the</text>
+    <text x="468" y="157" text-anchor="middle" class="global-scene-bubble">Team plan?</text>
+  </g>
+
+  <g data-motion="reveal" data-start="0.30" data-end="0.50">
+    <path d="M54 184H316L340 192H78Z" fill="#e4e4e7" stroke="#71717a"/>
+    <path d="M316 184L340 192V264L316 256Z" fill="#e4e4e7" stroke="#71717a"/>
+  </g>
+
+  <!-- Keep the drawer opaque while the shared reveal operation translates it. -->
+  <g class="global-scene-moving-drawer" data-motion="reveal" data-start="0.30" data-end="0.50" data-x="-24" data-y="-8">
+    <defs>
+      <clipPath id="__SCENE_ID__-card-slot"><rect x="78" y="90" width="262" height="112"/></clipPath>
+    </defs>
+    <g clip-path="url(#__SCENE_ID__-card-slot)">
+      <g data-motion="reveal" data-start="0.55" data-end="0.75" data-y="92">
+        <rect x="88" y="104" width="240" height="108" rx="3" fill="white" stroke="#71717a" stroke-width="1.5"/>
+        <text x="104" y="135" class="global-scene-card-title">Prices</text>
+        <text x="104" y="165" class="global-scene-card-text">Team plan: $119 a month</text>
+      </g>
+    </g>
+    <rect x="78" y="192" width="262" height="72" rx="2" fill="#fafafa" stroke="#71717a" stroke-width="1.5"/>
+    <rect x="100" y="215" width="126" height="26" rx="2" fill="white" stroke="#a1a1aa"/>
+    <text x="163" y="233" text-anchor="middle" class="scene-label">Sales</text>
+    <path d="M263 222V234H309V222" class="global-scene-handle"/>
+  </g>
+</svg>

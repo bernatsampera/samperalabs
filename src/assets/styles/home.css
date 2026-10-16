@@ -321,6 +321,24 @@ body:has(.home-notebook) {
   font: 600 14px var(--font-sans);
   fill: #18181b;
 }
+.global-scene-card-title {
+  font: 600 15px var(--font-sans);
+  fill: #18181b;
+}
+.global-scene-bubble,
+.global-scene-card-text {
+  font: 14px var(--font-sans);
+  fill: #27272a;
+}
+.global-scene-handle {
+  fill: none;
+  stroke: #71717a;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.global-scene-moving-drawer {
+  opacity: 1 !important;
+}
 /* Show a complete, readable composition before JavaScript and without motion. */
 .home-scene [data-motion='leave'] {
   opacity: 0;

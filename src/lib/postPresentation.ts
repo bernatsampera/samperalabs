@@ -1,6 +1,6 @@
 /** Editorial scenes describe approved article content. Public reads control publication. */
 export interface PostPresentation {
-  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain' | 'schedule-import' | 'agent-turn';
+  scene: 'translation-loop' | 'context-tree' | 'context-repo' | 'shared-brain' | 'schedule-import' | 'agent-turn' | 'global-context';
   label: string;
   heading: string;
   summary: string;
@@ -11,6 +11,14 @@ export interface PostPresentation {
 // The schedule scene uses the approved local article and author-reported times.
 // `context-is-everything` is not a published essay, so it has no scene.
 const presentations: Record<string, PostPresentation> = {
+  'why-ai-agents-need-a-global-context': {
+    scene: 'global-context',
+    label: 'Global context',
+    heading: 'One question. One drawer.',
+    summary:
+      'An AI model does not know your business. A global context is a map of that information, split into domains. Each session loads only the domain the question needs, and saves what changed.',
+    caption: 'A fictional example: the question opens only the Sales drawer, where the price is.',
+  },
   'how-we-built-the-maat-admin-agent': {
     scene: 'agent-turn',
     label: 'Gym owner agent',

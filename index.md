@@ -63,3 +63,16 @@
 - [src/components/home/agent-turn-scene.svg](src/components/home/agent-turn-scene.svg): Homepage scene source for How we built the MAAT Admin Agent for gym owners.
 
 - [public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-5e957a65938c.png](public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-5e957a65938c.png): Article image for How we built the MAAT Admin Agent for gym owners.
+
+- [public/images/why-ai-agents-need-a-global-context-00-renewal-email-0c0723b48767.png](public/images/why-ai-agents-need-a-global-context-00-renewal-email-0c0723b48767.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-07-misc-drawers-007d8570fcbd.png](public/images/why-ai-agents-need-a-global-context-07-misc-drawers-007d8570fcbd.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-01-where-to-look-33294056305d.png](public/images/why-ai-agents-need-a-global-context-01-where-to-look-33294056305d.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-05-everything-just-in-case-929ce4fb79b4.png](public/images/why-ai-agents-need-a-global-context-05-everything-just-in-case-929ce4fb79b4.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-02-loading-5cdbd217d372.png](public/images/why-ai-agents-need-a-global-context-02-loading-5cdbd217d372.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-06-whiteboard-wiped-66ffa59fe7b1.png](public/images/why-ai-agents-need-a-global-context-06-whiteboard-wiped-66ffa59fe7b1.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-03-saving-1b38ba386f3b.png](public/images/why-ai-agents-need-a-global-context-03-saving-1b38ba386f3b.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-08-domain-alone-bc62a0026917.png](public/images/why-ai-agents-need-a-global-context-08-domain-alone-bc62a0026917.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-04-whole-system-7f858ad31724.png](public/images/why-ai-agents-need-a-global-context-04-whole-system-7f858ad31724.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [public/images/why-ai-agents-need-a-global-context-09-read-the-map-first-142233a3d34e.png](public/images/why-ai-agents-need-a-global-context-09-read-the-map-first-142233a3d34e.png): Article image for Global context for AI agents: minimal to load, fast to find.
+- [src/components/home/GlobalContextScene.astro](src/components/home/GlobalContextScene.astro): Homepage scene source for Global context for AI agents: minimal to load, fast to find.
+- [src/components/home/global-context-scene.svg](src/components/home/global-context-scene.svg): Homepage scene source for Global context for AI agents: minimal to load, fast to find.
