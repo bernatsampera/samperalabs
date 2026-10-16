@@ -61,3 +61,5 @@
 - [public/images/how-we-built-the-maat-admin-agent-05-model-screening-efd2a0ee4cd0.png](public/images/how-we-built-the-maat-admin-agent-05-model-screening-efd2a0ee4cd0.png): Article image for How we built the MAAT Admin Agent for gym owners.
 - [src/components/home/AgentTurnScene.astro](src/components/home/AgentTurnScene.astro): Homepage scene source for How we built the MAAT Admin Agent for gym owners.
 - [src/components/home/agent-turn-scene.svg](src/components/home/agent-turn-scene.svg): Homepage scene source for How we built the MAAT Admin Agent for gym owners.
+
+- [public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-5e957a65938c.png](public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-5e957a65938c.png): Article image for How we built the MAAT Admin Agent for gym owners.
