@@ -47,3 +47,11 @@
 - [public/images/maat-brain-comic.png](public/images/maat-brain-comic.png): Published article comic.
 
 - [public/images/express-the-general-comic.png](public/images/express-the-general-comic.png): Original comic for the published Express the General revision.
+
+- [public/images/how-we-built-the-maat-admin-agent-00-cover-efb012af5f15.png](public/images/how-we-built-the-maat-admin-agent-00-cover-efb012af5f15.png): Article image for How we built the MAAT Admin Agent for gym owners.
+- [public/images/how-we-built-the-maat-admin-agent-01-scope-score-d216f04ddfa2.png](public/images/how-we-built-the-maat-admin-agent-01-scope-score-d216f04ddfa2.png): Article image for How we built the MAAT Admin Agent for gym owners.
+- [public/images/how-we-built-the-maat-admin-agent-02-actions-3da68e1ea340.png](public/images/how-we-built-the-maat-admin-agent-02-actions-3da68e1ea340.png): Article image for How we built the MAAT Admin Agent for gym owners.
+- [public/images/how-we-built-the-maat-admin-agent-03-decision-generation-d9fc1d7af21d.png](public/images/how-we-built-the-maat-admin-agent-03-decision-generation-d9fc1d7af21d.png): Article image for How we built the MAAT Admin Agent for gym owners.
+- [public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-ffd3462771b3.png](public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-ffd3462771b3.png): Article image for How we built the MAAT Admin Agent for gym owners.
+- [public/images/how-we-built-the-maat-admin-agent-05-model-screening-4fd52c434336.png](public/images/how-we-built-the-maat-admin-agent-05-model-screening-4fd52c434336.png): Article image for How we built the MAAT Admin Agent for gym owners.
+- [public/images/how-we-built-the-maat-admin-agent-06-intent-map-eaa89f411c59.png](public/images/how-we-built-the-maat-admin-agent-06-intent-map-eaa89f411c59.png): Article image for How we built the MAAT Admin Agent for gym owners.
