@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>B. Picture statistics | samperalabs design directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="dbar">
+  <div class="sheet">
+    <a class="dbar-back" href="../index.html" id="dbar-back">All directions</a>
+    <p class="dbar-name" id="dbar-name">B. Picture statistics</p>
+    <nav class="dbar-nav" aria-label="Sections">
+      <a href="#home">Home chart</a>
+      <a href="#story">Story</a>
+      <a href="#card">Chapter card</a>
+      <a href="#system">System</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section id="home" class="home" aria-labelledby="h-motto">
+    <div class="sheet" id="home-in"></div>
+  </section>
+
+  <section id="story" aria-label="The MAAT journey, story view">
+    <div id="story-frame" data-state="moving"></div>
+  </section>
+
+  <section id="card" class="sec" aria-labelledby="card-h">
+    <div class="sheet">
+      <header class="sec-head">
+        <h2 id="card-h">The chapter card</h2>
+        <p>The caption panel of the chart. The large symbol comes first, then the title, the plain text, what I learned, and the link to read more.</p>
+      </header>
+      <div class="cards" id="cards"></div>
+      <div class="link-states" id="link-states"></div>
+    </div>
+  </section>
+
+  <section id="system" class="sec" aria-labelledby="sys-h">
+    <div class="sheet">
+      <header class="sec-head">
+        <h2 id="sys-h">The system sheet</h2>
+        <p>Few colors, each with one meaning. One face. Square corners. A flat world. Every value below is a token in style.css.</p>
+      </header>
+      <div class="sys" id="sys"></div>
+    </div>
+  </section>
+</main>
+
+<script src="../../world/journey/data.js"></script>
+<script src="../../world/journey/guided/data.js"></script>
+<script src="symbols.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

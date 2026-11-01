@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>C. Exhibition rooms | samperalabs design directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="dirbar" aria-label="Direction">
+  <a class="dirbar-back" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12H5M11 6l-6 6 6 6"/></svg>All directions</a>
+  <p class="dirbar-name"><span aria-hidden="true">C</span>Exhibition rooms</p>
+  <ul>
+    <li><a href="#home"><span>Entrance</span></a></li>
+    <li><a href="#story"><span>Galleries</span></a></li>
+    <li><a href="#card"><span>Wall text</span></a></li>
+    <li><a href="#system"><span>Installation sheet</span></a></li>
+  </ul>
+</nav>
+
+<main>
+  <section id="home" aria-labelledby="home-title">
+    <div class="ent-wall">
+      <div class="ent-grid" id="ent-grid"></div>
+    </div>
+    <div class="ent-floor" aria-hidden="true"></div>
+  </section>
+
+  <section id="story" aria-label="MAAT, the journey">
+    <div id="story-frame" data-state="moving">
+      <div class="ov" id="ov"></div>
+      <div class="layers" id="layers"></div>
+      <p class="sr-only" id="live" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="card" class="sec" aria-labelledby="card-title">
+    <div class="sec-in">
+      <header class="sec-head">
+        <h2 class="t-head" id="card-title">Wall text and object labels</h2>
+        <p>Each chapter is a room. The white panel holds the wall text. The small label holds the date, the article, and the status.</p>
+      </header>
+      <div class="exhibits" id="exhibits"></div>
+      <div class="linkstates" id="linkstates"></div>
+    </div>
+  </section>
+
+  <section id="system" class="sec sys" aria-labelledby="system-title">
+    <div class="sec-in">
+      <header class="sec-head">
+        <h2 class="t-head" id="system-title">Installation sheet</h2>
+        <p>The rules that build every room. Each value is a token in style.css, named by its role.</p>
+      </header>
+      <div id="sheet"></div>
+    </div>
+  </section>
+</main>
+
+<script src="../../world/journey/data.js"></script>
+<script src="../../world/journey/guided/data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

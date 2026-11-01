@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bernat Sampera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<style>
+  /* Values come from ../tokens.css. These short names keep the page rules readable. */
+  :root {
+    --font: var(--font-sans);
+    --w-light: 300; --w-regular: var(--weight-regular); --w-medium: var(--weight-medium); --w-semibold: 600;
+    --ink: var(--color-ink); --ink-body: var(--color-graphite); --ink-50: var(--color-slate); --ink-32: var(--color-faint);
+    --ink-16: var(--color-rule); --ink-08: var(--color-rule-soft);
+    --paper: var(--color-paper); --band: var(--color-band); --surface: var(--color-canvas);
+    --night: var(--color-night); --night-2: var(--color-night-raise); --night-3: #232327;
+    --on-night: var(--color-night-text); --on-night-72: var(--color-night-body); --on-night-50: var(--color-night-soft);
+    --on-night-30: #45454B; --on-night-16: var(--color-night-line); --on-night-10: #232327;
+    --accent: var(--color-accent); --accent-night: var(--color-accent-night);
+    --t-display: var(--type-display); --l-display: var(--leading-display); --k-display: var(--tracking-display);
+    --t-title: var(--type-section); --l-title: var(--leading-section); --k-title: var(--tracking-section);
+    --t-body: var(--type-body); --l-body: var(--leading-body); --k-body: 0;
+    --t-label: 16px; --l-label: 22px; --k-label: .1px;
+    --t-small: var(--type-small); --l-small: var(--leading-small); --k-small: .1px;
+    --t-micro: var(--type-meta); --l-micro: var(--leading-meta); --k-micro: .2px;
+    --s-1: var(--space-1); --s-2: var(--space-2); --s-3: var(--space-3); --s-4: var(--space-4); --s-5: var(--space-5); --s-6: var(--space-6);
+    --s-7: var(--space-7); --s-8: var(--space-8); --s-9: var(--space-9); --s-10: var(--space-10); --s-11: var(--space-11);
+    --r-media: var(--radius-media); --r-pill: var(--radius-pill); --r-card: 24px;
+    --pill-h: var(--control-h);
+    --d-fast: var(--dur-hover); --d-step: 600ms; --d-move: 700ms; --d-appear: var(--dur-appear);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: var(--w-regular) var(--t-body)/var(--l-body) var(--font); letter-spacing: var(--k-body); -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--ink); color: var(--paper); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; letter-spacing: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: var(--r-pill); }
+  .night :focus-visible { outline-color: var(--on-night); }
+  .col { width: min(var(--column), 100% - 2 * var(--gutter)); margin: 0 auto; }
+  .ico { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+  h1, h2, h3 { text-wrap: balance; }
+
+  /* Pills and links */
+  .pill { display: inline-flex; align-items: center; gap: var(--s-2); height: var(--pill-h); padding: 0 var(--s-4); border-radius: var(--r-pill); border: 1px solid transparent; background: transparent; font-size: var(--t-label); line-height: var(--l-label); font-weight: var(--w-medium); cursor: pointer; white-space: nowrap; transition: background-color var(--d-fast), color var(--d-fast), border-color var(--d-fast); }
+  .pill:hover { background: var(--ink-08); }
+  .pill.line { border-color: var(--ink); }
+  .pill.solid { background: var(--ink); color: var(--paper); }
+  .pill.solid:hover { background: #2A2A31; }
+  .link { display: inline-flex; align-items: center; gap: var(--s-1); color: var(--accent); font-weight: var(--w-medium); font-size: var(--t-label); line-height: var(--l-label); }
+  .night .link { color: var(--accent-night); }
+  .link .ico { transition: transform var(--d-fast) var(--ease-out); }
+  .link:hover .ico, a:hover .link .ico { transform: translateX(3px); }
+
+  /* Nav */
+  .nav { position: absolute; top: 0; left: 0; right: 0; z-index: 5; }
+  .nav .col { height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); }
+  .nav-side { display: flex; align-items: center; gap: var(--s-2); }
+
+  /* Hero */
+  .hero { height: 100svh; min-height: 640px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; }
+  .hero h1 { margin: 0; font-size: var(--t-display); line-height: var(--l-display); letter-spacing: var(--k-display); font-weight: var(--w-medium); max-width: 660px; }
+  .hero .greet { display: flex; justify-content: center; align-items: center; gap: var(--s-4); color: var(--ink-32); }
+  .hero .role { display: block; }
+  .avatar { display: inline-block; width: 72px; height: 48px; border-radius: var(--r-card); background: var(--night) center 30% / cover no-repeat; flex: none; filter: grayscale(1); }
+  .hero-links { display: none; }
+  .cue-wrap { position: absolute; left: 0; right: 0; bottom: var(--s-6); display: flex; justify-content: center; }
+  .cue { display: flex; flex-direction: column; align-items: center; gap: var(--s-1); font-size: var(--t-body); line-height: var(--l-body); }
+  .cue .ico { width: 10px; height: 10px; }
+  .me-sm { display: none; }
+
+  /* Work sections: both big projects share this design */
+  .work { background: linear-gradient(var(--paper), var(--band) 160px); padding: var(--s-9) 0; }
+  .work + .work { padding-top: var(--s-11); }
+  .work-head { display: flex; flex-direction: column; align-items: center; gap: var(--s-3); text-align: center; margin-bottom: var(--s-8); }
+  .meta { margin: 0; font-size: var(--t-small); line-height: var(--l-small); letter-spacing: var(--k-small); font-weight: var(--w-regular); color: var(--ink-50); font-variant-numeric: tabular-nums; }
+  .work-head h2 { margin: 0; max-width: 620px; font-size: var(--t-title); line-height: var(--l-title); letter-spacing: var(--k-title); font-weight: var(--w-medium); }
+  .media { display: block; aspect-ratio: 900 / 562; border-radius: var(--r-media); background: var(--surface); }
+
+  /* Night section */
+  .night { background: var(--night); color: var(--on-night); }
+  .night-head { padding: var(--s-10) 0 var(--s-7); }
+  .night-head h2 { margin: 0; font-size: var(--t-display); line-height: var(--l-display); letter-spacing: var(--k-display); font-weight: var(--w-medium); }
+  .night-head h2 span { display: block; color: var(--on-night-50); }
+  .side { display: flex; flex-direction: column; gap: var(--s-5); padding-bottom: var(--s-10); }
+  .side a { display: flex; flex-direction: column; justify-content: flex-end; gap: var(--s-3); min-height: 320px; padding: var(--s-6); border-radius: var(--r-media); background: var(--night-2); transition: background-color var(--d-fast); }
+  .side a:hover { background: #26262A; }
+  .side h3 { margin: 0; font-size: var(--t-title); line-height: var(--l-title); font-weight: var(--w-medium); }
+  .side p { margin: 0; color: var(--on-night-50); }
+  .side .link { margin-top: var(--s-2); }
+  .site-foot .col { height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--on-night-10); font-size: var(--t-micro); line-height: var(--l-micro); letter-spacing: var(--k-micro); font-weight: var(--w-regular); }
+  .site-foot nav { display: flex; gap: var(--s-6); }
+  .site-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .up { display: inline-flex; align-items: center; gap: var(--s-1); }
+
+  /* Appear */
+  .js [data-appear] { opacity: 0; transform: translateY(24px); transition: opacity var(--d-appear) var(--ease-out), transform var(--d-appear) var(--ease-out); transition-delay: calc(var(--i, 0) * 80ms); }
+  .js [data-appear].in { opacity: 1; transform: none; }
+
+  /* Phone */
+  @media (max-width: 809px) {
+    :root { --t-display: var(--type-display-phone); --l-display: var(--leading-display-phone); --t-title: var(--type-section-phone); --l-title: var(--leading-section-phone); }
+    .nav { display: none; }
+    .hero { height: auto; min-height: 0; padding: var(--s-6) 0 var(--s-9); text-align: left; align-items: stretch; }
+    .me-sm { display: block; width: 48px; height: 48px; border-radius: 50%; background: var(--night) center 30% / cover no-repeat; filter: grayscale(1); margin-bottom: var(--s-6); }
+    .hero h1 { max-width: none; }
+    .hero .greet { justify-content: flex-start; }
+    .hero .greet .avatar { display: none; }
+    .hero-links { display: flex; align-items: center; gap: var(--s-6); margin-top: var(--s-6); }
+    .hero-links button { padding: 0; border: 0; background: none; cursor: pointer; }
+    .cue-wrap { display: none; }
+    .work, .work + .work { padding: var(--s-9) 0; }
+    .work-head { align-items: flex-start; text-align: left; margin-bottom: var(--s-7); }
+    .night-head { padding: var(--s-9) 0 var(--s-6); }
+    .side a { min-height: 240px; padding: var(--s-5); }
+    .site-foot .col { flex-direction: column; justify-content: center; align-items: flex-start; height: auto; gap: var(--s-3); padding: var(--s-5) 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .js [data-appear] { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');</script>
+<header class="nav">
+  <div class="col">
+    <nav class="nav-side" aria-label="Main">
+      <a class="pill line" href="#work" aria-current="page">Work</a>
+      <a class="pill" href="#knowledge">Writing</a>
+      <a class="pill" href="#about">About</a>
+    </nav>
+    <div class="nav-side">
+      <a class="pill" href="https://x.com/bsampera97">X</a>
+      <a class="pill" href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a>
+      <button type="button" class="pill solid" data-copy="info@samperalabs.com">Copy Email</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero col" aria-labelledby="hero-title">
+    <span class="me-sm" aria-hidden="true"></span>
+    <h1 id="hero-title">
+      <span class="greet" data-appear>Hey, I’m <span class="avatar" role="img" aria-label="Bernat Sampera"></span> Bernat</span>
+      <span class="role" data-appear style="--i:1">AI engineer. Everything is information.</span>
+    </h1>
+    <div class="hero-links" data-appear style="--i:2">
+      <button type="button" data-copy="info@samperalabs.com">Email</button>
+      <a href="https://x.com/bsampera97">X</a>
+      <a href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a>
+    </div>
+    <div class="cue-wrap" data-appear style="--i:2">
+      <a class="cue" href="#work">Selected work<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></a>
+    </div>
+  </section>
+
+  <section class="work" id="work" aria-labelledby="maat-title">
+    <div class="col">
+      <div class="work-head" data-appear>
+        <p class="meta" id="maat-meta"></p>
+        <h2 id="maat-title"></h2>
+        <a class="link" href="maat.html">Read the story<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <a class="media" href="maat.html" data-appear aria-label="Open the MAAT story"></a>
+    </div>
+  </section>
+
+  <section class="work" id="knowledge" aria-labelledby="k-title">
+    <div class="col">
+      <div class="work-head" data-appear>
+        <p class="meta" id="k-meta"></p>
+        <h2 id="k-title"></h2>
+        <a class="link" href="#knowledge">Read the story<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <a class="media" href="#knowledge" data-appear aria-label="Open the AI has no memory story"></a>
+    </div>
+  </section>
+
+  <section class="night" id="about" aria-labelledby="side-title">
+    <div class="col">
+      <div class="night-head" data-appear>
+        <h2 id="side-title">Also built<span>Two side projects</span></h2>
+      </div>
+      <div class="side" id="side"></div>
+    </div>
+    <footer class="site-foot">
+      <div class="col">
+        <a class="up" href="#hero-title"><svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2.5M2.5 6 6 2.5 9.5 6"/></svg>Back to top</a>
+        <nav aria-label="Contact">
+          <a href="https://x.com/bsampera97">X</a>
+          <a href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a>
+          <a href="mailto:info@samperalabs.com">info@samperalabs.com</a>
+        </nav>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script src="../../world/journey/data.js"></script>
+<script>
+(() => {
+  'use strict';
+  const W = window.WORLD;
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const year = ym => ym.slice(0, 4);
+  const CHEV = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"/></svg>';
+  document.querySelectorAll('.avatar, .me-sm').forEach(e => { e.style.backgroundImage = 'url("../../../src/assets/images/profile.jpeg")'; });
+
+  document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    const label = b.textContent;
+    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copied'; } catch (e) { location.href = 'mailto:' + b.dataset.copy; return; }
+    setTimeout(() => { b.textContent = label; }, 1600);
+  }));
+
+  const M = W.journeys.find(j => j.id === 'maat');
+  const K = W.journeys.find(j => j.id === 'knowledge');
+  $('#maat-meta').textContent = `MAAT · ${year(M.chapters[0].date)} to now`;
+  $('#maat-title').textContent = M.mission;
+  $('#k-meta').textContent = `Research · ${year(K.chapters[0].date)} to now`;
+  $('#k-title').textContent = K.mission;
+
+  $('#side').innerHTML = (W.products || []).map((p, i) => `<a href="${esc(p.href)}" data-appear style="--i:${i}">
+    <h3>${esc(p.name)}</h3><p>${esc(p.line)}</p>
+    <span class="link">Visit ${esc(p.href.replace(/^https?:\/\//, ''))}${CHEV}</span></a>`).join('');
+
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {rootMargin: '0px 0px -10% 0px'});
+  document.querySelectorAll('[data-appear]').forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>

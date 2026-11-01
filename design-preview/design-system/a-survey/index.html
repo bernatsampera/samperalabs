@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Survey sheet | Direction A | samperalabs.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Fira+Sans+Condensed:wght@500;600;700&family=Fira+Sans+Extra+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav class="dirbar" aria-label="Direction">
+  <a class="db-back q-link" href="../index.html"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>All directions</a>
+  <p class="db-name"><span class="db-sheet">Sheet A</span>Survey sheet</p>
+  <ul class="db-links">
+    <li><a class="q-link" href="#home">Index map</a></li>
+    <li><a class="q-link" href="#story">MAAT sheet</a></li>
+    <li><a class="q-link" href="#card">Chapter card</a></li>
+    <li><a class="q-link" href="#system">Conventional signs</a></li>
+  </ul>
+</nav>
+<main>
+  <section id="home" class="sheet home" aria-label="Home"></section>
+  <section id="story" class="story" aria-label="The MAAT journey">
+    <div id="story-frame" data-state="moving">
+      <div class="sf-clip"></div>
+      <div class="sr-only" id="sf-live" aria-live="polite"></div>
+    </div>
+  </section>
+  <section id="card" class="sheet cards" aria-labelledby="card-h"></section>
+  <section id="system" class="sheet system" aria-labelledby="system-h"></section>
+</main>
+<script src="../../world/journey/data.js"></script>
+<script src="../../world/journey/guided/data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
