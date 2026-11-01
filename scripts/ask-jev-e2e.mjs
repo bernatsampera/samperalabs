@@ -66,6 +66,8 @@ function fakeJev(req, res) {
     if (state.includes('unknown choice')) return send(200, answer(0.9, { ...spread({ projects: 0.8 }), pizza: 0 }, 'pizza'));
     if (state.includes('bad sum')) return send(200, answer(0.9, Object.fromEntries(IDS.map((id) => [id, 0.04]))));
     if (state.includes('retry then ok')) return count === 1 ? send(503, { error: 'busy' }) : send(200, CLEAR);
+    if (state.includes('low scope clear')) return send(200, answer(0.35, spread({ projects: 0.9 })));
+    if (state.includes('low scope close')) return send(200, answer(0.35, spread({ projects: 0.45, maat: 0.4 })));
     if (state.includes('off topic')) return send(200, answer(0.04, spread({ who: 0.7 })));
     if (state.includes('close')) return send(200, answer(0.9, spread({ projects: 0.45, maat: 0.4 })));
     if (state.includes('flat')) return send(200, answer(0.9, spread({})));
@@ -184,7 +186,15 @@ try {
 
   // ---------- Decision (13 to 16) ----------
   r = await jevDelta(() => ask('off topic weather'));
-  check('13. scope below 0.5: blocked, with the landing questions, even though "who" has 0.7', r.out.data?.outcome === 'blocked' && JSON.stringify(r.out.data.options?.map((o) => o.id)) === '["who","now","projects"]', r.out.data);
+  check('13. scope 0.04 (under 0.2): blocked, with the landing questions, even though "who" has 0.7', r.out.data?.outcome === 'blocked' && JSON.stringify(r.out.data.options?.map((o) => o.id)) === '["who","now","projects"]', r.out.data);
+  r = await jevDelta(() => ask('low scope clear'));
+  check('13. scope 0.35 with a clear winner: shown (only a scope under 0.2 blocks a clear answer)', r.out.data?.outcome === 'shown' && r.out.data.experience?.id === 'projects', r.out.data);
+  r = await jevDelta(() => ask('low scope close'));
+  check('13. scope 0.35 and no clear winner: blocked', r.out.data?.outcome === 'blocked', r.out.data);
+  for (const [q, id] of [['contact', 'contact'], ['  MAAT? ', 'maat'], ['Projects', 'projects'], ['email', 'contact'], ['How this site works', 'site']]) {
+    r = await jevDelta(() => ask(q));
+    check(`a topic name ("${q.trim()}"): shown "${id}" directly, source "match", no Jev call`, r.out.data?.outcome === 'shown' && r.out.data.experience?.id === id && r.out.data.source === 'match' && r.calls === 0, r.out.data);
+  }
   r = await jevDelta(() => ask('close call'));
   check('15. two close experiences: did-you-mean with exactly projects and maat', r.out.data?.outcome === 'did-you-mean' && JSON.stringify(r.out.data.options?.map((o) => o.id)) === '["projects","maat"]', r.out.data?.options);
   r = await jevDelta(() => ask('flat everything'));

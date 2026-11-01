@@ -15,7 +15,7 @@ type Decision = {
   followUps?: Option[];
   scope?: number;
   probabilities?: { id: string; probability: number }[];
-  source: 'jev' | 'cache' | 'default' | 'fallback';
+  source: 'jev' | 'cache' | 'default' | 'match' | 'fallback';
   reason?: string;
   tooMany?: boolean;
 };

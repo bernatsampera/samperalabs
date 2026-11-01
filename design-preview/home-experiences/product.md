@@ -29,7 +29,9 @@ Jev answers two questions for each message, as in the MAAT Admin Agent:
 
 Rules:
 
-- Scope is no: show the Blocked answer.
+- A message that is only a topic name ("contact", "MAAT", "projects", "email"): show that topic. No Jev call.
+- Scope under 0.2: show the Blocked answer.
+- Scope from 0.2 to 0.5: show the answer only when one experience is a clear winner. Otherwise Blocked.
 - One experience is clearly the best: show it.
 - Two or three experiences are close: show "Did you mean" with those options.
 - The input is empty: show "Who is Bernat".
@@ -147,7 +149,7 @@ Jev response
 12. Body is not valid JSON, or does not match the contract (missing answer, wrong type, a choice that is not an experience, probabilities that do not add up to 1): `unavailable`.
 
 Decision
-13. Scope is no (below 0.5): `blocked`, even when one experience has a high probability.
+13. Scope under 0.2: `blocked`, even when one experience has a high probability. Scope from 0.2 to 0.5: `shown` for a clear winner, else `blocked`. Changed 2026-11-01: "contact" and "what is MAAT" were blocked. The scope question now names the topics (MAAT, gcontext, contact) and says that one word counts.
 14. One clear winner: `shown`.
 15. Two or three close experiences: `did-you-mean` with 2 or 3 options, never 1.
 16. All probabilities low: `did-you-mean` with the top 3.

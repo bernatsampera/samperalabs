@@ -6,7 +6,8 @@ import { DEFAULT_EXPERIENCE, EXPERIENCES, LANDING_QUESTIONS, getExperience } fro
 import { askJev, JevError, type JevChoiceAnswer, type JevNoulAnswer, type JevQuestion } from './jev';
 
 export const RULES = {
-  scopeMin: 0.5, // below this, the question is not about Bernat
+  scopeMin: 0.5, // below this, the answer must be a clear winner to show
+  blockBelow: 0.2, // below this, the question is not about Bernat: blocked
   showMin: 0.6, // the top experience needs at least this probability
   leadMin: 0.2, // and must lead the second by at least this much
   optionMin: 0.1, // "Did you mean" lists experiences above this
@@ -23,7 +24,7 @@ export type Decision = {
   followUps?: Option[];
   scope?: number;
   probabilities?: { id: string; probability: number }[];
-  source: 'jev' | 'cache' | 'default' | 'fallback';
+  source: 'jev' | 'cache' | 'default' | 'match' | 'fallback';
   reason?: string;
   ms: number;
 };
@@ -38,7 +39,7 @@ const CONTEXT = 'A visitor typed this message into the search box on the persona
 const QUESTIONS: Record<string, JevQuestion> = {
   scope: {
     type: 'noul',
-    instructions: `${CONTEXT} Is the message about Bernat Sampera, his work, his projects, his writing, his ideas about AI, or this website? A message that speaks to the site as "you" is about Bernat.`,
+    instructions: `${CONTEXT} Could the message be asking about Bernat Sampera, his work, or this website? That includes his job at MAAT (software for martial arts gyms), his projects (gcontext, BJJGym, IndoEuroMap, the Jev model), AI agents, AI memory and context, his articles, his tools, his background, and how to contact or hire him. A message that speaks to the site as "you" is about Bernat. A single word or a short phrase, like "contact", "MAAT", or "projects", counts. Answer no only when the message is clearly about something else, like the weather, a recipe, or homework.`,
   },
   experience: {
     type: 'choice',
@@ -50,11 +51,14 @@ const QUESTIONS: Record<string, JevQuestion> = {
 /** Applies the rules to Jev's answers. Plain code, no model call. */
 export function applyRules(scope: number, probabilities: Record<string, number>): Pick<Decision, 'outcome' | 'experience' | 'options' | 'followUps'> {
   const ranked = Object.entries(probabilities).sort((a, b) => b[1] - a[1]);
-  if (scope < RULES.scopeMin) return { outcome: 'blocked', options: LANDING_QUESTIONS.map((id) => option(id)) };
+  const blocked = { outcome: 'blocked' as const, options: LANDING_QUESTIONS.map((id) => option(id)) };
+  if (scope < RULES.blockBelow) return blocked;
   const [[topId, top], [, second]] = ranked;
+  // A clear winner shows even when Jev is unsure about the scope. An unclear question with a low scope is blocked.
   if (top >= RULES.showMin && top - second >= RULES.leadMin) {
     return { outcome: 'shown', experience: option(topId, top), followUps: followUpsOf(topId) };
   }
+  if (scope < RULES.scopeMin) return blocked;
   let picked = ranked.filter(([, p]) => p >= RULES.optionMin).slice(0, RULES.maxOptions);
   // Fewer than 2 clear candidates: nothing stands out, so offer the top 3.
   if (picked.length < 2) picked = ranked.slice(0, RULES.maxOptions);
@@ -67,6 +71,14 @@ const CACHE_TTL = 24 * 60 * 60 * 1000;
 const cache = new Map<string, { at: number; decision: Decision }>();
 const normalize = (q: string) => q.toLowerCase().replace(/\s+/g, ' ').trim();
 
+// A message that is just a topic name ("contact", "MAAT", "projects?") opens that topic, with no Jev call.
+const ALIASES: Record<string, string> = { email: 'contact', mail: 'contact', hire: 'contact', jev: 'site', blog: 'articles', writing: 'articles', posts: 'articles' };
+const NAMES = new Map<string, string>([
+  ...EXPERIENCES.flatMap((e) => [[e.id, e.id], [e.title.toLowerCase(), e.id]] as [string, string][]),
+  ...Object.entries(ALIASES),
+]);
+const topicOf = (q: string) => NAMES.get(normalize(q).replace(/[^\p{L}\p{N} ]/gu, '').trim());
+
 export async function decide(question: string): Promise<Decision> {
   const started = performance.now();
   const ms = () => Math.round(performance.now() - started);
@@ -75,6 +87,9 @@ export async function decide(question: string): Promise<Decision> {
   if (!q) {
     return { outcome: 'shown', experience: option(DEFAULT_EXPERIENCE), followUps: followUpsOf(DEFAULT_EXPERIENCE), source: 'default', ms: ms() };
   }
+
+  const named = topicOf(q);
+  if (named) return { outcome: 'shown', experience: option(named), followUps: followUpsOf(named), source: 'match', ms: ms() };
 
   const key = normalize(q);
   const hit = cache.get(key);
