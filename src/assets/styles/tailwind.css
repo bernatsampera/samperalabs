@@ -2,7 +2,4 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
-  --font-reading: Georgia, 'Times New Roman', serif;
-}
+/* Font stacks live in tokens.css (--font-sans, --font-mono). */

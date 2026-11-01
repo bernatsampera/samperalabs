@@ -7,11 +7,15 @@ const metadata = {
 ---
 
 <PageLayout metadata={metadata}>
-  <main class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-24 pb-16 text-center">
-    <h1 class="text-[28px] font-semibold text-stone-900 mb-4">Page not found</h1>
-    <p class="text-[15px] text-stone-500 mb-8">The page you're looking for doesn't exist.</p>
-    <a href="/" class="text-[15px] text-stone-900 underline underline-offset-2 decoration-stone-300 hover:decoration-stone-400 transition-colors">
-      Go home
-    </a>
-  </main>
+  <div class="missing col">
+    <h1>Page not found</h1>
+    <p>The page you are looking for does not exist.</p>
+    <a class="link" href="/">Go home<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></a>
+  </div>
 </PageLayout>
+
+<style>
+  .missing { padding-top: var(--space-10); }
+  h1 { margin: 0 0 var(--space-3); font-size: var(--type-title); line-height: var(--leading-title); letter-spacing: var(--tracking-title); font-weight: var(--weight-medium); }
+  p { margin: 0 0 var(--space-5); font-size: var(--type-lede); line-height: var(--leading-lede); color: var(--color-graphite); }
+</style>

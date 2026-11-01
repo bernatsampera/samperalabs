@@ -1,4 +1,57 @@
 ---
-// The writing index now lives on the homepage. Keep old links useful.
-return Astro.redirect('/#all-posts', 301);
+import PageLayout from '~/layouts/PageLayout.astro';
+import {getPublicPostStore} from '~/lib/publicPostStore';
+import {getPostSummary} from '~/lib/postPresentation';
+import {monthShort} from '~/lib/stories';
+
+// All writing. The home page shows the stories; this page lists the articles.
+const featuredSlugs = ['why-ai-agents-need-a-global-context', 'how-we-built-the-maat-admin-agent', 'gym-schedule-image-to-classes', 'building-an-ai-brain-at-maat', 'context-tree-agent-support-tasks', 'express-the-general', 'your-ai-agent-deserves-its-own-repo', 'lessons-learned-building-a-real-world-ai-agent-with-langgraph', 'analyzing-open-deep-research'];
+const allPosts = await getPublicPostStore().getAllPosts();
+const postsBySlug = new Map(allPosts.map((post) => [post.slug, post]));
+const posts = featuredSlugs
+  .map((slug) => postsBySlug.get(slug))
+  .filter((post): post is NonNullable<typeof post> => Boolean(post))
+  .sort((a, b) => b.pub_date.localeCompare(a.pub_date));
+const postDate = (iso: string) => { const d = new Date(iso); return `${d.getUTCDate()} ${monthShort(iso.slice(0, 7))} ${d.getUTCFullYear()}`; };
+const metadata = {title: 'Writing', description: 'Articles on AI agents, context, and how AI should store and find information.'};
 ---
+
+<PageLayout metadata={metadata}>
+  <div class="writing col">
+    <h1>Writing</h1>
+    <ol class="posts">
+      {posts.map((post) => (
+        <li>
+          <a class="post" href={`/posts/${post.slug}`}>
+            <time class="post-date" datetime={post.pub_date}>{postDate(post.pub_date)}</time>
+            <span class="post-text">
+              <b>{post.title}</b>
+              {(getPostSummary(post.slug) || post.description) && <span>{getPostSummary(post.slug) || post.description}</span>}
+            </span>
+            <span class="link" aria-hidden="true">Read<svg class="ico" viewBox="0 0 12 12"><path d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</PageLayout>
+
+<style>
+  .writing { padding-top: var(--space-8); }
+  h1 { margin: 0 0 var(--space-7); font-size: var(--type-title); line-height: var(--leading-title); letter-spacing: var(--tracking-title); font-weight: var(--weight-medium); }
+  .posts { list-style: none; margin: 0; padding: 0; border-top: var(--border-hairline); }
+  .posts li { border-bottom: var(--border-hairline); }
+  .post { display: grid; grid-template-columns: 104px minmax(0, 1fr) auto; align-items: baseline; gap: var(--space-5); padding: 20px 0; color: var(--color-ink); text-decoration: none; }
+  .post-date { font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); font-variant-numeric: tabular-nums; }
+  .post-text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+  .post-text b { font-size: var(--type-lede); line-height: var(--leading-lede); font-weight: var(--weight-medium); }
+  .post-text span { font-size: var(--type-small); line-height: var(--leading-small); color: var(--color-graphite); }
+  .post:hover b { text-decoration: underline; text-decoration-color: var(--color-rule); text-underline-offset: 4px; }
+  .post .link { color: var(--color-ink); }
+  @media (max-width: 809px) {
+    .writing { padding-top: var(--space-6); }
+    h1 { font-size: var(--type-display-phone); line-height: var(--leading-display-phone); }
+    .post { grid-template-columns: minmax(0, 1fr); gap: var(--space-1); padding: var(--space-4) 0; }
+    .post .link { display: none; }
+  }
+</style>

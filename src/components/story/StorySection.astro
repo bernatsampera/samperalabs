@@ -1,0 +1,34 @@
+---
+import StoryParts from './StoryParts.astro';
+import {startYear, type Story} from '~/lib/stories';
+
+// A home work section: the story's question, a link to its page, and its part cards. All stories share this design.
+export interface Props {
+  story: Story;
+  id?: string;
+}
+const {story, id = story.slug} = Astro.props;
+---
+
+<section class="work" id={id} aria-labelledby={`${story.slug}-title`}>
+  <div class="col">
+    <div class="work-head" data-appear>
+      <p class="meta">{story.name}, {startYear(story)} to now</p>
+      <h2 id={`${story.slug}-title`}>{story.mission}</h2>
+      <a class="link" href={`/${story.slug}`}>Read the story<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></a>
+    </div>
+    <StoryParts story={story} />
+  </div>
+</section>
+
+<style>
+  .work { background: linear-gradient(var(--color-paper), var(--color-band) 160px); padding: var(--space-9) 0; }
+  .work + .work { padding-top: var(--space-11); }
+  .work-head { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); text-align: center; margin-bottom: var(--space-8); }
+  .work-head h2 { margin: 0; max-width: 620px; font-size: var(--type-section); line-height: var(--leading-section); letter-spacing: var(--tracking-section); font-weight: var(--weight-medium); }
+  @media (max-width: 809px) {
+    .work, .work + .work { padding: var(--space-9) 0; }
+    .work-head { align-items: flex-start; text-align: left; margin-bottom: var(--space-7); }
+    .work-head h2 { font-size: var(--type-section-phone); line-height: var(--leading-section-phone); }
+  }
+</style>

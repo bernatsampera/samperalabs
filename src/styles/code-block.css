@@ -2,9 +2,9 @@
 .post-prose .codewrap.code-block {
   margin: 32px 0;
   overflow: hidden;
-  border: 1px solid #e1e1e4;
-  border-radius: 8px;
-  background: #f7f7f8;
+  border: var(--border-hairline);
+  border-radius: var(--radius-panel);
+  background: var(--color-panel);
   box-shadow: none;
 }
 
@@ -14,9 +14,9 @@
   justify-content: space-between;
   min-height: 36px;
   padding: 2px 16px;
-  border-bottom: 1px solid #e7e7ea;
+  border-bottom: var(--border-hairline);
   background: transparent;
-  font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 12px/1.4 var(--font-mono);
 }
 
 .post-prose .code-block .filename { color: #62626b; }
@@ -41,7 +41,7 @@
   overflow: auto;
   background: transparent;
   color: #323239;
-  font: 14px/1.8 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font: 14px/1.8 var(--font-mono);
   tab-size: 2;
   white-space: pre;
   scrollbar-color: #c4c4cb transparent;

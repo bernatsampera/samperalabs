@@ -1,0 +1,118 @@
+/* SamperaLabs design tokens.
+   Layout, type scale, spacing and radii are measured from https://ustinov.design/.
+   Palette rules are ours: white, grays, black, and one blue accent.
+   Source of truth: design-preview/design-system/tokens.css and DESIGN.md.
+   Approved pages: design-preview/design-system/clean/index.html and clean/maat.html. */
+
+:root {
+  /* ---------- Type ---------- */
+  /* Geist stands in for PP Neue Montreal (the reference face, a paid licence).
+     To switch, change --font-sans only. */
+  --font-sans: 'Geist Variable', 'Geist', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  --weight-regular: 400;   /* reading text */
+  --weight-medium: 500;    /* headings, names, buttons */
+
+  /* size / line-height / tracking */
+  --type-display: 56px;    --leading-display: 62px;    --tracking-display: -1.2px;  /* hero, part opener */
+  --type-title: 48px;      --leading-title: 54px;      --tracking-title: -1px;      /* page title (story overview) */
+  --type-section: 42px;    --leading-section: 48px;    --tracking-section: -.8px;   /* home section titles */
+  --type-card-title: 38px; --leading-card-title: 44px; --tracking-card-title: -.8px; /* chapter card title */
+  --type-heading: 21px;    --leading-heading: 27px;    --tracking-heading: -.3px;   /* card and part names */
+  --type-lede: 17px;       --leading-lede: 27px;
+  --type-body: 16px;       --leading-body: 26px;
+  --type-ui: 15px;         --leading-ui: 20px;          /* buttons, links */
+  --type-small: 14px;      --leading-small: 20px;
+  --type-meta: 13px;       --leading-meta: 18px;        /* dates, counts */
+  --type-micro: 12px;      --leading-micro: 16px;       /* timeline ruler */
+
+  /* Phone (max-width 719px for the story, 809px for the site) */
+  --type-display-phone: 30px;    --leading-display-phone: 34px;
+  --type-section-phone: 28px;    --leading-section-phone: 34px;
+  --type-card-title-phone: 26px; --leading-card-title-phone: 32px;
+
+  /* ---------- Color ---------- */
+  /* Neutrals, light to dark. Each step has one job. */
+  --color-paper: #FFFFFF;       /* page ground, cards */
+  --color-band: #FAFAFB;        /* home section bands */
+  --color-canvas: #F2F2F4;      /* timeline panel, the full-screen part view */
+  --color-panel: #F6F6F8;       /* quiet panel inside a white card ("What I learned") */
+  --color-rule-soft: #ECECEF;   /* faint grid lines */
+  --color-rule: #E2E2E6;        /* hairlines, card and pill borders */
+  --color-mist: #9A9AA1;        /* decorative only: dotted future lines. Never text. */
+  --color-faint: #8E8E95;       /* large display text only (24px and up): 3.2:1 on white */
+  --color-slate: #5F5F67;       /* dates, labels, counts: 6.3:1 on white, 5.6:1 on canvas */
+  --color-graphite: #3C3C43;    /* reading text: 10.4:1 on white */
+  --color-ink: #14141A;         /* titles, solid buttons, lines that carry meaning */
+
+  /* Night: only the lower section of the home page. Never behind reading cards. */
+  --color-night: #0B0B0D;
+  --color-night-raise: #18181B;
+  --color-night-line: #2E2E33;
+  --color-night-text: #F4F4F5;
+  --color-night-body: #D4D4D8;
+  --color-night-soft: #A1A1AA;
+
+  /* One accent. It means "now" (marker, Now line) and links. Not orange. */
+  --color-accent: #1D5BFF;          /* 5.3:1 on white */
+  --color-accent-night: #7FA2FF;    /* links on night */
+  --color-accent-wash: rgba(29, 91, 255, .12);
+
+  /* ---------- Space ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 40px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 120px;
+  --space-11: 175px;   /* between big home sections */
+
+  /* ---------- Shape ---------- */
+  --radius-media: 8px;     /* home media areas, night cards */
+  --radius-panel: 12px;    /* panels inside cards, timeline lanes */
+  --radius-card: 16px;     /* chapter card, timeline panel */
+  --radius-card-lg: 20px;  /* project cards (matches the grow animation) */
+  --radius-pill: 18px;     /* 36px pills */
+
+  --border-hairline: 1px solid var(--color-rule);
+  --border-strong: 1.5px solid var(--color-ink);   /* hover and selected outlines */
+
+  /* ---------- Depth ---------- */
+  /* The system is flat. One shadow exists: the chapter card that floats over the part view. */
+  --shadow-float: 0 0 0 1px rgba(20, 20, 26, .08), 0 10px 30px -14px rgba(20, 20, 26, .18);
+
+  /* ---------- Controls ---------- */
+  --control-h: 36px;
+  --control-h-sm: 32px;
+  --focus-ring: 2px solid var(--color-accent);
+  --focus-offset: 3px;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);     /* content arriving */
+  --ease-move: cubic-bezier(.65, 0, .35, 1);    /* camera, marker, clip-path */
+  --ease-in: cubic-bezier(.55, 0, .75, .2);     /* content leaving */
+  --dur-hover: 200ms;
+  --dur-leave: 200ms;       /* old step fades out */
+  --dur-reveal: 460ms;      /* new chapter card rises in */
+  --dur-opener: 560ms;      /* opener lines, 130ms apart */
+  --dur-step: 900ms;        /* marker travel to the next stop; add 140ms per extra stop */
+  --dur-wipe: 850ms;        /* next part wipes in from the right */
+  --dur-enter: 950ms;       /* project card grows to full screen */
+  --dur-exit: 800ms;        /* part folds back into its card */
+  --dur-appear: 800ms;      /* home: section appears on scroll, 80ms stagger */
+  --dur-pulse: 900ms;       /* ring on the stop you arrive at */
+
+  /* ---------- Layout ---------- */
+  --column: 900px;          /* one centered column for all content */
+  --gutter: 24px;           /* page side padding on phone */
+  --nav-h: 60px;
+  /* Breakpoints (media queries cannot read variables):
+     phone story  max-width 719px
+     phone site   max-width 809px
+     tablet       810px to 1199px
+     short screen max-height 820px */
+}

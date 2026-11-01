@@ -1,0 +1,31 @@
+---
+import Layout from '~/layouts/Layout.astro';
+import {clientData, type Story} from '~/lib/stories';
+import '~/assets/styles/story.css';
+
+// A full-screen story page: overview (timeline and part cards), then the guided path through each part.
+// Approved design: design-preview/design-system/clean/maat.html. Script: src/scripts/story.js.
+export interface Props {
+  story: Story;
+}
+const {story} = Astro.props;
+const metadata = {title: story.name, description: `${story.mission} ${story.context}`};
+const data = JSON.stringify(clientData(story)).replace(/</g, '\\u003c');
+---
+
+<Layout metadata={metadata}>
+  <div class="home" id="home">
+    <header class="h-top">
+      <a class="back" href="/"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg><span>Bernat Sampera</span></a>
+      <button type="button" class="btn btn-line top-now" data-act="now">Newest chapter</button>
+    </header>
+    <main class="h-main" id="h-main"></main>
+  </div>
+  <div id="layers"></div>
+  <div id="live" class="sr-only" aria-live="polite"></div>
+  <script type="application/json" id="story-data" set:html={data} />
+</Layout>
+
+<script>
+  import '../scripts/story.js';
+</script>

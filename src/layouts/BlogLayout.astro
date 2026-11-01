@@ -4,7 +4,6 @@ import type {MetaData} from '~/types';
 import type {TOCItem} from '~/utils/tableOfContents';
 import {buildNestedTOC} from '~/utils/tableOfContents';
 import ReadingContents from '~/components/common/ReadingContents.astro';
-import '../assets/styles/content-shell.css';
 
 export interface Props {
   metadata?: MetaData;
@@ -22,112 +21,106 @@ export interface Props {
 const {metadata, post, headings = []} = Astro.props;
 const readingTime = Math.max(Math.floor(post.content.length / 1000), 1);
 const pubDate = new Date(post.pub_date);
-const formattedDate = pubDate.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+const formattedDate = pubDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'});
 const contents = buildNestedTOC(headings.map((heading) => ({...heading, level: Math.max(2, heading.level)})));
+const back = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5"></path></svg>';
 ---
 
 <PageLayout metadata={metadata}>
-  <div class:list={['reading-page content-shell content-shell-grid', {'has-contents': headings.length > 0}]}>
+  <div class:list={['reading-page', {'has-contents': headings.length > 0}]}>
     {headings.length > 0 && (
       <aside class="reading-rail">
         <nav aria-label="On this page">
           <p class="contents-label">On this page</p>
           <ReadingContents items={contents} />
         </nav>
-        <a class="all-writing" href="/#all-posts">All writing</a>
       </aside>
     )}
     <article class="reading-paper">
-      <a class="reading-back" href="/#all-posts">All writing</a>
+      <a class="link reading-back" href="/writing"><Fragment set:html={back} />All writing</a>
       <header class="reading-head">
-        <div class="reading-byline">
-          {post.status === 'draft' ? <span>Draft for review</span> : <time datetime={post.pub_date}>{formattedDate}</time>}
-          <span>{readingTime} min read</span>
-        </div>
+        <p class="meta reading-byline">
+          {post.status === 'draft' ? <span>Draft for review</span> : <time datetime={post.pub_date}>{formattedDate}</time>}, {readingTime} min read
+        </p>
         <h1>{post.title}</h1>
-        {post.author && <p class="reading-author">Written by {post.author}</p>}
         {post.description && <p class="reading-description">{post.description}</p>}
+        {post.author && <p class="meta reading-author">Written by {post.author}</p>}
       </header>
       {headings.length > 0 && (
         <details class="reading-mobile-contents">
-          <summary>On this page <span aria-hidden="true">↗</span></summary>
+          <summary>On this page</summary>
           <nav aria-label="On this page">
             <ReadingContents items={contents} />
           </nav>
         </details>
       )}
       <slot />
-      <a class="reading-end" href="/#all-posts">All writing</a>
+      <a class="link reading-end" href="/writing"><Fragment set:html={back} />All writing</a>
     </article>
   </div>
 </PageLayout>
 
 <style is:global>
-  body:has(.reading-page) { background: #fff; color: #171717; }
-  .reading-page { --reading-muted: #52525b; padding-bottom: 100px; }
-  .reading-paper { grid-column: 2; min-width: 0; width: 100%; max-width: 690px; margin: 0 auto; padding-top: 32px; }
-  .reading-head { text-align: center; padding: 36px 0 42px; }
-  .reading-back, .reading-end { color: var(--reading-muted); font-size: 13px; text-decoration: none; }
-  .reading-back { display: inline-flex; align-items: center; min-height: 44px; }
-  .reading-head h1 { max-width: 620px; font-size: clamp(35px, 3.5vw, 44px); line-height: 1.15; letter-spacing: -.034em; font-weight: 650; margin: 15px auto 20px; overflow-wrap: anywhere; }
-  .reading-author { color: var(--reading-muted); font-size: 13px; margin: 0; }
-  .reading-description { color: var(--reading-muted); font-size: 18px; line-height: 1.6; margin: 24px auto 0; max-width: 34em; }
-  .reading-byline { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 18px; color: var(--reading-muted); font-size: 12px; }
+  /* Article pages. Values come from tokens.css. The text column sits on the left edge of the 900px column. */
+  .reading-page { display: grid; grid-template-columns: minmax(0, 1fr) min(var(--column), 100% - 2 * var(--gutter)) minmax(0, 1fr); padding: var(--space-8) 0 0; }
+  .reading-paper { grid-column: 2; min-width: 0; }
+  .reading-back { margin-bottom: var(--space-6); }
+  .reading-head { max-width: 760px; padding-bottom: var(--space-7); }
+  .reading-byline { margin-bottom: var(--space-3); }
+  .reading-head h1 { margin: 0; font-size: var(--type-title); line-height: var(--leading-title); letter-spacing: var(--tracking-title); font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+  .reading-description { margin: var(--space-5) 0 0; max-width: 680px; font-size: var(--type-heading); line-height: var(--leading-heading); color: var(--color-slate); }
+  .reading-author { margin-top: var(--space-5); }
+  .reading-end { margin-top: var(--space-8); }
+
+  /* Contents: a rail in the left margin on wide screens, a disclosure elsewhere. */
   .reading-rail { display: none; }
-  .reading-rail ol, .reading-mobile-contents ol { list-style: none; margin: 0; padding: 0; }
-  .reading-page .reading-contents-list > li { margin: 0 0 8px; }
-  .reading-page .reading-contents-list:not(.reading-contents-nested) > li { padding: 4px; border-radius: 5px; background: #f4f4f5; }
-  .reading-page [data-reading-link] { display: block; color: #3f3f46; text-decoration: none; font-size: 13px; font-weight: 600; line-height: 1.6; padding: 10px 10px; border-left: 2px solid transparent; overflow-wrap: anywhere; }
-  .reading-page .reading-contents-nested { margin: 2px 0 14px 11px; padding-left: 12px; border-left: 1px solid #d4d4d8; }
-  .reading-page .reading-contents-nested > li { margin-bottom: 2px; }
-  .reading-page .reading-contents-nested [data-reading-link] { color: #52525b; font-size: 12px; font-weight: 400; }
-  .reading-page [data-reading-link]:hover { color: #18181b; background: #f4f4f5; }
-  .reading-page [data-reading-link][aria-current="location"] { color: #18181b; background: #e4e4e7; border-left-color: #18181b; font-weight: 600; }
-  .reading-page a:focus-visible, .reading-page summary:focus-visible, .reading-page button:focus-visible { outline: 2px solid #171717; outline-offset: 5px; }
-  .reading-mobile-contents { margin-bottom: 36px; border-block: 1px solid #ddd; padding: 15px 0; }
-  .reading-mobile-contents summary { cursor: pointer; font-size: 13px; }
-  .reading-mobile-contents summary span { float: right; }
-  .reading-mobile-contents nav { max-height: 45svh; overflow-y: auto; margin-top: 12px; padding: 5px; }
-  .reading-end { display: inline-block; margin-top: 52px; }
-  .reading-page .reading-prose { max-width: none; font-family: var(--font-reading); font-size: 20px; line-height: 1.8; color: #303030; overflow-wrap: break-word; }
-  .reading-page .reading-prose p { margin: 0 0 24px; }
-  .reading-page .reading-prose :is(h1,h2,h3,h4,h5,h6) { font-family: var(--font-sans); color: #171717; font-weight: 600; letter-spacing: -.025em; line-height: 1.3; margin: 2em 0 .8em; scroll-margin-top: 110px; }
-  .reading-page .reading-prose :is(h1,h2) { font-size: 29px; }
-  .reading-page .reading-prose h2 { font-weight: 550; margin: 39px 0 21px; text-decoration: underline; text-decoration-color: #d4d4d8; text-decoration-thickness: 3px; text-underline-offset: 5px; text-decoration-skip-ink: none; }
-  .reading-page .reading-prose h3 { font-size: 25px; }
-  .reading-page .reading-prose :is(h4,h5,h6) { font-size: 21px; }
-  .reading-page .reading-prose a { color: #171717; text-decoration-color: #999; text-underline-offset: 4px; }
-  .reading-page .reading-prose a:hover { text-decoration-color: #171717; }
-  .reading-page .reading-prose :is(ul,ol) { margin: 1.2em 0; padding-left: 1.4em; }
-  .reading-page .reading-prose ul { list-style: disc; }
-  .reading-page .reading-prose ol { list-style: decimal; }
-  .reading-page .reading-prose li { margin-bottom: .4em; padding-left: .15em; }
-  .reading-page .reading-prose blockquote { border-left: 3px solid #d4d4d8; color: #3f3f46; font-size: 1.15em; padding-left: 22px; margin: 32px 0; }
-  .reading-page .reading-prose :is(img,video,iframe) { max-width: 100%; }
-  .reading-page .reading-prose img { display: block; height: auto; border-radius: 0; margin: 35px auto; }
-  .reading-page .reading-prose figure { margin: 35px 0; }
-  .reading-page .reading-prose figcaption { font: 12px/1.6 var(--font-sans); text-align: center; color: #686868; margin-top: 12px; }
-  .reading-page .reading-prose table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; font-size: .85em; margin: 30px 0; }
-  .reading-page .reading-prose :is(th,td) { padding: 12px 16px; border-bottom: 1px solid #ddd; text-align: left; }
-  .reading-page .reading-prose th { color: #171717; font-weight: 700; }
-  .reading-page .reading-prose code { background: #f2f2f2; color: #333; font-size: .8em; }
-  .reading-page .reading-prose hr { border-color: #ddd; margin: 48px 0; }
-  @media (min-width: 761px) {
-    .reading-rail { display: block; position: sticky; top: 110px; align-self: start; padding-top: 12px; margin-top: 76px; max-height: calc(100svh - 140px); overflow-y: auto; padding-right: 12px; }
-    .contents-label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 16px; color: #686868; }
-    .all-writing { display: block; margin-top: 22px; border-top: 1px solid #ddd; padding-top: 18px; font-size: 12px; color: #686868; }
+  .reading-page ol.reading-contents-list { list-style: none; margin: 0; padding: 0; }
+  .reading-page .reading-contents-nested { margin: 2px 0 var(--space-2) var(--space-3); padding-left: var(--space-3); border-left: var(--border-hairline); }
+  .reading-page [data-reading-link] { display: block; padding: 6px var(--space-2); border-radius: 6px; color: var(--color-graphite); font-size: var(--type-small); line-height: var(--leading-small); text-decoration: none; overflow-wrap: anywhere; }
+  .reading-page .reading-contents-nested [data-reading-link] { color: var(--color-slate); font-size: var(--type-meta); line-height: var(--leading-meta); }
+  .reading-page [data-reading-link]:hover { color: var(--color-ink); background: var(--color-panel); }
+  .reading-page [data-reading-link][aria-current="location"] { color: var(--color-ink); background: var(--color-canvas); font-weight: var(--weight-medium); }
+  .contents-label { margin: 0 0 var(--space-3); padding-left: var(--space-2); font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); }
+  .reading-mobile-contents { max-width: 680px; margin-bottom: var(--space-7); border: var(--border-hairline); border-radius: var(--radius-panel); padding: 0 var(--space-4); }
+  .reading-mobile-contents summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-size: var(--type-ui); font-weight: var(--weight-medium); }
+  .reading-mobile-contents nav { max-height: 45svh; overflow-y: auto; padding-bottom: var(--space-3); }
+  @media (min-width: 1360px) {
+    .reading-rail { display: block; grid-column: 1; grid-row: 1; justify-self: end; position: sticky; top: var(--space-6); align-self: start; width: 220px; max-height: calc(100svh - 48px); overflow-y: auto; margin: 0 var(--space-7) 0 0; }
     .reading-mobile-contents { display: none; }
   }
-  @media (max-width: 600px) {
-    .reading-page { padding-bottom: 64px; }
-    .reading-paper { padding-top: 20px; }
-    .reading-head { padding: 24px 0 32px; }
-    .reading-description { font-size: 17px; }
-    .reading-page .reading-prose { font-size: 18px; line-height: 1.8; }
-    .reading-page .reading-prose blockquote { padding-left: 18px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html:has(.reading-page) { scroll-behavior: auto; }
+
+  /* Prose: one family, reading text in graphite on a 680px measure. */
+  .reading-page .reading-prose { max-width: 680px; font-family: var(--font-sans); font-size: var(--type-lede); line-height: 28px; color: var(--color-graphite); overflow-wrap: break-word; }
+  .reading-page .reading-prose p { margin: 0 0 var(--space-5); }
+  .reading-page .reading-prose :is(h1, h2, h3, h4, h5, h6) { color: var(--color-ink); font-weight: var(--weight-medium); scroll-margin-top: var(--space-6); }
+  .reading-page .reading-prose :is(h1, h2) { margin: var(--space-8) 0 var(--space-4); font-size: var(--type-section-phone); line-height: var(--leading-section-phone); letter-spacing: -.4px; }
+  .reading-page .reading-prose h3 { margin: var(--space-7) 0 var(--space-3); font-size: var(--type-heading); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); }
+  .reading-page .reading-prose :is(h4, h5, h6) { margin: var(--space-6) 0 var(--space-2); font-size: var(--type-lede); line-height: var(--leading-lede); }
+  .reading-page .reading-prose a { color: var(--color-accent); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--color-accent-wash); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .reading-page .reading-prose a:hover { text-decoration-color: var(--color-accent); }
+  .reading-page .reading-prose strong { color: var(--color-ink); font-weight: 600; }
+  .reading-page .reading-prose :is(ul, ol) { margin: 0 0 var(--space-5); padding-left: 1.4em; }
+  .reading-page .reading-prose ul { list-style: disc; }
+  .reading-page .reading-prose ol { list-style: decimal; }
+  .reading-page .reading-prose li { margin-bottom: var(--space-2); padding-left: .15em; }
+  .reading-page .reading-prose li::marker { color: var(--color-slate); }
+  .reading-page .reading-prose blockquote { margin: var(--space-6) 0; padding-left: var(--space-5); border-left: 2px solid var(--color-ink); color: var(--color-ink); font-style: normal; }
+  .reading-page .reading-prose :is(img, video, iframe) { max-width: 100%; }
+  .reading-page .reading-prose img { display: block; height: auto; margin: var(--space-6) 0; border-radius: var(--radius-media); }
+  .reading-page .reading-prose figure { margin: var(--space-6) 0; }
+  .reading-page .reading-prose figcaption { margin-top: var(--space-2); font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); }
+  .reading-page .reading-prose table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: var(--space-6) 0; font-size: var(--type-small); line-height: var(--leading-small); }
+  .reading-page .reading-prose :is(th, td) { padding: var(--space-3) var(--space-4); border-bottom: var(--border-hairline); text-align: left; }
+  .reading-page .reading-prose th { color: var(--color-ink); font-weight: var(--weight-medium); }
+  .reading-page .reading-prose :not(pre) > code { padding: .15em .35em; border-radius: 4px; background: var(--color-panel); color: var(--color-ink); font-family: var(--font-mono); font-size: .85em; }
+  .reading-page .reading-prose hr { margin: var(--space-8) 0; border: 0; border-top: var(--border-hairline); }
+
+  @media (max-width: 809px) {
+    .reading-page { padding-top: var(--space-6); }
+    .reading-head h1 { font-size: var(--type-display-phone); line-height: var(--leading-display-phone); letter-spacing: -.6px; }
+    .reading-description { font-size: var(--type-lede); line-height: var(--leading-lede); }
+    .reading-page .reading-prose { font-size: var(--type-body); line-height: var(--leading-body); }
+    .reading-page .reading-prose :is(h1, h2) { font-size: 24px; line-height: 30px; }
   }
 </style>
 

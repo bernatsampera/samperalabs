@@ -1,0 +1,59 @@
+---
+import {partChapters, partDates, monthShort, type Story} from '~/lib/stories';
+
+// Project cards: number badge and dates, name and question, chapters with their months, the count and "Open".
+// Each card opens its part on the story page.
+export interface Props {
+  story: Story;
+}
+const {story} = Astro.props;
+const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
+---
+
+<ul class="parts" data-appear aria-label={`The parts of the ${story.name} story`}>
+  {story.parts.map((p) => {
+    const list = partChapters(story, p);
+    return (
+      <li>
+        <a class="part" href={`/${story.slug}#part-${p.id}`} aria-label={`Open part ${p.id}: ${p.name}`}>
+          <p class="part-when"><i class="badge">{p.id}</i>{partDates(p)}</p>
+          <h3>{p.name}</h3>
+          <p class="part-mission">{p.mission}</p>
+          <ol class="part-list">{list.map((c) => <li><b>{c.short}</b><span>{monthShort(c.date)}</span></li>)}</ol>
+          <span class="part-foot"><span class="part-count">{plural(list.length, 'chapter')}</span><span class="open">Open</span></span>
+        </a>
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .parts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); margin: 0; padding: var(--space-6); list-style: none; border-radius: var(--radius-media); background: var(--color-canvas); }
+  .parts > li { display: flex; }
+  .part { flex: 1; display: flex; flex-direction: column; min-width: 0; padding: 20px 20px var(--space-4); border-radius: var(--radius-card-lg); background: var(--color-paper); box-shadow: inset 0 0 0 1px var(--color-rule); color: var(--color-ink); text-decoration: none; transition: box-shadow var(--dur-hover), transform 300ms var(--ease-out); }
+  .part:hover { box-shadow: inset 0 0 0 1.5px var(--color-ink); transform: translateY(-2px); }
+  .part:focus-visible { border-radius: var(--radius-card-lg); }
+  .part-when { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 10px; font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); font-variant-numeric: tabular-nums; }
+  .part h3 { margin: 0 0 6px; font-size: var(--type-heading); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); font-weight: var(--weight-medium); }
+  .part-mission { margin: 0 0 var(--space-4); font-size: var(--type-ui); line-height: 22px; color: var(--color-graphite); }
+  .part-list { list-style: none; margin: 0 0 var(--space-4); padding: var(--space-3) 0 0; border-top: var(--border-hairline); display: flex; flex-direction: column; gap: 6px; counter-reset: ch; }
+  .part-list li { display: flex; align-items: baseline; gap: 10px; font-size: var(--type-small); line-height: var(--leading-small); counter-increment: ch; }
+  .part-list li::before { content: counter(ch); flex: none; width: 14px; color: var(--color-slate); font-size: var(--type-meta); font-variant-numeric: tabular-nums; }
+  .part-list b { flex: 1; min-width: 0; font-weight: var(--weight-medium); }
+  .part-list span { color: var(--color-slate); font-variant-numeric: tabular-nums; }
+  .part-foot { margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .part-count { font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); }
+  .open { display: inline-flex; align-items: center; height: var(--control-h-sm); padding: 0 var(--space-4); border: var(--border-hairline); border-radius: 16px; font-size: var(--type-small); line-height: 18px; font-weight: var(--weight-medium); transition: background-color var(--dur-hover), color var(--dur-hover); }
+  .part:hover .open { background: var(--color-ink); border-color: var(--color-ink); color: var(--color-paper); }
+  @media (max-width: 1199px) and (min-width: 810px) {
+    .parts { gap: var(--space-3); }
+    .part { padding: var(--space-4); }
+  }
+  @media (max-width: 809px) {
+    .parts { grid-template-columns: 1fr; gap: 10px; padding: var(--space-3); }
+    .part { padding: var(--space-4) var(--space-4) 14px; border-radius: var(--radius-card); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .part { transition: none; }
+  }
+</style>

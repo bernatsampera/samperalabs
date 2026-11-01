@@ -1,11 +1,9 @@
 ---
 import '~/assets/styles/tailwind.css';
-import '@fontsource/poppins/latin-400.css';
-import '@fontsource/poppins/latin-400-italic.css';
-import '@fontsource/poppins/latin-500.css';
-import '@fontsource/poppins/latin-600.css';
-import '@fontsource/poppins/latin-700.css';
+import '@fontsource-variable/geist/wght.css';
 import 'highlight.js/styles/github-dark.css';
+import '~/assets/styles/tokens.css';
+import '~/assets/styles/site.css';
 import '~/styles/post-render.css';
 import '~/styles/code-block.css';
 
@@ -14,7 +12,6 @@ import {I18N} from 'samperalabs:config';
 import CommonMeta from '~/components/common/CommonMeta.astro';
 import Favicons from '~/components/Favicons.astro';
 import Metadata from '~/components/common/Metadata.astro';
-import BasicScripts from '~/components/common/BasicScripts.astro';
 
 import type {MetaData as MetaDataType} from '~/types';
 
@@ -32,37 +29,10 @@ const {language, textDirection} = I18N;
     <CommonMeta />
     <Favicons />
     <Metadata {...metadata} />
-
-    <style is:global>
-      html {
-        scroll-behavior: smooth;
-      }
-
-      @media (prefers-reduced-motion: reduce) {
-        html {
-          scroll-behavior: auto !important;
-        }
-      }
-
-      body {
-        margin: 0;
-        padding: 0;
-        font-feature-settings:
-          'calt' 1,
-          'kern' 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-
-      img {
-        content-visibility: auto;
-      }
-    </style>
   </head>
 
-  <body class="bg-white text-neutral-900 font-sans antialiased min-h-screen">
+  <body>
     <slot />
-    <BasicScripts />
     <script>
       document.addEventListener('click', (e) => {
         const t = e.target as HTMLElement;
