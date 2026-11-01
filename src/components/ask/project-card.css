@@ -1,0 +1,35 @@
+/* Project card: one style for every project, in the chat answers and in the home "Also built" section.
+   A screenshot peeks out of a frame, then the name, one line, and a round arrow.
+   Markup: cardHtml() in render.ts. Values: site tokens (src/assets/styles/tokens.css).
+   On a dark section, wrap the cards in .on-night. */
+
+.b-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6) var(--space-4); }
+.b-cards.one { grid-template-columns: minmax(0, 560px); }
+.b-cards.wide { grid-template-columns: minmax(0, 1fr); }
+.b-cards.wide .pcard-title { font-size: var(--type-heading); line-height: var(--leading-heading); }
+
+.pcard { position: relative; display: flex; flex-direction: column; gap: var(--space-4); padding: 0; border: 0; background: none; color: var(--color-ink); text-align: left; text-decoration: none; font: inherit; cursor: pointer; }
+.pcard-media { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; border-radius: var(--radius-media); background: var(--color-canvas); transition: background-color 300ms; }
+.pcard-media img { position: absolute; left: 7%; top: 11%; width: 93%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; border-radius: 6px 0 0 0; box-shadow: 0 0 0 1px rgba(15, 15, 18, .06), 0 12px 32px rgba(15, 15, 18, .12); transition: transform 500ms var(--ease-out); }
+.pcard:hover .pcard-media { background: var(--color-rule-soft); }
+.pcard:hover .pcard-media img { transform: translate(-4px, -6px); }
+.pcard-text { display: flex; flex-direction: column; gap: 2px; padding-right: 48px; }
+.pcard-title { font-size: 20px; line-height: 26px; font-weight: var(--weight-medium); letter-spacing: -.2px; }
+.pcard-line { color: var(--color-slate); }
+.pcard-meta { margin-top: 2px; font-size: var(--type-small); line-height: var(--leading-small); color: var(--color-slate); }
+.pcard-go { position: absolute; right: 0; bottom: 2px; width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: var(--color-canvas); color: var(--color-ink); transition: background-color 200ms, color 200ms, transform 300ms var(--ease-out); }
+.pcard:hover .pcard-go { background: var(--color-ink); color: var(--color-paper); transform: translateX(2px); }
+.pcard .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* On the dark section */
+.on-night .pcard { color: var(--color-night-text); }
+.on-night .pcard-media { background: var(--color-night-raise); }
+.on-night .pcard:hover .pcard-media { background: var(--color-night-line); }
+.on-night .pcard-media img { box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 12px 32px rgba(0, 0, 0, .45); }
+.on-night .pcard-line, .on-night .pcard-meta { color: var(--color-night-soft); }
+.on-night .pcard-go { background: var(--color-night-raise); color: var(--color-night-text); }
+.on-night .pcard:hover .pcard-go { background: var(--color-night-text); color: var(--color-night); }
+
+@media (max-width: 809px) {
+  .b-cards, .b-cards.one { grid-template-columns: 1fr; }
+}

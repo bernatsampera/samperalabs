@@ -1,0 +1,40 @@
+---
+// Local preview of the Ask Jev component in the clean design system. Not available in production.
+import AskJev from '../components/ask/AskJev.astro';
+
+if (import.meta.env.PROD) return new Response(null, { status: 404 });
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Bernat Sampera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<style is:global>
+  body { margin: 0; background: #fff; }
+  .site-nav { position: absolute; top: 0; left: 0; right: 0; z-index: 6; font: 500 16px/22px 'Geist', 'Helvetica Neue', Arial, sans-serif; color: #0F0F12; }
+  .site-nav .in { width: min(900px, 100% - 48px); height: 60px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+  .site-nav nav { display: flex; gap: 8px; }
+  .site-nav a { display: inline-flex; align-items: center; height: 36px; padding: 0 16px; border-radius: 18px; border: 1px solid transparent; color: inherit; text-decoration: none; }
+  .site-nav a:hover { background: #EDEDF0; }
+  .site-nav a.line { border-color: #0F0F12; }
+  .site-nav a.solid { background: #0F0F12; color: #fff; }
+  @media (max-width: 809px) { .site-nav { display: none; } }
+</style>
+</head>
+<body class="ask-tokens">
+<header class="site-nav">
+  <div class="in">
+    <nav aria-label="Main"><a class="line" href="/ask-preview" aria-current="page">Work</a><a href="#">Writing</a><a href="#">About</a></nav>
+    <nav aria-label="Contact"><a href="https://x.com/bsampera97">X</a><a href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a><a class="solid" href="mailto:info@samperalabs.com">Email</a></nav>
+  </div>
+</header>
+<main>
+  <AskJev />
+</main>
+</body>
+</html>

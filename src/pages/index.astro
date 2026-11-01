@@ -4,15 +4,15 @@ import PageLayout from '~/layouts/PageLayout.astro';
 import Header from '~/components/elements/Header.astro';
 import Footer from '~/components/elements/Footer.astro';
 import StorySection from '~/components/story/StorySection.astro';
+import AskJev from '~/components/ask/AskJev.astro';
+import {blockHtml} from '~/components/ask/render';
+import {PROJECT_CARDS} from '~/lib/ask/content';
+import '~/components/ask/project-card.css';
 import {stories} from '~/lib/stories';
 import profile from '~/assets/images/profile.jpeg';
 
 // Approved design: design-preview/design-system/clean/index.html. Rules: design-preview/design-system/DESIGN.md.
 const avatar = await getImage({src: profile, width: 160, format: 'webp'});
-const sideProjects = [
-  {name: 'BJJGym', href: 'https://bjjgym.com', line: 'Find a jiu-jitsu gym wherever you travel.'},
-  {name: 'IndoEuroMap', href: 'https://indoeuromap.com', line: 'See the patterns of a city on a map.'},
-];
 const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything is information. How a company becomes AI native, and how AI should store and find information.'};
 ---
 
@@ -21,21 +21,8 @@ const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything
 
   <script is:inline>document.documentElement.classList.add('js');</script>
 
-  <section class="hero col" aria-labelledby="hero-title">
-    <span class="me-sm" aria-hidden="true" style={`background-image:url(${avatar.src})`}></span>
-    <h1 id="hero-title">
-      <span class="greet" data-appear>Hey, I’m <span class="avatar" role="img" aria-label="Bernat Sampera" style={`background-image:url(${avatar.src})`}></span> Bernat</span>
-      <span class="role" data-appear style="--i:1">AI engineer. Everything is information.</span>
-    </h1>
-    <div class="hero-links" data-appear style="--i:2">
-      <button type="button" data-copy-email="info@samperalabs.com">Email</button>
-      <a href="https://x.com/bsampera97">X</a>
-      <a href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a>
-    </div>
-    <div class="cue-wrap" data-appear style="--i:2">
-      <a class="cue" href="#work">Selected work<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg></a>
-    </div>
-  </section>
+  <!-- Ask Jev: the question box is the hero. Answers appear above the field. -->
+  <AskJev />
 
   {stories.map((story, i) => <StorySection story={story} id={i === 0 ? 'work' : story.slug} />)}
 
@@ -44,15 +31,8 @@ const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything
       <div class="night-head" data-appear>
         <h2 id="side-title">Also built<span>Two side projects</span></h2>
       </div>
-      <div class="side">
-        {sideProjects.map((p, i) => (
-          <a href={p.href} data-appear style={`--i:${i}`}>
-            <h3>{p.name}</h3>
-            <p>{p.line}</p>
-            <span class="link">Visit {new URL(p.href).hostname}<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></span>
-          </a>
-        ))}
-      </div>
+      <!-- The same project cards as the Ask answers (src/components/ask/project-card.css). -->
+      <div class="side-cards on-night" data-appear set:html={blockHtml({kind: 'cards', cards: [PROJECT_CARDS.bjjgym, PROJECT_CARDS.indoeuromap]}, 'home')} />
     </div>
     <Footer tone="night" topId="hero-title" />
   </section>
@@ -91,6 +71,7 @@ const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything
   .side p { margin: 0; color: var(--color-night-soft); }
   .side .link { margin-top: var(--space-2); color: var(--color-accent-night); }
   .night :focus-visible { outline-color: var(--color-night-text); }
+  .side-cards { padding-bottom: var(--space-10); }
 
   @media (max-width: 809px) {
     .hero { height: auto; min-height: 0; padding: var(--space-6) 0 var(--space-9); text-align: left; align-items: stretch; }

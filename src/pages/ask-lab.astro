@@ -1,0 +1,148 @@
+---
+// Local test page for the home page question box. It shows the raw decision, with no design.
+// It does not exist in production.
+import { EXPERIENCES, LANDING_QUESTIONS, getExperience } from '../lib/ask/experiences';
+
+if (import.meta.env.PROD) return new Response(null, { status: 404 });
+
+const samples = LANDING_QUESTIONS.map((id) => getExperience(id)!);
+const titles = Object.fromEntries(EXPERIENCES.map((e) => [e.id, e.title]));
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ask lab (local only)</title>
+<style is:global>
+  :root { --ink: #1d2733; --soft: #4d5967; --line: #d9dee4; --bg: #f6f7f9; --card: #fff; --accent: #1f5f73; --warn: #8a3f2c; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { margin: 0 0 4px; font-size: 26px; }
+  .note { margin: 0 0 20px; color: var(--soft); }
+  .status { padding: 10px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); font-size: 14px; }
+  .status.bad { border-color: var(--warn); color: var(--warn); }
+  form { display: flex; gap: 8px; margin-top: 20px; }
+  input { flex: 1; min-height: 46px; padding: 0 14px; border: 2px solid var(--ink); border-radius: 8px; font: inherit; }
+  button { min-height: 46px; padding: 0 18px; border: 2px solid var(--ink); border-radius: 8px; background: var(--ink); color: #fff; font: 700 15px/1 system-ui, sans-serif; cursor: pointer; }
+  button.chip { min-height: 36px; padding: 0 12px; background: var(--card); color: var(--ink); border-width: 1px; font-weight: 600; }
+  button:disabled { opacity: .5; cursor: wait; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; align-items: center; }
+  .row > span { color: var(--soft); font-size: 14px; }
+  .counter { margin-top: 12px; font-size: 14px; color: var(--soft); }
+  .counter b { color: var(--ink); }
+  section { margin-top: 24px; padding: 18px 20px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  section h2 { margin: 0 0 12px; font-size: 18px; }
+  .outcome { display: inline-block; padding: 2px 10px; border-radius: 999px; background: var(--accent); color: #fff; font-weight: 700; font-size: 14px; }
+  .outcome.blocked, .outcome.unavailable { background: var(--warn); }
+  dl { display: grid; grid-template-columns: 140px 1fr; gap: 6px 12px; margin: 12px 0 0; }
+  dt { color: var(--soft); }
+  dd { margin: 0; }
+  table { width: 100%; margin-top: 12px; border-collapse: collapse; font-size: 14px; }
+  td { padding: 4px 6px; border-top: 1px solid var(--line); }
+  td:first-child { width: 180px; white-space: nowrap; }
+  td:last-child { width: 60%; }
+  td.num { width: 64px; text-align: right; font-variant-numeric: tabular-nums; }
+  .bar { height: 10px; border-radius: 5px; background: var(--accent); }
+  details { margin-top: 12px; font-size: 13px; }
+  pre { overflow: auto; padding: 12px; border-radius: 8px; background: var(--bg); }
+  ol { margin: 0; padding-left: 20px; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Ask lab</h1>
+  <p class="note">Local only. Each new question sends one request to Jev. A repeated question comes from the cache. A click on an option opens it directly, with no Jev call.</p>
+  <p class="status" id="status">Loading status...</p>
+
+  <form id="ask">
+    <input id="q" name="q" maxlength="300" autocomplete="off" placeholder="Ask a question about Bernat" aria-label="Question">
+    <button type="submit" id="send">Ask Jev</button>
+  </form>
+  <div class="row"><span>Open directly:</span>
+    {samples.map((e) => <button type="button" class="chip" data-open={e.id} data-via="sample">{e.ask}</button>)}
+  </div>
+  <p class="counter">Jev calls from this page: <b id="calls">0</b></p>
+
+  <section id="result" hidden>
+    <h2>Result</h2>
+    <div id="result-body"></div>
+    <details><summary>Raw JSON</summary><pre id="raw"></pre></details>
+  </section>
+
+  <section id="history-box" hidden>
+    <h2>This session</h2>
+    <ol id="history"></ol>
+  </section>
+</main>
+
+<script define:vars={{ titles }}>
+  const $ = (id) => document.getElementById(id);
+  const esc = (v) => String(v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const pct = (p) => (p === undefined ? '' : ` (${Math.round(p * 100)}%)`);
+  let calls = 0;
+  let lastQ = '';
+
+  fetch('/api/ask').then((r) => r.json()).then((s) => {
+    const status = $('status');
+    status.textContent = `Jev key: ${s.keySet ? 'set' : 'NOT SET'}. Address: ${s.jevBaseUrl}. Model: ${s.model}. Timeout: ${s.timeoutMs} ms. Limit: ${s.rateLimit} questions per 10 minutes. Umami events: ${s.tracking.enabled ? `on (${s.tracking.umamiHost})` : 'off (local)'}.`;
+    if (!s.keySet) status.classList.add('bad');
+  });
+
+  const chips = (list, via, from = '') => (list || []).map((o) => `<button type="button" class="chip" data-open="${esc(o.id)}" data-via="${via}" data-from="${esc(from)}">${esc(o.title)}${pct(o.probability)}</button>`).join(' ');
+
+  function show(label, d, status) {
+    $('result').hidden = false;
+    $('raw').textContent = JSON.stringify(d, null, 2);
+    if (status !== 200) {
+      $('result-body').innerHTML = `<p><span class="outcome unavailable">HTTP ${status}</span> ${esc(d.error || '')}</p>`;
+      return addHistory(label, `HTTP ${status}`);
+    }
+    const rows = (d.probabilities || []).map((p) => `<tr><td>${esc(titles[p.id] || p.id)}</td><td class="num">${(p.probability * 100).toFixed(1)}%</td><td><div class="bar" style="width:${Math.max(1, p.probability * 100)}%"></div></td></tr>`).join('');
+    $('result-body').innerHTML = `
+      <p><span class="outcome ${esc(d.outcome)}">${esc(d.outcome)}</span></p>
+      <dl>
+        ${d.experience ? `<dt>Experience</dt><dd><b>${esc(d.experience.title)}</b>${pct(d.experience.probability)}</dd>` : ''}
+        ${d.options ? `<dt>${d.outcome === 'did-you-mean' ? 'Did you mean' : 'Suggestions'}</dt><dd>${chips(d.options, d.outcome === 'did-you-mean' ? 'did-you-mean' : 'sample')}</dd>` : ''}
+        ${d.followUps ? `<dt>Follow-ups</dt><dd>${chips(d.followUps, 'follow-up', d.experience ? d.experience.id : '')}</dd>` : ''}
+        ${d.scope !== undefined ? `<dt>About Bernat</dt><dd>${(d.scope * 100).toFixed(1)}% (blocked below 50%)</dd>` : ''}
+        <dt>Source</dt><dd>${esc(d.source)}${d.reason ? `, ${esc(d.reason)}` : ''}, ${d.ms} ms</dd>
+      </dl>
+      ${rows ? `<table aria-label="Probability per experience">${rows}</table>` : ''}`;
+    addHistory(label, `${d.outcome}${d.experience ? ': ' + d.experience.title : ''} (${d.source})`);
+  }
+
+  function addHistory(label, text) {
+    $('history-box').hidden = false;
+    const li = document.createElement('li');
+    li.textContent = `${label} → ${text}`;
+    $('history').prepend(li);
+  }
+
+  async function post(body, label) {
+    $('send').disabled = true;
+    try {
+      const r = await fetch('/api/ask', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      const d = await r.json();
+      if (d.source === 'jev' || (d.source === 'fallback' && d.reason !== 'no-key')) $('calls').textContent = String(++calls);
+      show(label, d, r.status);
+    } finally {
+      $('send').disabled = false;
+    }
+  }
+
+  $('ask').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = $('q').value;
+    lastQ = q;
+    post({ q }, `"${q.trim() || '(empty)'}"`);
+  });
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-open]');
+    if (b) post({ open: b.dataset.open, via: b.dataset.via, from: b.dataset.from, q: b.dataset.via === 'did-you-mean' ? lastQ : undefined }, `open ${b.dataset.open}`);
+  });
+</script>
+</body>
+</html>

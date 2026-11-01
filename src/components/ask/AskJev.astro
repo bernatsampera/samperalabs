@@ -1,0 +1,62 @@
+---
+// Ask Jev: the home page question box and its answers. Behaviour: ask-client.ts. Styles: ask.css.
+// The field stays at the bottom. The hero, and later each answer, appears above it.
+// Product rules: design-preview/home-experiences/product.md
+import '../../assets/styles/tokens.css';
+import './ask.css';
+import profile from '../../assets/images/profile.jpeg';
+import { CONTENT, SHARED } from '../../lib/ask/content';
+import { EXPERIENCES, LANDING_QUESTIONS, getExperience } from '../../lib/ask/experiences';
+
+const data = {
+  content: CONTENT,
+  shared: SHARED,
+  order: EXPERIENCES.map((e) => e.id),
+  titles: Object.fromEntries(EXPERIENCES.map((e) => [e.id, e.title])),
+  asks: Object.fromEntries(EXPERIENCES.map((e) => [e.id, e.ask])),
+  samples: LANDING_QUESTIONS.map((id) => {
+    const e = getExperience(id)!;
+    return { id: e.id, title: e.title, ask: e.ask };
+  }),
+  api: '/api/ask',
+};
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+<div class="ask" data-ask data-state="landing">
+  <div class="ask-view">
+    <h1 class="ask-hello" data-hello>
+      <span class="ask-greet">Hey, I’m <span class="ask-avatar" role="img" aria-label="Bernat Sampera" style={`background-image: url(${profile.src})`}></span> Bernat</span>
+      <span class="ask-role">AI engineer. Everything is information.</span>
+    </h1>
+    <section class="ask-answer col" data-answer aria-label="Answer"></section>
+  </div>
+
+  <div class="ask-dock" data-dock>
+    <div class="ask-chips" data-chips>
+      {data.samples.map((s) => <button type="button" class="pill" data-open={s.id} data-via="sample" data-label={s.ask}>{s.ask}</button>)}
+    </div>
+    <form class="ask-form" role="search" data-form>
+      <label class="sr-only" for="ask-q">Ask a question about Bernat and his work</label>
+      <input class="ask-input" id="ask-q" name="q" type="text" maxlength="300" autocomplete="off" spellcheck="false" enterkeyhint="send" placeholder={SHARED.placeholder} />
+      <button class="ask-browse" type="button" data-browse aria-label="Browse all topics" aria-haspopup="true" aria-expanded="false" aria-controls="ask-menu">
+        <svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 3h8M2 6h8M2 9h5"/></svg>
+      </button>
+      <div class="ask-menu" id="ask-menu" data-menu hidden>
+        <p class="ask-menu-title">All topics</p>
+        <ul>
+          {EXPERIENCES.map((e) => <li><button type="button" data-open={e.id} data-via="menu" data-label={e.title}>{e.title}</button></li>)}
+        </ul>
+      </div>
+      <button class="ask-send" type="submit" aria-label="Ask">
+        <svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2.5M2.8 5.5 6 2.3l3.2 3.2"/></svg>
+      </button>
+    </form>
+  </div>
+
+  <p class="sr-only" aria-live="polite" data-live></p>
+  <script type="application/json" id="ask-data" set:html={json}></script>
+</div>
+
+<script>
+  import './ask-client';
+</script>

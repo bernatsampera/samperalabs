@@ -1,0 +1,105 @@
+---
+// Local review page: every Ask Jev answer in one place, with a comment box for each.
+// Comments save to design-preview/home-experiences/comments.json through /api/ask-review. Not available in production.
+import '../assets/styles/tokens.css';
+import '../components/ask/ask.css';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { CONTENT, SHARED } from '../lib/ask/content';
+import { EXPERIENCES, LANDING_QUESTIONS, getExperience } from '../lib/ask/experiences';
+
+if (import.meta.env.PROD) return new Response(null, { status: 404 });
+
+const ask = (id: string) => getExperience(id)!.ask;
+const samples = LANDING_QUESTIONS.map((id) => ({ id, ask: ask(id) }));
+// What a visitor might type. These three have no chip question any more (Bernat writes AI questions later).
+const typed: Record<string, string> = { memory: 'What do you research?', agents: 'Do you build AI agents?', principles: 'What do you think about AI?' };
+const items = [
+  ...EXPERIENCES.map((e) => ({ id: e.id, title: e.title, question: typed[e.id] ?? e.ask, note: `Answer type: ${e.type}`, chips: e.followUps.map((f) => ({ id: f, ask: ask(f) })) })),
+  {
+    id: 'did-you-mean', title: 'Did you mean', question: 'Tell me about your agents at MAAT', note: 'Shown when Jev is not sure. The percentages are an example.',
+    say: SHARED.didYouMean, chips: [],
+    options: [
+      { id: 'agents', title: 'AI agents', ask: ask('agents'), probability: 0.44 },
+      { id: 'maat', title: 'MAAT', ask: ask('maat'), probability: 0.41 },
+    ],
+  },
+  { id: 'blocked', title: 'Blocked', question: 'What is the weather in Barcelona?', note: 'Shown when the question is not about Bernat.', say: SHARED.blocked, chips: samples },
+  { id: 'unavailable', title: 'Jev unavailable', question: 'Any question, when Jev does not answer', note: 'Shown when Jev is slow or down.', say: SHARED.unavailable, chips: samples },
+];
+// The comments of the last round, shown under each box so Bernat can check what changed.
+let previous: Record<string, { comment: string }> = {};
+try {
+  previous = JSON.parse(await readFile(join(process.cwd(), 'design-preview/home-experiences/comments-round-2.json'), 'utf8'));
+} catch {
+  /* no earlier round */
+}
+const data = { content: CONTENT, shared: SHARED, items, previous };
+const json = JSON.stringify(data).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Review: all answers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<style is:global>
+  body { margin: 0; background: var(--gray-100); color: var(--ink); font: 400 16px/26px var(--font); -webkit-font-smoothing: antialiased; }
+  .rv { width: min(1380px, 100% - 48px); margin: 0 auto; padding: 56px 0 120px; }
+  .rv h1 { margin: 0; font-size: var(--t-title); line-height: var(--l-title); font-weight: 500; letter-spacing: -.5px; }
+  .rv-lede { margin: 12px 0 0; max-width: 640px; color: var(--ink-50); }
+  .rv-index { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 56px; }
+  .rv-index a { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 16px; background: var(--paper); color: var(--ink); font-size: 14px; font-weight: 500; text-decoration: none; }
+  .rv-index a:hover { background: var(--ink); color: var(--paper); }
+  .rv-index a.has { box-shadow: inset 0 0 0 1.5px var(--accent); }
+  .rv-item { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 24px; align-items: start; margin-bottom: 64px; scroll-margin-top: 24px; }
+  .rv-meta { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+  .rv-meta h2 { margin: 0; font-size: 22px; line-height: 28px; font-weight: 500; }
+  .rv-num { font-size: 14px; color: var(--ink-50); font-variant-numeric: tabular-nums; }
+  .rv-q { color: var(--ink-50); }
+  .rv-q b { font-weight: 500; color: var(--ink); }
+  .rv-note { width: 100%; font-size: 14px; line-height: 20px; color: var(--ink-50); }
+  .rv-frame { background: var(--paper); border-radius: 12px; box-shadow: 0 1px 2px rgba(15, 15, 18, .05); padding: 56px 0 28px; overflow: hidden; }
+  .rv-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 56px 24px 0; padding-top: 20px; border-top: 1px dashed var(--ink-16); }
+  .rv-chips small { width: 100%; text-align: center; font-size: 13px; color: var(--ink-50); }
+  .rv-chips .pill { height: 32px; padding: 0 12px; font-size: 14px; }
+  .rv-comment { position: sticky; top: 24px; background: var(--paper); border-radius: 12px; padding: 16px; }
+  .rv-comment label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; }
+  .rv-comment textarea { box-sizing: border-box; width: 100%; min-height: 160px; padding: 12px; border: 1px solid var(--ink-16); border-radius: 8px; font: 400 15px/22px var(--font); color: var(--ink); resize: vertical; }
+  .rv-comment textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px var(--ink-08); }
+  .rv-status { min-height: 18px; margin: 8px 0 0; font-size: 13px; color: var(--ink-50); }
+  .rv-status.bad { color: #B42318; }
+  .rv-prev { margin-top: 8px; font-size: 13px; line-height: 19px; color: var(--ink-50); }
+  .rv-prev summary { cursor: pointer; font-weight: 500; }
+  .rv-prev p { margin: 6px 0 0; white-space: pre-wrap; }
+  .rv-overall { display: block; max-width: 760px; margin-bottom: 64px; }
+  .rv-overall .rv-comment { position: static; }
+
+  /* Answers render still: no motion, every element at its final state. */
+  .ask.ask-static { min-height: 0; display: block; }
+  .ask-static .ans { padding: 0 40px; }
+  .ask-static *, .ask-static *::before, .ask-static *::after { animation: none !important; }
+  .ask-static :is(.b-text p, .pcard, .b-list a, .b-pick button) { opacity: 1 !important; transform: none !important; }
+  @media (max-width: 1100px) {
+    .rv-item { grid-template-columns: 1fr; }
+    .rv-comment { position: static; }
+  }
+</style>
+</head>
+<body class="ask-tokens">
+<main class="rv">
+  <h1>All answers</h1>
+  <p class="rv-lede">Every answer the home page can show, as visitors see it. Write a comment next to any answer. Comments save by themselves to design-preview/home-experiences/comments.json. A blue ring in the list marks answers with a comment. Under each box, your comment from the last round shows what should have changed.</p>
+  <nav class="rv-index" aria-label="Answers" data-index></nav>
+  <div data-list></div>
+</main>
+<script type="application/json" id="rv-data" set:html={json}></script>
+<script>
+  import '../components/ask/review-client';
+</script>
+</body>
+</html>

@@ -1,13 +1,18 @@
 ---
-import StoryParts from './StoryParts.astro';
 import {startYear, type Story} from '~/lib/stories';
+import {cardHtml} from '~/components/ask/render';
+import {PROJECT_CARDS} from '~/lib/ask/content';
+import '~/components/ask/project-card.css';
 
-// A home work section: the story's question, a link to its page, and its part cards. All stories share this design.
+// A home work section: the story's question, then one project card that opens the story page.
+// The card is the same component as in the Ask answers (src/components/ask/project-card.css).
 export interface Props {
   story: Story;
   id?: string;
 }
 const {story, id = story.slug} = Astro.props;
+const base = story.slug === 'maat' ? PROJECT_CARDS.maat : PROJECT_CARDS.memory;
+const card = {...base, open: undefined, href: undefined, door: `/${story.slug}`};
 ---
 
 <section class="work" id={id} aria-labelledby={`${story.slug}-title`}>
@@ -15,9 +20,8 @@ const {story, id = story.slug} = Astro.props;
     <div class="work-head" data-appear>
       <p class="meta">{story.name}, {startYear(story)} to now</p>
       <h2 id={`${story.slug}-title`}>{story.mission}</h2>
-      <a class="link" href={`/${story.slug}`}>Read the story<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M4.5 2.5 8 6l-3.5 3.5"></path></svg></a>
     </div>
-    <StoryParts story={story} />
+    <div class="b-cards wide" data-appear set:html={cardHtml(card, 0, story.slug)} />
   </div>
 </section>
 
