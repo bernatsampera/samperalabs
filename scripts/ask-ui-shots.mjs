@@ -12,7 +12,7 @@ import { chromium } from 'playwright-core';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const out = join(root, 'tests/artifacts/ask-ui/latest');
 await mkdir(out, { recursive: true });
-const IDS = ['who', 'now', 'projects', 'maat', 'memory', 'agents', 'principles', 'articles', 'bjjgym', 'indoeuromap', 'site'];
+const IDS = ['who', 'now', 'projects', 'maat', 'memory', 'gcontext', 'agents', 'principles', 'tools', 'work', 'articles', 'bjjgym', 'indoeuromap', 'contact', 'site'];
 const PORT = 4397;
 
 // Fake Jev: keyword routing, with a short delay so the reading state is visible.
@@ -35,6 +35,7 @@ const fake = createServer((req, res) => {
     let body;
     if (s.includes('weather')) body = reply(0.03, spread({ who: 0.5 }));
     else if (s.includes('agents') && s.includes('maat')) body = reply(0.92, spread({ agents: 0.44, maat: 0.41 }));
+    else if (s.includes('gcontext')) body = reply(0.95, spread({ gcontext: 0.9 }));
     else if (s.includes('project')) body = reply(0.96, spread({ projects: 0.91 }));
     else if (s.includes('written')) body = reply(0.94, spread({ articles: 0.88 }));
     else if (s.includes('think')) body = reply(0.93, spread({ principles: 0.86 }));
@@ -103,10 +104,7 @@ try {
   await page.click('[data-signal]');
   await page.waitForTimeout(500);
   await shoot(page, 'd-projects-why');
-  await page.click('button.pcard');
-  await page.waitForFunction(() => document.querySelector('.ans.show .b-text'), null, { timeout: 15000 });
-  await page.waitForTimeout(2000);
-  await shoot(page, 'd-memory-from-card');
+  await askQ(page, 'What is gcontext?', 'd-gcontext');
   await askQ(page, 'What have you written?', 'd-articles');
   await askQ(page, 'How do you think about AI?', 'd-principles');
   await askQ(page, 'Tell me about your agents at MAAT', 'd-did-you-mean', { full: false });

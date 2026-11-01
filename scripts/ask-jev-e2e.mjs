@@ -20,7 +20,7 @@ const FAKE_KEY = 'e2e-fake-key-not-real';
 const DEV_PORT = 4398;
 const RATE_LIMIT = 60;
 const TIMEOUT_MS = 1500;
-const IDS = ['who', 'now', 'projects', 'maat', 'memory', 'agents', 'principles', 'articles', 'bjjgym', 'indoeuromap', 'site'];
+const IDS = ['who', 'now', 'projects', 'maat', 'memory', 'gcontext', 'agents', 'principles', 'tools', 'work', 'articles', 'bjjgym', 'indoeuromap', 'contact', 'site'];
 
 const results = [];
 const check = (name, pass, detail) => {
@@ -173,7 +173,7 @@ try {
 
   r = await jevDelta(() => ask('clear projects'));
   check('14. clear winner: shown "projects" from Jev', r.out.data?.outcome === 'shown' && r.out.data.experience?.id === 'projects' && r.out.data.source === 'jev' && r.calls === 1, r.out.data);
-  check('14. shown answer has its follow-ups (maat, agents, who)', JSON.stringify(r.out.data?.followUps?.map((f) => f.id)) === '["maat","agents","who"]', r.out.data?.followUps);
+  check('14. shown answer has its follow-ups (maat, gcontext, who)', JSON.stringify(r.out.data?.followUps?.map((f) => f.id)) === '["maat","gcontext","who"]', r.out.data?.followUps);
   r = await jevDelta(() => ask('  Clear   PROJECTS '));
   check('4. same question (case and spaces differ): from the cache, no Jev call', r.out.data?.source === 'cache' && r.out.data.experience?.id === 'projects' && r.calls === 0, r.out.data);
 
@@ -212,7 +212,7 @@ try {
   const shapeOk = good.every((x) => x.path === '/v1/systemone' && x.auth === `Bearer ${FAKE_KEY}` && x.body.model === 'jev-latest'
     && x.body.questions?.scope?.type === 'noul' && x.body.questions?.experience?.type === 'choice'
     && JSON.stringify(Object.keys(x.body.questions.experience.criteria)) === JSON.stringify(IDS));
-  check('Jev request: /v1/systemone, bearer key, model, a scope (noul) and an experience (choice) question with all 11 ids', shapeOk && good.length > 0, good[0]?.body);
+  check('Jev request: /v1/systemone, bearer key, model, a scope (noul) and an experience (choice) question with all 15 ids', shapeOk && good.length > 0, good[0]?.body);
 
   // ---------- Umami events (21 to 26) ----------
   await ask(`long ${'y'.repeat(250)}`);

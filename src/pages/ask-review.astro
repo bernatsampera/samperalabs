@@ -12,8 +12,8 @@ if (import.meta.env.PROD) return new Response(null, { status: 404 });
 
 const ask = (id: string) => getExperience(id)!.ask;
 const samples = LANDING_QUESTIONS.map((id) => ({ id, ask: ask(id) }));
-// What a visitor might type. These three have no chip question any more (Bernat writes AI questions later).
-const typed: Record<string, string> = { memory: 'What do you research?', agents: 'Do you build AI agents?', principles: 'What do you think about AI?' };
+// What a visitor might type, when it differs from the chip question. Round 4: every experience has its chip question.
+const typed: Record<string, string> = {};
 const items = [
   ...EXPERIENCES.map((e) => ({ id: e.id, title: e.title, question: typed[e.id] ?? e.ask, note: `Answer type: ${e.type}`, chips: e.followUps.map((f) => ({ id: f, ask: ask(f) })) })),
   {
