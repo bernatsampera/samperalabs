@@ -76,7 +76,7 @@ Every experience uses one of five types.
 
 Questions about gcontext go to `memory`. gcontext is one part of that journey, not an experience.
 
-Later iterations: `career` (work history) and `contact` (how to reach Bernat). Bernat writes that content first.
+Later iterations: `career` (work history). `contact` has a form (see "Contact form: how it can fail").
 
 To explore: a small line at the top of each answer that names what Jev understood, for example "You asked about: Projects".
 
@@ -165,6 +165,42 @@ Umami events
 24. A click with an unknown `via`: the experience opens, and no event is sent.
 25. A cached answer and a fallback answer still send `ask`, with their `source`.
 26. Clicks are not rate limited. Each click sends at most one small event.
+
+## Contact form: how it can fail
+
+Decided 2026-11-01. Written before the code. The "contact" answer has a form block (`{ kind: 'form' }`): your email, your message, and one button.
+`POST /api/contact` sends the message through Resend from `info@bjjgym.com` (the domain verified in Resend) to `info@samperalabs.com`, with the visitor's email in `reply_to`.
+States on the form: idle, sending, sent, failed. Tests never call the real Resend: `npm run contact:e2e` uses a fake Resend and a fake Umami.
+
+Input
+1. Empty message: "Write a message first." Nothing is sent.
+2. Message over 4,000 characters: the field stops there. The server returns 400.
+3. Invalid email (no @, no dot in the domain, a space or line break, over 254 characters): "That email doesn't look right." The server returns 400.
+4. Honeypot filled: the visitor sees "sent". No mail.
+5. Sent less than 2 seconds after the first focus, or no time at all: treated as the honeypot.
+6. Too many: 3 messages per visitor per hour: 429, "You sent a few messages already. Write to me at info@samperalabs.com." Site cap: 30 mail attempts a day, then the failed state.
+7. Body not JSON, not an object, or a field not a string: 400, the failed state.
+8. Body over 16 KB: 413.
+9. Double click: one request. The form id goes to Resend as `Idempotency-Key`, so a retry never sends twice.
+
+Configuration and Resend
+10. `RESEND_API_KEY` missing in production: no call, the failed state: "That didn't go through. Write to me at info@samperalabs.com." (a mailto link).
+11. Resend slow: stop after 8 seconds, no retry, the failed state.
+12. Resend 429, 5xx, or a network error: one retry with the same key, then the failed state.
+13. Other 4xx (bad key, domain not verified): no retry, the failed state. The log names the status code only.
+14. The visitor's network fails: the failed state.
+15. In every failed state, the visitor's text stays in the field.
+
+Safety
+16. Prompt injection: no model reads the message. It goes into a plain-text email only.
+17. Header injection: the email field rejects line breaks. The subject never contains the message.
+18. HTML in the message: the email is plain text. The page never shows the message back.
+19. The key never reaches the browser. `GET /api/contact` shows "key set" only, and returns 404 in production.
+20. Server logs hold the outcome and the status code. Never the message, the email, or the key.
+21. Umami: one event `contact` with `outcome` only (sent, invalid, too-many, failed, bot, no-key, cap). Production only, or `ASK_TRACK=on`.
+22. Only `Content-Type: application/json` is accepted (415 otherwise), so a plain HTML form on another site cannot post.
+
+Local development without a key uses a fake mailer: it answers "sent" and sends nothing. `CONTACT_MAILER=resend` or `fake` forces one.
 
 ## Open decisions
 

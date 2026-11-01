@@ -2,6 +2,7 @@
 
 import type { AnswerContent } from '../../lib/ask/content';
 import { blockHtml, bubbleHtml, esc, ICON, pickHtml, sayHtml, type Option } from './render';
+import './contact-client';
 
 type Item = { id: string; title: string; question: string; note: string; say?: string; chips: { id: string; ask: string }[]; options?: Option[] };
 type Data = { content: Record<string, AnswerContent>; shared: Record<string, string>; items: Item[]; previous: Record<string, { comment: string }> };

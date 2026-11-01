@@ -6,6 +6,7 @@
 
 import type { AnswerContent } from '../../lib/ask/content';
 import { blockHtml, bubbleHtml, esc, go, ICON, pct, pickHtml, sayHtml, type Option } from './render';
+import './contact-client';
 
 type Decision = {
   outcome: 'shown' | 'did-you-mean' | 'blocked' | 'unavailable';

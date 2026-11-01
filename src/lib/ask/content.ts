@@ -19,7 +19,9 @@ export type Article = { date: string; title: string; slug: string };
 export type Block =
   | { kind: 'text'; paragraphs: string[] }
   | { kind: 'cards'; cards: Card[] }
-  | { kind: 'list'; articles: Article[] };
+  | { kind: 'list'; articles: Article[] }
+  // The contact form. Its text lives in src/lib/contact/form.ts.
+  | { kind: 'form' };
 
 export type AnswerContent = { blocks: Block[] };
 
@@ -170,9 +172,8 @@ export const CONTENT: Record<string, AnswerContent> = {
       kind: 'text',
       paragraphs: [
         'Email is the best way. Write to info@samperalabs.com. I read everything, and I answer when I can.',
-        'A form here is coming, so you can write to me without leaving the page.',
       ],
-    }],
+    }, { kind: 'form' }],
   },
   site: {
     blocks: [{

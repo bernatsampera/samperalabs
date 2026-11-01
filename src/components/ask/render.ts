@@ -2,6 +2,7 @@
 // so the review shows exactly what visitors see.
 
 import type { Block, Card } from '../../lib/ask/content';
+import { CONTACT, CONTACT_RULES } from '../../lib/contact/form';
 
 export type Option = { id: string; title: string; ask: string; probability?: number };
 
@@ -54,8 +55,24 @@ export function blockHtml(b: Block, from: string): string {
         <a href="https://samperalabs.com/posts/${esc(a.slug)}/" target="_blank" rel="noopener" style="--j:${j}">
           <time datetime="${esc(a.date)}">${esc(month(a.date))}</time><span>${esc(a.title)}</span>${ICON.out}
         </a>`).join('')}</div>`;
+    case 'form':
+      return formHtml('contact');
   }
 }
+
+/** The contact form. It looks like the question field. Behaviour: contact-client.ts. Styles: contact-form.css.
+ *  `prefix` keeps the field ids unique when the answer and the header modal are on one page. */
+export const formHtml = (prefix: string) => `<form class="b-form" data-contact data-state="idle" novalidate>
+  <label class="sr-only" for="${prefix}-email">${esc(CONTACT.emailLabel)}</label>
+  <input class="b-form-field" id="${prefix}-email" name="email" type="email" autocomplete="email" inputmode="email" spellcheck="false" maxlength="${CONTACT_RULES.maxEmail}" required placeholder="${esc(CONTACT.emailLabel)}">
+  <label class="sr-only" for="${prefix}-message">${esc(CONTACT.messageLabel)}</label>
+  <textarea class="b-form-field" id="${prefix}-message" name="message" rows="5" maxlength="${CONTACT_RULES.maxMessage}" required placeholder="${esc(CONTACT.messageLabel)}"></textarea>
+  <div class="b-form-trap" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+  <div class="b-form-row">
+    <p class="b-form-note" data-note aria-live="polite"></p>
+    <button type="submit" class="b-form-send">${esc(CONTACT.send)}</button>
+  </div>
+</form>`;
 
 /** A short line of plain text, for "Did you mean", blocked and unavailable. */
 export const sayHtml = (text: string) => `<div class="b-text"><p style="--j:0">${esc(text)}</p></div>`;

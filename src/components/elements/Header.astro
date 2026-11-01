@@ -3,6 +3,8 @@ export interface Props {
   /** Home: the nav floats over the hero and hides on phones, where the hero shows its own links. */
   overlay?: boolean;
 }
+import ContactModal from '../ask/ContactModal.astro';
+
 const {overlay = false} = Astro.props;
 const path = Astro.url.pathname;
 const current = path === '/' ? 'work' : path.startsWith('/about') ? 'about' : path.startsWith('/posts') || path.startsWith('/writing') ? 'writing' : '';
@@ -21,19 +23,12 @@ const links = [
     <div class="nav-side nav-contact">
       <a class="pill" href="https://x.com/bsampera97">X</a>
       <a class="pill" href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a>
-      <button type="button" class="pill solid" data-copy-email="info@samperalabs.com">Copy Email</button>
+      <a class="pill solid" href="mailto:info@samperalabs.com" data-contact-open aria-haspopup="dialog">Email</a>
     </div>
   </div>
 </header>
 
-<script>
-  document.querySelectorAll<HTMLButtonElement>('[data-copy-email]').forEach((b) => b.addEventListener('click', async () => {
-    const label = b.textContent;
-    const email = b.dataset.copyEmail ?? '';
-    try { await navigator.clipboard.writeText(email); b.textContent = 'Copied'; } catch { location.href = 'mailto:' + email; return; }
-    setTimeout(() => { b.textContent = label; }, 1600);
-  }));
-</script>
+<ContactModal />
 
 <style>
   .site-nav { position: relative; z-index: 5; }

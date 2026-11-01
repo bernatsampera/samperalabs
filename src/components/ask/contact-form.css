@@ -1,0 +1,79 @@
+/* Contact form: the same field as the question box, one solid ink button. Behaviour: contact-client.ts.
+   Used in the "contact" answer (ask.css imports this file) and in the header modal (ContactModal.astro).
+   Values come from the site tokens (src/assets/styles/tokens.css), so it works on any page. */
+.b-form {
+  --form-field-h: 56px;
+  position: relative; width: min(600px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
+  font: var(--weight-regular) var(--type-body)/var(--leading-body) var(--font-sans); color: var(--color-ink);
+}
+.b-form *, .b-form *::before, .b-form *::after { box-sizing: border-box; }
+.b-form :where(p) { margin: 0; }
+@keyframes contact-rise-in { from { opacity: 0; transform: translateY(14px); } }
+.ans.show .b-form { animation: contact-rise-in 700ms var(--ease-out) backwards; animation-delay: calc(var(--d0, 0ms) + var(--b, 0) * 160ms); }
+
+.b-form-field {
+  display: block; width: 100%; height: var(--form-field-h); padding: 0 var(--space-5); margin: 0;
+  border: 1px solid var(--color-rule); border-radius: 28px; background: var(--color-paper);
+  font: var(--weight-medium) var(--type-body)/var(--leading-body) var(--font-sans); color: var(--color-ink);
+  box-shadow: 0 1px 2px rgba(15, 15, 18, .04), 0 8px 24px rgba(15, 15, 18, .06);
+  transition: border-color 200ms, box-shadow 200ms;
+}
+textarea.b-form-field { height: auto; min-height: 156px; padding: 15px var(--space-5); border-radius: 24px; resize: vertical; }
+.b-form-field::placeholder { color: var(--color-slate); font-weight: var(--weight-regular); }
+.b-form-field:hover { border-color: #C9C9CE; }
+.b-form-field:focus { outline: none; border-color: var(--color-ink); box-shadow: 0 0 0 4px var(--color-rule-soft), 0 8px 24px rgba(15, 15, 18, .06); }
+.b-form-field[aria-invalid="true"] { border-color: var(--color-ink); box-shadow: inset 0 0 0 1px var(--color-ink); }
+.b-form-field[readonly] { color: var(--color-slate); }
+.b-form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+.b-form-row { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-4); }
+.b-form-note { flex: 1; font-size: var(--type-small); line-height: var(--leading-small); color: var(--color-ink); }
+.b-form-note:empty { visibility: hidden; }
+.b-form-note a { color: inherit; font-weight: var(--weight-medium); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+
+.b-form-send {
+  position: relative; flex: none; display: inline-flex; align-items: center; justify-content: center;
+  height: 48px; padding: 0 var(--space-5); border: 0; border-radius: 24px; background: var(--color-ink); color: var(--color-paper);
+  font: var(--weight-medium) var(--type-body)/22px var(--font-sans); white-space: nowrap; cursor: pointer;
+  transition: background-color 200ms, transform 200ms var(--ease-out);
+}
+.b-form-send:hover { background: #2E2E33; }
+.b-form-send:active { transform: scale(.98); }
+.b-form-send:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 3px; }
+.b-form-send[aria-busy="true"] { pointer-events: none; padding-right: calc(var(--space-5) + 24px); }
+.b-form-send[aria-busy="true"]::after { content: ''; position: absolute; top: calc(50% - 8px); right: var(--space-5); width: 14px; height: 14px; border-radius: 50%; border: 1.6px solid rgba(255, 255, 255, .35); border-top-color: var(--color-paper); animation: contact-spin 700ms linear infinite; }
+@keyframes contact-spin { to { transform: rotate(360deg); } }
+.b-form-done { font-weight: var(--weight-medium); color: var(--color-ink); }
+
+/* The header modal: a white card over a dark veil. */
+.contact-modal {
+  box-sizing: border-box; width: min(560px, 100% - 2 * var(--gutter, 24px)); max-height: calc(100dvh - 48px); padding: var(--space-6); margin: auto;
+  font: var(--weight-regular) var(--type-body)/var(--leading-body) var(--font-sans); -webkit-font-smoothing: antialiased;
+  border: 0; border-radius: var(--radius-card-lg, 20px); background: var(--color-paper); color: var(--color-ink);
+  box-shadow: 0 24px 64px rgba(15, 15, 18, .24); overflow: auto;
+}
+.contact-modal::backdrop { background: rgba(11, 11, 13, .56); }
+.contact-modal[open] { animation: contact-rise-in 320ms var(--ease-out); }
+.contact-modal-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-3); }
+.contact-modal h2 { margin: 0; font: var(--weight-medium) var(--type-heading)/var(--leading-heading) var(--font-sans); letter-spacing: var(--tracking-heading); }
+.contact-modal-lede { margin: 0 0 var(--space-5); color: var(--color-graphite); }
+.contact-modal-close {
+  flex: none; width: 36px; height: 36px; display: grid; place-items: center; margin: -6px -6px 0 0;
+  border: 0; border-radius: 50%; background: transparent; color: var(--color-ink); cursor: pointer; transition: background-color 200ms;
+}
+.contact-modal-close:hover { background: var(--color-rule-soft); }
+.contact-modal-close:focus-visible { outline: 2px solid var(--color-ink); outline-offset: 2px; }
+.contact-modal-close svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+.contact-modal .b-form { width: 100%; }
+
+@media (max-width: 809px) {
+  .b-form { --form-field-h: 52px; }
+  .b-form-row { flex-direction: column; align-items: stretch; }
+  .b-form-note:empty { display: none; }
+  .contact-modal { padding: var(--space-5); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .b-form, .contact-modal[open] { animation: none !important; }
+  .b-form-send[aria-busy="true"]::after { animation-duration: 2s; }
+}
+.b-form .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

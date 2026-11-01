@@ -1,0 +1,45 @@
+---
+// The contact form in a modal. Any element with data-contact-open opens it (the "Email" button in the header).
+// The form is the same as in the "contact" answer: render.ts (formHtml), contact-client.ts, contact-form.css.
+// Without JavaScript, the opener is a mailto link.
+import './contact-form.css';
+import { CONTENT } from '../../lib/ask/content';
+import { formHtml } from './render';
+
+const lede = CONTENT.contact.blocks.find((b) => b.kind === 'text')?.paragraphs[0] ?? '';
+---
+<dialog class="contact-modal" data-contact-modal aria-labelledby="contact-modal-title">
+  <div class="contact-modal-head">
+    <h2 id="contact-modal-title">Write to me</h2>
+    <button type="button" class="contact-modal-close" data-contact-close aria-label="Close">
+      <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg>
+    </button>
+  </div>
+  <p class="contact-modal-lede">{lede}</p>
+  <Fragment set:html={formHtml('modal')} />
+</dialog>
+
+<script>
+  import './contact-client';
+
+  const modal = document.querySelector<HTMLDialogElement>('[data-contact-modal]');
+  if (modal) {
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const opener = target.closest<HTMLElement>('[data-contact-open]');
+      const me = e as MouseEvent;
+      if (opener && !me.metaKey && !me.ctrlKey && !me.shiftKey) {
+        e.preventDefault();
+        modal.showModal();
+        modal.querySelector<HTMLElement>('[name="email"]')?.focus();
+        return;
+      }
+      // The close button, or a click on the veil outside the card.
+      if (target.closest('[data-contact-close]')) return modal.close();
+      if (target === modal) {
+        const r = modal.getBoundingClientRect();
+        if (me.clientX < r.left || me.clientX > r.right || me.clientY < r.top || me.clientY > r.bottom) modal.close();
+      }
+    });
+  }
+</script>

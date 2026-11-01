@@ -1,7 +1,8 @@
 /* Ask Jev: the home page question box and its answers.
    Colors, type, spacing and radii come from the site tokens (src/assets/styles/tokens.css).
-   Rules that could clash with the site are scoped to .ask. Project cards: project-card.css. */
+   Rules that could clash with the site are scoped to .ask. Project cards: project-card.css. Contact form: contact-form.css. */
 @import './project-card.css';
+@import './contact-form.css';
 .ask, .ask-tokens {
   /* Names used in this file, mapped to the site tokens. */
   --font: var(--font-sans);

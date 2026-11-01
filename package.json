@@ -19,7 +19,8 @@
     "generate-sitemap": "npx tsx scripts/create-sitemaps/index.ts",
     "test": "vitest run",
     "home-layout:e2e": "node scripts/home-layout-e2e.mjs",
-    "ask:e2e": "node scripts/ask-jev-e2e.mjs"
+    "ask:e2e": "node scripts/ask-jev-e2e.mjs",
+    "contact:e2e": "node scripts/contact-e2e.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
