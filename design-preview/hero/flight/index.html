@@ -30,6 +30,10 @@
   .links a { color: var(--ink); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 4px; transition: text-decoration-color var(--d-fast); }
   .links a:hover { text-decoration-color: var(--ink); }
   .intro .hint { font-size: var(--type-ui); line-height: var(--leading-ui); color: var(--slate); }
+  .intro .name, .intro .hint { transition: opacity 360ms var(--ease-out), visibility 360ms; }
+  .hero.in .intro .name, .hero.in .intro .hint { opacity: 0; visibility: hidden; }
+  .hero.in .intro { background: none; box-shadow: none; }
+  .hero.in .intro .back { position: absolute; top: 0; left: 0; }
   .pill { display: inline-flex; align-items: center; justify-content: center; height: var(--pill-h); padding: 0 var(--s-4); border-radius: var(--r-pill); border: 1px solid transparent; background: transparent; font-size: var(--type-ui); line-height: var(--leading-ui); font-weight: var(--weight-medium); white-space: nowrap; cursor: pointer; transition: background-color var(--d-fast), border-color var(--d-fast); }
   .pill.line { border-color: var(--rule); background: var(--paper); }
   .pill.line:hover { border-color: var(--ink); }

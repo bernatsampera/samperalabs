@@ -77,6 +77,11 @@ import portrait from './portrait.jpg';
   .flight-name-text > span { display: block; }
   .flight-name-measure { position: absolute; left: 0; top: 0; visibility: hidden; white-space: nowrap; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 100px; line-height: 1; letter-spacing: -.01em; pointer-events: none; }
   .flight-hint { margin: 0; font-size: var(--type-ui); line-height: var(--leading-ui); color: var(--color-slate); }
+  /* flying: the name and the hint leave, so the field has the whole screen; "Back to the face" stays */
+  .flight-name, .flight-hint { transition: opacity 360ms var(--ease-out), visibility 360ms; }
+  .flight.in .flight-name, .flight.in .flight-hint { opacity: 0; visibility: hidden; }
+  .flight.in .flight-intro { background: none; box-shadow: none; }
+  .flight.in .flight-back { position: absolute; top: 0; left: 0; }
 
   .flight-links { position: absolute; right: max(var(--space-5), calc((100vw - 1392px) / 2 + var(--space-5))); top: var(--space-7); z-index: 4; display: flex; align-items: baseline; gap: var(--space-2); font-size: var(--type-small); line-height: var(--leading-small); background: var(--color-paper); box-shadow: 0 0 16px 12px var(--color-paper); }
   .flight-links-label { color: var(--color-slate); margin-right: var(--space-1); }
