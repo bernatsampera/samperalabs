@@ -24,10 +24,14 @@ const json = JSON.stringify(data).replace(/</g, '\\u003c');
 ---
 <div class="ask" data-ask data-state="landing">
   <div class="ask-view">
+    {Astro.slots.has('hello') ? (
+      <div class="ask-stage" data-hello><slot name="hello" /></div>
+    ) : (
     <h1 class="ask-hello" data-hello>
       <span class="ask-greet">Hey, I’m <span class="ask-avatar" role="img" aria-label="Bernat Sampera" style={`background-image: url(${profile.src})`}></span> Bernat</span>
       <span class="ask-role">AI engineer. Everything is information.</span>
     </h1>
+    )}
     <section class="ask-answer col" data-answer aria-label="Answer"></section>
   </div>
 

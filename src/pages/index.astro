@@ -1,7 +1,8 @@
 ---
 import {getImage} from 'astro:assets';
 import PageLayout from '~/layouts/PageLayout.astro';
-import Header from '~/components/elements/Header.astro';
+import ContactModal from '~/components/ask/ContactModal.astro';
+import Flight from '~/components/flight/Flight.astro';
 import Footer from '~/components/elements/Footer.astro';
 import StorySection from '~/components/story/StorySection.astro';
 import AskJev from '~/components/ask/AskJev.astro';
@@ -17,12 +18,14 @@ const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything
 ---
 
 <PageLayout metadata={metadata}>
-  <Header slot="header" overlay />
+  <!-- No site header on the home: the hero carries its own name and links (Flight.astro). -->
+  <Fragment slot="header" />
+  <ContactModal />
 
   <script is:inline>document.documentElement.classList.add('js');</script>
 
-  <!-- Ask Jev: the question box is the hero. Answers appear above the field. -->
-  <AskJev />
+  <!-- The hero: the portrait you fly into, over the Ask Jev dock. Answers replace it above the field. -->
+  <AskJev><Flight slot="hello" /></AskJev>
 
   {stories.map((story, i) => <StorySection story={story} id={i === 0 ? 'work' : story.slug} />)}
 

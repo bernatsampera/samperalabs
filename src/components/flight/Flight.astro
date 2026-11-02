@@ -1,0 +1,111 @@
+---
+// The home hero: the portrait you fly into. It sits in the Ask Jev landing view (AskJev slot "hello"),
+// under the production dock. Renderer: flight.js. Content: content.js. Design preview: design-preview/hero/flight/.
+// Full screen, no site header: the name sits top left, a row of small links top right.
+import '@fontsource/instrument-serif/400-italic.css';
+import portrait from './portrait.jpg';
+---
+<div class="flight" data-flight data-photo={portrait.src}>
+  <div class="flight-figure" data-flight-figure role="img" aria-label="A portrait of Bernat made of thousands of dots. Some are cards, each a piece of context about him. Scroll to fly in, click a card to open it.">
+    <p class="flight-fail" data-fail>This browser cannot draw the portrait (WebGL is off).</p>
+    <section class="flight-box" data-box hidden role="dialog" aria-modal="true" aria-labelledby="flight-box-title">
+      <button type="button" class="flight-box-x" data-box-close aria-label="Close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8"/></svg></button>
+      <p class="flight-box-label" data-box-label></p>
+      <h2 class="flight-box-title" id="flight-box-title" data-box-title></h2>
+      <p class="flight-box-body" data-box-body></p>
+      <div class="flight-box-actions">
+        <a class="flight-pill solid" data-box-cta href="#"></a>
+        <button type="button" class="flight-pill line" data-box-close>Back to the flight</button>
+      </div>
+    </section>
+  </div>
+  <nav class="flight-links" aria-label="Main">
+    <span class="flight-links-label">Navigation:</span>
+    <a href="/#work">Work</a>
+    <a href="/writing">Writing</a>
+    <a href="/about">About</a>
+    <a href="mailto:info@samperalabs.com" data-contact-open aria-haspopup="dialog">Contact</a>
+  </nav>
+  <div class="flight-intro">
+    <h1 class="flight-name" id="hero-title"><span class="flight-name-text"><span>Bernat</span> <span>Sampera</span></span></h1>
+    <p class="flight-hint">Scroll to fly through my work.</p>
+    <button type="button" class="flight-pill line flight-back" data-back hidden>Back to the face</button>
+  </div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+  import { startFlight } from './flight.js';
+  import { content } from './content.js';
+
+  const stage = document.querySelector<HTMLElement>('[data-flight]');
+  const root = stage?.closest<HTMLElement>('[data-ask]');
+  if (stage && root) {
+    // The name fills a third of the width on a desktop, most of it on a phone, in two lines.
+    const measure = document.createElement('span');
+    measure.className = 'flight-name-measure'; measure.textContent = 'Sampera'; stage.append(measure);
+    const fitName = () => {
+      const phone = matchMedia('(max-width: 809px)').matches;
+      const w = measure.getBoundingClientRect().width || 1;
+      const target = phone ? stage.clientWidth - 48 : stage.clientWidth * 0.34;
+      const cap = innerHeight * (phone ? 0.1 : 0.17);
+      stage.style.setProperty('--name-size', Math.max(40, Math.min((100 * target) / w, cap)).toFixed(1) + 'px');
+    };
+    fitName(); addEventListener('resize', fitName);
+
+    const img = new Image();
+    img.onload = async () => {
+      await Promise.all([400, 500].map((w) => document.fonts.load(`${w} 38px "Geist Variable"`))).catch(() => {});
+      await document.fonts.load('italic 100px "Instrument Serif"').catch(() => {});
+      fitName();
+      try { startFlight(THREE, { root, stage, photo: img, content }); }
+      catch (e) { stage.querySelector<HTMLElement>('[data-fail]')!.style.display = 'grid'; console.error(e); }
+    };
+    img.src = stage.dataset.photo!;
+  }
+</script>
+
+<style is:global>
+  /* The stage covers the landing view; the dock (chips and field) stays above it. */
+  .flight { --name-size: 150px; position: absolute; inset: 0; overflow: hidden; }
+  .flight-figure { position: absolute; inset: 0; }
+  .flight-figure canvas.face { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; cursor: ns-resize; touch-action: pan-y; }
+  .flight-fail { position: absolute; inset: 0; display: none; place-items: center; padding: var(--space-6); color: var(--color-slate); font-size: var(--type-small); text-align: center; }
+
+  .flight-intro { position: absolute; left: max(var(--space-5), calc((100vw - 1392px) / 2 + var(--space-5))); top: var(--space-7); z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); pointer-events: none; background: var(--color-paper); box-shadow: 0 0 28px 20px var(--color-paper); border-radius: 4px; }
+  .flight-name { margin: 0; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; font-size: var(--name-size); line-height: .9; letter-spacing: -.01em; color: var(--color-ink); text-align: left; white-space: nowrap; }
+  .flight-name-text > span { display: block; }
+  .flight-name-measure { position: absolute; left: 0; top: 0; visibility: hidden; white-space: nowrap; font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-size: 100px; line-height: 1; letter-spacing: -.01em; pointer-events: none; }
+  .flight-hint { margin: 0; font-size: var(--type-ui); line-height: var(--leading-ui); color: var(--color-slate); }
+
+  .flight-links { position: absolute; right: max(var(--space-5), calc((100vw - 1392px) / 2 + var(--space-5))); top: var(--space-7); z-index: 4; display: flex; align-items: baseline; gap: var(--space-2); font-size: var(--type-small); line-height: var(--leading-small); background: var(--color-paper); box-shadow: 0 0 16px 12px var(--color-paper); }
+  .flight-links-label { color: var(--color-slate); margin-right: var(--space-1); }
+  .flight-links a { color: var(--color-ink); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--color-rule); text-underline-offset: 4px; transition: text-decoration-color var(--dur-hover); }
+  .flight-links a:hover { text-decoration-color: var(--color-ink); }
+
+  .flight-pill { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid transparent; background: transparent; font: var(--weight-medium) var(--type-ui)/var(--leading-ui) var(--font-sans); color: var(--color-ink); white-space: nowrap; cursor: pointer; text-decoration: none; transition: background-color var(--dur-hover), border-color var(--dur-hover); }
+  .flight-pill.line { border-color: var(--color-rule); background: var(--color-paper); }
+  .flight-pill.line:hover { border-color: var(--color-ink); }
+  .flight-pill.solid { background: var(--color-ink); color: var(--color-paper); }
+  .flight-pill.solid:hover { background: #2E2E33; }
+  .flight-back { height: 32px; padding: 0 var(--space-3); font-size: var(--type-small); pointer-events: auto; }
+  .flight-back[hidden], .flight-box[hidden], .flight-box-actions a[hidden] { display: none; }
+
+  .flight-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 6; width: min(520px, calc(100% - 2 * var(--space-5))); padding: var(--space-6); background: var(--color-paper); border: 1px solid var(--color-rule); border-radius: var(--radius-card); box-shadow: var(--shadow-float); display: flex; flex-direction: column; gap: var(--space-3); text-align: left; }
+  .flight-box-x { position: absolute; top: var(--space-3); right: var(--space-3); width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--color-slate); cursor: pointer; }
+  .flight-box-x:hover { background: var(--color-rule-soft); color: var(--color-ink); }
+  .flight-box-x svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
+  .flight-box-label { margin: 0; font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); font-weight: var(--weight-medium); letter-spacing: .04em; text-transform: uppercase; }
+  .flight-box-title { margin: 0; padding-right: var(--space-7); font-size: 28px; line-height: 34px; letter-spacing: -.4px; font-weight: var(--weight-medium); text-wrap: balance; }
+  .flight-box-body { margin: 0; color: var(--color-graphite); font-size: var(--type-body); line-height: var(--leading-body); }
+  .flight-box-body:empty { display: none; }
+  .flight-box-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
+
+  @media (max-width: 809px) {
+    .flight-links { top: var(--space-4); right: var(--space-5); }
+    .flight-links-label { display: none; }
+    .flight-intro { top: calc(var(--space-4) + 20px + var(--space-5)); max-width: calc(100vw - 2 * var(--space-5)); gap: var(--space-2); }
+    .flight-box { padding: var(--space-5); }
+    .flight-box-title { font-size: 22px; line-height: 28px; }
+  }
+</style>

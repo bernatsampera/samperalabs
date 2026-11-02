@@ -24,6 +24,11 @@
   .name.playfair, .name-measure.playfair { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -.02em; }
   .name.geist, .name-measure.geist { font-family: var(--font); font-weight: 300; letter-spacing: -.04em; }
   .name-measure { position: absolute; left: 0; top: 0; visibility: hidden; white-space: nowrap; font-size: 100px; line-height: 1; pointer-events: none; }
+  /* the links: one quiet row of small text, top right, on the line of the name */
+  .links { position: absolute; right: max(var(--gutter), calc((100vw - 1392px) / 2 + var(--gutter))); top: var(--s-7); z-index: 4; display: flex; align-items: baseline; gap: var(--s-2); font-size: var(--type-small); line-height: var(--leading-small); background: var(--paper); box-shadow: 0 0 16px 12px var(--paper); }
+  .links .label { color: var(--slate); margin-right: var(--s-1); }
+  .links a { color: var(--ink); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 4px; transition: text-decoration-color var(--d-fast); }
+  .links a:hover { text-decoration-color: var(--ink); }
   .intro .hint { font-size: var(--type-ui); line-height: var(--leading-ui); color: var(--slate); }
   .pill { display: inline-flex; align-items: center; justify-content: center; height: var(--pill-h); padding: 0 var(--s-4); border-radius: var(--r-pill); border: 1px solid transparent; background: transparent; font-size: var(--type-ui); line-height: var(--leading-ui); font-weight: var(--weight-medium); white-space: nowrap; cursor: pointer; transition: background-color var(--d-fast), border-color var(--d-fast); }
   .pill.line { border-color: var(--rule); background: var(--paper); }
@@ -51,7 +56,9 @@
   .fail { position: absolute; inset: 0; display: none; place-items: center; color: var(--slate); font-size: var(--type-small); text-align: center; padding: var(--s-6); }
   @media (max-width: 809px) {
     .hero { --field-h: 52px; }
-    .intro { top: var(--s-6); max-width: calc(100vw - 2 * var(--gutter)); gap: var(--s-2); }
+    .links { top: var(--s-4); right: var(--gutter); }
+    .links .label { display: none; }
+    .intro { top: calc(var(--s-4) + 20px + var(--s-5)); max-width: calc(100vw - 2 * var(--gutter)); gap: var(--s-2); }
     .box { padding: var(--s-5); }
     .box-title { font-size: 22px; line-height: 28px; }
     .dock { padding: var(--s-7) var(--gutter) calc(var(--s-4) + env(safe-area-inset-bottom)); background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) var(--s-7)); }
@@ -73,6 +80,7 @@
       </div>
     </section>
   </div>
+  <nav class="links" aria-label="Main"><span class="label">Navigation:</span><a href="https://samperalabs.com/maat">Work</a><a href="https://samperalabs.com/writing">Writing</a><a href="https://samperalabs.com/about">About</a><a href="mailto:hello@samperalabs.com">Contact</a></nav>
   <div class="intro">
     <h1 class="name"><span class="name-text"><span>Bernat</span> <span>Sampera</span></span></h1>
     <p class="hint">Scroll to fly through my work.</p>

@@ -194,3 +194,11 @@
   .ask *, .ask *::before, .ask *::after { animation-duration: 1ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
   .signal.reading .signal-bars i { transform: scaleY(.5); }
 }
+
+/* ---------- A custom landing (slot "hello"): it covers the view under the dock, and leaves for an answer ---------- */
+.ask-stage { position: absolute; inset: 0; z-index: 1; }
+.ask[data-state="answer"] .ask-stage { display: none; }
+.ask:has(.ask-stage) { --field-h: 60px; --dock-w: 720px; }
+.ask[data-state="landing"]:has(.ask-stage) .ask-dock { padding-top: var(--s-8); background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) var(--s-8)); }
+.ask:has(.ask-stage) .ask-chips .pill { height: 36px; padding: 0 var(--s-4); font-size: var(--type-ui); line-height: var(--leading-ui); }
+@media (max-width: 809px) { .ask:has(.ask-stage) { --field-h: 52px; } }

@@ -172,7 +172,7 @@ window.startFlight = (THREE) => {
   let n = 0;
   for (const c of cells) {
     if (c.kind === 2) continue;
-    c.d = D0 * (1.3 + 12.2 * Math.pow(rnd(), 1.3));
+    c.d = D0 * (1.3 + 15 * Math.pow(rnd(), 1.3));   // some lie beyond the end of the flight, so the field never empties
     if (!laneOnly && n++ % STRIDE === 0) {
       const k = draw(c.cat), p = C.pieces[c.cat][k];
       c.kind = 1; c.piece = byId.get(`${c.cat}:${k}`); c.full = (1.9 + rnd() * 1.1) * (p.size ?? 1);
@@ -251,6 +251,7 @@ window.startFlight = (THREE) => {
         // far away a piece is exactly the tone of its cell of the portrait; a card lets the tone go as it comes near
         float shift = vKind < 0.5 ? 1.0 : uShift * (1.0 - vNear);
         c = mix(c, vec3(vTone), shift);
+        if (vKind < 0.5) c = mix(c, vec3(1.0), 0.5 * (1.0 - uFill) / 0.55);   // flying, the face dots turn light: background, behind the cards
         float edge = min(min(vLocal.x, 1.0 - vLocal.x), min(vLocal.y, 1.0 - vLocal.y));
         if (vHover > 0.5 && edge < 0.012) c = vec3(0.078, 0.078, 0.102);   // the card under the cursor: an ink edge
         float a = vFade * (vKind < 0.5 ? uFill : 1.0) * uDim;
@@ -381,7 +382,7 @@ window.startFlight = (THREE) => {
     place(smooth(dist, 0, 220));
     if (alive) drift((performance.now() - t0) / 1000);
     uniforms.uShift.value = 1 - 0.88 * smooth(dist, 0, 520);   // the tint of the portrait lets go as you fly in
-    uniforms.uFill.value = 1 - smooth(dist, 40, 240);          // the filler dots fade; the cards remain
+    uniforms.uFill.value = 1 - 0.55 * smooth(dist, 40, 400);       // the filler dots stay: you fly through the face, they pass and dissolve like the cards
     uniforms.uDim.value = dim;
     setFlying(dist > 6);
     renderer.render(scene, camera);
