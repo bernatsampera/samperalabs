@@ -294,7 +294,7 @@ window.startFlight = (THREE) => {
   function setFlying(on) {
     if (on === flying) return;
     flying = on;
-    hero.classList.toggle('in', on); backBtn.hidden = !on;
+    hero.classList.toggle('in', on); if (backBtn) backBtn.hidden = !on;
   }
   function push(px, ndc) {
     const step = px * SPEED;
@@ -363,7 +363,7 @@ window.startFlight = (THREE) => {
     const i = pick(ndcOf(e)); if (i >= 0) openBox(i);
   });
   const back = () => { closeBox(); tDist = 0; tLat.x = 0; tLat.y = 0; };
-  backBtn.addEventListener('click', back);
+  if (backBtn) backBtn.addEventListener('click', back);
   addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (open >= 0) closeBox(); else if (document.activeElement !== dockEl.querySelector('[data-field]')) back(); } });
   let ty0 = null;
   cv.addEventListener('touchstart', (e) => { if (e.touches.length === 1) ty0 = e.touches[0].clientY; }, { passive: true });

@@ -52,8 +52,8 @@ for (const vp of [{ name: 'desktop', width: 1440, height: 900 }, { name: 'phone'
     }
   }
   await page.waitForTimeout(1500);
-  const flown = await page.evaluate(() => ({ back: !document.querySelector('[data-back]').hidden, scrollY }));
-  check(`${vp.name}: scrolling flies in and the page stays put`, flown.back && flown.scrollY < 3, flown);
+  const flown = await page.evaluate(() => ({ back: document.querySelector('.flight').classList.contains('in'), nameHidden: getComputedStyle(document.querySelector('.flight-name')).visibility === 'hidden', scrollY }));
+  check(`${vp.name}: scrolling flies in, the name leaves, the page stays put`, flown.back && flown.nameHidden && flown.scrollY < 3, flown);
   await page.screenshot({ path: join(out, `${vp.name}-2-flying.png`) });
 
   // A chip opens a prepared answer: the hero leaves, the answer shows above the field.
