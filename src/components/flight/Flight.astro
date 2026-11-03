@@ -1,23 +1,19 @@
 ---
 // The home hero: the portrait you fly into. It sits in the Ask Jev landing view (AskJev slot "hello"),
-// under the production dock. Renderer: flight.js. Content: content.js. Design preview: design-preview/hero/flight/.
+// under the production dock. The approved information sequence uses non-clickable pieces.
 // Full screen, no site header: the name sits top left, a row of small links top right.
 import '@fontsource/instrument-serif/400-italic.css';
 import portrait from './portrait.jpg';
+import { portfolioCards } from './information-panels.js';
+const pieces = portfolioCards();
 ---
 <div class="flight" data-flight data-photo={portrait.src}>
-  <div class="flight-figure" data-flight-figure role="img" aria-label="A portrait of Bernat made of thousands of dots. Some are cards, each a piece of context about him. Scroll to fly in, click a card to open it.">
+  <div class="flight-figure" data-flight-figure role="img" aria-label="A portrait of Bernat made of thousands of dots. Scroll through four pieces about information and AI agents.">
     <p class="flight-fail" data-fail>This browser cannot draw the portrait (WebGL is off).</p>
-    <section class="flight-box" data-box hidden role="dialog" aria-modal="true" aria-labelledby="flight-box-title">
-      <button type="button" class="flight-box-x" data-box-close aria-label="Close"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8"/></svg></button>
-      <p class="flight-box-label" data-box-label></p>
-      <h2 class="flight-box-title" id="flight-box-title" data-box-title></h2>
-      <p class="flight-box-body" data-box-body></p>
-      <div class="flight-box-actions">
-        <a class="flight-pill solid" data-box-cta href="#"></a>
-        <button type="button" class="flight-pill line" data-box-close>Back to the flight</button>
-      </div>
-    </section>
+
+  </div>
+  <div class="flight-reading" data-reading>
+    {pieces.map(piece => <section><h2>{piece.title}</h2><p>{piece.detail}</p></section>)}
   </div>
   <nav class="flight-links" aria-label="Main">
     <span class="flight-links-label">Navigation:</span>
@@ -33,8 +29,8 @@ import portrait from './portrait.jpg';
 
 <script>
   import * as THREE from 'three';
-  import { startFlight } from './flight.js';
-  import { content } from './content.js';
+  import { startFlight } from './information-flight.js';
+  import { portfolioCards, drawPortfolioPanel } from './information-panels.js';
 
   const stage = document.querySelector<HTMLElement>('[data-flight]');
   const root = stage?.closest<HTMLElement>('[data-ask]');
@@ -53,21 +49,41 @@ import portrait from './portrait.jpg';
 
     const img = new Image();
     img.onload = async () => {
-      await Promise.all([400, 500].map((w) => document.fonts.load(`${w} 38px "Geist Variable"`))).catch(() => {});
+      await Promise.all([400, 700].map((w) => document.fonts.load(`${w} 38px "Geist Variable"`))).catch(() => {});
       await document.fonts.load('italic 100px "Instrument Serif"').catch(() => {});
       fitName();
-      try { startFlight(THREE, { root, stage, photo: img, content }); }
-      catch (e) { stage.querySelector<HTMLElement>('[data-fail]')!.style.display = 'grid'; console.error(e); }
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { stage.classList.add('reading'); return; }
+      try {
+        const pieces = portfolioCards();
+        const images = {};
+        await Promise.all(['context', 'structure', 'maintaining'].map(async name => {
+          const image = new Image(); image.src = '/images/portrait-' + name + '.webp';
+          await image.decode(); images[name] = image;
+        }));
+        pieces.forEach(piece => { piece.art = drawPortfolioPanel(piece, images); piece.size = 1.2; });
+        const content = { pieces: { knowledge: pieces }, story: pieces.map((_, i) => 'knowledge:' + i), regions: [], skin: 'knowledge', laneOnly: true };
+        startFlight(THREE, { root, stage, photo: img, content });
+        stage.classList.add('ready');
+      } catch (e) { stage.classList.add('reading'); console.error(e); }
     };
+    img.onerror = () => stage.classList.add('reading');
     img.src = stage.dataset.photo!;
   }
 </script>
 
 <style is:global>
+  .flight-reading { position:absolute; inset:120px 24px 190px; overflow:auto; max-width:680px; margin:auto; padding:24px; background:var(--color-paper); z-index:3; }
+  .flight-reading section { margin-bottom:32px; }
+  .flight-reading h2 { font:700 32px/1.1 var(--font-sans); margin-bottom:12px; }
+  .flight-reading p { font:400 18px/1.5 var(--font-sans); }
+  .flight.ready .flight-reading { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); }
+  .flight.reading .flight-figure,.flight.reading .flight-intro { display:none; }
+  @media(max-width:809px){.flight-reading{inset:85px 12px 180px;padding:16px;}}
+
   /* The stage covers the landing view; the dock (chips and field) stays above it. */
   .flight { --name-size: 150px; position: absolute; inset: 0; overflow: hidden; }
   .flight-figure { position: absolute; inset: 0; }
-  .flight-figure canvas.face { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; cursor: ns-resize; touch-action: pan-y; }
+  .flight-figure canvas.face { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; cursor: default; touch-action: pan-y; }
   .flight-fail { position: absolute; inset: 0; display: none; place-items: center; padding: var(--space-6); color: var(--color-slate); font-size: var(--type-small); text-align: center; }
 
   .flight-intro { position: absolute; left: max(var(--space-5), calc((100vw - 1392px) / 2 + var(--space-5))); top: var(--space-7); z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); pointer-events: none; background: var(--color-paper); box-shadow: 0 0 28px 20px var(--color-paper); border-radius: 4px; }
@@ -86,29 +102,12 @@ import portrait from './portrait.jpg';
   .flight-links a { color: var(--color-ink); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--color-rule); text-underline-offset: 4px; transition: text-decoration-color var(--dur-hover); }
   .flight-links a:hover { text-decoration-color: var(--color-ink); }
 
-  .flight-pill { display: inline-flex; align-items: center; justify-content: center; height: 36px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid transparent; background: transparent; font: var(--weight-medium) var(--type-ui)/var(--leading-ui) var(--font-sans); color: var(--color-ink); white-space: nowrap; cursor: pointer; text-decoration: none; transition: background-color var(--dur-hover), border-color var(--dur-hover); }
-  .flight-pill.line { border-color: var(--color-rule); background: var(--color-paper); }
-  .flight-pill.line:hover { border-color: var(--color-ink); }
-  .flight-pill.solid { background: var(--color-ink); color: var(--color-paper); }
-  .flight-pill.solid:hover { background: #2E2E33; }
   .flight-back { height: 32px; padding: 0 var(--space-3); font-size: var(--type-small); pointer-events: auto; }
-  .flight-back[hidden], .flight-box[hidden], .flight-box-actions a[hidden] { display: none; }
 
-  .flight-box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 6; width: min(520px, calc(100% - 2 * var(--space-5))); padding: var(--space-6); background: var(--color-paper); border: 1px solid var(--color-rule); border-radius: var(--radius-card); box-shadow: var(--shadow-float); display: flex; flex-direction: column; gap: var(--space-3); text-align: left; }
-  .flight-box-x { position: absolute; top: var(--space-3); right: var(--space-3); width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--color-slate); cursor: pointer; }
-  .flight-box-x:hover { background: var(--color-rule-soft); color: var(--color-ink); }
-  .flight-box-x svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; }
-  .flight-box-label { margin: 0; font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--color-slate); font-weight: var(--weight-medium); letter-spacing: .04em; text-transform: uppercase; }
-  .flight-box-title { margin: 0; padding-right: var(--space-7); font-size: 28px; line-height: 34px; letter-spacing: -.4px; font-weight: var(--weight-medium); text-wrap: balance; }
-  .flight-box-body { margin: 0; color: var(--color-graphite); font-size: var(--type-body); line-height: var(--leading-body); }
-  .flight-box-body:empty { display: none; }
-  .flight-box-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); }
 
   @media (max-width: 809px) {
     .flight-links { top: var(--space-4); right: var(--space-5); }
     .flight-links-label { display: none; }
     .flight-intro { top: calc(var(--space-4) + 20px + var(--space-5)); max-width: calc(100vw - 2 * var(--space-5)); gap: var(--space-2); }
-    .flight-box { padding: var(--space-5); }
-    .flight-box-title { font-size: 22px; line-height: 28px; }
   }
 </style>

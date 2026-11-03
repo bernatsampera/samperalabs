@@ -1,5 +1,12 @@
 # SamperaLabs navigation
 
+- [src/components/flight/Flight.astro](src/components/flight/Flight.astro): Homepage portrait with the approved information sequence and a static reading fallback.
+- [src/components/flight/information-flight.js](src/components/flight/information-flight.js): Continuous portrait renderer with one readable piece at a time and no card clicks.
+- [src/components/flight/information-panels.js](src/components/flight/information-panels.js): Approved information copy and transparent typography compositions.
+- [public/images/portrait-context.webp](public/images/portrait-context.webp): Transparent monochrome context figure for the homepage portrait.
+- [public/images/portrait-structure.webp](public/images/portrait-structure.webp): Transparent monochrome structure figure for the homepage portrait.
+- [public/images/portrait-maintaining.webp](public/images/portrait-maintaining.webp): Transparent monochrome maintaining figure for the homepage portrait.
+
 - [.github/workflows/deploy.yml](.github/workflows/deploy.yml): Builds the application image and requests a Coolify deployment.
 
 - [src/docs/deploy-post-command.md](src/docs/deploy-post-command.md): One-command post publication, release manifests, and saved results.
