@@ -180,7 +180,7 @@ export function startFlight(THREE, { root, stage, photo, content }) {
   geo.setAttribute('aId', new THREE.InstancedBufferAttribute(aId, 1));
   const readingWeights=new Float32Array(N);
   geo.setAttribute('aRead',new THREE.InstancedBufferAttribute(readingWeights,1));
-  const uniforms = { uMap: { value: tex }, uGrid: { value: new THREE.Vector2(ACOLS, AROWS) }, uShift: { value: 1 }, uBlur: { value: 1 }, uSlot: { value: SLOT }, uFill: { value: 1 }, uHover: { value: -1 }, uDim: { value: 1 }, uCutout: { value: 0 }, uQuiet: { value: 0 } };
+  const uniforms = { uMap: { value: tex }, uGrid: { value: new THREE.Vector2(ACOLS, AROWS) }, uShift: { value: 1 }, uBlur: { value: 1 }, uSlot: { value: SLOT }, uFill: { value: 1 }, uHover: { value: -1 }, uDim: { value: 1 }, uCutout: { value: 0 }, uQuiet: { value: 0 }, uViewport: { value: renderer.getDrawingBufferSize(new THREE.Vector2()) }, uReadingRect: { value: new THREE.Vector4(0, 0, 1, 1) }, uIntro: { value: 0 } };
   const mat = new THREE.ShaderMaterial({
     uniforms, transparent: true, depthTest: false, depthWrite: false,
     blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor,
@@ -206,8 +206,13 @@ export function startFlight(THREE, { root, stage, photo, content }) {
       }`,
     fragmentShader: `
       precision highp float;
-      uniform float uQuiet; uniform float uCutout; uniform sampler2D uMap; uniform float uShift; uniform float uFill; uniform float uDim;
+      uniform vec2 uViewport; uniform vec4 uReadingRect; uniform float uIntro; uniform float uQuiet; uniform float uCutout; uniform sampler2D uMap; uniform float uShift; uniform float uFill; uniform float uDim;
       varying vec2 vUv; varying vec2 vLocal; varying float vFade; varying float vTone; varying float vBias; varying float vNear; varying float vKind; varying float vHover; varying float vRead;
+      // Soft clear areas follow the text and figure, rather than clearing the whole field.
+      float clearArea(vec2 p, vec2 centre, vec2 halfSize, float feather) {
+        vec2 outside = max(abs(p - centre) - halfSize, 0.0);
+        return 1.0 - smoothstep(0.0, feather, length(outside));
+      }
       void main() {
         vec4 sampleColor = texture2D(uMap, vUv, vBias);
         vec3 c = sampleColor.rgb;
@@ -219,7 +224,15 @@ export function startFlight(THREE, { root, stage, photo, content }) {
            // the card under the cursor: an ink edge
         float a = vFade * (vKind < 0.5 ? uFill : 1.0) * uDim;
         if (vKind > 0.5) a *= mix(1.0, 0.78 + 0.22*vNear, 1.0-uShift);
-        if (vKind < 0.5) a *= 1.0-0.995*uQuiet;
+        if (vKind < 0.5) {
+          vec2 screen = vec2(gl_FragCoord.x / uViewport.x, 1.0 - gl_FragCoord.y / uViewport.y);
+          vec2 p = (screen - uReadingRect.xy) / uReadingRect.zw;
+          float title = clearArea(p, vec2(0.5, mix(0.18, 0.345, uIntro)), vec2(0.43, mix(0.105, 0.155, uIntro)), 0.10);
+          float caption = clearArea(p, vec2(0.5, mix(0.875, 0.715, uIntro)), vec2(0.43, 0.075), 0.10);
+          float figure = clearArea(p, vec2(0.5, 0.525), vec2(0.22, 0.20), 0.16) * (1.0 - uIntro);
+          float quiet = max(max(title, caption) * 0.995, figure * 0.88);
+          a *= 1.0 - quiet * uQuiet;
+        }
         else a *= 1.0-0.9*uQuiet*(1.0-vNear);
         if (vKind > 0.5) a *= mix(1.0, sampleColor.a * smoothstep(0.5, 0.9, vRead), uCutout);
         gl_FragColor = vec4(c * a, a);
@@ -275,7 +288,7 @@ export function startFlight(THREE, { root, stage, photo, content }) {
       const approach=smooth(travel,c.readEntry-300,c.readEntry);
       const departure=1-smooth(travel,c.readEnd,c.readEnd+310);
       const weight=approach*departure;
-      readingWeights[c.i]=weight;focus=Math.max(focus,weight);
+      readingWeights[c.i]=weight;
       const depth=c.d-dist,k=c.d/D0;
       const naturalX=c.x*k,naturalY=(c.y+Y0)*k;
       const centreY=(H/2-readingCentre)*2*depth*tanHalf/H;
@@ -283,6 +296,15 @@ export function startFlight(THREE, { root, stage, photo, content }) {
       c.screenWorldY=naturalY*(1-weight)+(lat.y+centreY)*weight;
       vP.set(c.screenWorldX,c.screenWorldY,-c.d);vS.set(c.h,c.h,1);
       mesh.setMatrixAt(c.i,m4.compose(vP,q,vS));
+      if(weight > focus && depth > 0){
+        focus=weight;
+        const pixelsPerUnit=H/(2*depth*tanHalf);
+        const side=c.h*pixelsPerUnit;
+        const left=W/2+(c.screenWorldX-lat.x)*pixelsPerUnit-side/2;
+        const top=H/2-(c.screenWorldY-lat.y)*pixelsPerUnit-side/2;
+        uniforms.uReadingRect.value.set(left/W,top/H,side/W,side/H);
+        uniforms.uIntro.value=list[c.piece].intro?1:0;
+      }
     }
     uniforms.uQuiet.value=focus;
     geo.attributes.aRead.needsUpdate=true;mesh.instanceMatrix.needsUpdate=true;
@@ -380,7 +402,7 @@ export function startFlight(THREE, { root, stage, photo, content }) {
 
   addEventListener('resize', () => {
     fit();
-    renderer.setSize(W, H); camera.aspect = W / H; camera.fov = fov; camera.updateProjectionMatrix();
+    renderer.setSize(W, H); renderer.getDrawingBufferSize(uniforms.uViewport.value); camera.aspect = W / H; camera.fov = fov; camera.updateProjectionMatrix();
     measureReadingZone();
     grow = -1; place(smooth(dist, 0, 220));
   });
