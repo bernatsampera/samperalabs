@@ -27,6 +27,13 @@ const pieces = portfolioCards();
   </div>
 </div>
 
+<noscript>
+  <style is:inline>
+    .flight .flight-reading { display: block; }
+    .flight .flight-figure, .flight .flight-intro { display: none; }
+  </style>
+</noscript>
+
 <script>
   import * as THREE from 'three';
   import { startFlight } from './information-flight.js';
@@ -72,11 +79,12 @@ const pieces = portfolioCards();
 </script>
 
 <style is:global>
-  .flight-reading { position:absolute; inset:120px 24px 190px; overflow:auto; max-width:680px; margin:auto; padding:24px; background:var(--color-paper); z-index:3; }
+  .flight-reading { display:none; position:absolute; inset:120px 24px 190px; overflow:auto; max-width:680px; margin:auto; padding:24px; background:var(--color-paper); z-index:3; }
+  .flight.reading .flight-reading { display:block; }
   .flight-reading section { margin-bottom:32px; }
   .flight-reading h2 { font:700 32px/1.1 var(--font-sans); margin-bottom:12px; }
   .flight-reading p { font:400 18px/1.5 var(--font-sans); }
-  .flight.ready .flight-reading { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); }
+  .flight.ready .flight-reading { display:block; position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); }
   .flight.reading .flight-figure,.flight.reading .flight-intro { display:none; }
   @media(max-width:809px){.flight-reading{inset:85px 12px 180px;padding:16px;}}
 
