@@ -180,7 +180,7 @@ export function startFlight(THREE, { root, stage, photo, content }) {
   geo.setAttribute('aId', new THREE.InstancedBufferAttribute(aId, 1));
   const readingWeights=new Float32Array(N);
   geo.setAttribute('aRead',new THREE.InstancedBufferAttribute(readingWeights,1));
-  const uniforms = { uMap: { value: tex }, uGrid: { value: new THREE.Vector2(ACOLS, AROWS) }, uShift: { value: 1 }, uBlur: { value: 1 }, uSlot: { value: SLOT }, uFill: { value: 1 }, uHover: { value: -1 }, uDim: { value: 1 }, uCutout: { value: 0 }, uQuiet: { value: 0 }, uViewport: { value: renderer.getDrawingBufferSize(new THREE.Vector2()) }, uReadingRect: { value: new THREE.Vector4(0, 0, 1, 1) }, uIntro: { value: 0 } };
+  const uniforms = { uMap: { value: tex }, uGrid: { value: new THREE.Vector2(ACOLS, AROWS) }, uShift: { value: 1 }, uBlur: { value: 1 }, uSlot: { value: SLOT }, uFill: { value: 1 }, uHover: { value: -1 }, uDim: { value: 1 }, uCutout: { value: 0 }, uQuiet: { value: 0 }, uViewport: { value: renderer.getDrawingBufferSize(new THREE.Vector2()) }, uReadingRect: { value: new THREE.Vector4(0, 0, 1, 1) } };
   const mat = new THREE.ShaderMaterial({
     uniforms, transparent: true, depthTest: false, depthWrite: false,
     blending: THREE.CustomBlending, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor,
@@ -206,13 +206,8 @@ export function startFlight(THREE, { root, stage, photo, content }) {
       }`,
     fragmentShader: `
       precision highp float;
-      uniform vec2 uViewport; uniform vec4 uReadingRect; uniform float uIntro; uniform float uQuiet; uniform float uCutout; uniform sampler2D uMap; uniform float uShift; uniform float uFill; uniform float uDim;
+      uniform vec2 uViewport; uniform vec4 uReadingRect; uniform float uQuiet; uniform float uCutout; uniform sampler2D uMap; uniform float uShift; uniform float uFill; uniform float uDim;
       varying vec2 vUv; varying vec2 vLocal; varying float vFade; varying float vTone; varying float vBias; varying float vNear; varying float vKind; varying float vHover; varying float vRead;
-      // Soft clear areas follow the text and figure, rather than clearing the whole field.
-      float clearArea(vec2 p, vec2 centre, vec2 halfSize, float feather) {
-        vec2 outside = max(abs(p - centre) - halfSize, 0.0);
-        return 1.0 - smoothstep(0.0, feather, length(outside));
-      }
       void main() {
         vec4 sampleColor = texture2D(uMap, vUv, vBias);
         vec3 c = sampleColor.rgb;
@@ -227,10 +222,10 @@ export function startFlight(THREE, { root, stage, photo, content }) {
         if (vKind < 0.5) {
           vec2 screen = vec2(gl_FragCoord.x / uViewport.x, 1.0 - gl_FragCoord.y / uViewport.y);
           vec2 p = (screen - uReadingRect.xy) / uReadingRect.zw;
-          float title = clearArea(p, vec2(0.5, mix(0.18, 0.345, uIntro)), vec2(0.43, mix(0.105, 0.155, uIntro)), 0.10);
-          float caption = clearArea(p, vec2(0.5, mix(0.875, 0.715, uIntro)), vec2(0.43, 0.075), 0.10);
-          float figure = clearArea(p, vec2(0.5, 0.525), vec2(0.22, 0.20), 0.16) * (1.0 - uIntro);
-          float quiet = max(max(title, caption) * 0.995, figure * 0.88);
+          // One continuous, broad fade, with no separate text bands.
+          vec2 q = abs(p - vec2(0.5, 0.51)) / vec2(0.61, 0.76);
+          float radius = pow(q.x, 4.0) + pow(q.y, 4.0);
+          float quiet = 0.995 * exp(-0.55 * radius * radius);
           a *= 1.0 - quiet * uQuiet;
         }
         else a *= 1.0-0.9*uQuiet*(1.0-vNear);
@@ -303,7 +298,6 @@ export function startFlight(THREE, { root, stage, photo, content }) {
         const left=W/2+(c.screenWorldX-lat.x)*pixelsPerUnit-side/2;
         const top=H/2-(c.screenWorldY-lat.y)*pixelsPerUnit-side/2;
         uniforms.uReadingRect.value.set(left/W,top/H,side/W,side/H);
-        uniforms.uIntro.value=list[c.piece].intro?1:0;
       }
     }
     uniforms.uQuiet.value=focus;
