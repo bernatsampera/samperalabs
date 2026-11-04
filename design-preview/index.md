@@ -1,5 +1,7 @@
 # Design preview
 
+- [header-study.html](header-study.html): Interactive header comparison with a revised Work header and a Project view without the site header.
+
 - [portfolio-soft.html](portfolio-soft.html): Local preview of one broad continuous fade behind the approved portrait pieces.
 - [build-portfolio-soft.mjs](build-portfolio-soft.mjs): Builds the local soft-fade preview without changing the production renderer.
 

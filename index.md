@@ -1,5 +1,7 @@
 # SamperaLabs navigation
 
+- [design-preview/header-study.html](design-preview/header-study.html): Interactive header comparison with a revised Work header and a Project view without the site header.
+
 - [src/pages/work.astro](src/pages/work.astro): Project overview with MAAT, gcontext, related articles, and side projects.
 - [src/components/elements/Header.astro](src/components/elements/Header.astro): Shared desktop and phone navigation for all public page layouts.
 - [src/lib/ask/content.ts](src/lib/ask/content.ts): Structured Jev answers, main next actions, and shared project cards.

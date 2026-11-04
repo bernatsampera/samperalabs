@@ -49,8 +49,7 @@
   const CHEV_R = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
   const isPhone = () => innerWidth < 720;
   // Short landscape screens (a phone on its side): vertical path on the left, card on the right.
-  const headerHeight = () => document.querySelector('.site-nav')?.getBoundingClientRect().height || 0;
-  const viewHeight = () => innerHeight - headerHeight();
+  const viewHeight = () => innerHeight;
   const isSide = () => !isPhone() && viewHeight() < 560;
   const isVert = () => isPhone() || isSide();
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
@@ -471,7 +470,7 @@
       const r = li.getBoundingClientRect();
       const rad = isPhone() ? 16 : 20;
       anims.push(L.el.animate([
-        {clipPath: `inset(${r.top - headerHeight()}px ${W - r.right}px ${innerHeight - r.bottom}px ${r.left}px round ${rad}px)`},
+        {clipPath: `inset(${r.top}px ${W - r.right}px ${innerHeight - r.bottom}px ${r.left}px round ${rad}px)`},
         {clipPath: 'inset(0px 0px 0px 0px round 0px)'},
       ], {duration: 950, easing: CINE, fill: 'backwards'}));
       anims.push(L.wrap.animate([{opacity: 0, transform: 'translateY(24px) scale(.96)'}, {opacity: 1, transform: 'none'}], {duration: 800, delay: 250, easing: OUT, fill: 'backwards'}));
@@ -545,7 +544,7 @@
       const rad = isPhone() ? 16 : 20;
       anims.push(L.el.animate([
         {clipPath: 'inset(0px 0px 0px 0px round 0px)'},
-        {clipPath: `inset(${r.top - headerHeight()}px ${W - r.right}px ${innerHeight - r.bottom}px ${r.left}px round ${rad}px)`},
+        {clipPath: `inset(${r.top}px ${W - r.right}px ${innerHeight - r.bottom}px ${r.left}px round ${rad}px)`},
       ], {duration: 800, delay: 120, easing: CINE, fill: 'forwards'}));
       anims.push(L.wrap.animate([{opacity: 1}, {opacity: 0}], {duration: 400, easing: 'ease-in', fill: 'forwards'}));
       anims.push(home.animate([{transform: 'scale(.97)', opacity: .7}, {transform: 'none', opacity: 1}], {duration: 900, easing: CINE, fill: 'backwards'}));
