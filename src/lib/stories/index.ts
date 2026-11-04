@@ -22,7 +22,8 @@ export function clientData(story: Story) {
   const used = new Set(story.chapters.map((c) => c.icon));
   return {
     journey: {id: story.slug, name: story.name, mission: story.mission, context: story.context},
-    seasons: story.parts.map(({id, name, mission, from, to, status}) => ({id, name, mission, from, to, status})),
+    overview: story.overview,
+    seasons: story.parts.map(({id, name, mission, summary, from, to, status}) => ({id, name, mission, summary, from, to, status})),
     chapters: story.chapters.map(({part, ...c}) => ({...c, season: part})),
     icons: Object.fromEntries(Object.entries(icons).filter(([name]) => used.has(name as keyof typeof icons))),
   };

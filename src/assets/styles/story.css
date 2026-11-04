@@ -266,3 +266,76 @@ html[data-view="season"] .site-nav { display: none; }
   .stop.pulse::after { animation: none; }
   .entry, .stop .dot, .marker { transition-duration: 1ms !important; }
 }
+
+/* MAAT overview: visual work cards above a shared time axis. */
+.visual-overview .h-top, .visual-overview .h-main { width: min(1200px, 100% - 48px); }
+.visual-overview .h-top { height: 44px; }
+.visual-overview .h-main { display: grid; grid-template-rows: auto minmax(min-content, 1fr); max-height: 920px; padding: 8px 4px 16px; gap: 16px; }
+.visual-overview .hero { display: grid; grid-template-columns: .85fr 1.15fr; align-items: start; gap: 32px; }
+.role-heading { min-width: 0; }
+.role-meta { margin: 8px 0 0; color: var(--slate); font-size: 13px; line-height: 20px; }
+.role-summary { min-width: 0; }
+.role-transition { margin: 8px 0 0; color: var(--ink); font-size: 14px; line-height: 20px; }
+.visual-overview .h-title { font-size: clamp(32px, 3vw, 40px); line-height: 1.1; letter-spacing: -1px; margin: 0; }
+.visual-overview .h-context { display: block; margin: 0; font-size: 15px; line-height: 23px; }
+.work-map { display: grid; grid-template-rows: minmax(min-content, 1fr) auto; gap: 16px; }
+.visual-overview .seasons { grid-template-rows: auto minmax(32px, 1fr) auto auto auto; column-gap: 16px; row-gap: 8px; }
+.visual-overview .entry { display: grid; grid-row: 1 / -1; grid-template-rows: subgrid; padding: 16px; border-radius: 16px; background: var(--paper); transition: box-shadow 200ms, background-color 200ms; }
+.work-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.work-number { display: grid; place-items: center; width: 24px; height: 24px; border: 1px solid var(--rule); border-radius: 50%; color: var(--ink); font: 500 12px/1 var(--font); font-variant-numeric: tabular-nums; }
+.work-audience { color: var(--slate); font-size: 12px; line-height: 18px; }
+.work-scene { display: grid; place-items: center; min-height: 32px; min-width: 0; border-radius: 12px; background: var(--panel); overflow: hidden; }
+.work-scene > svg { display: block; width: 100%; height: 100%; max-height: 180px; min-height: 0; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.scene-paper { fill: var(--paper); stroke: var(--rule); stroke-width: 1.5; }
+.scene-detail { stroke: var(--slate); stroke-width: 2; }
+.scene-flow { stroke: var(--slate); stroke-width: 1.5; }
+.scene-fill { fill: var(--ink); }
+.visual-overview .e-name { margin: 0; font-size: 23px; line-height: 28px; letter-spacing: -.5px; }
+.work-summary { margin: 0; font-size: 14px; line-height: 20px; color: var(--graphite); }
+.visual-overview .enter { align-self: stretch; justify-content: space-between; min-height: 36px; padding: 8px 0 0; border: 0; border-top: 1px solid var(--rule-soft); border-radius: 0; background: transparent; }
+.visual-overview .enter svg { width: 28px; height: 28px; padding: 7px; border-radius: 50%; background: var(--canvas); transition: background-color 200ms, color 200ms; }
+.visual-overview .entry.hot { transform: none; box-shadow: inset 0 0 0 1.5px var(--ink); }
+.visual-overview .entry.hot .enter { color: var(--ink); background: transparent; }
+.visual-overview .entry.hot .enter svg { color: var(--paper); background: var(--ink); }
+.visual-overview .entry:active { background: var(--panel); }
+.visual-overview .chart { padding: 8px 16px; border-radius: 12px; background: var(--panel); }
+.visual-overview .ruler { height: 20px; }
+.timeline-year { padding-left: 8px; font-size: 12px; line-height: 18px; color: var(--slate); font-variant-numeric: tabular-nums; }
+.visual-overview .lane { width: 100%; min-height: 44px; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; transition: background-color 200ms; }
+.visual-overview .lane.hot, .visual-overview .lane:active { background: var(--rule); }
+.visual-overview .lane-name { font-size: 13px; gap: 8px; }
+.visual-overview .lane-name i { width: 22px; height: 22px; font-size: 11px; }
+.visual-overview .top-now { display: none; }
+@media (max-width: 999px) {
+  .visual-overview .h-main { display: flex; max-height: none; padding-top: 8px; gap: 24px; }
+  .visual-overview .hero { display: flex; flex-direction: column; align-items: start; gap: 20px; flex: none; }
+  .visual-overview .h-title { font-size: 36px; letter-spacing: -1px; }
+  .visual-overview .h-context { max-width: 640px; }
+  .work-map { flex: none; gap: 24px; }
+  .visual-overview .seasons { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; }
+  .visual-overview .entry { grid-row: auto; grid-template-rows: auto auto auto auto; grid-template-columns: minmax(0, 1fr) minmax(80px, .65fr); gap: 16px; padding: 20px; }
+  .work-card-heading { grid-column: 1 / -1; }
+  .work-scene { grid-column: 2; grid-row: 2; align-self: center; }
+  .work-scene > svg { height: auto; aspect-ratio: 280 / 168; }
+  .visual-overview .e-name { grid-column: 1; grid-row: 2; font-size: 22px; line-height: 27px; }
+  .work-summary { grid-column: 1 / -1; grid-row: 3; font-size: 16px; line-height: 24px; }
+  .visual-overview .enter { grid-column: 1 / -1; min-height: 44px; }
+  .visual-overview .chart { padding: 12px 8px; }
+}
+@media (max-width: 719px) {
+  .visual-overview .h-top, .visual-overview .h-main { width: calc(100% - 32px); }
+  .visual-overview .ruler, .visual-overview .lane { grid-template-columns: 34px minmax(0, 1fr); }
+  .visual-overview .timeline-year { padding-left: 0; font-size: 10px; }
+  .visual-overview .lane-name { font-size: 0; gap: 0; }
+  .visual-overview .lane-name i { font-size: 11px; }
+  .visual-overview .lane + .lane { margin-top: 8px; }
+}
+@media (min-width: 1000px) and (max-height: 820px) {
+  .visual-overview .h-top { height: 40px; }
+  .visual-overview .h-main { gap: 12px; padding-bottom: 8px; }
+  .work-map { gap: 12px; }
+  .visual-overview .entry { padding: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .visual-overview .enter svg, .visual-overview .lane { transition: none; }
+}

@@ -1,5 +1,11 @@
 # Design preview
 
+- [maat-page-preview.html](maat-page-preview.html): One MAAT page with a shared month axis, brief project introductions, alternating work cards, and continuous path progress.
+
+- [maat-journey-options.html](maat-journey-options.html): Two MAAT journey options with natural scrolling, distinct project headings, embedded visuals, and working card previews.
+
+- [maat-chapter-options.html](maat-chapter-options.html): Standalone MAAT chapter preview with three layouts, project selection, process steps, and embedded product images.
+
 - [header-study.html](header-study.html): Interactive header comparison with a revised Work header and a Project view without the site header.
 
 - [portfolio-soft.html](portfolio-soft.html): Local preview of one broad continuous fade behind the approved portrait pieces.

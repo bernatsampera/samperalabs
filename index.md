@@ -1,5 +1,22 @@
 # SamperaLabs navigation
 
+- [src/layouts/StoryLayout.astro](src/layouts/StoryLayout.astro): Shared MAAT and gcontext page with an introduction, parallel timeline, and visible work cards along a journey.
+- [src/components/story/StoryVisual.astro](src/components/story/StoryVisual.astro): Shared card images, process diagrams, and accessible visual descriptions.
+- [src/assets/styles/story-journey.css](src/assets/styles/story-journey.css): Responsive journey layout with project starts on the left and consistent work cards.
+- [src/scripts/story-journey.js](src/scripts/story-journey.js): Smooth path geometry and scroll progress that reaches the final stop at the bottom.
+- [src/lib/stories/visuals.ts](src/lib/stories/visuals.ts): Static SVG drawings for MAAT and gcontext work cards.
+- [src/lib/stories/gcontext.ts](src/lib/stories/gcontext.ts): gcontext project stages, work summaries, diagrams, dates, and article links.
+
+- [design-preview/maat-page-preview.html](design-preview/maat-page-preview.html): Combined MAAT mock with a parallel project timeline, short project introductions, alternating cards, and continuous progress along the path.
+
+- [design-preview/maat-journey-options.html](design-preview/maat-journey-options.html): Interactive comparison of a scrolling MAAT path with a fixed detail card and a path with expandable previews.
+
+- [src/scripts/maat-journey.js](src/scripts/maat-journey.js): Previous MAAT island journey renderer, retained for reference.
+- [src/assets/styles/maat-journey.css](src/assets/styles/maat-journey.css): Previous island journey styles, retained for reference.
+- [src/lib/stories/maat.ts](src/lib/stories/maat.ts): MAAT overview and work descriptions based on project notes and article sources.
+
+- [design-preview/maat-chapter-options.html](design-preview/maat-chapter-options.html): Three interactive layout options for MAAT project chapters, with embedded images and fonts.
+
 - [design-preview/header-study.html](design-preview/header-study.html): Interactive header comparison with a revised Work header and a Project view without the site header.
 
 - [src/pages/work.astro](src/pages/work.astro): Project overview with MAAT, gcontext, related articles, and side projects.

@@ -1,33 +1,109 @@
 ---
 import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/elements/Header.astro';
-import {clientData, type Story} from '~/lib/stories';
-import '~/assets/styles/story.css';
+import StoryVisual from '~/components/story/StoryVisual.astro';
+import {partChapters, monthYear, type Story} from '~/lib/stories';
+import {icons} from '~/lib/stories/icons';
+import '~/assets/styles/story-journey.css';
 
-// A full-screen story page: overview (timeline and part cards), then the guided path through each part.
-// Approved design: design-preview/design-system/clean/maat.html. Script: src/scripts/story.js.
-export interface Props {
-  story: Story;
-}
+export interface Props { story: Story }
 const {story} = Astro.props;
 const metadata = {title: story.name, description: `${story.mission} ${story.context}`};
-const data = JSON.stringify(clientData(story)).replace(/</g, '\\u003c');
+const parts = [...story.parts].sort((a, b) => a.id - b.id);
+const indexOfMonth = (date: string) => {
+  const [year, month] = date.split('-').map(Number);
+  return year * 12 + month - 1;
+};
+const first = Math.min(...parts.map(part => indexOfMonth(part.from)));
+const last = Math.max(...parts.map(part => indexOfMonth(part.to || part.from)), ...story.chapters.map(chapter => indexOfMonth(chapter.date)));
+const count = last - first + 1;
+const months = Array.from({length: count}, (_, index) => {
+  const date = `${Math.floor((first + index) / 12)}-${String((first + index) % 12 + 1).padStart(2, '0')}`;
+  return {date, label: monthYear(date).split(' ')[0]};
+});
+const firstYear = Math.floor(first / 12);
+const lastYear = Math.floor(last / 12);
+const years = firstYear === lastYear ? String(firstYear) : `${firstYear} - ${lastYear}`;
+const lastPart = parts.at(-1);
+const lastChapter = lastPart ? partChapters(story, lastPart).at(-1)?.id : undefined;
 ---
 
 <Layout metadata={metadata}>
-  <Header />
-  <div class="home" id="home">
-    <header class="h-top">
-      <a class="back" href="/work"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg><span>All work</span></a>
-      <button type="button" class="btn btn-line top-now" data-act="now">Newest chapter</button>
+  <div class="story-page" id="story-top" data-story={story.slug}>
+    <a class="skip" href="#journey">Skip to the work</a>
+    <header class="page-nav">
+      <div class="nav-inner">
+        <div class="brand-group">
+          <a class="story-back" href="/work" aria-label="All work"><svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5m6-6-6 6 6 6" /></svg></a>
+          <a class="brand" href="#story-top">{story.name}</a>
+        </div>
+        <nav class="area-nav" aria-label="Work areas">
+          {parts.map(part => <a href={`#part-${part.id}`} data-part={part.id}>{part.name}</a>)}
+        </nav>
+      </div>
     </header>
-    <main class="h-main" id="h-main"></main>
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <h1 id="page-title">{story.overview?.title || story.mission}</h1>
+        <p>{story.overview?.introduction || story.context}</p>
+      </section>
+      <nav class="overview" aria-label={`${story.name} project timeline`}>
+        <div class="parallel-timeline">
+          <div class="time-ruler" aria-hidden="true">
+            <span class="time-year">{years}</span>
+            <div class="time-months" style={`grid-template-columns:repeat(${count},minmax(0,1fr))`}>
+              {months.map((month, index) => <span data-phone-hidden={index % 2 === 1 && index !== count - 1 ? '' : undefined}>{month.label}</span>)}
+            </div>
+          </div>
+          <div class="time-lanes">
+            {parts.map(part => {
+              const start = (indexOfMonth(part.from) - first + .18) / count * 800;
+              const end = part.to ? (indexOfMonth(part.to) - first + .85) / count * 800 : 780;
+              return <a class="time-lane" href={`#part-${part.id}`} aria-label={`${part.name}, ${monthYear(part.from)} to ${part.to ? monthYear(part.to) : 'ongoing'}`}>
+                <span>{part.name}</span>
+                <svg viewBox="0 0 800 44" preserveAspectRatio="none" aria-hidden="true">
+                  {months.map((_, index) => <path class="time-grid" d={`M${index / count * 800} 0v44`} vector-effect="non-scaling-stroke" />)}
+                  <path class="time-period" d={`M${start} 22H${end}`} vector-effect="non-scaling-stroke" />
+                  {!part.to && <path class="time-arrow" d="m777 17 9 5-9 5" vector-effect="non-scaling-stroke" />}
+                </svg>
+              </a>;
+            })}
+          </div>
+        </div>
+      </nav>
+      <div class="journey" id="journey">
+        <svg class="route" aria-hidden="true"><path class="route-base" /><path class="route-read" /><circle class="route-cursor" r="5" /></svg>
+        {parts.map(part => <section class="work-area" id={`part-${part.id}`} aria-labelledby={`title-${part.id}`}>
+          <header class="area-header">
+            <h2 class="area-title" id={`title-${part.id}`}>{part.name}</h2>
+            <p class="area-intro">{part.introduction || part.summary || part.mission}</p>
+          </header>
+          {partChapters(story, part).map((chapter, index) => <div class="work-step" id={chapter.id} data-part={part.id} data-side={index % 2 === 0 ? 'left' : 'right'}>
+            <span class="marker">
+              <svg viewBox="0 0 64 64" aria-hidden="true" set:html={icons[chapter.icon]} />
+              {chapter.id === lastChapter && <svg class="finish-check" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4 10-10" /></svg>}
+            </span>
+            <article class="work-card" aria-labelledby={`work-${chapter.id}`}>
+              <div class="card-copy">
+                <h3 id={`work-${chapter.id}`}>{chapter.short}</h3>
+                <p>{chapter.preview || chapter.simple.join(' ')}</p>
+                {chapter.detail?.metric && <div class="metric" aria-label={`${chapter.detail.metric.label}: ${chapter.detail.metric.before} reduced to ${chapter.detail.metric.after}`}>
+                  <span>~{chapter.detail.metric.before}</span>
+                  <svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+                  <b>~{chapter.detail.metric.after}</b>
+                </div>}
+                {chapter.article && <a class="article-link" href={chapter.article.href}>
+                  Read the article<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+                </a>}
+              </div>
+              <StoryVisual chapter={chapter} />
+            </article>
+          </div>)}
+        </section>)}
+      </div>
+    </main>
   </div>
-  <div id="layers"></div>
-  <div id="live" class="sr-only" aria-live="polite"></div>
-  <script type="application/json" id="story-data" set:html={data} />
 </Layout>
 
 <script>
-  import '../scripts/story.js';
+  import '../scripts/story-journey.js';
 </script>

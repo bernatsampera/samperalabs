@@ -1,5 +1,7 @@
 // A story page (/maat, /gcontext). Ported from the approved design-preview/design-system/clean/maat.html.
 // The flow and motion are the accepted flyover-2 flow. Data comes from src/lib/stories, via StoryLayout.astro.
+import {createMaatJourney} from './maat-journey';
+
 (() => {
   'use strict';
   const G = JSON.parse(document.getElementById('story-data').textContent);
@@ -10,6 +12,7 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const month = ym => { const [y, m] = ym.split('-').map(Number); return MONTHS[m - 1] + ' ' + y; };
+  const chapterDate = c => c.dateLabel || month(c.date);
   const monthIdx = ym => { const [y, m] = ym.split('-').map(Number); return y * 12 + m - 1; };
   const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
   const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
@@ -69,7 +72,42 @@
 
   // ---------- Start screen ----------
   const home = $('#home'), hMain = $('#h-main'), layersEl = $('#layers'), live = $('#live');
-  // Overview: a simple timeline of the parts, then one card per part.
+  const visualOverview = G.journey.id === 'maat';
+  home.classList.toggle('visual-overview', visualOverview);
+  const maatJourney = visualOverview ? createMaatJourney({
+    seasons, icons: G.icons, host: layersEl, live,
+    onOpen() {
+      finishRunning();
+      home.classList.add('away');
+      home.inert = true;
+      root.dataset.state = 'idle';
+    },
+    onClose() {
+      home.classList.remove('away');
+      home.inert = false;
+      root.dataset.view = 'home';
+      root.dataset.season = '';
+      root.dataset.step = '';
+      root.dataset.state = 'idle';
+    },
+  }) : null;
+  // Simplified diagrams of each work area, not product screenshots or real records.
+  const workScenes = [
+    `<g class="scene-paper"><rect x="22" y="34" width="76" height="96" rx="8"/><path d="M36 52h32M36 60h20"/><rect x="36" y="74" width="48" height="40" rx="3"/><path d="m40 106 12-14 10 8 8-12 10 18"/></g>
+     <path class="scene-flow" d="M108 82h32m-6-6 6 6-6 6"/>
+     <g class="scene-paper"><rect x="150" y="28" width="108" height="108" rx="8"/><path d="M150 52h108M174 52v84M202 52v84M230 52v84M150 80h108M150 108h108"/></g>
+     <g class="scene-fill"><rect x="179" y="58" width="18" height="16" rx="3"/><rect x="207" y="86" width="18" height="16" rx="3"/><rect x="235" y="114" width="18" height="16" rx="3"/></g>
+     <path class="scene-detail" d="M164 40h12M186 40h12"/>`,
+    `<path class="scene-flow" d="M140 53v24M51 101V77h178v24M140 77v24"/>
+     <g class="scene-paper"><rect x="103" y="18" width="74" height="38" rx="8"/><path d="M118 32h30M118 41h43"/>
+     <rect x="19" y="101" width="64" height="43" rx="7"/><rect x="108" y="101" width="64" height="43" rx="7"/><rect x="197" y="101" width="64" height="43" rx="7"/></g>
+     <g class="scene-detail"><path d="M33 115h20M33 125h34M122 115h20M122 125h34M211 115h20M211 125h34"/></g>
+     <circle class="scene-fill" cx="140" cy="77" r="5"/>`,
+    `<g class="scene-paper"><path d="M32 20h161a8 8 0 0 1 8 8v26a8 8 0 0 1-8 8H61L45 74V62H32a8 8 0 0 1-8-8V28a8 8 0 0 1 8-8Z"/><rect x="70" y="85" width="186" height="64" rx="8"/></g>
+     <path class="scene-detail" d="M41 36h101M41 46h67M86 102h48M86 113h35M86 124h42"/>
+     <g class="scene-fill"><rect x="159" y="117" width="15" height="18" rx="2"/><rect x="182" y="106" width="15" height="29" rx="2"/><rect x="205" y="96" width="15" height="39" rx="2"/></g>`,
+  ];
+  // Cards identify the work. The timeline below shows how the efforts overlap.
   let T = {first: 0, span: 1};
   const LANE_PAD = 10;
   let hoverBound = false;
@@ -79,11 +117,17 @@
     const span = lastM - first + 1;
     T = {first, span};
     const months = Array.from({length: span}, (_, i) => `<span class="m">${MONTHS[(first + i) % 12]}</span>`).join('');
-    const lanes = seasons.map(s => `<div class="lane" data-si="${s.si}" style="${vars(s)}">
+    const lanes = seasons.map(s => `<${visualOverview ? 'button type="button" data-act="enter"' : 'div'} class="lane" data-si="${s.si}" style="${vars(s)}" ${visualOverview ? `aria-label="Open ${esc(s.name)}, ${dates(s)}"` : ''}>
         <span class="lane-name"><i>${s.si + 1}</i>${esc(s.name)}</span>
         <svg class="lane-svg" aria-hidden="true"></svg>
-      </div>`).join('');
-    const cards = seasons.map(s => `<li class="entry" data-si="${s.si}" style="${vars(s)}">
+      </${visualOverview ? 'button' : 'div'}>`).join('');
+    const cards = seasons.map(s => visualOverview ? `<li class="entry" data-si="${s.si}" style="${vars(s)}">
+        <div class="work-card-heading"><span class="work-number">0${s.si + 1}</span><span class="work-audience">${s.si === 2 ? 'For gym owners' : 'For the team'}</span></div>
+        <div class="work-scene" aria-hidden="true"><svg viewBox="0 0 280 168">${workScenes[s.si]}</svg></div>
+        <h2 class="e-name">${esc(s.name)}</h2>
+        <p class="work-summary">${esc(s.summary)}</p>
+        <button type="button" class="enter" data-act="enter" data-si="${s.si}" aria-label="Explore ${esc(s.name)}"><span>Explore</span>${CHEV_R}</button>
+      </li>` : `<li class="entry" data-si="${s.si}" style="${vars(s)}">
         <p class="e-when"><i>${s.si + 1}</i>${dates(s)}</p>
         <h2 class="e-name">${esc(s.name)}</h2>
         <p class="e-mission">${esc(s.mission)}</p>
@@ -93,7 +137,25 @@
           <button type="button" class="enter" data-act="enter" data-si="${s.si}" aria-label="Open ${esc(s.name)}">Open</button>
         </div>
       </li>`).join('');
-    hMain.innerHTML = `
+    const chart = `<div class="chart" role="group" aria-label="Timeline of the ${seasons.length} parts">
+        <div class="ruler" aria-hidden="true"><span class="timeline-year">${visualOverview ? seasons[0].from.slice(0, 4) : ''}</span><div class="months">${months}<span class="now">${visualOverview ? MONTHS[+latest.date.slice(5) - 1] : 'Now'}</span></div></div>
+        <div class="lanes">${lanes}</div>
+      </div>`;
+    hMain.innerHTML = visualOverview ? `
+      <section class="hero">
+        <div class="role-heading">
+          <h1 class="h-title" id="home-title" tabindex="-1">${esc(G.overview.title)}</h1>
+          <p class="role-meta">${esc(G.overview.role)}</p>
+        </div>
+        <div class="role-summary">
+          <p class="h-context">${esc(G.overview.introduction)}</p>
+          <p class="role-transition">${esc(G.overview.transition)}</p>
+        </div>
+      </section>
+      <section class="work-map" aria-label="MAAT work and timeline">
+        <ul class="seasons">${cards}</ul>
+        ${chart}
+      </section>` : `
       <section class="hero">
         <p class="eyebrow">${esc(G.journey.name)}, since ${month(seasons[0].from)}</p>
         <h1 class="h-title" id="home-title" tabindex="-1">${esc(G.journey.mission)}</h1>
@@ -103,16 +165,15 @@
           <button type="button" class="btn btn-line" data-act="now" id="btn-now">Go to the newest chapter</button>
         </div>
       </section>
-      <div class="chart" aria-label="Timeline of the ${seasons.length} parts">
-        <div class="ruler" aria-hidden="true"><span></span><div class="months">${months}<span class="now">Now</span></div></div>
-        <div class="lanes">${lanes}</div>
-      </div>
+      ${chart}
       <ul class="seasons">${cards}</ul>`;
     if (!hoverBound) {
       hoverBound = true;
       const hot = si => hMain.querySelectorAll('.lane, .entry').forEach(e => e.classList.toggle('hot', e.dataset.si === si));
       hMain.addEventListener('mouseover', e => { const t = e.target.closest('.lane, .entry'); hot(t ? t.dataset.si : null); });
       hMain.addEventListener('mouseleave', () => hot(null));
+      hMain.addEventListener('focusin', e => { const t = e.target.closest('.lane, .entry'); hot(t ? t.dataset.si : null); });
+      hMain.addEventListener('focusout', e => { const t = e.relatedTarget?.closest('.lane, .entry'); hot(t ? t.dataset.si : null); });
     }
     drawMinis();
     document.fonts.ready.then(drawMinis);
@@ -134,7 +195,7 @@
       const xs = [XM(s.from, .05)];
       s.chapters.forEach(c => xs.push(Math.max(XM(c.date, .5), xs[xs.length - 1] + 12)));
       const lastX = xs[xs.length - 1];
-      g += `<line x1="${xs[0]}" y1="${y}" x2="${lastX}" y2="${y}" stroke="${col}" stroke-width="2" stroke-linecap="round"/>`;
+      g += `<line x1="${xs[0]}" y1="${y}" x2="${lastX}" y2="${y}" stroke="${col}" stroke-width="${visualOverview ? 4 : 2}" stroke-linecap="round"/>`;
       if (s.status !== 'done') g += `<line x1="${lastX + 8}" y1="${y}" x2="${nowX - 4}" y2="${y}" stroke="#9A9AA1" stroke-width="1.5" stroke-dasharray="1 5" stroke-linecap="round"/>`;
       xs.forEach((x, i) => {
         if (i === 0) g += `<circle cx="${x}" cy="${y}" r="3.5" fill="#FFFFFF" stroke="${col}" stroke-width="2"/>`;
@@ -143,7 +204,10 @@
       svg.innerHTML = g;
     });
     const ms = hMain.querySelectorAll('.months .m');
-    ms.forEach((m, i) => { m.style.left = X(i, 0) + 'px'; });
+    ms.forEach((m, i) => {
+      m.style.left = X(i, 0) + 'px';
+      if (visualOverview) m.hidden = (w / T.span < 36 && i % 2 !== 0) || i === T.span - 1;
+    });
     const now = hMain.querySelector('.months .now');
     if (now) now.style.left = nowX + 'px';
   }
@@ -186,7 +250,7 @@
     const stops = [];
     stops.push(`<button type="button" class="stop start" data-go="0" aria-label="Start, ${month(s.from)}"><span class="dot"></span><span class="lab"><b>Start</b><i>${month(s.from)}</i></span></button>`);
     s.chapters.forEach((c, i) => {
-      stops.push(`<button type="button" class="stop" data-go="${i + 1}" aria-label="Chapter ${i + 1}: ${esc(c.short)}, ${month(c.date)}"><span class="dot">${ICON(c.icon)}</span><span class="lab"><b>${esc(c.short)}</b><i>${month(c.date)}</i></span></button>`);
+      stops.push(`<button type="button" class="stop" data-go="${i + 1}" aria-label="Chapter ${i + 1}: ${esc(c.short)}, ${esc(chapterDate(c))}"><span class="dot">${ICON(c.icon)}</span><span class="lab"><b>${esc(c.short)}</b><i>${esc(chapterDate(c))}</i></span></button>`);
     });
     const dots = Array.from({length: n}, () => '<i></i>').join('');
     el.innerHTML = `
@@ -280,8 +344,9 @@
     // On the last chapter, Next opens the following part.
     const nextS = step === L.n - 1 ? seasons[L.si + 1] : null;
     L.next.disabled = step === L.n - 1 && !nextS;
+    const nextChapter = L.s.chapters[step];
     L.next.querySelector('span').textContent = nextS ? `Next: ${nextS.name}` : 'Next';
-    L.next.setAttribute('aria-label', nextS ? `Next part: ${nextS.name}` : 'Next chapter');
+    L.next.setAttribute('aria-label', nextS ? `Next part: ${nextS.name}` : `Next chapter${nextChapter ? ': ' + nextChapter.short : ''}`);
     L.dots.forEach((d, i) => { d.classList.toggle('on', i < step); d.classList.toggle('cur', i === step); });
     L.label.textContent = step === 0 ? 'Start' : `Chapter ${step} of ${L.s.chapters.length}`;
   }
@@ -330,6 +395,7 @@
       return;
     }
     if (m.phone) {
+
       const inner = node.querySelector('.card-in, .end-in');
       if (inner) inner.style.maxHeight = Math.max(160, m.H - m.bar - m.zoneTop) + 'px';
       return;
@@ -409,6 +475,7 @@
 
   // Move inside a season: the marker travels, the card changes. The camera does not move.
   function goStep(target) {
+    if (maatJourney?.isOpen) { maatJourney.go(target); return; }
     if (!cur) return;
     const L = cur;
     target = clamp(target, 0, L.n - 1);
@@ -443,6 +510,7 @@
 
   // Enter a season: the chosen entry grows into the full season. One move.
   function enterSeason(si, opts = {}) {
+    if (maatJourney) { maatJourney.open(si, opts); return; }
     finishRunning();
     const reduce = reduceMQ.matches;
     const target = opts.target || 0;
@@ -521,6 +589,7 @@
 
   // Back to the start screen: the season folds back into its entry.
   function exitHome() {
+    if (maatJourney?.isOpen) { maatJourney.close(); return; }
     if (!cur) return;
     finishRunning();
     const L = cur;
@@ -574,10 +643,11 @@
     else if (act === 'now') jumpNow();
     else if (act === 'exit') exitHome();
     else if (act === 'prev') goStep(cur.step - 1);
-    else if (act === 'next') { if (cur.step === cur.n - 1 && seasons[cur.si + 1]) enterSeason(cur.si + 1); else goStep(cur.step + 1); }
+    else if (act === 'next') { if (cur.step === cur.n - 1 && seasons[cur.si + 1]) enterSeason(cur.si + 1); else if (visualOverview && cur.step === cur.n - 1) exitHome(); else goStep(cur.step + 1); }
     else if (act === 'nextseason') { if (cur && seasons[cur.si + 1]) enterSeason(cur.si + 1); }
   });
   addEventListener('keydown', e => {
+    if (maatJourney?.isOpen) return;
     if (e.altKey || e.metaKey || e.ctrlKey) return;
     const t = e.target;
     if (e.defaultPrevented || t?.closest?.('.site-nav, dialog, input, textarea, select')) return;
@@ -606,9 +676,9 @@
   // Test hook for scripts/site-design-e2e.mjs.
   window.story = {
     seasons, latestSi, latestStep,
-    get view() { return cur ? 'season' : 'home'; },
-    get season() { return cur ? cur.si : -1; },
-    get step() { return cur ? cur.step : -1; },
+    get view() { return maatJourney?.isOpen || cur ? 'season' : 'home'; },
+    get season() { return maatJourney?.isOpen ? maatJourney.season : cur ? cur.si : -1; },
+    get step() { return maatJourney?.isOpen ? maatJourney.step : cur ? cur.step : -1; },
     enter: si => enterSeason(si), exit: exitHome, go: goStep, jumpNow,
   };
 
@@ -617,6 +687,7 @@
     try { await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))]); } catch (e) { /* fonts optional */ }
     buildHome();
     setView();
+    if (maatJourney?.followHash()) return;
     // A link to /<story>#part-N opens that part.
     const deep = seasons.findIndex(s => location.hash === '#part-' + s.id);
     if (deep >= 0) { setState('idle'); enterSeason(deep); return; }
