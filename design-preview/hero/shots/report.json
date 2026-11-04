@@ -1,0 +1,65 @@
+[
+  {
+    "name": "a-index",
+    "view": "desktop-idle",
+    "q": null,
+    "h1Top": 148,
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "name": "a-index",
+    "view": "desktop-agents",
+    "q": "How do you build AI agents?",
+    "h1Top": 148,
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "name": "a-index",
+    "view": "desktop-memory",
+    "q": "How should AI remember my work?",
+    "h1Top": 148,
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "name": "a-index",
+    "view": "desktop-unsure",
+    "q": "What did you build and write?",
+    "h1Top": 148,
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "name": "a-index",
+    "view": "laptop-idle",
+    "q": null,
+    "h1Top": 136,
+    "dockTop": 556,
+    "heroFits": false,
+    "overflow": false
+  },
+  {
+    "name": "a-index",
+    "view": "phone-idle",
+    "q": null,
+    "h1Top": 128,
+    "dockTop": 708,
+    "heroFits": false,
+    "overflow": false
+  },
+  {
+    "name": "a-index",
+    "view": "phone-agents",
+    "q": "How do you build AI agents?",
+    "h1Top": 128,
+    "dockTop": 708,
+    "heroFits": false,
+    "overflow": false
+  }
+]

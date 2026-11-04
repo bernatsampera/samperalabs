@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A story from Bernat Sampera's work and research.">
+  <title>Line Story | Bernat's Metro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="story-page">
+  <a class="skip-link" href="#story-line">Skip to the story</a>
+  <header id="story-strip" class="story-strip">
+    <div class="story-strip-top">
+      <a class="home-link" href="home.html">
+        <span aria-hidden="true">←</span> Network map
+      </a>
+      <div id="line-identity" class="line-identity"></div>
+      <button id="first-stop" class="first-stop" type="button">Go to the first station</button>
+    </div>
+    <nav id="mini-map" class="mini-map" aria-label="Chapter stations"></nav>
+  </header>
+
+  <main id="story-line" class="story-line">
+    <div id="train-marker" class="train-marker" aria-hidden="true">
+      <span></span><span></span>
+    </div>
+    <div id="chapters" class="chapters"></div>
+  </main>
+
+  <aside id="change-line" class="change-line"></aside>
+
+  <script src="../shared/data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

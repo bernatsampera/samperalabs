@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A workspace story by Bernat Sampera.">
+  <title>Island story</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,SOFT,WONK,wght@9..144,0..100,0..1,400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="islands.css">
+</head>
+<body data-page="story">
+  <a class="skip-link" href="#story-main">Skip to the story</a>
+  <nav class="story-bar" aria-label="Story controls">
+    <a class="home-link" href="home.html" aria-label="Return to the sea map">
+      <svg viewBox="0 0 48 32" aria-hidden="true"><path d="M4 18c7-5 15-7 23-6 7 1 12 4 17 9-9 5-18 7-27 5-5-1-10-4-13-8Z"/><path d="M24 12V3l10 6"/><circle cx="13" cy="19" r="2"/></svg>
+      Sea map
+    </a>
+    <button id="first-control" class="first-control" type="button">Start at the beginning</button>
+    <a id="other-island" class="other-link" href="#">Other island</a>
+  </nav>
+  <main id="story-main">
+    <header id="story-header" class="story-header"></header>
+    <div class="story-layout">
+      <aside id="mini-map" class="mini-map" aria-label="Chapter index"></aside>
+      <section id="trail" class="trail" aria-label="Chapters">
+        <svg class="trail-line" aria-hidden="true">
+          <defs><mask id="trail-reveal" maskUnits="userSpaceOnUse"><path id="trail-progress" class="trail-progress" pathLength="1"/></mask></defs>
+          <path class="trail-band"/>
+          <path class="trail-under"/>
+          <path class="trail-dots" mask="url(#trail-reveal)"/>
+        </svg>
+        <div id="chapters" class="chapters"></div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><a href="home.html">Return to the sea map</a></footer>
+  <script src="../shared/data.js"></script>
+  <script src="islands.js"></script>
+</body>
+</html>

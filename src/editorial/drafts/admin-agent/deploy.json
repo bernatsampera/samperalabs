@@ -1,0 +1,45 @@
+{
+  "assets": [
+    {
+      "file": "00-cover.png"
+    },
+    {
+      "file": "02-actions.png"
+    },
+    {
+      "file": "03-decision-generation.png"
+    },
+    {
+      "file": "04-widget-anatomy.png"
+    },
+    {
+      "file": "05-model-screening.png"
+    },
+    {
+      "file": "06-intent-map.png"
+    }
+  ],
+  "homepage": true,
+  "code_files": [
+    {
+      "path": "src/components/home/AgentTurnScene.astro",
+      "sha256": "4252ef71404e1754a3da160f38a192adcb8099dd3d7e10a980de3010d158ca19"
+    },
+    {
+      "path": "src/components/home/agent-turn-scene.svg",
+      "sha256": "e467d5fb0846995d22fcd5a5571091649942572523917245e273c5f05e54c491"
+    },
+    {
+      "path": "src/components/home/PostScene.astro",
+      "sha256": "54b2d3f24de7b6e402225fbea8e7ed6ef484f96891713879a15e3a8ddf89b3bf"
+    },
+    {
+      "path": "src/assets/styles/home.css",
+      "sha256": "01209b33e9094ab59edcce8d9e65835c2d059a7f2b0d2cd4ce06f7fb664b71b1"
+    },
+    {
+      "path": "src/lib/postPresentation.ts",
+      "sha256": "2dde5dfe2e7aa3ff382951c05ba87e6b7088317892adc56b0806ef12c26875a4"
+    }
+  ]
+}

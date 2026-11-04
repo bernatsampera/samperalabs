@@ -1,0 +1,118 @@
+{
+  "when": "2026-11-01T08:54:01.602Z",
+  "log": [
+    {
+      "shot": "scene-1.png",
+      "scrollY": 0,
+      "current": "Me",
+      "now": "",
+      "grow": "wait"
+    },
+    {
+      "shot": "scene-2.png",
+      "scrollY": 540,
+      "current": "MAAT",
+      "now": "MAAT",
+      "grow": null
+    },
+    {
+      "shot": "scene-3.png",
+      "scrollY": 1710,
+      "current": "AI has no memory",
+      "now": "AI has no memory",
+      "grow": null
+    },
+    {
+      "shot": "scene-4.png",
+      "scrollY": 2880,
+      "current": "How I think",
+      "now": "How I think",
+      "grow": null
+    },
+    {
+      "shot": "scene-5.png",
+      "scrollY": 3174,
+      "current": "Also built",
+      "now": "Also built",
+      "grow": null
+    },
+    {
+      "shot": "scene-2-3-mid.png",
+      "scrollY": 1260,
+      "current": "MAAT",
+      "now": "MAAT",
+      "grow": null
+    },
+    {
+      "shot": "scene-2-grow.png",
+      "scrollY": 540,
+      "current": "MAAT",
+      "now": "MAAT",
+      "grow": null
+    },
+    {
+      "shot": "phone first screen (no file)",
+      "scrollY": 0,
+      "current": "Me",
+      "now": "",
+      "grow": "wait"
+    },
+    {
+      "shot": "phone-maat.png",
+      "scrollY": 331,
+      "current": "MAAT",
+      "now": "MAAT",
+      "grow": null
+    },
+    {
+      "shot": "phone-memory.png",
+      "scrollY": 1515,
+      "current": "AI has no memory",
+      "now": "AI has no memory",
+      "grow": null
+    },
+    {
+      "shot": "rail click #memory (no file)",
+      "cueTop": 0,
+      "atBottom": false,
+      "current": "#memory",
+      "ok": true
+    },
+    {
+      "shot": "rail click #think (no file)",
+      "cueTop": 0,
+      "atBottom": false,
+      "current": "#think",
+      "ok": true
+    },
+    {
+      "shot": "rail click #maat (no file)",
+      "cueTop": 0,
+      "atBottom": false,
+      "current": "#maat",
+      "ok": true
+    },
+    {
+      "shot": "rail click #built (no file)",
+      "cueTop": 606,
+      "atBottom": true,
+      "current": "#built",
+      "ok": true
+    },
+    {
+      "shot": "rail click #me (no file)",
+      "cueTop": 0,
+      "atBottom": false,
+      "current": "#me",
+      "ok": true
+    },
+    {
+      "shot": "reduced-scene-2.png",
+      "scrollY": 540,
+      "current": "MAAT",
+      "now": "MAAT",
+      "grow": null
+    }
+  ],
+  "errors": []
+}

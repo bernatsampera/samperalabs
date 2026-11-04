@@ -1,0 +1,14 @@
+{
+  "title": "How we built the MAAT Admin Agent for gym owners",
+  "description": "How the MAAT Admin Agent reads the backend API through MCP-style actions, uses Jev for decisions before the AI model answers, shows widgets in the chat, runs a bench, and maps owner intents from real conversations.",
+  "author": "Bernat Sampera",
+  "slug": "how-we-built-the-maat-admin-agent",
+  "tags": [
+    "AI",
+    "agents"
+  ],
+  "status": "published",
+  "pub_date": "2026-10-16",
+  "image_url": null,
+  "image_alt": null
+}

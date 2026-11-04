@@ -1,0 +1,895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAAT | The journey, as a documentary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=IBM+Plex+Mono:wght@500;600&family=Nunito+Sans:opsz,wght@6..12,400..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FBF4E6; --ink: #233140; --ink-deep: #172029; --muted: #4E5B68;
+    --coral: #F0745A; --sun: #F6C445; --deep: #1F5F73; --teal: #2B8C96;
+    --gray: #A9B4BE; --mist: #D9E0E6;
+    --dock-h: 88px;
+    --pad-x: clamp(20px, 5.2vw, 84px);
+    --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --sans: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    --ph-dur: 700ms; --ph-ease: cubic-bezier(.77,0,.18,1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { background: var(--ink-deep); color: var(--paper); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+  h1, p, ol, figure, blockquote { margin: 0; }
+  ol { padding: 0; list-style: none; }
+  button { font: inherit; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  :focus-visible { outline: 3px solid var(--sun); outline-offset: 3px; }
+  .scene h1:focus { outline: none; }
+
+  /* Stage and scenes */
+  #stage { position: fixed; top: 0; left: 0; right: 0; bottom: var(--dock-h); overflow: hidden; background: var(--ink-deep); }
+  .scene { position: absolute; inset: 0; z-index: 0; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; background-color: var(--bg); color: var(--fg); }
+  .scene.dark { --fg: var(--paper); }
+  .scene.light { --fg: var(--ink); }
+  .edge { position: absolute; top: 0; bottom: 0; left: 0; width: 8px; z-index: 15; pointer-events: none; }
+
+  /* Mask reveal: an outer clip and an inner part that slides up */
+  .m { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .05em .14em; margin: 0 -.05em -.14em; }
+  .m.blk { display: block; }
+  .mi { display: inline-block; }
+  .m.blk > .mi { display: block; }
+  .ch { display: inline-block; white-space: pre; }
+  .w { display: inline-block; }
+
+  .slate { position: relative; z-index: 4; flex: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 24px var(--pad-x) 0; font: 600 12px/1.2 var(--mono); letter-spacing: .16em; text-transform: uppercase; }
+  .slate .brand { display: flex; align-items: center; gap: 12px; }
+  .slate .brand b { font-weight: 600; letter-spacing: .3em; }
+  .slate .brand span::before { content: ''; display: inline-block; width: 4px; height: 4px; margin-right: 12px; vertical-align: middle; border-radius: 50%; background: currentColor; }
+  .light .slate { color: var(--s-dark); }
+
+  .grain { position: absolute; inset: -80px; z-index: 1; pointer-events: none; opacity: .5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 -.22'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grain 1.1s steps(5) infinite; }
+  @keyframes grain { 0% { transform: translate(0, 0); } 20% { transform: translate(-22px, 14px); } 40% { transform: translate(16px, -24px); } 60% { transform: translate(-12px, -10px); } 80% { transform: translate(24px, 18px); } 100% { transform: translate(0, 0); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.7); } }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+
+  .pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px currentColor; font: 600 12px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .pill .pd { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); animation: pulse 1.8s cubic-bezier(.45,0,.55,1) infinite; }
+  .pill svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  .btn { display: inline-flex; align-items: center; gap: 12px; min-height: 54px; padding: 0 26px; border: 0; border-radius: 999px; cursor: pointer; font: 800 17px/1 var(--sans); transition: background-color .25s ease, box-shadow .25s ease; }
+  .btn svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s cubic-bezier(.16,1,.3,1); }
+  .btn:hover svg { transform: translateX(3px); }
+  .btn-primary { background: var(--coral); color: var(--ink); }
+  .btn-primary:hover { background: #F48A73; }
+  .btn-ghost { background: transparent; color: var(--paper); box-shadow: inset 0 0 0 1.5px rgba(251,244,230,.6); }
+  .btn-ghost:hover { box-shadow: inset 0 0 0 1.5px var(--paper); background: rgba(251,244,230,.06); }
+  .btn-ghost svg { fill: currentColor; stroke: none; }
+
+  /* Scene: intro, the cold open */
+  .rule { position: absolute; left: 0; right: 0; top: 64px; height: 1px; z-index: 2; background: rgba(251,244,230,.16); transform-origin: left center; }
+  .intro-body { position: relative; z-index: 2; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(32px, 5.5vw, 104px); align-items: end; align-content: center; padding: clamp(28px, 5vh, 56px) var(--pad-x) clamp(30px, 6.5vh, 68px); }
+  .kicker { font: 600 13px/1 var(--mono); letter-spacing: .3em; text-transform: uppercase; color: var(--sun); margin-bottom: clamp(18px, 3.4vh, 32px); }
+  .intro-title { font-family: var(--serif); font-weight: 600; font-size: clamp(42px, 7vw, 112px); line-height: .98; letter-spacing: -.025em; }
+  .intro-title em, .fin-title em { font-style: italic; font-weight: 500; color: var(--sun); }
+  .intro-context { margin-top: clamp(18px, 3.4vh, 34px); max-width: 38ch; font-size: clamp(17px, 1.45vw, 21px); line-height: 1.5; color: var(--mist); }
+  .intro-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: clamp(22px, 4.4vh, 44px); }
+  .guide-label { padding-bottom: 14px; border-bottom: 1px solid rgba(251,244,230,.14); font: 600 12px/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--gray); }
+  .ep { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 4px 18px; align-items: start; padding: 18px 0 18px 20px; border-bottom: 1px solid rgba(251,244,230,.12); }
+  .ep::before { content: ''; position: absolute; left: 0; top: 20px; bottom: 20px; width: 3px; background: var(--s-light); }
+  .ep-num { font: 600 44px/.9 var(--serif); color: var(--s-light); font-variant-numeric: lining-nums; }
+  .ep-name { display: block; font: 600 24px/1.15 var(--serif); color: var(--paper); }
+  .ep-mission { display: block; margin-top: 6px; font-size: 15px; line-height: 1.4; color: #C9D2DA; }
+  .ep-dates { display: block; margin-top: 8px; font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
+  .ep .pill { color: var(--paper); margin-top: 2px; }
+
+  /* Scene: season opener, the title sequence */
+  .bignum { position: absolute; right: -3vw; bottom: -14vh; z-index: 0; pointer-events: none; transform: translate3d(calc(var(--px, 0) * -36px), calc(var(--py, 0) * -36px), 0); transition: transform 1.4s cubic-bezier(.16,1,.3,1); }
+  .bignum-in { opacity: .13; }
+  .bignum span { display: block; font: 800 78vh/.8 var(--serif); letter-spacing: -.05em; color: var(--s-light); animation: drift 20s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  @keyframes drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-3.5%, -2.5%, 0); } }
+  .op-horizon { position: absolute; left: 0; right: 0; top: 56%; height: 1.5px; z-index: 2; background: var(--s-light); transform-origin: left center; }
+  .op-dot { position: absolute; top: 56%; left: calc(100% - var(--pad-x)); z-index: 3; width: 11px; height: 11px; margin: -5px 0 0 -5.5px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 5px rgba(240,116,90,.22); }
+  .op-top { position: absolute; z-index: 3; left: var(--pad-x); right: var(--pad-x); bottom: calc(44% + clamp(22px, 4vh, 40px)); }
+  .op-ep { margin-bottom: clamp(14px, 2.6vh, 26px); font: 600 15px/1 var(--mono); letter-spacing: .42em; text-transform: uppercase; }
+  .op-title { max-width: 12ch; font-family: var(--serif); font-weight: 600; font-size: clamp(54px, 10vw, 160px); line-height: .92; letter-spacing: -.035em; }
+  .op-title em { font-style: italic; font-weight: 500; color: var(--s-light); }
+  .op-bottom { position: absolute; z-index: 3; left: var(--pad-x); right: var(--pad-x); top: calc(56% + clamp(24px, 4.4vh, 44px)); display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
+  .op-label { font: 600 13px/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; }
+  .op-q { margin-top: 14px; max-width: 26ch; font: italic 400 clamp(26px, 2.8vw, 42px)/1.18 var(--serif); }
+  .op-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; padding-top: 2px; font: 500 14px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; text-align: right; }
+  .op-meta .pill { margin-top: 4px; }
+
+  /* Scene: chapter */
+  .ch-grid { position: relative; z-index: 2; flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 38fr) 2px minmax(0, 62fr); padding: 0 var(--pad-x); }
+  .ch-date { min-height: 0; display: flex; flex-direction: column; gap: 20px; padding: clamp(26px, 5.5vh, 56px) clamp(24px, 3.6vw, 60px) clamp(26px, 5.5vh, 56px) 0; color: var(--s-dark); }
+  .ch-when { margin: auto 0; }
+  .ch-when .m { padding-bottom: .26em; margin-bottom: -.26em; }
+  .ch-month { font: 700 clamp(96px, 12.5vw, 200px)/.84 var(--serif); letter-spacing: -.045em; }
+  .ch-year { margin-top: .06em; font: italic 400 clamp(44px, 5.6vw, 90px)/1 var(--serif); letter-spacing: -.02em; }
+  .ch-foot { display: flex; align-items: center; gap: 24px; }
+  .ch-icon { flex: none; width: clamp(96px, 9vw, 132px); }
+  .ch-icon svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .ch-icon .ring { fill: none; stroke: var(--s-dark); stroke-width: 1.1; }
+  .ch-icon .ic * { fill: none; stroke: var(--s-dark); stroke-width: 2.1; stroke-linecap: round; stroke-linejoin: round; }
+  .draw { stroke-dasharray: 1 1; stroke-dashoffset: 0; }
+  .ch-count { font: 600 15px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); }
+  .bars { display: flex; gap: 6px; margin-top: 12px; }
+  .bars i { width: 26px; height: 5px; border-radius: 1px; box-shadow: inset 0 0 0 1.5px var(--s-dark); transform-origin: left center; }
+  .bars i.on { background: var(--s-dark); }
+  .ch-divider { margin: clamp(30px, 6.5vh, 68px) 0; background: var(--s-dark); transform-origin: center top; }
+  .ch-text { min-height: 0; display: flex; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; padding: clamp(26px, 5.5vh, 56px) 0 clamp(26px, 5.5vh, 56px) clamp(32px, 5.4vw, 100px); }
+  .ch-inner { margin: auto 0; max-width: 660px; }
+  .here { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 20px; padding: 8px 13px 8px 11px; border-radius: 3px; background: var(--coral); color: var(--ink); font: 800 13px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+  .here i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink); animation: pulse 1.6s cubic-bezier(.45,0,.55,1) infinite; }
+  .ch-title { max-width: 18ch; font-family: var(--serif); font-weight: 600; font-size: clamp(32px, 3.7vw, 56px); line-height: 1.05; letter-spacing: -.02em; color: var(--ink); }
+  .ch-sents { margin-top: clamp(16px, 3.2vh, 30px); }
+  .ch-sents p { font-weight: 500; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.5; color: var(--ink); }
+  .ch-sents p + p { margin-top: .5em; }
+  .learned { position: relative; margin-top: clamp(20px, 3.8vh, 38px); padding: 26px 34px 30px; border-radius: 4px; background: var(--s-dark); color: var(--paper); }
+  .learned .qm { position: absolute; right: 22px; top: -4px; font: 600 128px/1 var(--serif); color: var(--s-light); }
+  .learned figcaption { font: 600 12px/1 var(--mono); letter-spacing: .22em; text-transform: uppercase; }
+  .learned blockquote { margin-top: 14px; padding-right: 48px; font: italic 500 clamp(23px, 2.3vw, 34px)/1.2 var(--serif); letter-spacing: -.01em; }
+  .read { margin-top: clamp(18px, 3.4vh, 30px); }
+  .read a { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); font: 800 17px/1.3 var(--sans); text-decoration: underline; text-decoration-color: var(--s-dark); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+  .read a svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s cubic-bezier(.16,1,.3,1); }
+  .read a:hover svg { transform: translateX(4px); }
+  .light a:focus-visible { outline-color: var(--s-dark); }
+  .article { margin-top: 8px; font-size: 14px; line-height: 1.4; color: var(--muted); }
+
+  /* Scene: season end, the end of an episode */
+  .lb { position: absolute; left: 0; right: 0; height: 7vh; z-index: 3; background: var(--ink-deep); }
+  .lb-t { top: 0; transform-origin: center top; box-shadow: inset 0 -1px 0 rgba(251,244,230,.1); }
+  .lb-b { bottom: 0; transform-origin: center bottom; box-shadow: inset 0 1px 0 rgba(251,244,230,.1); }
+  .end-body { position: relative; z-index: 4; flex: 1; min-height: 0; display: grid; place-items: center; padding: 0 var(--pad-x) 4vh; }
+  .end-card { width: 100%; max-width: 900px; margin: 0 auto; text-align: center; }
+  .end-head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: clamp(18px, 3.4vh, 30px); }
+  .end-mark { width: 52px; height: 52px; flex: none; overflow: visible; }
+  .end-mark .draw { fill: none; stroke: var(--s-light); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .end-mark .gapdot { fill: var(--coral); transform-box: fill-box; transform-origin: center; animation: pulse 1.6s cubic-bezier(.45,0,.55,1) infinite; }
+  .end-label { font: 600 13px/1 var(--mono); letter-spacing: .26em; text-transform: uppercase; }
+  .end-title { font-family: var(--serif); font-weight: 600; font-size: clamp(46px, 6.8vw, 104px); line-height: .98; letter-spacing: -.03em; }
+  .end-title em { font-style: italic; font-weight: 500; color: var(--s-light); }
+  .end.open .end-title em { color: var(--coral); }
+  .end-rule { display: block; width: 56px; height: 3px; margin: clamp(24px, 4.4vh, 40px) auto 0; background: var(--s-light); }
+  .end-q { margin: clamp(16px, 3vh, 26px) auto 0; max-width: 34ch; font: italic 400 clamp(21px, 2vw, 28px)/1.3 var(--serif); }
+  .end-meta { margin-top: clamp(22px, 4vh, 34px); font: 500 14px/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+  .end-meta b { font-weight: 600; color: var(--sun); }
+
+  /* Scene: final */
+  .fin-body { position: relative; z-index: 2; flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--pad-x) clamp(16px, 3vh, 32px); }
+  .fin-kicker { margin-bottom: clamp(14px, 2.6vh, 24px); font: 600 13px/1 var(--mono); letter-spacing: .3em; text-transform: uppercase; color: var(--sun); }
+  .fin-title { font-family: var(--serif); font-weight: 600; font-size: clamp(50px, 8vw, 128px); line-height: .95; letter-spacing: -.03em; }
+  .fin-mission { margin-top: clamp(14px, 2.6vh, 24px); font: italic 400 clamp(21px, 2.1vw, 30px)/1.3 var(--serif); color: var(--mist); }
+  .fin-line { position: relative; height: 30px; margin: clamp(22px, 4.5vh, 46px) calc(-1 * var(--pad-x)) clamp(14px, 3vh, 30px); }
+  .fin-solid { position: absolute; left: 0; width: 72%; top: 20px; height: 1.5px; background: rgba(251,244,230,.55); transform-origin: left center; }
+  .fin-dash { position: absolute; left: 72%; right: 0; top: 20px; border-top: 1.5px dashed rgba(251,244,230,.4); transform-origin: left center; }
+  .fin-now { position: absolute; left: 72%; top: 14px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 6px rgba(240,116,90,.2); }
+  .fin-now-l { position: absolute; left: 72%; top: 0; margin-left: 16px; font: 600 11px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--coral); }
+  .fin-seasons { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 40px); }
+  .fin-card { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 16px; padding-top: 18px; border-top: 3px solid var(--s-light); }
+  .fc-num { grid-row: span 3; font: 600 40px/.9 var(--serif); color: var(--s-light); }
+  .fc-name { font: 600 clamp(19px, 1.7vw, 24px)/1.15 var(--serif); }
+  .fc-meta { font: 500 12px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
+  .fin-card .pill { justify-self: start; margin-top: 6px; }
+
+  /* Fast forward and rewind overlay */
+  #ff { position: fixed; left: 0; right: 0; top: 0; bottom: var(--dock-h); z-index: 20; overflow: hidden; visibility: hidden; background: var(--ink-deep); }
+  #ff.on { visibility: visible; }
+  #ff::after { content: ''; position: absolute; inset: 0; z-index: 6; pointer-events: none; background: repeating-linear-gradient(to bottom, rgba(0,0,0,.18) 0 1px, transparent 1px 4px); }
+  .ffc { position: absolute; inset: 0; opacity: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 var(--pad-x); background: var(--bg); color: var(--fg); }
+  .ffc b { display: block; white-space: nowrap; font: 700 clamp(60px, 11vw, 184px)/.9 var(--serif); letter-spacing: -.035em; filter: url(#mblur); }
+  .ffc small { display: block; margin-top: 22px; font: 600 14px/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; }
+  .ff-hud { position: absolute; z-index: 7; top: 20px; right: var(--pad-x); display: inline-flex; align-items: center; gap: 10px; padding: 9px 14px; border-radius: 999px; background: rgba(23,32,41,.86); color: var(--paper); font: 600 13px/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; }
+  .ff-hud svg { width: 18px; height: 14px; fill: var(--coral); animation: blink .5s cubic-bezier(.45,0,.55,1) infinite; }
+
+  /* Dock: controls and the film timeline */
+  #dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; height: var(--dock-h); display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(16px, 2.2vw, 34px); padding: 0 clamp(16px, 2vw, 28px); background: var(--ink-deep); border-top: 1px solid rgba(251,244,230,.12); }
+  .dgrp { display: flex; align-items: center; gap: 10px; }
+  .dbtn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 0 17px; border: 0; border-radius: 999px; background: transparent; color: var(--paper); box-shadow: inset 0 0 0 1.5px rgba(251,244,230,.36); font: 700 15px/1 var(--sans); white-space: nowrap; cursor: pointer; transition: background-color .2s ease, box-shadow .2s ease, opacity .2s ease; }
+  .dbtn:not(:disabled):hover { background: rgba(251,244,230,.08); box-shadow: inset 0 0 0 1.5px rgba(251,244,230,.7); }
+  .dbtn svg { width: 16px; height: 16px; flex: none; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .dbtn svg.fill { fill: currentColor; stroke: none; }
+  .dbtn.primary { padding: 0 26px; background: var(--coral); color: var(--ink); font-weight: 800; box-shadow: none; }
+  .dbtn.primary:not(:disabled):hover { background: #F48A73; box-shadow: none; }
+  .dbtn.now { box-shadow: inset 0 0 0 1.5px var(--paper); }
+  .dbtn.now .nd { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+  .dbtn:disabled { opacity: .35; cursor: default; }
+  .dbtn .short { display: none; }
+
+  #timeline { min-width: 0; height: 60px; display: flex; align-items: flex-end; gap: 18px; padding-bottom: 12px; }
+  .tl-now { display: none; }
+  .tl-track { position: relative; flex: 1; min-width: 0; height: 100%; display: flex; gap: 6px; }
+  .tl-g { position: relative; flex: var(--n) 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: flex-end; }
+  .tl-lab { margin-bottom: 19px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 500 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--gray); transition: color .4s ease; }
+  .tl-g.cur .tl-lab { color: var(--paper); }
+  .tl-g.last-season .tl-lab { overflow: visible; text-overflow: clip; }
+  .tl-bar { position: relative; height: 4px; }
+  .tl-bar::before { content: ''; position: absolute; inset: 0; background: var(--c); opacity: .28; }
+  .tl-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--c); transition: width var(--ph-dur) var(--ph-ease); }
+  .tl-tick { position: absolute; top: -3px; width: 1px; height: 10px; margin-left: -.5px; background: var(--c); }
+  .tl-tick.op { top: -9px; height: 16px; width: 2px; margin-left: -1px; }
+  .tl-ph { position: absolute; left: 0; bottom: -9px; z-index: 2; width: 2px; height: 22px; margin-left: -1px; background: var(--coral); transition: left var(--ph-dur) var(--ph-ease); }
+  .tl-ph::before { content: ''; position: absolute; left: -5px; top: -7px; border: 6px solid transparent; border-bottom: 0; border-top-color: var(--coral); }
+  .tl-count { flex: none; font: 600 13px/1 var(--mono); letter-spacing: .08em; color: var(--paper); }
+
+  /* Laptop heights */
+  @media (max-height: 760px) and (min-width: 641px) {
+    .intro-title { font-size: clamp(40px, 6vw, 92px); }
+    .ep-mission { display: none; }
+    .ch-month { font-size: clamp(80px, 10vw, 150px); }
+    .ch-icon { width: 92px; }
+  }
+
+  /* Phone */
+  @media (max-width: 640px) {
+    :root { --dock-h: 124px; --pad-x: 20px; }
+    .slate { padding-top: 16px; font-size: 11px; letter-spacing: .12em; }
+    .slate .brand span { display: none; }
+    .rule { top: 44px; }
+    .intro-body { grid-template-columns: 1fr; align-content: end; gap: 22px; padding: 18px var(--pad-x) 22px; }
+    .kicker { font-size: 11px; letter-spacing: .2em; margin-bottom: 14px; }
+    .intro-title { font-size: 40px; line-height: 1; }
+    .intro-context { margin-top: 14px; font-size: 16px; line-height: 1.45; }
+    .intro-actions { gap: 8px; margin-top: 18px; flex-wrap: nowrap; }
+    .btn { min-height: 48px; padding: 0 15px; font-size: 15px; gap: 8px; }
+    .intro-actions .btn svg { width: 15px; height: 15px; }
+    .ep-n { display: none; }
+    .guide-label { padding-bottom: 8px; font-size: 11px; }
+    .ep { grid-template-columns: 36px minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 0 10px 14px; align-items: center; }
+    .ep::before { top: 12px; bottom: 12px; }
+    .ep-num { font-size: 26px; }
+    .ep-name { font-size: 17px; }
+    .ep-mission { display: none; }
+    .ep-dates { margin-top: 3px; font-size: 11px; }
+    .ep .pill { padding: 5px 9px; font-size: 10px; gap: 6px; }
+
+    .bignum { right: -6vw; bottom: -6vh; }
+    .bignum span { font-size: 74vw; }
+    .op-horizon, .op-dot { top: 52%; }
+    .op-top { bottom: calc(48% + 22px); }
+    .op-ep { font-size: 12px; letter-spacing: .34em; margin-bottom: 14px; }
+    .op-title { font-size: 52px; line-height: .95; }
+    .op-bottom { top: calc(52% + 22px); flex-direction: column; gap: 22px; }
+    .op-label { font-size: 11px; }
+    .op-q { margin-top: 10px; font-size: 25px; }
+    .op-meta { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px 16px; font-size: 12px; text-align: left; }
+    .op-meta .pill { margin-top: 0; }
+
+    .ch-grid { grid-template-columns: 1fr; grid-template-rows: auto 2px minmax(0, 1fr); }
+    .ch-date { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "when icon" "count icon"; gap: 12px 16px; padding: 16px 0 18px; }
+    .ch-when { grid-area: when; align-self: end; margin: 0; }
+    .ch-inner { margin: 0; }
+    .ch-month { font-size: 72px; }
+    .ch-year { font-size: 32px; }
+    .ch-foot { display: contents; }
+    .ch-icon { grid-area: icon; width: 88px; align-self: center; }
+    .ch-foot > div:last-child { grid-area: count; }
+    .ch-count { font-size: 12px; }
+    .bars { margin-top: 8px; }
+    .bars i { width: 20px; height: 4px; }
+    .ch-divider { margin: 0; transform-origin: left center; }
+    .ch-text { padding: 18px 0 18px; }
+    .here { margin-bottom: 12px; font-size: 11px; padding: 6px 10px 6px 9px; }
+    .ch-title { font-size: 29px; }
+    .ch-sents { margin-top: 12px; }
+    .ch-sents p { font-size: 17px; line-height: 1.45; }
+    .learned { margin-top: 16px; padding: 18px 20px 20px; }
+    .learned .qm { font-size: 84px; right: 14px; top: -2px; }
+    .learned blockquote { margin-top: 10px; padding-right: 28px; font-size: 21px; }
+    .read { margin-top: 16px; }
+    .read a { font-size: 16px; }
+    .article { font-size: 13px; }
+
+    .lb { height: 6vh; }
+    .end-title { font-size: 46px; }
+    .end-q { font-size: 21px; }
+    .end-meta { font-size: 12px; }
+    .end-mark { width: 40px; height: 40px; }
+    .end-label { font-size: 11px; letter-spacing: .2em; }
+
+    .fin-kicker { font-size: 11px; }
+    .fin-title { font-size: 48px; }
+    .fin-mission { font-size: 20px; }
+    .fin-line { margin: 18px calc(-1 * var(--pad-x)) 10px; }
+    .fin-seasons { grid-template-columns: 1fr; gap: 12px; }
+    .fin-card { grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 2px 12px; padding-top: 10px; border-top-width: 2px; }
+    .fc-num { grid-row: span 2; font-size: 26px; }
+    .fc-name { font-size: 17px; }
+    .fin-card .pill { grid-column: 3; grid-row: 1 / span 2; align-self: center; margin-top: 0; padding: 5px 9px; font-size: 10px; }
+
+    .ffc b { font-size: 64px; white-space: normal; }
+    .ff-hud { top: 12px; font-size: 11px; }
+
+    #dock { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "tl tl" "l r"; align-content: center; gap: 10px; padding: 8px 14px 12px; }
+    #timeline { grid-area: tl; height: 42px; gap: 12px; padding-bottom: 8px; flex-wrap: wrap; align-content: flex-end; }
+    .tl-now { display: block; flex: 1 0 100%; margin-bottom: 4px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 500 11px/1.2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--paper); }
+    .tl-track { height: 12px; }
+    .tl-lab { display: none; }
+    .tl-count { font-size: 11px; }
+    .dgrp.l { grid-area: l; gap: 8px; }
+    .dgrp.r { grid-area: r; gap: 8px; }
+    .dgrp.r .primary { flex: 1; }
+    .dbtn { padding: 0 13px; font-size: 14px; gap: 7px; }
+    .dbtn.primary { padding: 0 16px; }
+    .dbtn .long { display: none; }
+    .dbtn .short { display: inline; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grain, .bignum span, .pill .pd, .here i, .end-mark .gapdot, .ff-hud svg { animation: none; }
+    .bignum { transform: none; transition: none; }
+    .tl-ph, .tl-fill, .tl-lab { transition: none; }
+  }
+</style>
+</head>
+<body data-state="busy">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs><filter id="mblur" x="-30%" y="-10%" width="160%" height="120%"><feGaussianBlur stdDeviation="16 0"/></filter></defs>
+</svg>
+
+<main id="stage" aria-label="The MAAT journey"></main>
+<div id="ff" aria-hidden="true"></div>
+
+<nav id="dock" aria-label="Journey controls">
+  <div class="dgrp l">
+    <button type="button" class="dbtn" id="bStart" aria-label="Back to start">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4.5 4v12M15.5 4.5 8 10l7.5 5.5z"/></svg><span class="long">Back to start</span><span class="short">Start</span>
+    </button>
+    <button type="button" class="dbtn" id="bPrev" aria-label="Previous">
+      <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6"/></svg><span class="long">Previous</span><span class="short">Prev</span>
+    </button>
+  </div>
+  <div id="timeline" role="group" aria-label="Progress">
+    <span class="tl-now" aria-hidden="true"></span>
+    <div class="tl-track" aria-hidden="true"></div>
+    <span class="tl-count"></span>
+  </div>
+  <div class="dgrp r">
+    <button type="button" class="dbtn primary" id="bNext" aria-label="Next">
+      <span>Next</span><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11.5M10.5 5l5 5-5 5"/></svg>
+    </button>
+    <button type="button" class="dbtn now" id="bNow" aria-label="Jump to now">
+      <i class="nd" aria-hidden="true"></i><svg class="fill" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 4.5 10 10l-7.5 5.5zM10 4.5l7.5 5.5-7.5 5.5z"/></svg><span class="long">Jump to now</span><span class="short">Now</span>
+    </button>
+  </div>
+</nav>
+
+<div id="live" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+<script src="data.js"></script>
+<script>
+(() => {
+  'use strict';
+  const G = window.GUIDED;
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+  const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const MONL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const parseYm = s => { const [y, m] = s.split('-').map(Number); return {y, m}; };
+  const fmtShort = s => { const d = parseYm(s); return MON[d.m - 1] + ' ' + d.y; };
+  const fmtLong = s => { const d = parseYm(s); return MONL[d.m - 1] + ' ' + d.y; };
+  const pad2 = n => String(n).padStart(2, '0');
+  const E = {
+    out: 'cubic-bezier(.16,1,.3,1)',
+    wipe: 'cubic-bezier(.77,0,.18,1)',
+    slit: 'cubic-bezier(.83,0,.17,1)',
+    draw: 'cubic-bezier(.65,0,.35,1)',
+    io: 'cubic-bezier(.45,0,.55,1)',
+    accel: 'cubic-bezier(.7,0,.84,0)',
+  };
+
+  // Step model
+  const seasons = G.seasons.slice().sort((a, b) => a.id - b.id);
+  const chaptersOf = id => G.chapters.filter(c => c.season === id).sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+  const steps = [{kind: 'intro'}];
+  seasons.forEach(s => {
+    const cs = chaptersOf(s.id);
+    steps.push({kind: 'opener', season: s, chapters: cs});
+    cs.forEach((c, i) => steps.push({kind: 'chapter', season: s, chapter: c, n: i + 1, of: cs.length}));
+    steps.push({kind: 'end', season: s, chapters: cs});
+  });
+  steps.push({kind: 'final'});
+  const LAST = steps.length - 1;
+  let LATEST = steps.findIndex(st => st.kind === 'chapter' && st.chapter.latest);
+  if (LATEST < 0) LATEST = steps.map(st => st.kind).lastIndexOf('chapter');
+
+  const svars = s => `--s-light:${s.color.light};--s-tint:${s.color.tint};--s-dark:${s.color.dark}`;
+  const dates = s => (s.to ? `${fmtShort(s.from)} to ${fmtShort(s.to)}` : `Since ${fmtShort(s.from)}`);
+  const plural = (n, w) => `${n} ${w}${n === 1 ? '' : 's'}`;
+  const words = t => String(t).trim().split(/\s+/);
+  const mask = html => `<span class="m"><span class="mi">${html}</span></span>`;
+  const mw = (text, emLast) => {
+    const w = words(text);
+    return w.map((x, i) => mask(emLast && w.length > 1 && i === w.length - 1 ? `<em>${esc(x)}</em>` : esc(x))).join(' ');
+  };
+  const letters = t => Array.from(t).map(ch => `<span class="ch">${esc(ch)}</span>`).join('');
+  const spoken = (t, cls) => `<p class="${cls}"><span class="sr-only">${esc(t)}</span><span aria-hidden="true">${letters(t)}</span></p>`;
+
+  const ICON = {
+    arrow: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11.5M10.5 5l5 5-5 5"/></svg>',
+    ff: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2.5 4.5 10 10l-7.5 5.5zM10 4.5l7.5 5.5-7.5 5.5z"/></svg>',
+    check: '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.4 4.8 9 10 3"/></svg>',
+    hudF: '<svg viewBox="0 0 18 14" aria-hidden="true"><path d="M0 0l8 7-8 7zM9 0l8 7-8 7z"/></svg>',
+    hudR: '<svg viewBox="0 0 18 14" aria-hidden="true"><path d="M18 0l-8 7 8 7zM9 0 1 7l8 7z"/></svg>',
+  };
+  const pill = s => (s.status === 'done'
+    ? `<span class="pill">${ICON.check}Done</span>`
+    : `<span class="pill"><i class="pd" aria-hidden="true"></i>Ongoing</span>`);
+  const slate = right => `<header class="slate"><span class="brand"><b>MAAT</b><span>The journey</span></span><span class="tc">${esc(right)}</span></header>`;
+  const grain = '<div class="grain" aria-hidden="true"></div>';
+
+  // Scene builders
+  function sceneIntro() {
+    const J = G.journey;
+    const rows = seasons.map(s => {
+      const n = chaptersOf(s.id).length;
+      return `<li class="ep" style="${svars(s)}"><span class="ep-num">${pad2(s.id)}</span>` +
+        `<span class="ep-text"><span class="ep-name">${esc(s.name)}</span><span class="ep-mission">${esc(s.mission)}</span>` +
+        `<span class="ep-dates">${esc(dates(s))}<span class="ep-n"> / ${plural(n, 'chapter')}</span></span></span>${pill(s)}</li>`;
+    }).join('');
+    return `<section class="scene dark intro" data-kind="intro" style="--bg:#233140">${grain}<div class="rule" aria-hidden="true"></div>${slate('Cold open')}
+      <div class="intro-body">
+        <div class="intro-main">
+          ${spoken(`${J.name}: a journey in ${seasons.length} seasons`, 'kicker')}
+          <h1 class="intro-title" tabindex="-1">${mw(J.mission, true)}</h1>
+          <p class="intro-context">${esc(J.context)}</p>
+          <div class="intro-actions">
+            <button type="button" class="btn btn-primary" data-act="begin">Begin the journey${ICON.arrow}</button>
+            <button type="button" class="btn btn-ghost" data-act="now">${ICON.ff}Jump to now</button>
+          </div>
+        </div>
+        <aside class="guide" aria-label="Episode guide"><p class="guide-label">Episode guide</p><ol>${rows}</ol></aside>
+      </div></section>`;
+  }
+
+  function sceneOpener(st) {
+    const s = st.season;
+    return `<section class="scene dark opener" data-kind="opener" style="${svars(s)};--bg:${s.color.dark}">
+      <div class="bignum" aria-hidden="true"><div class="bignum-in"><span>${pad2(s.id)}</span></div></div>${grain}
+      <div class="op-horizon" aria-hidden="true"></div><div class="op-dot" aria-hidden="true"></div>
+      ${slate(`Season ${pad2(s.id)} of ${pad2(seasons.length)}`)}
+      <div class="op-top">${spoken(`Season ${pad2(s.id)}`, 'op-ep')}<h1 class="op-title" tabindex="-1">${mw(s.name, true)}</h1></div>
+      <div class="op-bottom">
+        <div class="op-mission"><p class="op-label">The mission</p><p class="op-q">${words(s.mission).map(w => `<span class="w">${esc(w)}</span>`).join(' ')}</p></div>
+        <div class="op-meta"><span class="op-dates">${esc(dates(s))}</span><span class="op-count">${plural(st.chapters.length, 'chapter')}</span>${pill(s)}</div>
+      </div></section>`;
+  }
+
+  function sceneChapter(st) {
+    const s = st.season, c = st.chapter, d = parseYm(c.date);
+    const bars = Array.from({length: st.of}, (_, i) => `<i class="${i < st.n ? 'on' : ''}"></i>`).join('');
+    return `<section class="scene light chapter" data-kind="chapter" style="${svars(s)};--bg:${s.color.tint}">
+      ${slate(`Season ${pad2(s.id)} / ${s.name}`)}
+      <div class="ch-grid">
+        <div class="ch-date">
+                    <p class="ch-when"><span class="m blk"><span class="mi ch-month">${MON[d.m - 1]}</span></span><span class="m blk"><span class="mi ch-year">${d.y}</span></span></p>
+          <div class="ch-foot">
+            <div class="ch-icon" aria-hidden="true"><svg viewBox="-10 -10 84 84"><circle class="ring draw" cx="32" cy="32" r="40" pathLength="1"/><g class="ic">${G.icons[c.icon] || ''}</g></svg></div>
+            <div><p class="ch-count">Chapter ${st.n} of ${st.of}</p><span class="bars" aria-hidden="true">${bars}</span></div>
+          </div>
+        </div>
+        <div class="ch-divider" aria-hidden="true"></div>
+        <div class="ch-text"><div class="ch-inner">
+          ${c.latest ? '<p class="here"><i aria-hidden="true"></i>You are here</p>' : ''}
+          <h1 class="ch-title" tabindex="-1">${mw(c.title)}</h1>
+          <div class="ch-sents">${c.simple.map(t => `<p><span class="m blk"><span class="mi">${esc(t)}</span></span></p>`).join('')}</div>
+          <figure class="learned"><span class="qm" aria-hidden="true">&ldquo;</span><figcaption>What I learned</figcaption><blockquote><p>${mw(c.learned)}</p></blockquote></figure>
+          <p class="read"><a href="#">Read the full chapter${ICON.arrow}</a></p>
+          ${c.article ? `<p class="article">Article: ${esc(c.article.title)}</p>` : ''}
+        </div></div>
+      </div></section>`;
+  }
+
+  function sceneEnd(st) {
+    const s = st.season, done = s.status === 'done';
+    const si = seasons.indexOf(s), next = seasons[si + 1];
+    const title = done
+      ? `${mw('Mission')} ${mask('<em>complete</em>')}`
+      : `${mw('Mission')} ${mask('<em>still</em>')} ${mask('<em>open</em>')}`;
+    const meta = done
+      ? `Completed in ${esc(fmtLong(s.to))}`
+      : `<b>What comes next:</b> ${next ? `Season ${pad2(next.id)}, ${esc(next.name)}` : 'New chapters are on the way.'}`;
+    const mark = done
+      ? '<svg class="end-mark" viewBox="0 0 56 56" aria-hidden="true"><circle class="draw" cx="28" cy="28" r="25" pathLength="1"/><path class="draw" d="M17 29.5l7.5 7.5L40 21" pathLength="1"/></svg>'
+      : '<svg class="end-mark" viewBox="0 0 56 56" aria-hidden="true"><path class="draw" d="M49.65 15.5A25 25 0 1 1 28 3" pathLength="1"/><circle class="gapdot" cx="40.5" cy="6.35" r="4"/></svg>';
+    return `<section class="scene dark end ${done ? 'done' : 'open'}" data-kind="end" style="${svars(s)};--bg:#233140">${grain}
+      <div class="lb lb-t" aria-hidden="true"></div><div class="lb lb-b" aria-hidden="true"></div>
+      ${slate(`End of season ${pad2(s.id)}`)}
+      <div class="end-body"><div class="end-card">
+        <div class="end-head">${mark}<p class="end-label">End of season ${pad2(s.id)}</p></div>
+        <h1 class="end-title" tabindex="-1">${title}</h1>
+        <i class="end-rule" aria-hidden="true"></i>
+        <p class="end-q"><span class="m blk"><span class="mi">${esc(s.mission)}</span></span></p>
+        <p class="end-meta">${meta}</p>
+      </div></div></section>`;
+  }
+
+  function sceneFinal() {
+    const cards = seasons.map(s => `<li class="fin-card" style="${svars(s)}"><span class="fc-num">${pad2(s.id)}</span>` +
+      `<p class="fc-name">${esc(s.name)}</p><p class="fc-meta">${plural(chaptersOf(s.id).length, 'chapter')}</p>${pill(s)}</li>`).join('');
+    return `<section class="scene dark final" data-kind="final" style="--bg:#233140">${grain}${slate('Final scene')}
+      <div class="fin-body">
+        ${spoken('To be continued', 'fin-kicker')}
+        <h1 class="fin-title" tabindex="-1">${mw('The journey')} ${mask('<em>continues</em>')}</h1>
+        <p class="fin-mission">${esc(G.journey.mission)}</p>
+        <div class="fin-line" aria-hidden="true"><i class="fin-solid"></i><i class="fin-dash"></i><i class="fin-now"></i><span class="fin-now-l">Now</span></div>
+        <ol class="fin-seasons">${cards}</ol>
+      </div></section>`;
+  }
+
+  function buildScene(i) {
+    const st = steps[i];
+    const html = st.kind === 'intro' ? sceneIntro()
+      : st.kind === 'opener' ? sceneOpener(st)
+      : st.kind === 'chapter' ? sceneChapter(st)
+      : st.kind === 'end' ? sceneEnd(st)
+      : sceneFinal();
+    const t = document.createElement('template');
+    t.innerHTML = html.trim();
+    const sc = t.content.firstElementChild;
+    $$('.ic > *', sc).forEach(el => { el.setAttribute('pathLength', '1'); el.classList.add('draw'); });
+    return sc;
+  }
+
+  // Animation engine
+  const stage = $('#stage'), ff = $('#ff'), live = $('#live');
+  const bStart = $('#bStart'), bPrev = $('#bPrev'), bNext = $('#bNext'), bNow = $('#bNow');
+  const RM = matchMedia('(prefers-reduced-motion: reduce)');
+  const isPhone = () => matchMedia('(max-width: 640px)').matches;
+  let current = -1, busy = false, running = [], cleanup = null, gen = 0;
+
+  function A(el, kf, o) {
+    if (!el) return null;
+    const a = el.animate(kf, {
+      duration: Math.max(1, Math.round(o.duration)),
+      delay: Math.max(0, Math.round(o.delay || 0)),
+      easing: o.easing || E.out,
+      fill: o.fill || 'backwards',
+    });
+    running.push(a);
+    return a;
+  }
+  const each = (els, fn) => els.filter(Boolean).forEach(fn);
+  const rise = (els, delay, stagger, dur, easing) => each(els, (el, i) =>
+    A(el, [{transform: 'translateY(112%)'}, {transform: 'translateY(0)'}], {delay: delay + i * stagger, duration: dur, easing}));
+  const fadeUp = (els, delay, stagger, dur, dist = 16) => each(els, (el, i) =>
+    A(el, [{opacity: 0, transform: `translateY(${dist}px)`}, {opacity: 1, transform: 'translateY(0)'}], {delay: delay + i * stagger, duration: dur}));
+  const fade = (els, delay, stagger, dur) => each(els, (el, i) =>
+    A(el, [{opacity: 0}, {opacity: 1}], {delay: delay + i * stagger, duration: dur, easing: E.io}));
+  const pop = (els, delay, stagger, dur) => each(els, (el, i) =>
+    A(el, [{opacity: 0, transform: 'translateY(45%)'}, {opacity: 1, transform: 'translateY(0)'}], {delay: delay + i * stagger, duration: dur}));
+  const draw = (els, delay, stagger, dur) => each(els, (el, i) =>
+    A(el, [{strokeDashoffset: 1}, {strokeDashoffset: 0}], {delay: delay + i * stagger, duration: dur, easing: E.draw}));
+  const grow = (els, axis, delay, stagger, dur, easing = E.draw) => each(els, (el, i) =>
+    A(el, [{transform: `scale${axis}(0)`}, {transform: `scale${axis}(1)`}], {delay: delay + i * stagger, duration: dur, easing}));
+  const wipeRows = (els, delay, stagger, dur) => each(els, (el, i) =>
+    A(el, [{clipPath: 'inset(0 0 100% 0)', transform: 'translateY(26px)'}, {clipPath: 'inset(0 0 0% 0)', transform: 'translateY(0)'}], {delay: delay + i * stagger, duration: dur}));
+
+  // Content choreography per scene. o.t: base delay, o.k: speed factor, o.long: full sequence.
+  function reveal(sc, st, o) {
+    const L = o.long, T = ms => o.t + ms * o.k, D = ms => ms * o.k;
+    const q = s => $(s, sc), qa = s => $$(s, sc);
+    if (st.kind === 'intro') {
+      fade([q('.slate')], T(0), 0, D(600));
+      grow([q('.rule')], 'X', T(L ? 200 : 0), 0, D(1300));
+      pop(qa('.kicker .ch'), T(L ? 100 : 0), D(L ? 22 : 6), D(420));
+      rise(qa('.intro-title .mi'), T(L ? 250 : 60), D(L ? 65 : 30), D(L ? 950 : 700));
+      fadeUp([q('.intro-context')], T(L ? 820 : 220), 0, D(700));
+      fade([q('.guide-label')], T(L ? 900 : 240), 0, D(500));
+      wipeRows(qa('.ep'), T(L ? 960 : 280), D(L ? 110 : 50), D(800));
+      fadeUp(qa('.intro-actions .btn'), T(L ? 1180 : 360), D(90), D(600));
+    } else if (st.kind === 'opener') {
+      const dot = q('.op-dot');
+      fade([q('.slate')], T(L ? 250 : 0), 0, D(500));
+      grow([q('.op-horizon')], 'X', T(L ? 300 : 0), 0, D(L ? 1000 : 700));
+      A(dot, [{transform: `translateX(${-dot.offsetLeft}px)`}, {transform: 'translateX(0)'}], {delay: T(L ? 300 : 0), duration: D(L ? 1000 : 700), easing: E.draw});
+      A(q('.bignum-in'), [{opacity: 0, transform: 'scale(1.14)'}, {opacity: .13, transform: 'scale(1)'}], {delay: T(L ? 450 : 0), duration: D(L ? 1700 : 900)});
+      pop(qa('.op-ep .ch'), T(L ? 600 : 50), D(L ? 45 : 12), D(380));
+      rise(qa('.op-title .mi'), T(L ? 950 : 110), D(L ? 90 : 45), D(L ? 850 : 700));
+      fadeUp([q('.op-label')], T(L ? 1350 : 240), 0, D(450), 10);
+      pop(qa('.op-q .w'), T(L ? 1420 : 270), D(L ? 50 : 15), D(450));
+      fadeUp(qa('.op-meta > *'), T(L ? 1900 : 380), D(80), D(500), 12);
+    } else if (st.kind === 'chapter') {
+      fade([q('.slate')], T(L ? 150 : 0), 0, D(500));
+      grow([q('.ch-divider')], isPhone() ? 'X' : 'Y', T(L ? 250 : 40), 0, D(700));
+            rise([q('.ch-month')], T(L ? 300 : 60), 0, D(L ? 900 : 700));
+      rise([q('.ch-year')], T(L ? 400 : 110), 0, D(L ? 900 : 700));
+      fadeUp([q('.ch-count')], T(L ? 500 : 160), 0, D(600), 10);
+      grow(qa('.bars i'), 'X', T(L ? 560 : 180), D(70), D(500), E.out);
+      draw(qa('.ch-icon .draw'), T(L ? 450 : 120), D(L ? 110 : 40), D(L ? 1100 : 750));
+      fadeUp([q('.here')], T(L ? 300 : 60), 0, D(500), 10);
+      rise(qa('.ch-title .mi'), T(L ? 350 : 80), D(L ? 45 : 20), D(L ? 800 : 650));
+      rise(qa('.ch-sents .mi'), T(L ? 620 : 200), D(L ? 150 : 60), D(L ? 750 : 550));
+      A(q('.learned'), [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0% 0 0)'}], {delay: T(L ? 860 : 300), duration: D(650), easing: E.wipe});
+      fade([q('.learned .qm'), q('.learned figcaption')], T(L ? 1000 : 380), 40, D(500));
+      rise(qa('.learned .mi'), T(L ? 1020 : 400), D(L ? 22 : 10), D(L ? 650 : 500));
+      fadeUp([q('.read'), q('.article')], T(L ? 1180 : 480), D(80), D(500), 10);
+    } else if (st.kind === 'end') {
+      grow([q('.lb-t'), q('.lb-b')], 'Y', T(L ? 350 : 0), 0, D(700), E.wipe);
+      fade([q('.slate')], T(L ? 450 : 0), 0, D(500));
+      draw(qa('.end-mark .draw'), T(L ? 600 : 100), D(180), D(L ? 900 : 600));
+      fade([q('.end-mark .gapdot')], T(L ? 1300 : 400), 0, D(400));
+      fadeUp([q('.end-label')], T(L ? 600 : 80), 0, D(500), 10);
+      rise(qa('.end-title .mi'), T(L ? 700 : 120), D(L ? 90 : 40), D(L ? 850 : 650));
+      grow([q('.end-rule')], 'X', T(L ? 980 : 240), 0, D(600));
+      rise(qa('.end-q .mi'), T(L ? 1020 : 260), 0, D(L ? 800 : 600));
+      fadeUp([q('.end-meta')], T(L ? 1250 : 340), 0, D(500), 10);
+    } else {
+      fade([q('.slate')], T(L ? 300 : 0), 0, D(500));
+      pop(qa('.fin-kicker .ch'), T(L ? 300 : 0), D(L ? 30 : 8), D(400));
+      rise(qa('.fin-title .mi'), T(L ? 420 : 80), D(L ? 90 : 40), D(L ? 900 : 700));
+      fadeUp([q('.fin-mission')], T(L ? 760 : 240), 0, D(600), 12);
+      grow([q('.fin-solid')], 'X', T(L ? 650 : 150), 0, D(L ? 1000 : 700));
+      A(q('.fin-now'), [{transform: 'scale(0)'}, {transform: 'scale(1)'}], {delay: T(L ? 1500 : 650), duration: D(500), easing: 'cubic-bezier(.34,1.56,.64,1)'});
+      fade([q('.fin-now-l')], T(L ? 1600 : 700), 0, D(400));
+      A(q('.fin-dash'), [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0% 0 0)'}], {delay: T(L ? 1550 : 680), duration: D(900), easing: E.out});
+      wipeRows(qa('.fin-card'), T(L ? 950 : 300), D(120), D(800));
+    }
+  }
+
+  const accent = st => (st.kind === 'chapter' ? st.season.color.dark : st.kind === 'opener' ? st.season.color.light : '#F6C445');
+
+  function edgeBar(dir, delay, dur, color) {
+    const W = stage.clientWidth;
+    const bar = document.createElement('i');
+    bar.className = 'edge';
+    bar.style.background = color;
+    stage.appendChild(bar);
+    const xs = dir > 0 ? [W, -10] : [-10, W];
+    A(bar, [{transform: `translateX(${xs[0]}px)`}, {transform: `translateX(${xs[1]}px)`}], {delay, duration: dur, easing: E.wipe, fill: 'both'});
+  }
+
+  function sideWipe(sc, old, dir, dur, color) {
+    A(sc, [{clipPath: dir > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0 0 0%)'}], {duration: dur, easing: E.wipe});
+    if (old) A(old, [{transform: 'translateX(0)', filter: 'brightness(1)'}, {transform: `translateX(${-8 * dir}%)`, filter: 'brightness(.5)'}], {duration: dur, easing: E.wipe, fill: 'forwards'});
+    edgeBar(dir, 0, dur, color);
+  }
+
+  function playStep(old, sc, st, dir) {
+    if (dir > 0 && st.kind === 'opener') {
+      // Title sequence: the screen opens from a slit at the horizon.
+      A(sc, [{clipPath: 'inset(50% 0 50% 0)'}, {clipPath: 'inset(0% 0 0% 0)'}], {duration: 750, easing: E.slit});
+      if (old) A(old, [{transform: 'scale(1)', filter: 'brightness(1)'}, {transform: 'scale(.94)', filter: 'brightness(.4)'}], {duration: 750, easing: E.slit, fill: 'forwards'});
+      reveal(sc, st, {t: 0, k: 1, long: true});
+    } else if (dir > 0 && st.kind === 'end') {
+      // End of episode: the old scene closes like an iris, letterbox bars close in.
+      if (old) {
+        old.style.zIndex = 5;
+        A(old, [{clipPath: 'circle(75% at 50% 50%)', transform: 'scale(1)'}, {clipPath: 'circle(0% at 50% 50%)', transform: 'scale(.9)'}], {duration: 850, easing: E.slit, fill: 'forwards'});
+      }
+      reveal(sc, st, {t: 0, k: 1, long: true});
+    } else if (dir > 0 && st.kind === 'final') {
+      A(sc, [{clipPath: 'inset(100% 0 0 0)'}, {clipPath: 'inset(0% 0 0 0)'}], {duration: 850, easing: E.wipe});
+      if (old) A(old, [{transform: 'translateY(0)', filter: 'brightness(1)'}, {transform: 'translateY(-6%)', filter: 'brightness(.45)'}], {duration: 850, easing: E.wipe, fill: 'forwards'});
+      reveal(sc, st, {t: 0, k: 1, long: true});
+    } else {
+      sideWipe(sc, old, dir, 750, accent(st));
+      reveal(sc, st, {t: 0, k: 1, long: dir > 0 && st.kind === 'chapter'});
+    }
+  }
+
+  function flashLabel(i) {
+    const st = steps[i];
+    if (st.kind === 'intro') return {bg: '#233140', fg: '#FBF4E6', big: G.journey.name, small: 'Cold open'};
+    if (st.kind === 'final') return {bg: '#233140', fg: '#FBF4E6', big: 'The journey continues', small: 'Final scene'};
+    const s = st.season;
+    if (st.kind === 'opener') return {bg: s.color.dark, fg: '#FBF4E6', big: `Season ${pad2(s.id)}`, small: s.name};
+    if (st.kind === 'end') return {bg: '#233140', fg: '#FBF4E6', big: `End of season ${pad2(s.id)}`, small: s.name};
+    return {bg: s.color.tint, fg: s.color.dark, big: fmtShort(st.chapter.date), small: `Season ${pad2(s.id)} / Chapter ${st.n} of ${st.of}`};
+  }
+
+  // Fast forward (or rewind) through every step in between, then land.
+  function playJump(from, to, old, sc) {
+    const dir = to > from ? 1 : -1;
+    const mids = [];
+    for (let i = from + dir; i !== to; i += dir) mids.push(i);
+    const n = mids.length;
+    let ds = mids.map((_, i) => (n > 1 ? 170 - 85 * i / (n - 1) : 240));
+    const sum = ds.reduce((a, b) => a + b, 0);
+    if (sum > 1100) ds = ds.map(d => d * 1100 / sum);
+    const IN = 240, OUT = 620;
+    const start = IN * 0.55;
+    const flashEnd = start + Math.max(260, ds.reduce((a, b) => a + b, 0));
+    ff.innerHTML = `<div class="ff-hud">${dir > 0 ? ICON.hudF : ICON.hudR}<span>${dir > 0 ? 'Fast forward' : 'Rewind'}</span></div>` +
+      mids.map(i => {
+        const f = flashLabel(i);
+        return `<div class="ffc" style="--bg:${f.bg};--fg:${f.fg}"><b>${esc(f.big)}</b><small>${esc(f.small)}</small></div>`;
+      }).join('');
+    ff.classList.add('on');
+    A(ff, [{clipPath: dir > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0 0 0%)'}], {duration: IN, easing: E.accel});
+    let t = start;
+    $$('.ffc', ff).forEach((card, i) => {
+      const d = ds[i];
+      const until = i === n - 1 ? flashEnd + OUT : t + d + (ds[i + 1] || 0) * 0.5;
+      const win = until - t;
+      const wipeOff = Math.min(0.9, (d * 0.55) / win);
+      A(card, [
+        {opacity: 1, clipPath: dir > 0 ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)', easing: 'cubic-bezier(.3,0,.2,1)'},
+        {opacity: 1, clipPath: 'inset(0 0 0 0%)', offset: wipeOff},
+        {opacity: 1, clipPath: 'inset(0 0 0 0%)'},
+      ], {delay: t, duration: win, easing: 'linear', fill: 'none'});
+      A($('b', card), [{transform: `translateX(${22 * dir}%)`}, {transform: `translateX(${-22 * dir}%)`}], {delay: t, duration: win, easing: E.io, fill: 'none'});
+      t += d;
+    });
+    A(ff, [{clipPath: 'inset(0 0 0 0%)'}, {clipPath: dir > 0 ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)'}], {delay: flashEnd, duration: OUT, easing: E.wipe, fill: 'forwards'});
+    edgeBar(dir, flashEnd, OUT, '#F0745A');
+    const st = steps[to];
+    reveal(sc, st, {t: flashEnd + 120, k: 0.7, long: st.kind === 'chapter'});
+    return flashEnd + OUT * 0.5;
+  }
+
+  function playReduced(old, sc) {
+    A(sc, [{opacity: 0}, {opacity: 1}], {duration: 220, easing: 'ease-out'});
+    if (old) A(old, [{opacity: 1}, {opacity: 0}], {duration: 220, easing: 'ease-out', fill: 'forwards'});
+  }
+
+  // Timeline in the dock
+  const track = $('.tl-track', $('#timeline'));
+  const groups = [{idx: [0], c: '#FBF4E6'}];
+  seasons.forEach(s => groups.push({season: s, idx: steps.map((st, i) => (st.season === s ? i : -1)).filter(i => i >= 0), c: s.color.light}));
+  groups.push({idx: [LAST], c: '#FBF4E6'});
+  const lastSeasonGroup = groups.length - 2;
+  track.innerHTML = groups.map((g, gi) => `<div class="tl-g${gi === lastSeasonGroup ? ' last-season' : ''}" data-g="${gi}" style="--n:${g.idx.length};--c:${g.c}">` +
+    `<span class="tl-lab">${g.season ? `S${pad2(g.season.id)} ${esc(g.season.name)}` : ''}</span>` +
+    `<div class="tl-bar"><i class="tl-fill"></i>${g.idx.map((si, k) => `<i class="tl-tick${steps[si].kind === 'opener' ? ' op' : ''}" data-step="${si}" style="left:${((k + 0.5) / g.idx.length * 100).toFixed(3)}%"></i>`).join('')}</div></div>`).join('') +
+    '<i class="tl-ph"></i>';
+  const ph = $('.tl-ph', track);
+
+  function updateTimeline(i, dur, ease) {
+    const tl = $('#timeline');
+    tl.style.setProperty('--ph-dur', `${Math.round(dur)}ms`);
+    tl.style.setProperty('--ph-ease', ease || E.wipe);
+    groups.forEach((g, gi) => {
+      const el = $(`.tl-g[data-g="${gi}"]`, track);
+      const k = g.idx.indexOf(i);
+      const w = g.idx[g.idx.length - 1] < i ? 100 : k >= 0 ? (k + 0.5) / g.idx.length * 100 : 0;
+      $('.tl-fill', el).style.width = `${w}%`;
+      el.classList.toggle('cur', k >= 0 && !!g.season);
+    });
+    const tick = $(`.tl-tick[data-step="${i}"]`, track);
+    const tr = track.getBoundingClientRect(), r = tick.getBoundingClientRect();
+    ph.style.left = `${r.left - tr.left + r.width / 2}px`;
+    const st = steps[i];
+    $('.tl-count', tl).textContent = `${pad2(i + 1)} / ${pad2(steps.length)}`;
+    $('.tl-now', tl).textContent = st.season ? `S${pad2(st.season.id)} ${st.season.name}` : st.kind === 'intro' ? 'Cold open' : 'Final scene';
+    tl.setAttribute('aria-label', `Progress: step ${i + 1} of ${steps.length}${st.season ? `, Season ${st.season.id}, ${st.season.name}` : ''}`);
+  }
+
+  function announceText(i) {
+    const st = steps[i];
+    if (st.kind === 'intro') return `Intro: ${G.journey.mission}`;
+    if (st.kind === 'opener') return `Season ${st.season.id} of ${seasons.length} begins: ${st.season.name}`;
+    if (st.kind === 'chapter') return `Season ${st.season.id}, chapter ${st.n} of ${st.of}: ${st.chapter.title}${st.chapter.latest ? '. You are here.' : ''}`;
+    if (st.kind === 'end') return `End of season ${st.season.id}: ${st.season.status === 'done' ? 'Mission complete' : 'Mission still open'}`;
+    return 'Final scene: The journey continues';
+  }
+
+  function focusHeading() {
+    const h = $('#stage .scene:last-of-type h1');
+    if (h) h.focus({preventScroll: true});
+  }
+
+  function finish() {
+    if (!busy) return;
+    if (cleanup) cleanup();
+    cleanup = null;
+    running = [];
+    busy = false;
+    document.body.dataset.state = 'idle';
+    document.body.dataset.step = String(current);
+    focusHeading();
+  }
+
+  function settleNow() {
+    running.forEach(a => { try { a.finish(); } catch (e) { /* infinite or idle: ignore */ } });
+    finish();
+  }
+
+  function pulsePlayhead() {
+    if (!RM.matches) ph.animate([{transform: 'scaleY(1)'}, {transform: 'scaleY(1.45)'}, {transform: 'scaleY(1)'}], {duration: 420, easing: E.io});
+  }
+
+  function go(target, how) {
+    target = Math.max(0, Math.min(LAST, target));
+    if (busy) settleNow();
+    if (target === current) { pulsePlayhead(); focusHeading(); return; }
+    const from = current;
+    const myGen = ++gen;
+    current = target;
+    busy = true;
+    document.body.dataset.state = 'busy';
+    running = [];
+    const old = stage.querySelector('.scene');
+    const sc = buildScene(target);
+    stage.appendChild(sc);
+    live.textContent = announceText(target);
+    bPrev.disabled = target === 0;
+    bNext.disabled = target === LAST;
+
+    const st = steps[target];
+    let phDur = 700, phEase = E.wipe;
+    if (RM.matches) {
+      playReduced(old, sc);
+      phDur = 0;
+    } else if (how === 'init') {
+      reveal(sc, st, {t: 120, k: 1, long: true});
+      phDur = 0;
+    } else if (how === 'jump') {
+      phDur = playJump(from, target, old, sc);
+      phEase = 'cubic-bezier(.7,0,.3,1)';
+    } else {
+      playStep(old, sc, st, how === 'prev' ? -1 : 1);
+    }
+    updateTimeline(target, phDur, phEase);
+
+    cleanup = () => {
+      $$('.scene', stage).forEach(s => { if (s !== sc) s.remove(); });
+      $$('.edge', stage).forEach(e => e.remove());
+      ff.getAnimations().forEach(a => a.cancel());
+      ff.classList.remove('on');
+      ff.innerHTML = '';
+    };
+    const list = running.slice();
+    Promise.all(list.map(a => a.finished.catch(() => {}))).then(() => { if (myGen === gen) finish(); });
+  }
+
+  const next = () => { if (current < LAST) go(current + 1, 'next'); };
+  const prev = () => { if (current > 0) go(current - 1, 'prev'); };
+  const toStart = () => go(0, 'jump');
+  const jumpNow = () => go(LATEST, 'jump');
+
+  bNext.addEventListener('click', next);
+  bPrev.addEventListener('click', prev);
+  bStart.addEventListener('click', toStart);
+  bNow.addEventListener('click', jumpNow);
+  stage.addEventListener('click', e => {
+    const act = e.target.closest('[data-act]');
+    if (act) { if (act.dataset.act === 'begin') go(1, 'next'); else jumpNow(); return; }
+    const link = e.target.closest('a[href="#"]');
+    if (link) e.preventDefault();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    const onControl = !!(e.target.closest && e.target.closest('button, a, input, select, textarea, [contenteditable="true"]'));
+    switch (e.key) {
+      case 'ArrowRight': e.preventDefault(); next(); break;
+      case 'ArrowLeft': e.preventDefault(); prev(); break;
+      case ' ': case 'Spacebar': if (onControl) return; e.preventDefault(); next(); break;
+      case 'Enter': if (onControl) return; e.preventDefault(); next(); break;
+      case 'Home': e.preventDefault(); toStart(); break;
+      case 'End': e.preventDefault(); jumpNow(); break;
+      default: break;
+    }
+  });
+
+  addEventListener('pointermove', e => {
+    if (RM.matches) return;
+    const root = document.documentElement.style;
+    root.setProperty('--px', (e.clientX / innerWidth - 0.5).toFixed(3));
+    root.setProperty('--py', (e.clientY / innerHeight - 0.5).toFixed(3));
+  }, {passive: true});
+  addEventListener('resize', () => { if (current >= 0) updateTimeline(current, 0); });
+
+  window.__doc = {
+    get index() { return current; },
+    get count() { return steps.length; },
+    get busy() { return busy; },
+    get latest() { return LATEST; },
+    steps: steps.map(st => ({kind: st.kind, season: st.season ? st.season.id : null, chapterId: st.chapter ? st.chapter.id : null})),
+  };
+
+  const ready = document.fonts && document.fonts.ready
+    ? Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 1500))])
+    : Promise.resolve();
+  ready.then(() => go(0, 'init'));
+})();
+</script>
+</body>
+</html>

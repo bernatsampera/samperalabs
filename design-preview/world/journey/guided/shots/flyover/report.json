@@ -1,0 +1,140 @@
+{
+  "page": "flyover.html",
+  "when": "2026-10-31T22:48:36.267Z",
+  "expectedSteps": 14,
+  "desktopSteps": 14,
+  "results": [
+    {
+      "name": "desktop: document cannot scroll at load",
+      "pass": true,
+      "detail": "scroll 1440x900 vs viewport 1440x900"
+    },
+    {
+      "name": "desktop: Next walks every step without page scroll",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "step count equals 1 + sum(chapters + 2) + 1 (14)",
+      "pass": true,
+      "detail": "walked 14"
+    },
+    {
+      "name": "desktop: opener mid-transition frames saved",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "desktop: Next is disabled on the final step",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Previous goes back one step",
+      "pass": true,
+      "detail": "from 13 to 12"
+    },
+    {
+      "name": "Back to start returns to the intro",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Previous is disabled on the intro",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ArrowRight advances one step",
+      "pass": true,
+      "detail": "index 1"
+    },
+    {
+      "name": "Home returns to the intro",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "\"Jump to now\" button lands on the latest chapter, title visible",
+      "pass": true,
+      "detail": "heading \"Gym owners can ask in plain words\", opacity 1, box 976,318 404x76"
+    },
+    {
+      "name": "\"Jump to now\" is a flight, not a cut (still moving at 700 ms)",
+      "pass": true,
+      "detail": "state moving"
+    },
+    {
+      "name": "End key lands on the latest chapter, title visible",
+      "pass": true,
+      "detail": "heading \"Gym owners can ask in plain words\", opacity 1, box 976,318 404x76"
+    },
+    {
+      "name": "Two quick Next clicks finish the first transition and move on (index 2)",
+      "pass": true,
+      "detail": "index 2"
+    },
+    {
+      "name": "Focus moves to the step heading after a transition",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "aria-live region announces the step",
+      "pass": true,
+      "detail": "Season 1, chapter 1 of 2: AI migrations to MAAT"
+    },
+    {
+      "name": "desktop: contrast AA on all visible text on every step (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phone: no page scroll on intro, opener, chapter, latest",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phone: walk reaches a chapter, then Jump to now lands on the latest chapter",
+      "pass": true,
+      "detail": "heading \"Gym owners can ask in plain words\", opacity 1, box 20,430 350x55"
+    },
+    {
+      "name": "phone: contrast AA on all visible text (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "reduced motion: Next walks all 14 steps",
+      "pass": true,
+      "detail": "walked 14"
+    },
+    {
+      "name": "reduced motion: every step settles fast (crossfade, no flight)",
+      "pass": true,
+      "detail": "0 slow steps"
+    },
+    {
+      "name": "reduced motion: End lands on the latest chapter",
+      "pass": true,
+      "detail": "heading \"Gym owners can ask in plain words\", opacity 1, box 976,318 404x76"
+    },
+    {
+      "name": "reduced motion: no page scroll",
+      "pass": true,
+      "detail": "scroll 1440x900 vs viewport 1440x900"
+    },
+    {
+      "name": "no en dash or em dash characters in flyover.html or check-flyover.mjs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or page errors (0)",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "contrastFailures": []
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero F, lane draft: the portrait you fly into</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Instrument+Serif:ital@1&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../design-system/tokens.css">
+<link rel="stylesheet" href="../shared.css">
+<style>
+  /* F: a halftone portrait made of thousands of dots, one lane of them cards, in the order of content.js. DRAFT of the lane: the first view is a copy of ../flight.
+     Full screen, no header. The name sits top left, the Ask Jev dock at the bottom, the bust between them.
+     The pieces on the edge of the bust drift, so the page is alive at rest. Scroll to fly in. Click a card to open it. */
+  .hero { --name-size: 150px; --name-lh: .9; --field-h: 60px; --dock-w: 720px; height: 100svh; min-height: 0; overflow: hidden; }
+  .figure { position: absolute; inset: 0; }
+  .figure canvas.face { position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important; cursor: ns-resize; touch-action: pan-y; }
+  .intro { position: absolute; left: max(var(--gutter), calc((100vw - 1392px) / 2 + var(--gutter))); top: var(--s-7); z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3); pointer-events: none; }
+  .hero h1.name { margin: 0; max-width: none; font-size: var(--name-size); line-height: var(--name-lh); text-align: left; text-wrap: nowrap; white-space: nowrap; color: var(--ink); }
+  .name span { display: block; }
+  /* the letter: one serif italic by default; ?name=playfair or ?name=geist to compare */
+  .name.instrument, .name-measure.instrument { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -.01em; }
+  .name.playfair, .name-measure.playfair { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 400; letter-spacing: -.02em; }
+  .name.geist, .name-measure.geist { font-family: var(--font); font-weight: 300; letter-spacing: -.04em; }
+  .name-measure { position: absolute; left: 0; top: 0; visibility: hidden; white-space: nowrap; font-size: 100px; line-height: 1; pointer-events: none; }
+  .intro .hint { font-size: var(--type-ui); line-height: var(--leading-ui); color: var(--slate); }
+  .pill { display: inline-flex; align-items: center; justify-content: center; height: var(--pill-h); padding: 0 var(--s-4); border-radius: var(--r-pill); border: 1px solid transparent; background: transparent; font-size: var(--type-ui); line-height: var(--leading-ui); font-weight: var(--weight-medium); white-space: nowrap; cursor: pointer; transition: background-color var(--d-fast), border-color var(--d-fast); }
+  .pill.line { border-color: var(--rule); background: var(--paper); }
+  .pill.line:hover { border-color: var(--ink); }
+  .pill.solid { background: var(--ink); color: var(--paper); }
+  .pill.solid:hover { background: var(--gray-800); }
+  .back { height: 32px; padding: 0 var(--s-3); font-size: var(--type-small); line-height: var(--leading-small); pointer-events: auto; }
+  .back[hidden] { display: none; }
+  /* The box: one piece, opened over the field */
+  .box { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 6; width: min(520px, calc(100% - 2 * var(--gutter))); padding: var(--s-6); background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-card); box-shadow: var(--shadow-float); display: flex; flex-direction: column; gap: var(--s-3); }
+  .box[hidden] { display: none; }
+  .box-x { position: absolute; top: var(--s-3); right: var(--s-3); width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--slate); cursor: pointer; }
+  .box-x:hover { background: var(--rule-soft); color: var(--ink); }
+  .box-x .ico { width: 14px; height: 14px; }
+  .box-label { font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--slate); font-weight: var(--weight-medium); }
+  .box-title { font-size: 28px; line-height: 34px; letter-spacing: -.4px; font-weight: var(--weight-medium); text-wrap: balance; padding-right: var(--s-7); }
+  .box-body { color: var(--body); font-size: var(--type-body); line-height: var(--leading-body); white-space: pre-line; }
+  .box-body:empty { display: none; }
+  .box-actions { display: flex; gap: var(--s-2); margin-top: var(--s-2); flex-wrap: wrap; }
+  .box-actions a[hidden] { display: none; }
+  /* The dock: chips and the field at the bottom, on a white band the dots fade into. It never leaves. */
+  .dock { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; gap: var(--s-3); padding: var(--s-8) var(--gutter) var(--s-6); background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) var(--s-8)); }
+  .chips .pill { height: 36px; padding: 0 var(--s-4); font-size: var(--type-ui); line-height: var(--leading-ui); }
+  .field { font-size: 17px; }
+  .fail { position: absolute; inset: 0; display: none; place-items: center; color: var(--slate); font-size: var(--type-small); text-align: center; padding: var(--s-6); }
+  @media (max-width: 809px) {
+    .hero { --field-h: 52px; }
+    .intro { top: var(--s-6); max-width: calc(100vw - 2 * var(--gutter)); gap: var(--s-2); }
+    .box { padding: var(--s-5); }
+    .box-title { font-size: 22px; line-height: 28px; }
+    .dock { padding: var(--s-7) var(--gutter) calc(var(--s-4) + env(safe-area-inset-bottom)); background: linear-gradient(rgba(255, 255, 255, 0), var(--paper) var(--s-7)); }
+  }
+</style>
+</head>
+<body>
+<main class="hero">
+  <div class="figure" role="img" aria-label="A portrait of Bernat made of thousands of dots. Scroll to fly in: the cards of his story come one after another, chapter by chapter. Click a card to open it.">
+    <p class="fail" data-fail>This browser cannot draw the portrait (WebGL is off).</p>
+    <section class="box" data-box hidden role="dialog" aria-modal="true" aria-labelledby="box-title">
+      <button type="button" class="box-x" data-box-close aria-label="Close"><svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8"/></svg></button>
+      <p class="box-label" data-box-label></p>
+      <h2 class="box-title" id="box-title" data-box-title></h2>
+      <p class="box-body" data-box-body></p>
+      <div class="box-actions">
+        <a class="pill solid" data-box-cta href="#" target="_blank" rel="noopener"></a>
+        <button type="button" class="pill line" data-box-close>Back to the flight</button>
+      </div>
+    </section>
+  </div>
+  <div class="intro">
+    <h1 class="name"><span class="name-text"><span>Bernat</span> <span>Sampera</span></span></h1>
+    <p class="hint" data-hint>Scroll to fly through my work.</p>
+    <button type="button" class="pill line back" data-back hidden>Back to the face</button>
+  </div>
+  <div id="dock"></div>
+</main>
+<script src="../shared.js"></script>
+<script src="../flight/photo.js"></script>
+<script src="content.js"></script>
+<script src="flight.js"></script>
+<script type="module">
+  import * as THREE from 'https://unpkg.com/three@0.170.0/build/three.module.js';
+  const P = new URLSearchParams(location.search);
+  const face = ['instrument', 'playfair', 'geist'].includes(P.get('name')) ? P.get('name') : 'instrument';
+  const hero = document.querySelector('.hero'), name = document.querySelector('.name');
+  name.classList.add(face);
+  const measure = document.createElement('span'); measure.className = 'name-measure ' + face; measure.textContent = 'Sampera'; hero.append(measure);
+  // The name takes a third of the width on a desktop, most of it on a phone, two lines either way.
+  function fitName() {
+    const phone = matchMedia('(max-width: 809px)').matches;
+    const w = measure.getBoundingClientRect().width || 1;
+    const target = phone ? hero.clientWidth - 48 : hero.clientWidth * 0.34;
+    const cap = innerHeight * (phone ? 0.1 : 0.17);
+    hero.style.setProperty('--name-size', Math.max(40, Math.min(100 * target / w, cap)).toFixed(1) + 'px');
+  }
+  fitName(); addEventListener('resize', fitName); document.fonts.ready.then(fitName);
+  const img = new Image();
+  img.onload = async () => {
+    window.FacePhotoImage = img;
+    await Promise.all([400, 500].map((w) => document.fonts.load(`${w} 38px Geist`))).catch(() => {});
+    await document.fonts.ready; fitName();
+    try { window.startFlight(THREE); }
+    catch (e) { document.querySelector('[data-fail]').style.display = 'grid'; console.error(e); }
+  };
+  img.src = window.FacePhoto;
+</script>
+</body>
+</html>

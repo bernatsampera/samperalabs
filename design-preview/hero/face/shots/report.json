@@ -1,0 +1,62 @@
+[
+  {
+    "view": "desktop-face",
+    "q": "demo=0",
+    "grid": "122x73",
+    "chars": 3390,
+    "wall": "53%",
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "view": "desktop-hover",
+    "q": "demo=0&hu=0.47&hv=0.41",
+    "grid": "122x73",
+    "chars": 3390,
+    "wall": "53%",
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "view": "desktop-zoom-eyes",
+    "q": "demo=0&zoom=2.4&u=0.5&v=0.41&hu=0.5&hv=0.41",
+    "grid": "122x73",
+    "chars": 3390,
+    "wall": "53%",
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "view": "desktop-zoom-mouth",
+    "q": "demo=0&zoom=4&u=0.5&v=0.585",
+    "grid": "122x73",
+    "chars": 3390,
+    "wall": "53%",
+    "dockTop": 736,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "view": "laptop-face",
+    "q": "demo=0",
+    "grid": "99x60",
+    "chars": 2250,
+    "wall": "53%",
+    "dockTop": 556,
+    "heroFits": true,
+    "overflow": false
+  },
+  {
+    "view": "phone-face",
+    "q": "demo=0",
+    "grid": "87x52",
+    "chars": 1720,
+    "wall": "53%",
+    "dockTop": 708,
+    "heroFits": true,
+    "overflow": false
+  }
+]

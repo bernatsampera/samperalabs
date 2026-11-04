@@ -1,0 +1,62 @@
+{
+  "who": {
+    "comment": "I don't like that there is different styles. In that case I just want text of who I am, not the title and then the other thing. Let's keep it simple for now. Regarding the content, leave it as it is right now.",
+    "updated": "2026-11-01T11:05:27.124Z"
+  },
+  "now": {
+    "comment": "Here we should remove the right now I work on two things and also the the components look kind of bad. They are very basic. We can create some that look a bit better. And yeah I like that they're minimal, but they are just too minimal now. And so just one color for each project or thing that I am doing regarding the main work and research, no need to differentiate and classify it like that. Just put the things I am working on as yeah simple, keep it minimal. Everything everything is the same , No different levels on work.",
+    "updated": "2026-11-01T11:07:16.709Z"
+  },
+  "overall": {
+    "comment": "So now the questions appear at the top. I prefer that they appear on the top right as if it is a chat, not like it is now on the middle.\n\nAlso I have already specified but the title should be removed.",
+    "updated": "2026-11-01T11:09:53.178Z"
+  },
+  "projects": {
+    "comment": "The same, remove the for things the introduction, it's not needed. Just the content. And here the same as before, this component looks very bleak. All look very bleak. And the difference of color doesn't make any sense. Makes just one color for all the all the components.",
+    "updated": "2026-11-01T11:06:46.525Z"
+  },
+  "maat": {
+    "comment": "This doesn't make much sense. Here on MAT it should just offer the same component that we have before of the mat, this kind of thing, and then we click and we go to the overview. We don't want to show the overview here and the timeline",
+    "updated": "2026-11-01T11:07:55.234Z"
+  },
+  "memory": {
+    "comment": "Here I don't want any widget. Here it will be just text. The tags I will define it later. Now we're looking at the UI. But this one, two, three, four, five, I don't like it. Regarding the the story of this journey is coming soon, remove this not, just text . Same on the title, remove the \"How should AI store and find information?\" \n\nSame on the question, this will also be removed. It doesn't make sense. I will define then the questions on more AI specific topics.",
+    "updated": "2026-11-01T11:09:19.523Z"
+  },
+  "agents": {
+    "comment": "Same as before, this will be just text. I am not really sure what are we doing here, but Yeah, it's wrong. And here the question this question should be removed directly for now.",
+    "updated": "2026-11-01T11:09:04.404Z"
+  },
+  "principles": {
+    "comment": "This question should be removed the same regarding the style, it will be just text. ",
+    "updated": "2026-11-01T11:09:29.284Z"
+  },
+  "articles": {
+    "comment": "This is what we're gonna do. Without the title though.",
+    "updated": "2026-11-01T11:09:45.018Z"
+  },
+  "bjjgym": {
+    "comment": "Here the same as with the others. We don't want to show anything special here. Just the card component as it was shown before.",
+    "updated": "2026-11-01T11:10:09.043Z"
+  },
+  "indoeuromap": {
+    "comment": "same as w bjjgym, just card",
+    "updated": "2026-11-01T11:10:21.028Z"
+  },
+  "site": {
+    "comment": "Without the title, besides this is good and no link to how we build the maat admin agent, keep it simple. ",
+    "updated": "2026-11-01T11:10:44.181Z"
+  },
+  "did-you-mean": {
+    "comment": "this is good",
+    "updated": "2026-11-01T11:10:51.531Z"
+  },
+  "blocked": {
+    "comment": "change the text to \"Please ask a question about Samperalabs or Bernat and it's work\" \n\nalso no title",
+    "updated": "2026-11-01T11:11:23.773Z"
+  },
+  "unavailable": {
+    "comment": "no title, just normal text",
+    "updated": "2026-11-01T11:11:33.246Z"
+  }
+}

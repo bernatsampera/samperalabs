@@ -489,6 +489,11 @@
   resolved "https://registry.npmjs.org/@fontsource-variable/jetbrains-mono/-/jetbrains-mono-5.2.8.tgz"
   integrity sha512-WBA9elru6Jdp5df2mES55wuOO0WIrn3kpXnI4+W2ek5u3ZgLS9XS4gmIlcQhiZOWEKl95meYdvK7xI+ETLCq/Q==
 
+"@fontsource/instrument-serif@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.npmjs.org/@fontsource/instrument-serif/-/instrument-serif-5.3.0.tgz"
+  integrity sha512-mDiaIg0u67sYV59fie92Wz4sM8UiVlbL7fLxnFPCKkX15DMASEnQTREbaP5S5/3DCcsoAOcQ0sV9E4AeY4QqYQ==
+
 "@fontsource/poppins@^5.3.0":
   version "5.3.0"
   resolved "https://registry.npmjs.org/@fontsource/poppins/-/poppins-5.3.0.tgz"
@@ -7064,6 +7069,11 @@ thenify-all@^1.0.0:
   integrity sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==
   dependencies:
     any-promise "^1.0.0"
+
+three@^0.170.0:
+  version "0.170.0"
+  resolved "https://registry.npmjs.org/three/-/three-0.170.0.tgz"
+  integrity sha512-FQK+LEpYc0fBD+J8g6oSEyyNzjp+Q7Ks1C568WWaoMRLW+TkNNWmenWeGgJjV105Gd+p/2ql1ZcjYvNiPZBhuQ==
 
 through2@^4.0.2:
   version "4.0.2"

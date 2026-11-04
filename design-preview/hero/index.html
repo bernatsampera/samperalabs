@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<style>
+  body { margin: 0; padding: 40px 24px 80px; background: #F2F2F4; color: var(--color-ink); font: 400 16px/26px var(--font-sans); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1400px; margin: 0 auto; }
+  h1 { margin: 0 0 8px; font-size: 42px; line-height: 48px; letter-spacing: -.8px; font-weight: 500; }
+  .lede { margin: 0 0 40px; color: var(--color-graphite); max-width: 720px; }
+  section { margin-bottom: 64px; }
+  h2 { margin: 0 0 4px; font-size: 21px; line-height: 27px; font-weight: 500; }
+  h2 a { color: var(--color-accent); font-size: 15px; margin-left: 12px; }
+  .why { margin: 0 0 20px; color: var(--color-graphite); max-width: 720px; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  figure { margin: 0; }
+  figure img { display: block; width: 100%; border: 1px solid #E2E2E6; border-radius: 8px; background: #fff; }
+  figcaption { margin-top: 6px; font-size: 13px; line-height: 18px; color: var(--color-slate); }
+  .phones { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Three hero concepts</h1>
+  <p class="lede">Same headline, same dock. What changes is how the page shows the thing it does: read one question and bring the right piece forward. Open a page and type into the field, or leave it alone and watch the sample questions type themselves.</p>
+
+  <section>
+    <h2>A: the index <a href="a-index.html">Open</a></h2>
+    <p class="why">Everything on the site as one quiet index. The question is the lens: the pieces it needs come forward, the rest step back, and a blue dot marks where the answer would open.</p>
+    <div class="row">
+      <figure><img src="shots/a-index-desktop-idle.png" alt=""><figcaption>Idle</figcaption></figure>
+      <figure><img src="shots/a-index-desktop-agents.png" alt=""><figcaption>"How do you build AI agents?"</figcaption></figure>
+      <figure><img src="shots/a-index-desktop-memory.png" alt=""><figcaption>"How should AI remember my work?"</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>B: the reading <a href="b-signal.html">Open</a></h2>
+    <p class="why">Eleven bars, one per prepared answer. They wave while the question is read, then settle on what it means. The winner turns blue, the close ones ink.</p>
+    <div class="row">
+      <figure><img src="shots/b-signal-desktop-idle.png" alt=""><figcaption>Idle</figcaption></figure>
+      <figure><img src="shots/b-signal-desktop-agents.png" alt=""><figcaption>"How do you build AI agents?"</figcaption></figure>
+      <figure><img src="shots/b-signal-desktop-unsure.png" alt=""><figcaption>"What did you build and write?" (close call)</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>C: the route <a href="c-route.html">Open</a></h2>
+    <p class="why">One question, eleven places it can go. The field is the start. The chosen path turns to ink and the blue marker travels it to the stop, in the same language as the story path: dotted ahead, solid behind, blue for now.</p>
+    <div class="row">
+      <figure><img src="shots/c-route-desktop-idle.png" alt=""><figcaption>Idle</figcaption></figure>
+      <figure><img src="shots/c-route-desktop-agents.png" alt=""><figcaption>"How do you build AI agents?"</figcaption></figure>
+      <figure><img src="shots/c-route-desktop-unsure.png" alt=""><figcaption>"What did you build and write?" (close call)</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phone</h2>
+    <div class="phones">
+      <figure><img src="shots/a-index-phone-idle.png" alt=""><figcaption>A idle</figcaption></figure>
+      <figure><img src="shots/a-index-phone-agents.png" alt=""><figcaption>A, agents</figcaption></figure>
+      <figure><img src="shots/b-signal-phone-idle.png" alt=""><figcaption>B idle</figcaption></figure>
+      <figure><img src="shots/b-signal-phone-agents.png" alt=""><figcaption>B, agents</figcaption></figure>
+      <figure><img src="shots/c-route-phone-idle.png" alt=""><figcaption>C idle</figcaption></figure>
+      <figure><img src="shots/c-route-phone-agents.png" alt=""><figcaption>C, agents</figcaption></figure>
+    </div>
+  </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero A: the index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* A: everything on the site, as one index. The question is the lens: the pieces it needs come forward. */
+  .index { width: min(var(--column), 100% - 2 * var(--gutter)); display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5) var(--s-5); margin-top: var(--s-2); }
+  .group { display: flex; flex-direction: column; gap: var(--s-2); min-width: 0; }
+  .group + .group { margin-top: 0; }
+  .group h2 { position: relative; display: flex; align-items: center; gap: var(--s-2); font-size: var(--type-small); line-height: var(--leading-small); font-weight: var(--weight-medium); color: var(--ink); }
+  .group h2 i { position: absolute; left: -14px; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0; transform: scale(.4); transition: opacity 300ms, transform 300ms var(--ease-out); }
+  .group h2.win i { opacity: 1; transform: none; }
+  .group h2 b { font-weight: var(--weight-regular); color: var(--slate); font-variant-numeric: tabular-nums; }
+  .group ul { display: flex; flex-direction: column; gap: 0; }
+  .group li { font-size: var(--type-small); line-height: 22px; color: var(--slate); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 300ms, font-weight 300ms; }
+  .group li .d { color: var(--faint); font-variant-numeric: tabular-nums; margin-right: var(--s-2); }
+  .index.active li { color: var(--faint); }
+  .index.active li.near { color: var(--ink); }
+  .index.active li.hit { color: var(--ink); font-weight: var(--weight-medium); }
+  .stack { display: flex; flex-direction: column; gap: var(--s-5); min-width: 0; }
+  .count { font-size: var(--type-small); line-height: var(--leading-small); color: var(--slate); font-variant-numeric: tabular-nums; min-height: 20px; }
+  .count b { font-weight: var(--weight-medium); color: var(--ink); }
+  @media (max-width: 809px) {
+    .index { grid-template-columns: 1fr 1fr; gap: var(--s-5) var(--s-4); }
+    .group li .d { display: none; }
+  }
+  @media (max-height: 820px) and (min-width: 810px) {
+    .hero-view { gap: var(--s-5); }
+    .group li { line-height: 20px; }
+  }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<main class="hero" aria-labelledby="hero-title">
+  <div class="hero-view">
+    <div class="head">
+      <p class="id"><span class="id-pic" role="img" aria-label="Bernat Sampera"></span>Bernat Sampera, AI engineer</p>
+      <h1 id="hero-title">Everything is information.</h1>
+      <p class="lede">Everything I have built and written is on this page. Ask, and the pieces you need come forward.</p>
+    </div>
+    <div class="index" data-index aria-label="Everything on this site"></div>
+    <p class="count" data-count aria-live="polite"></p>
+  </div>
+  <div id="dock"></div>
+</main>
+<script src="shared.js"></script>
+<script>
+  const { initDock, match, NAV, DOCK } = window.Hero;
+  document.getElementById('nav').outerHTML = NAV;
+  document.getElementById('dock').outerHTML = DOCK;
+
+  // Every piece on the site. exp: the experiences that would show it. w: extra words a visitor might type.
+  const GROUPS = [
+    { name: 'Projects', exp: ['projects', 'now'], items: [
+      { t: 'MAAT', exp: ['maat', 'projects', 'now'], w: 'company gyms' },
+      { t: 'AI has no memory', exp: ['memory', 'projects', 'now'], w: 'research gcontext' },
+      { t: 'BJJGym', exp: ['bjjgym', 'projects'], w: 'jiu jitsu travel gym' },
+      { t: 'IndoEuroMap', exp: ['indoeuromap', 'projects'], w: 'map city' },
+    ]},
+    { name: 'Principles', exp: ['principles'], items: [
+      { t: 'Everything is information', exp: ['principles', 'memory'], w: 'information' },
+      { t: 'Knowledge beats code', exp: ['principles', 'memory'], w: 'knowledge' },
+      { t: 'Say the goal, not the steps', exp: ['principles', 'agents'], w: 'goal' },
+      { t: 'Give a map, not a pile', exp: ['principles', 'memory'], w: 'map context' },
+      { t: 'Write for people and AI', exp: ['principles'], w: 'write' },
+    ]},
+    { name: 'MAAT, the journey', exp: ['maat'], items: [
+      { t: 'Internal AI tools', d: '2026', exp: ['maat'], w: 'tools internal' },
+      { t: 'AI migrations', d: 'May', exp: ['maat'], w: 'migrations' },
+      { t: 'Schedule photos', d: 'Sep', exp: ['maat'], w: 'photo schedule classes' },
+      { t: 'The company brain', d: '2026', exp: ['maat', 'memory'], w: 'brain company' },
+      { t: 'In people’s heads', d: 'May', exp: ['maat', 'memory'], w: 'knowledge' },
+      { t: 'The Brain', d: 'Jun', exp: ['maat', 'memory'], w: 'brain' },
+      { t: 'Support tasks', d: 'Jul', exp: ['maat', 'agents'], w: 'support tasks tree' },
+      { t: 'AI for our customers', d: '2026', exp: ['maat', 'agents'], w: 'customers owners' },
+      { t: 'Admin Agent', d: 'Oct', exp: ['maat', 'agents'], w: 'admin agent' },
+    ]},
+    { name: 'AI has no memory', exp: ['memory'], items: [
+      { t: 'The gap', d: '2026', exp: ['memory'], w: 'gap' },
+      { t: 'Not your work', d: 'May', exp: ['memory'], w: 'model' },
+      { t: 'All information', d: 'Jun', exp: ['memory', 'principles'], w: 'information' },
+      { t: 'A shape for knowledge', d: '2026', exp: ['memory'], w: 'shape knowledge' },
+      { t: 'Load little, find fast', d: 'Aug', exp: ['memory'], w: 'load find fast' },
+      { t: 'Between sessions', d: '2026', exp: ['memory'], w: 'sessions' },
+      { t: 'Keep the lessons', d: 'Oct', exp: ['memory'], w: 'lessons remember' },
+    ]},
+    { name: 'Articles', exp: ['articles'], items: [
+      { t: 'The MAAT Admin Agent', d: 'Oct', exp: ['articles', 'agents', 'maat'], w: 'admin agent' },
+      { t: 'Global context for agents', d: 'Oct', exp: ['articles', 'memory', 'agents'], w: 'global context' },
+      { t: 'An AI Brain at MAAT', d: 'Oct', exp: ['articles', 'maat', 'memory'], w: 'brain' },
+      { t: 'Schedule picture to classes', d: 'Oct', exp: ['articles', 'maat'], w: 'picture schedule' },
+      { t: 'A context tree for support', d: 'Jun', exp: ['articles', 'agents', 'maat'], w: 'context tree support' },
+      { t: 'Express the General', d: 'Jun', exp: ['articles', 'memory', 'principles'], w: 'general' },
+      { t: 'Context architecture vs harnesses', d: 'May', exp: ['articles', 'memory'], w: 'architecture harness' },
+      { t: 'Your agent deserves its own repo', d: 'May', exp: ['articles', 'agents'], w: 'repo' },
+      { t: 'Bet on optionality', d: 'May', exp: ['articles', 'principles'], w: 'optionality bet' },
+      { t: 'Ollama with MCP', d: 'Apr', exp: ['articles', 'agents'], w: 'ollama mcp' },
+      { t: 'Ollama CPU temperature checks', d: 'Jan', exp: ['articles'], w: 'ollama python' },
+      { t: 'Human in the loop with LangGraph', d: '2025', exp: ['articles', 'agents'], w: 'human loop langgraph' },
+      { t: 'A real-world agent with LangGraph', d: '2025', exp: ['articles', 'agents'], w: 'langgraph lessons' },
+      { t: 'Open deep research', d: '2025', exp: ['articles', 'agents'], w: 'research langgraph' },
+    ]},
+  ];
+
+  const root = document.querySelector('[data-index]');
+  const count = document.querySelector('[data-count]');
+  const total = GROUPS.reduce((n, g) => n + g.items.length, 0);
+  // Four columns: Projects and Principles share the first.
+  const columns = [[GROUPS[0], GROUPS[1]], [GROUPS[2]], [GROUPS[3]], [GROUPS[4]]];
+  root.innerHTML = columns.map((gs) => `<div class="stack">${gs.map((g) => `
+    <section class="group"><h2 data-group="${g.exp[0]}"><i></i>${g.name}<b>${g.items.length}</b></h2>
+    <ul>${g.items.map((it) => `<li data-exp="${it.exp.join(' ')}" data-w="${(it.t + ' ' + (it.w || '')).toLowerCase()}" title="${it.t}">${it.d ? `<span class="d">${it.d}</span>` : ''}${it.t}</li>`).join('')}</ul></section>`).join('')}</div>`).join('');
+
+  const items = [...root.querySelectorAll('li')];
+  const heads = [...root.querySelectorAll('h2')];
+  const idle = () => { root.classList.remove('active'); items.forEach((li) => li.classList.remove('hit', 'near')); heads.forEach((h) => h.classList.remove('win')); count.innerHTML = `${total} pieces. Ask, and the right ones come forward.`; };
+
+  const update = (q) => {
+    const m = match(q);
+    if (!m.active) return idle();
+    root.classList.add('active');
+    const ts = m.tokens;
+    const near = new Set(m.list.filter((e) => e.p >= 0.3).map((e) => e.id));
+    let hits = 0;
+    items.forEach((li) => {
+      const w = li.dataset.w.split(/[^a-z]+/);
+      const exps = li.dataset.exp.split(' ');
+      const hit = ts.some((t) => w.some((x) => x === t || (t.length >= 4 && x.startsWith(t)) || (x.length >= 4 && t.startsWith(x))));
+      const close = exps.some((e) => near.has(e));
+      li.classList.toggle('hit', hit);
+      li.classList.toggle('near', !hit && close);
+      if (hit || close) hits++;
+    });
+    heads.forEach((h) => h.classList.toggle('win', !!m.top && h.dataset.group === m.top.id));
+    count.innerHTML = m.top ? `<b>${hits}</b> of ${total} pieces fit. Jev would open <b>${m.top.title}</b>.` : `Nothing here fits yet. Ask about me or my work.`;
+  };
+  initDock({ onText: update });
+</script>
+</body>
+</html>

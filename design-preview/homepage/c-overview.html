@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bernat Sampera, AI engineer focused on context</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* Option C: overview first. The whole world on one screen, the details below.
+     One column line runs down the page: a wide column (MAAT) and a narrow column. */
+  .wrap { width: 100%; max-width: var(--page-max); margin: 0 auto; padding: 0 var(--gutter); }
+  .cols { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--space-5); }
+
+  /* Masthead: the motto over the wide column, who he is over the narrow column. */
+  .mast { align-items: last baseline; padding-top: var(--space-3); padding-bottom: var(--space-5); }
+  .mast-motto { font-size: var(--text-3xl); line-height: var(--leading-tight); letter-spacing: -.03em; }
+  .mast-who { font-size: var(--text-xl); line-height: var(--leading-snug); text-wrap: balance; }
+  .mast-who strong { font-weight: var(--weight-heavy); }
+
+  /* The overview grid: MAAT spans the full height on the left. */
+  .overview { grid-template-rows: minmax(0, 1fr) auto auto; row-gap: var(--space-5); }
+  .tile { border-radius: var(--radius-md); }
+  .tile-maat { grid-column: 1; grid-row: 1 / 4; }
+  .tile-memory { grid-column: 2; grid-row: 1; }
+  .tile-think { grid-column: 2; grid-row: 2; }
+  .also { grid-column: 2; grid-row: 3; }
+
+  /* MAAT: deep teal, the largest and strongest tile. It shares the rows of the narrow column:
+     its top lines up with "AI has no memory", its season band with "How I think",
+     and its newest chapter with "Also built". */
+  .tile-maat { --pad: var(--space-7); display: grid; grid-template-rows: subgrid; box-shadow: var(--shadow-lift); }
+  .maat-head { grid-row: 1; padding: var(--space-6) var(--pad) 0; }
+  .maat-name { margin-top: var(--space-1); font-size: var(--text-3xl); line-height: var(--leading-tight); }
+  /* 12em breaks the mission after "company" at every width, without text-wrap,
+     so the copy that home.js keeps in place during the guided move breaks the same way. */
+  .tile-maat .mission { margin-top: var(--space-2); max-width: 12em; }
+  .maat-context { margin-top: var(--space-3); max-width: var(--measure); color: var(--color-on-dark-soft); }
+  .maat-band { grid-row: 2 / 4; display: grid; grid-template-rows: subgrid; padding: var(--space-5) var(--pad); border-radius: 0 0 var(--radius-md) var(--radius-md); background: var(--journey-maat-deep); }
+  .maat-band .label { margin-bottom: var(--space-4); }
+  .maat-band .latest { grid-row: 2; }
+  .maat-act { margin-top: var(--space-4); }
+
+  /* AI has no memory: ink, second in weight. No links inside. */
+  .tile-memory { display: flex; flex-direction: column; padding: var(--space-6); }
+  .memory-name { margin-top: var(--space-1); font-size: var(--text-2xl); line-height: var(--leading-tight); }
+  .memory-mission { margin-top: var(--space-2); font: var(--weight-display) var(--text-lg)/var(--leading-snug) var(--font-display); }
+  .chapter-row { grid-template-columns: repeat(5, minmax(0, 1fr)) var(--space-6); gap: var(--space-2); margin-top: var(--space-4); }
+  .chapter-row .chapter { position: relative; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+  .chapter-row .chapter::before { width: var(--space-6); height: var(--space-6); background: var(--journey-memory); }
+  .chapter-row .chapter.now::before { background: var(--journey-memory-accent); }
+  .chapter-row .chapter:not(:last-child)::after { content: ''; position: absolute; top: calc(var(--space-4) - var(--border) / 2); left: var(--space-6); right: calc(-1 * var(--space-2)); height: var(--border); background: var(--color-on-dark-soft); }
+  .chapter-row .chapter.now::after { height: 0; background: none; border-top: var(--border) dashed var(--color-on-dark-soft); }
+  .chapter-row .chapter p { display: flex; justify-content: center; width: var(--space-6); white-space: nowrap; }
+  .chapter-row .chapter-date { font-size: var(--text-sm); font-weight: var(--weight-strong); color: var(--color-on-dark-soft); }
+  .tile-memory .latest { margin-top: var(--space-4); font-size: var(--text-sm); }
+  .tile-memory .latest-dot { background: var(--journey-memory-accent); box-shadow: none; }
+  .tile-memory .soon { color: var(--journey-memory-accent); }
+  .memory-foot { margin-top: auto; padding-top: var(--space-4); }
+
+  /* How I think: light surface, the five titles only. */
+  .tile-think { padding: var(--space-6); background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .think-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--space-2) var(--space-4); }
+  .think-title { font-size: var(--text-xl); line-height: var(--leading-snug); }
+  .think-head a { font-weight: var(--weight-strong); font-size: var(--text-sm); color: var(--color-accent-text); text-underline-offset: var(--space-1); }
+  .think-list { display: grid; gap: var(--space-2); margin-top: var(--space-4); counter-reset: t; }
+  .think-list li { display: grid; grid-template-columns: var(--space-6) minmax(0, 1fr); counter-increment: t; font-weight: var(--weight-strong); line-height: var(--leading-snug); }
+  .think-list li::before { content: counter(t); color: var(--color-accent-text); font-weight: var(--weight-heavy); }
+
+  /* Also built: plain paper, small. */
+  .also { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-1) var(--space-5); align-items: baseline; }
+  .also-list { display: grid; gap: var(--space-1); }
+  .also .product { font-size: var(--text-sm); }
+
+  /* Below the first screen: the same two columns. */
+  .more { padding-top: var(--space-9); }
+  .more-title { font-size: var(--text-3xl); line-height: var(--leading-tight); }
+  .more-lead { align-self: end; max-width: var(--measure); font-size: var(--text-lg); color: var(--color-ink-soft); }
+  .rules { margin-top: var(--space-6); border-top: var(--border) solid var(--color-ink); counter-reset: p; }
+  .rules .principle { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: var(--space-5); padding: var(--space-6) 0; border-bottom: var(--border) solid var(--color-line); counter-increment: p; }
+  .rules .principle-title { grid-row: span 2; position: relative; padding-left: var(--space-8); padding-right: var(--space-6); font-size: var(--text-2xl); line-height: var(--leading-snug); }
+  .rules .principle-title::before { content: counter(p); position: absolute; left: 0; top: 0; color: var(--color-accent-text); }
+  .rules .principle > p { grid-column: 2; }
+  .rules .principle-explain { margin-top: 0; font-size: var(--text-lg); }
+  .about-text { display: grid; gap: var(--space-3); font-size: var(--text-lg); }
+  .about-text p:last-child { color: var(--color-ink-soft); }
+  .foot { margin-top: var(--space-9); }
+
+  @media (max-width: 1080px) {
+    .cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .overview { grid-template-rows: auto auto auto; }
+    .tile-maat { grid-column: 1 / -1; grid-row: 1; display: flex; flex-direction: column; }
+    .maat-head { padding-bottom: var(--space-6); }
+    .maat-band { display: block; padding-bottom: var(--pad); }
+    .maat-band .latest { margin-top: var(--space-5); }
+    .tile-memory { grid-column: 1; grid-row: 2; }
+    .tile-think { grid-column: 2; grid-row: 2; }
+    .also { grid-column: 1 / -1; grid-row: 3; }
+    .also-list { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-7); }
+  }
+  @media (max-width: 760px) {
+    .cols { grid-template-columns: minmax(0, 1fr); row-gap: var(--space-3); }
+    .overview { row-gap: var(--space-5); }
+    .tile-maat, .tile-memory, .tile-think, .also { grid-column: 1; grid-row: auto; }
+    .mast { padding-top: var(--space-2); }
+    .tile-maat { --pad: var(--space-5); }
+    .tile-memory, .tile-think { padding: var(--space-6) var(--space-5); }
+    .also, .also-list { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .more { padding-top: var(--space-8); }
+    .rules .principle { grid-template-columns: minmax(0, 1fr); }
+    .rules .principle > p { grid-column: 1; }
+    .rules .principle-title { grid-row: auto; padding-left: var(--space-6); padding-right: 0; }
+    .rules .principle-explain { margin-top: var(--space-2); }
+  }
+  @media (max-width: 560px) {
+    .top nav { display: none; }
+    .tile-memory .soon { border-radius: var(--radius-sm); }
+  }
+  /* Narrow strip: the last month is too small for "Oct" and "Now" side by side. */
+  @media (max-width: 480px) {
+    .strip-axis span:last-child { flex-direction: column; justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="app"></div>
+<script src="../world/journey/data.js"></script>
+<script src="../world/journey/guided/data.js"></script>
+<script src="home.js"></script>
+<script>
+(() => {
+  const {W, esc, month, person, maat, memory, parts} = HomeKit;
+
+  // "AI has no memory" as one row of numbered chapters, with the month under each.
+  const order = c => c.date === 'next' ? '9999' : c.date;
+  const chapters = [...memory.chapters].sort((a, b) => order(a).localeCompare(order(b)));
+  const short = date => date === 'next' ? 'Next' : new Intl.DateTimeFormat('en', {month: 'short', timeZone: 'UTC'}).format(new Date(date + '-01T00:00:00Z'));
+  const newest = chapters.find(c => c.status === 'latest');
+  const chapterRow = `<ol class="chapters chapter-row" aria-label="Chapters, in date order">${chapters.map(c => `
+    <li class="chapter${c.status === 'next' ? ' next' : ''}${c.status === 'latest' ? ' now' : ''}">
+      <p><span class="sr-only">${esc(c.title)}, </span><span class="chapter-date">${esc(short(c.date))}</span></p>
+    </li>`).join('')}
+  </ol>`;
+
+  document.getElementById('app').innerHTML = `
+    <header class="top">
+      <a class="top-name" href="#main">${esc(person.name)}</a>
+      <nav aria-label="On this page">
+        <a href="#maat">MAAT</a><a href="#memory">${esc(memory.name)}</a><a href="#principles">How I think</a><a href="#about">About</a>
+      </nav>
+    </header>
+    <main id="main" class="wrap">
+      <section class="mast cols" aria-labelledby="motto">
+        <h1 class="mast-motto" id="motto" data-intro>${esc(person.motto)}</h1>
+        <p class="mast-who" data-intro><strong>${esc(person.name)}</strong>,<br>${esc(person.role)}.</p>
+      </section>
+
+      <div class="overview cols">
+        <section class="tile tile-maat panel-maat on-dark" id="maat" data-panel="maat" data-intro aria-labelledby="maat-name">
+          <div class="maat-head">
+            <p class="label">My main work</p>
+            <h2 class="maat-name" id="maat-name">${esc(maat.name)}</h2>
+            <p class="mission" data-maat-mission>${esc(maat.mission)}</p>
+            <p class="maat-context">${esc(maat.context)}</p>
+            <p class="maat-act">${parts.enter('btn btn-accent')}</p>
+          </div>
+          <div class="maat-band">
+            <div>
+              <p class="label">The journey in 2026: three parts</p>
+              ${parts.seasonStrip()}
+            </div>
+            ${parts.latestChapter()}
+          </div>
+        </section>
+
+        <section class="tile tile-memory panel-memory on-dark" id="memory" data-panel="memory" data-intro aria-labelledby="memory-name">
+          <p class="label">My research</p>
+          <h2 class="memory-name" id="memory-name">${esc(memory.name)}</h2>
+          <p class="memory-mission">${esc(memory.mission)}</p>
+          ${chapterRow}
+          <div class="latest"><span class="latest-dot" aria-hidden="true"></span>
+            <p>Newest chapter: ${esc(newest.title)}</p></div>
+          <div class="memory-foot">${parts.soon()}</div>
+        </section>
+
+        <section class="tile tile-think" data-intro aria-labelledby="think-title">
+          <div class="think-head">
+            <h2 class="think-title" id="think-title">How I think about AI</h2>
+            <a href="#principles">Explained below</a>
+          </div>
+          <ol class="think-list">${W.principles.map(p => `<li>${esc(p.title)}</li>`).join('')}</ol>
+        </section>
+
+        <section class="also" data-intro aria-labelledby="also-title">
+          <h2 class="label" id="also-title">Also built</h2>
+          <ul class="also-list">${parts.products()}</ul>
+        </section>
+      </div>
+
+      <section class="more" id="principles" aria-labelledby="principles-title">
+        <div class="cols">
+          <h2 class="more-title" id="principles-title">Five principles, explained</h2>
+          <p class="more-lead">${esc(person.mottoLong)}</p>
+        </div>
+        <ol class="rules">${parts.principles(3)}</ol>
+      </section>
+
+      <section class="more cols" id="about" aria-labelledby="about-title">
+        <h2 class="more-title" id="about-title">About me</h2>
+        <div class="about-text">
+          <p>${esc(person.notDev)}</p>
+          <p>${esc(person.now)}</p>
+        </div>
+      </section>
+    </main>
+    ${parts.footer()}`;
+  HomeKit.start();
+})();
+</script>
+</body>
+</html>

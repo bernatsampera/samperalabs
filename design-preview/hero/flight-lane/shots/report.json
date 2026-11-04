@@ -1,0 +1,3004 @@
+[
+  {
+    "view": "desktop-portrait",
+    "q": "demo=0",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 0,
+      "id": "0:Bernat Sampera",
+      "share": 0,
+      "screen": {
+        "x": 848,
+        "y": 398
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Scroll to fly through my work."
+  },
+  {
+    "view": "desktop-fly-60",
+    "q": "demo=0&fly=60",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 0,
+      "id": "0:Bernat Sampera",
+      "share": 0.03,
+      "screen": {
+        "x": 788,
+        "y": 424
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Who, 1 of 19"
+  },
+  {
+    "view": "desktop-fly-140",
+    "q": "demo=0&fly=140",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 0,
+      "id": "0:Bernat Sampera",
+      "share": 0.12,
+      "screen": {
+        "x": 802,
+        "y": 427
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Who, 1 of 19"
+  },
+  {
+    "view": "desktop-at-0-who",
+    "q": "demo=0&at=0",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 0,
+      "id": "0:Bernat Sampera",
+      "share": 0.4,
+      "screen": {
+        "x": 987,
+        "y": 374
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Who, 1 of 19"
+  },
+  {
+    "view": "desktop-at-1-career",
+    "q": "demo=0&at=1",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 1,
+      "id": "1:Where I have worked",
+      "share": 0.4,
+      "screen": {
+        "x": 1024,
+        "y": 390
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Career, 2 of 19"
+  },
+  {
+    "view": "desktop-at-2-maat",
+    "q": "demo=0&at=2",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 2,
+      "id": "2:MAAT",
+      "share": 0.4,
+      "screen": {
+        "x": 997,
+        "y": 415
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "MAAT, 3 of 19"
+  },
+  {
+    "view": "desktop-at-3-enabling-ai",
+    "q": "demo=0&at=3",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 3,
+      "id": "3:Enabling AI across MAAT",
+      "share": 0.4,
+      "screen": {
+        "x": 925,
+        "y": 412
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "MAAT, 4 of 19"
+  },
+  {
+    "view": "desktop-at-3-hover",
+    "q": "demo=0&at=3",
+    "act": "hover",
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 3,
+      "id": "3:Enabling AI across MAAT",
+      "share": 0.4,
+      "screen": {
+        "x": 925,
+        "y": 412
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "MAAT, 4 of 19"
+  },
+  {
+    "view": "desktop-at-2-click-opens-page",
+    "q": "demo=0&at=2",
+    "act": "click",
+    "boxOpen": null,
+    "wentTo": "https://samperalabs.com/maat",
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 2,
+      "id": "2:MAAT",
+      "share": 0.4,
+      "screen": {
+        "x": 997,
+        "y": 415
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "MAAT, 3 of 19"
+  },
+  {
+    "view": "desktop-at-5-click-opens-box",
+    "q": "demo=0&at=5",
+    "act": "click",
+    "boxOpen": true,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 5,
+      "id": "5:Everything is informatio",
+      "share": 0.4,
+      "screen": {
+        "x": 858,
+        "y": 374
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Principle, 6 of 19"
+  },
+  {
+    "view": "desktop-at-4-gcontext",
+    "q": "demo=0&at=4",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 4,
+      "id": "4:gcontext",
+      "share": 0.4,
+      "screen": {
+        "x": 863,
+        "y": 385
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Research, 5 of 19"
+  },
+  {
+    "view": "desktop-at-4-between",
+    "q": "demo=0&at=4.5",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 5,
+      "id": "5:Everything is informatio",
+      "share": 0.19,
+      "screen": {
+        "x": 785,
+        "y": 414
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Principle, 6 of 19"
+  },
+  {
+    "view": "desktop-at-11",
+    "q": "demo=0&at=11",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 11,
+      "id": "11:How we built the MAAT Ad",
+      "share": 0.4,
+      "screen": {
+        "x": 862,
+        "y": 400
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Article, October 2026, 12 of 19"
+  },
+  {
+    "view": "desktop-at-18-last",
+    "q": "demo=0&at=18",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 18,
+      "id": "18:Write to me",
+      "share": 0.4,
+      "screen": {
+        "x": 862,
+        "y": 400
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Contact, 19 of 19"
+  },
+  {
+    "view": "desktop-at-2-no-around",
+    "q": "demo=0&at=2&stride=0",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 19,
+    "lane": 19,
+    "around": 0,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1440,
+      "h": 900,
+      "portrait": 666,
+      "hair": 190,
+      "chin": 602,
+      "dockTop": 696,
+      "chipsTop": 760,
+      "fov": 51.9,
+      "y0": 0.8,
+      "lane": {
+        "x": 0.3,
+        "y": 0.12,
+        "read": 0.4
+      }
+    },
+    "maxd": 1250,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 524,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 585,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 645,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 706,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 766,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 827,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 887,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 948,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1008,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1069,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1129,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1190,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1250,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 2,
+      "id": "2:MAAT",
+      "share": 0.4,
+      "screen": {
+        "x": 997,
+        "y": 415
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "MAAT, 3 of 19"
+  },
+  {
+    "view": "laptop-at-1",
+    "q": "demo=0&at=1",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 1280,
+      "h": 720,
+      "portrait": 533,
+      "hair": 141,
+      "chin": 471,
+      "dockTop": 516,
+      "chipsTop": 580,
+      "fov": 51.9,
+      "y0": 2.26,
+      "lane": {
+        "x": 0.29,
+        "y": 0.15,
+        "read": 0.4
+      }
+    },
+    "maxd": 1258,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 162,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 223,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 283,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 344,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 405,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 466,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 527,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 588,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 649,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 710,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 770,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 831,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 892,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 953,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1014,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1075,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1136,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1197,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1258,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 1,
+      "id": "1:Where I have worked",
+      "share": 0.4,
+      "screen": {
+        "x": 901,
+        "y": 301
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Career, 2 of 19"
+  },
+  {
+    "view": "phone-portrait",
+    "q": "demo=0",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 390,
+      "h": 844,
+      "portrait": 390,
+      "hair": 385,
+      "chin": 627,
+      "dockTop": 688,
+      "chipsTop": 728,
+      "fov": 75.8,
+      "y0": -20.49,
+      "lane": {
+        "x": 0,
+        "y": -0.12,
+        "read": 0.85
+      }
+    },
+    "maxd": 1249,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 523,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 584,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 644,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 705,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 765,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 826,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 886,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 947,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1007,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1068,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1128,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1189,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1249,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 0,
+      "id": "0:Bernat Sampera",
+      "share": 0.01,
+      "screen": {
+        "x": 193,
+        "y": 474
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Scroll to fly through my work."
+  },
+  {
+    "view": "phone-at-1-career",
+    "q": "demo=0&at=1",
+    "act": null,
+    "boxOpen": null,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 390,
+      "h": 844,
+      "portrait": 390,
+      "hair": 385,
+      "chin": 627,
+      "dockTop": 688,
+      "chipsTop": 728,
+      "fov": 75.8,
+      "y0": -20.49,
+      "lane": {
+        "x": 0,
+        "y": -0.12,
+        "read": 0.85
+      }
+    },
+    "maxd": 1249,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 523,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 584,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 644,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 705,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 765,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 826,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 886,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 947,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1007,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1068,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1128,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1189,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1249,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 1,
+      "id": "1:Where I have worked",
+      "share": 0.85,
+      "screen": {
+        "x": 218,
+        "y": 468
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Career, 2 of 19"
+  },
+  {
+    "view": "phone-at-5-click-opens-box",
+    "q": "demo=0&at=5",
+    "act": "click",
+    "boxOpen": true,
+    "wentTo": null,
+    "dots": 4349,
+    "cards": 353,
+    "lane": 19,
+    "around": 334,
+    "atlas": "3840x2456",
+    "grid": 96,
+    "frame": {
+      "w": 390,
+      "h": 844,
+      "portrait": 390,
+      "hair": 385,
+      "chin": 627,
+      "dockTop": 688,
+      "chipsTop": 728,
+      "fov": 75.8,
+      "y0": -20.49,
+      "lane": {
+        "x": 0,
+        "y": -0.12,
+        "read": 0.85
+      }
+    },
+    "maxd": 1249,
+    "order": [
+      {
+        "id": "0:Bernat Sampera",
+        "z": 170,
+        "readAt": 161,
+        "aspect": 1.9
+      },
+      {
+        "id": "1:Where I have worked",
+        "z": 234,
+        "readAt": 221,
+        "aspect": 1.64
+      },
+      {
+        "id": "2:MAAT",
+        "z": 298,
+        "readAt": 282,
+        "aspect": 1.9
+      },
+      {
+        "id": "3:Enabling AI across MAAT",
+        "z": 362,
+        "readAt": 342,
+        "aspect": 1.9
+      },
+      {
+        "id": "4:gcontext",
+        "z": 426,
+        "readAt": 403,
+        "aspect": 1.9
+      },
+      {
+        "id": "5:Everything is informatio",
+        "z": 490,
+        "readAt": 463,
+        "aspect": 1.9
+      },
+      {
+        "id": "6:AI has no memory",
+        "z": 554,
+        "readAt": 523,
+        "aspect": 1.9
+      },
+      {
+        "id": "7:Give a map, not a pile",
+        "z": 618,
+        "readAt": 584,
+        "aspect": 1.9
+      },
+      {
+        "id": "8:Knowledge beats code",
+        "z": 682,
+        "readAt": 644,
+        "aspect": 1.9
+      },
+      {
+        "id": "9:MAAT Admin Agent, routin",
+        "z": 746,
+        "readAt": 705,
+        "aspect": 1.9
+      },
+      {
+        "id": "10:Global context research",
+        "z": 810,
+        "readAt": 765,
+        "aspect": 1.9
+      },
+      {
+        "id": "11:How we built the MAAT Ad",
+        "z": 874,
+        "readAt": 826,
+        "aspect": 1.87
+      },
+      {
+        "id": "12:Global context for AI ag",
+        "z": 938,
+        "readAt": 886,
+        "aspect": 1.9
+      },
+      {
+        "id": "13:Building an AI Brain at ",
+        "z": 1002,
+        "readAt": 947,
+        "aspect": 1.9
+      },
+      {
+        "id": "14:From a gym schedule pict",
+        "z": 1066,
+        "readAt": 1007,
+        "aspect": 1.9
+      },
+      {
+        "id": "15:All articles",
+        "z": 1130,
+        "readAt": 1068,
+        "aspect": 1.9
+      },
+      {
+        "id": "16:BJJGym",
+        "z": 1194,
+        "readAt": 1128,
+        "aspect": 1.9
+      },
+      {
+        "id": "17:IndoEuroMap",
+        "z": 1258,
+        "readAt": 1189,
+        "aspect": 1.9
+      },
+      {
+        "id": "18:Write to me",
+        "z": 1322,
+        "readAt": 1249,
+        "aspect": 1.9
+      }
+    ],
+    "current": {
+      "index": 5,
+      "id": "5:Everything is informatio",
+      "share": 0.85,
+      "screen": {
+        "x": 173,
+        "y": 453
+      }
+    },
+    "fieldOnScreen": true,
+    "overflow": false,
+    "hint": "Principle, 6 of 19"
+  }
+]

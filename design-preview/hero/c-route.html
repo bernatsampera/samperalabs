@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero C: the route</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* C: one question, eleven places it can go. The field is the start; the chosen path turns to ink and the marker travels it.
+     The drawing uses the story path language: solid ink behind, dotted gray ahead, the blue marker. */
+  .hero-view { gap: var(--s-5); padding-bottom: 0; }
+  .route { width: min(var(--column), 100% - 2 * var(--gutter)); display: flex; flex-direction: column; margin-top: var(--s-2); }
+  .stops { display: grid; grid-template-columns: repeat(11, 1fr); gap: 0; }
+  .stop { display: flex; flex-direction: column; align-items: center; gap: var(--s-2); min-width: 0; padding: 0 2px; }
+  .stop .l { font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--slate); text-align: center; text-wrap: balance; min-height: 36px; display: flex; align-items: flex-end; transition: color 300ms; }
+  .stop.win .l { color: var(--ink); font-weight: var(--weight-medium); }
+  .stop.close .l { color: var(--ink); }
+  .stop .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--gray-300); transition: border-color 300ms, background-color 300ms, transform 300ms var(--ease-out); }
+  .stop.close .dot { border-color: var(--ink); }
+  .stop.win .dot { border-color: var(--ink); background: var(--ink); }
+  .stop.arrive .dot { animation: pulse 900ms var(--ease-out); }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(29, 91, 255, .35); } 100% { box-shadow: 0 0 0 14px rgba(29, 91, 255, 0); } }
+  svg.fan { display: block; width: 100%; height: auto; overflow: visible; margin-top: -2px; }
+  .fan path { fill: none; stroke: var(--mist); stroke-width: 1; stroke-dasharray: 2 5; stroke-linecap: round; transition: stroke 300ms, stroke-width 300ms; }
+  .fan.active path { stroke: var(--rule); }
+  .fan path.close { stroke: var(--slate); stroke-dasharray: none; }
+  .fan path.win { stroke: var(--ink); stroke-width: 2; stroke-dasharray: none; }
+  .fan .marker { fill: var(--accent); opacity: 0; transition: opacity 300ms; }
+  .fan .marker.on { opacity: 1; }
+  .fan .origin { fill: var(--ink); }
+  .read { text-align: center; min-height: 20px; font-size: var(--type-small); line-height: var(--leading-small); color: var(--slate); margin-top: calc(-1 * var(--s-2)); }
+  .read b { font-weight: var(--weight-medium); color: var(--ink); }
+  @media (max-width: 809px) {
+    svg.fan { display: none; }
+    .stops { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+    .stop { flex-direction: row; gap: var(--s-2); padding: 6px var(--s-3); border: 1px solid var(--rule); border-radius: var(--r-pill); }
+    .stop .l { min-height: 0; display: block; }
+    .stop .dot { width: 8px; height: 8px; }
+    .read { text-align: left; margin-top: 0; }
+  }
+  @media (max-height: 820px) and (min-width: 810px) { .hero-view { gap: var(--s-4); } }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<main class="hero" aria-labelledby="hero-title">
+  <div class="hero-view">
+    <div class="head">
+      <p class="id"><span class="id-pic" role="img" aria-label="Bernat Sampera"></span>Bernat Sampera, AI engineer</p>
+      <h1 id="hero-title">Everything is information.</h1>
+      <p class="lede">One question. Eleven places it can go. Ask, and the page takes you there.</p>
+    </div>
+    <div class="route">
+      <div class="stops" data-stops aria-label="The eleven answers"></div>
+      <svg class="fan" viewBox="0 0 900 220" aria-hidden="true" data-fan></svg>
+    </div>
+    <p class="read" data-read aria-live="polite"></p>
+  </div>
+  <div id="dock"></div>
+</main>
+<script src="shared.js"></script>
+<script>
+  const { initDock, match, EXPERIENCES, NAV, DOCK } = window.Hero;
+  document.getElementById('nav').outerHTML = NAV;
+  document.getElementById('dock').outerHTML = DOCK;
+
+  const W = 900, H = 220, N = EXPERIENCES.length;
+  const xs = EXPERIENCES.map((_, i) => (i + .5) * W / N);
+  const stopsEl = document.querySelector('[data-stops]');
+  const fan = document.querySelector('[data-fan]');
+  const read = document.querySelector('[data-read]');
+  stopsEl.innerHTML = EXPERIENCES.map((e) => `<div class="stop" data-id="${e.id}"><span class="l">${e.title}</span><span class="dot"></span></div>`).join('');
+  // Each path: from the origin at the bottom center, up into its stop.
+  fan.innerHTML = EXPERIENCES.map((e, i) => `<path data-id="${e.id}" d="M ${W / 2} ${H} C ${W / 2} ${H - 110}, ${xs[i].toFixed(1)} 110, ${xs[i].toFixed(1)} 0"/>`).join('')
+    + `<circle class="origin" cx="${W / 2}" cy="${H}" r="4"/><circle class="marker" cx="${W / 2}" cy="${H}" r="5"/>`;
+  const stops = new Map([...stopsEl.querySelectorAll('.stop')].map((s) => [s.dataset.id, s]));
+  const paths = new Map([...fan.querySelectorAll('path')].map((p) => [p.dataset.id, p]));
+  const marker = fan.querySelector('.marker');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let anim, current = null;
+
+  const place = (path, t) => { const len = path.getTotalLength(); const pt = path.getPointAtLength(len * t); marker.setAttribute('cx', pt.x); marker.setAttribute('cy', pt.y); };
+  const travel = (id) => {
+    cancelAnimationFrame(anim);
+    const path = paths.get(id);
+    marker.classList.add('on');
+    if (reduced) { place(path, 1); stops.get(id).classList.add('arrive'); return; }
+    const t0 = performance.now(), dur = 900;
+    const ease = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      place(path, ease(t));
+      if (t < 1) anim = requestAnimationFrame(step); else { const s = stops.get(id); s.classList.remove('arrive'); void s.offsetWidth; s.classList.add('arrive'); }
+    };
+    anim = requestAnimationFrame(step);
+  };
+  const idle = () => {
+    cancelAnimationFrame(anim); current = null;
+    fan.classList.remove('active'); marker.classList.remove('on'); place(paths.get('who'), 0);
+    stops.forEach((s) => s.classList.remove('win', 'close', 'arrive'));
+    paths.forEach((p) => p.classList.remove('win', 'close'));
+    read.innerHTML = 'Eleven prepared answers. Your question picks the path.';
+  };
+  const update = (q) => {
+    const m = match(q);
+    if (!m.active) return idle();
+    fan.classList.add('active');
+    const win = m.top && m.top.p >= .5 ? m.top.id : null;
+    const close = new Set(m.list.filter((e) => e.p >= .2 && e.id !== win).map((e) => e.id));
+    stops.forEach((s, id) => { s.classList.toggle('win', id === win); s.classList.toggle('close', close.has(id)); if (id !== win) s.classList.remove('arrive'); });
+    paths.forEach((p, id) => { p.classList.toggle('win', id === win); p.classList.toggle('close', close.has(id)); });
+    if (win && win !== current) travel(win);
+    if (!win) { cancelAnimationFrame(anim); marker.classList.remove('on'); }
+    current = win;
+    read.innerHTML = !m.top ? 'Nothing fits yet. Ask about me or my work.'
+      : win ? `On the way to <b>${m.top.title}</b>.`
+      : `Close between <b>${[...close].map((id) => EXPERIENCES.find((e) => e.id === id).title).join('</b> and <b>')}</b>. The page would ask which one.`;
+  };
+  initDock({ onText: update });
+</script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bernat Sampera, AI engineer focused on context</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* Option D: guided scenes.
+     A fixed progress rail on the left names the five scenes and marks the current one.
+     The scenes are full screen. MAAT and "AI has no memory" stick to the top,
+     and each later scene slides over the one before it. No scene changes size. */
+  :root { --rail-w: clamp(208px, 16vw, 248px); --split: minmax(0, 5fr) minmax(0, 7fr); }
+  html { scroll-padding-top: 0; }
+
+  /* Progress rail */
+  .rail {
+    position: fixed; z-index: 20; top: 0; bottom: 0; left: 0; width: var(--rail-w);
+    display: flex; flex-direction: column; gap: var(--space-7);
+    padding: var(--space-4) var(--space-5) var(--space-6);
+    background-color: var(--color-paper); background-image: radial-gradient(var(--color-dots) 1px, transparent 1.4px); background-size: var(--dot-size) var(--dot-size);
+    border-right: 1px solid var(--color-line);
+  }
+  .rail .top-name { align-self: flex-start; }
+  .rail-nav { margin-top: auto; margin-bottom: auto; }
+  .rail-title { margin-bottom: var(--space-3); }
+  .rail-list { position: relative; display: grid; }
+  .rail-list::before, .rail-list::after { content: ''; position: absolute; left: 6px; top: 22px; bottom: 22px; width: 2px; }
+  .rail-list::before { background: var(--color-line); }
+  .rail-list::after { background: var(--color-ink); transform-origin: top; transform: scaleY(var(--p, 0)); transition: transform var(--dur-slow) var(--ease-out); }
+  .rail-list a { display: flex; align-items: center; gap: var(--space-3); min-height: 44px; font-size: var(--text-sm); font-weight: var(--weight-strong); color: var(--color-ink-soft); text-decoration: none; text-underline-offset: 4px; }
+  .rail-list a:hover { text-decoration: underline; }
+  .rail-list a[aria-current="true"] { color: var(--color-ink); font-weight: var(--weight-heavy); }
+  .rail-stop { position: relative; z-index: 1; flex: none; width: 14px; height: 14px; border-radius: 50%; border: var(--border) solid var(--color-ink-soft); background: var(--color-paper); transition: background-color var(--dur-fast), border-color var(--dur-fast), transform var(--dur-med) var(--ease-out); }
+  .rail-list li.done .rail-stop { background: var(--color-ink); border-color: var(--color-ink); }
+  .rail-list a[aria-current="true"] .rail-stop { background: var(--color-accent); border-color: var(--color-ink); transform: scale(1.35); }
+  .rail-now { display: none; }
+
+  /* Scenes */
+  main { position: relative; margin-left: var(--rail-w); }
+  .cue { display: block; height: 0; }
+  .scene { position: relative; }
+  .scene-in { max-width: 76em; padding: var(--space-8); }
+  .scene-me { z-index: 1; }
+  .scene-maat { z-index: 2; }
+  .scene-memory { z-index: 3; }
+  .scene-think { z-index: 4; background-color: var(--color-surface); }
+  .scene-built { z-index: 5; background-color: var(--color-paper); background-image: radial-gradient(var(--color-dots) 1px, transparent 1.4px); background-size: var(--dot-size) var(--dot-size); }
+
+  /* Scene 1: who he is */
+  .me-who { font-size: var(--text-xl); line-height: var(--leading-snug); }
+  .me-who strong { font-weight: var(--weight-heavy); }
+  .me-motto { margin-top: var(--space-2); font-size: var(--text-4xl); line-height: var(--leading-tight); letter-spacing: -.03em; }
+  .me-line { margin-top: var(--space-5); max-width: var(--measure); font-size: var(--text-lg); }
+
+  /* Scenes 2 and 3 share one frame: a head, then a timeline. */
+  .head { display: flex; flex-direction: column; justify-content: center; }
+  .head-name { margin-top: var(--space-2); font-size: var(--text-3xl); line-height: var(--leading-tight); }
+  .head-row { display: grid; grid-template-columns: var(--split); gap: var(--space-5) var(--space-8); align-items: start; margin-top: var(--space-4); }
+  .head .mission { max-width: 13em; }
+  .head-side { display: grid; gap: var(--space-5); justify-items: start; }
+  .head-context { max-width: var(--measure); font-size: var(--text-lg); color: var(--color-on-dark-soft); }
+  .lower { padding-top: var(--space-6); }
+
+  /* MAAT: three seasons on a month scale. Each season's text sits on the row of its bar. */
+  .gantt-head, .g-row { display: grid; grid-template-columns: var(--split); column-gap: var(--space-8); }
+  .gantt-head { align-items: end; }
+  .gantt-head .label { padding-bottom: var(--space-2); }
+  .g-months { position: relative; display: grid; grid-template-columns: repeat(var(--months), minmax(0, 1fr)); padding: 0 0 var(--space-2); border-right: var(--border) solid var(--color-accent); font-size: var(--text-xs); font-weight: var(--weight-strong); line-height: var(--leading-snug); color: var(--color-on-dark-soft); }
+  .g-months span { padding-left: var(--space-2); }
+  .g-now { position: absolute; right: 0; top: 0; transform: translate(50%, -40%); padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); background: var(--color-accent); color: var(--color-ink); font-weight: var(--weight-heavy); font-size: var(--text-xs); line-height: var(--leading-snug); }
+  .g-rows { border-top: 1px solid var(--color-on-dark-line); }
+  .g-row { border-bottom: 1px solid var(--color-on-dark-line); }
+  .g-text { padding: var(--space-3) 0; }
+  .g-name { font-size: var(--text-xl); line-height: var(--leading-snug); }
+  .g-question { margin-top: var(--space-1); }
+  .g-meta { margin-top: var(--space-1); font-size: var(--text-sm); font-weight: var(--weight-strong); color: var(--color-on-dark-soft); }
+  .g-track {
+    display: grid; grid-template-columns: repeat(var(--months), minmax(0, 1fr)); align-items: center;
+    border-right: var(--border) solid var(--color-accent);
+    background-image: linear-gradient(to right, var(--color-on-dark-line) 1px, transparent 1px); background-size: calc(100% / var(--months)) 100%;
+  }
+  .g-bar { grid-row: 1; height: 34px; border-radius: var(--radius-pill); background: var(--s-light); }
+  .g-bar.open { border-radius: var(--radius-pill) 0 0 var(--radius-pill); }
+  [data-grow="wait"] .g-bar { clip-path: inset(0 100% 0 0); }
+  .scene-maat .latest { margin-top: var(--space-5); }
+
+  /* AI has no memory: the chapters as one dated line. */
+  .scene-memory .soon { color: var(--journey-memory-accent); }
+  .scene-memory .lower .label { margin-bottom: var(--space-5); }
+  .scene-memory .chapters { grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: auto auto auto; gap: var(--space-4) var(--space-5); }
+  .scene-memory .chapter { position: relative; grid-row: span 3; grid-template-columns: minmax(0, 1fr); grid-template-rows: subgrid; gap: var(--space-4); }
+  .scene-memory .chapter:not(:last-child)::after { content: ''; position: absolute; top: 16px; left: 46px; right: calc(var(--space-3) - var(--space-5)); border-top: var(--border) solid var(--color-on-dark-line); }
+  .scene-memory .chapter:nth-last-child(2)::after { border-top-style: dashed; }
+  .chapter-learned { grid-column: -2; align-self: start; padding: var(--space-1) 0 var(--space-1) var(--space-3); border-left: var(--border) solid var(--journey-memory-accent); font: italic var(--weight-text) var(--text-md)/var(--leading-snug) var(--font-display); }
+
+  /* How I think: the title and the five principles fill a three by two grid. */
+  .think { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-7) var(--space-7); }
+  .think-list { display: contents; counter-reset: pr; }
+  .think-head { padding-top: calc(var(--border) + var(--space-4)); }
+  .think-title { font-size: var(--text-3xl); line-height: var(--leading-tight); }
+  .think-lead { margin-top: var(--space-4); font-size: var(--text-lg); color: var(--color-ink-soft); }
+  .principle { counter-increment: pr; padding-top: var(--space-4); border-top: var(--border) solid var(--color-ink); }
+  .principle::before { content: counter(pr); display: block; margin-bottom: var(--space-3); font: var(--weight-display) var(--text-2xl)/1 var(--font-display); color: var(--color-accent-text); }
+
+  /* Also built: small, at the end. */
+  .built { display: grid; grid-template-columns: var(--split); gap: var(--space-4) var(--space-8); align-items: baseline; }
+  .built-title { font-size: var(--text-2xl); line-height: var(--leading-tight); }
+  .built-list { display: grid; gap: var(--space-3); }
+
+  /* Desktop: the first scene takes 60 percent of the screen, so the top of MAAT shows below it. */
+  @media (min-width: 901px) {
+    .scene-me { height: 60vh; display: flex; align-items: flex-end; }
+    .scene-maat, .scene-memory, .scene-think { min-height: 100vh; }
+    .scene-maat .scene-in, .scene-memory .scene-in { padding-top: var(--space-7); }
+    .head { min-height: calc(40vh - var(--space-7)); padding-bottom: var(--space-6); }
+  }
+  /* Shorter desktop screens: the same layout with tighter vertical spacing. */
+  @media (min-width: 901px) and (max-height: 860px) {
+    .scene-maat .scene-in, .scene-memory .scene-in { padding-top: var(--space-6); }
+    .head { min-height: calc(40vh - var(--space-6)); padding-bottom: var(--space-5); }
+    .head-side { gap: var(--space-4); }
+    .lower { padding-top: var(--space-5); }
+    .g-text { padding: var(--space-2) 0; }
+    .g-name { font-size: var(--text-lg); }
+    .scene-maat .latest { margin-top: var(--space-4); }
+  }
+  /* Large enough to hold a whole scene: every scene is exactly one screen.
+     MAAT and "AI has no memory" stick, and the next scene covers them. Below this size the scenes simply stack. */
+  @media (min-width: 1100px) and (min-height: 760px) {
+    .scene-maat, .scene-memory, .scene-think { height: 100vh; }
+    .scene-maat, .scene-memory { position: sticky; top: 0; }
+    .scene-think .scene-in { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+    .hold { height: 30vh; }
+  }
+
+  /* Phone and tablet: plain stacked sections. The rail becomes a top bar with the current scene. */
+  @media (max-width: 900px) {
+    html { scroll-padding-top: var(--space-8); }
+    .rail { position: sticky; bottom: auto; width: auto; min-height: var(--space-8); flex-direction: row; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-3) var(--space-5); border-right: 0; border-bottom: 1px solid var(--color-line); }
+    .rail-nav { display: none; }
+    .rail-now { display: flex; align-items: center; gap: var(--space-2); min-width: 0; font-size: var(--text-sm); font-weight: var(--weight-heavy); white-space: nowrap; overflow: hidden; }
+    .rail-now:not(:empty)::before { content: ''; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--color-accent); }
+    main { margin-left: 0; }
+    .scene-in { padding: var(--space-7) var(--space-5); }
+    .scene-me .scene-in { padding-top: var(--space-6); padding-bottom: var(--space-6); }
+    .head-row, .gantt-head, .g-row, .built { grid-template-columns: minmax(0, 1fr); }
+    .g-months { padding-top: var(--space-6); }
+    .g-now { transform: none; }
+    .scene-memory .chapters { grid-template-rows: none; }
+    .scene-memory .chapter { grid-row: auto; grid-template-rows: none; gap: var(--space-2) var(--space-3); }
+    .gantt-head { row-gap: var(--space-4); }
+    .g-rows { border-top: 0; }
+    .g-row { padding-bottom: var(--space-4); }
+    .g-text { padding-bottom: var(--space-3); }
+    .g-track { height: 42px; }
+    .scene-memory .chapters { grid-template-columns: minmax(0, 1fr); gap: var(--space-4); }
+    .scene-memory .chapter { grid-template-columns: 34px minmax(0, 1fr); }
+    .scene-memory .chapter:not(:last-child)::after { content: none; }
+    .think { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+    .think-head { padding-top: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail-list::after, .rail-stop { transition: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div id="app"></div>
+<script src="../world/journey/data.js"></script>
+<script src="../world/journey/guided/data.js"></script>
+<script src="home.js"></script>
+<script>
+(() => {
+  const {esc, person, maat, memory, seasons, latest, parts, reduced} = HomeKit;
+  const W = HomeKit.W;
+
+  // Month helpers for the season scale. All dates come from the guided data.
+  const fmt = (date, opts) => new Intl.DateTimeFormat('en', {...opts, timeZone: 'UTC'}).format(new Date(date + '-01T00:00:00Z'));
+  const idx = date => { const [y, m] = date.split('-').map(Number); return y * 12 + m - 1; };
+  const ym = n => `${Math.floor(n / 12)}-${String(n % 12 + 1).padStart(2, '0')}`;
+  const first = Math.min(...seasons.map(s => idx(s.from)));
+  const months = idx(latest.date) - first + 1;
+  const year = fmt(latest.date, {year: 'numeric'});
+  const words = ['no', 'one', 'two', 'three', 'four', 'five', 'six'];
+  const dates = s => s.to
+    ? `${fmt(s.from, {month: 'short'})} to ${fmt(s.to, {month: 'short', year: 'numeric'})}`
+    : `Since ${fmt(s.from, {month: 'short', year: 'numeric'})}`;
+  const meta = s => `${dates(s)}. ${s.chapters.length} ${s.chapters.length === 1 ? 'chapter' : 'chapters'}. ${s.status === 'done' ? 'Done' : 'Ongoing'}.`;
+
+  const gantt = `
+    <div class="gantt" style="--months: ${months};">
+      <div class="gantt-head">
+        <p class="label">${esc(`${words[seasons.length] || seasons.length} seasons in ${year}`.replace(/^./, c => c.toUpperCase()))}</p>
+        <p class="g-months" aria-hidden="true">${Array.from({length: months}, (_, i) => `<span>${esc(fmt(ym(first + i), {month: 'short'}))}</span>`).join('')}<b class="g-now">Now</b></p>
+      </div>
+      <ol class="g-rows">${seasons.map(s => {
+        const start = idx(s.from) - first + 1;
+        const end = s.to ? idx(s.to) - first + 2 : months + 1;
+        return `
+        <li class="g-row" style="--s-light: var(--season-${s.id}-light);">
+          <div class="g-text">
+            <h3 class="g-name">${esc(s.name)}</h3>
+            <p class="g-question">${esc(s.mission)}</p>
+            <p class="g-meta">${esc(meta(s))}</p>
+          </div>
+          <div class="g-track" aria-hidden="true"><span class="g-bar${s.to ? '' : ' open'}" style="grid-column: ${start} / ${end};"></span></div>
+        </li>`;
+      }).join('')}
+      </ol>
+      ${parts.latestChapter()}
+    </div>`;
+
+  // "AI has no memory": the chapters in date order (the last one is next), each with its lesson.
+  const order = c => c.date === 'next' ? '9999' : c.date;
+  const chapters = `<ol class="chapters">${[...memory.chapters].sort((a, b) => order(a).localeCompare(order(b))).map(c => `
+    <li class="chapter${c.status === 'next' ? ' next' : ''}${c.status === 'latest' ? ' now' : ''}">
+      <p><span class="chapter-title">${esc(c.title)}</span>
+      <span class="chapter-date">${esc(c.status === 'next' ? 'Next' : HomeKit.month(c.date))}</span></p>
+      <p class="chapter-learned">${esc(c.learned)}</p>
+    </li>`).join('')}
+  </ol>`;
+
+  const scenes = [
+    {id: 'me', name: 'Me'},
+    {id: 'maat', name: maat.name},
+    {id: 'memory', name: memory.name},
+    {id: 'think', name: 'How I think'},
+    {id: 'built', name: 'Also built'},
+  ];
+
+  document.getElementById('app').innerHTML = `
+    <header class="rail">
+      <a class="top-name" href="#main">${esc(person.name)}</a>
+      <nav class="rail-nav" aria-label="Scenes on this page">
+        <p class="label rail-title">On this page</p>
+        <ol class="rail-list">${scenes.map(s => `
+          <li><a href="#${s.id}"><span class="rail-stop" aria-hidden="true"></span><span>${esc(s.name)}</span></a></li>`).join('')}
+        </ol>
+      </nav>
+      <p class="rail-now" aria-hidden="true"></p>
+    </header>
+
+    <main id="main">
+      <div class="cue" id="me"></div>
+      <section class="scene scene-me" aria-labelledby="motto">
+        <div class="scene-in" data-intro>
+          <p class="me-who"><strong>${esc(person.name)}</strong>, ${esc(person.role)}.</p>
+          <h1 class="me-motto" id="motto">${esc(person.motto)}</h1>
+          <p class="me-line">${esc(person.notDev)}</p>
+        </div>
+      </section>
+
+      <div class="cue" id="maat"></div>
+      <section class="scene scene-maat panel-maat on-dark" data-panel="maat" aria-labelledby="maat-name">
+        <div class="scene-in">
+          <div class="head" data-intro>
+            <p class="label">My main work</p>
+            <h2 class="head-name" id="maat-name">${esc(maat.name)}</h2>
+            <div class="head-row">
+              <p class="mission" data-maat-mission>${esc(maat.mission)}</p>
+              <div class="head-side">
+                <p class="head-context">${esc(maat.context)}</p>
+                ${parts.enter('btn btn-accent')}
+              </div>
+            </div>
+          </div>
+          <div class="lower">${gantt}</div>
+        </div>
+      </section>
+      <div class="hold" aria-hidden="true"></div>
+
+      <div class="cue" id="memory"></div>
+      <section class="scene scene-memory panel-memory on-dark" data-panel="memory" aria-labelledby="memory-name">
+        <div class="scene-in">
+          <div class="head">
+            <p class="label">My research</p>
+            <h2 class="head-name" id="memory-name">${esc(memory.name)}</h2>
+            <div class="head-row">
+              <p class="mission">${esc(memory.mission)}</p>
+              <div class="head-side">
+                <p class="head-context">${esc(memory.context)}</p>
+                ${parts.soon()}
+              </div>
+            </div>
+          </div>
+          <div class="lower">
+            <p class="label">Chapters so far, and what I learned</p>
+            ${chapters}
+          </div>
+        </div>
+      </section>
+      <div class="hold" aria-hidden="true"></div>
+
+      <div class="cue" id="think"></div>
+      <section class="scene scene-think" aria-labelledby="think-title">
+        <div class="scene-in">
+          <div class="think">
+            <div class="think-head">
+              <h2 class="think-title" id="think-title">How I think about AI</h2>
+              <p class="think-lead">${esc(person.mottoLong)}</p>
+            </div>
+            <ol class="think-list" role="list">${parts.principles(3)}</ol>
+          </div>
+        </div>
+      </section>
+
+      <div class="cue" id="built"></div>
+      <section class="scene scene-built" aria-labelledby="built-title">
+        <div class="scene-in built">
+          <h2 class="built-title" id="built-title">Also built</h2>
+          <ul class="built-list">${parts.products()}</ul>
+        </div>
+        ${parts.footer()}
+      </section>
+    </main>`;
+
+  // The rail marks the scene whose start has passed 40 percent of the screen height.
+  // At the very end of the page, the last scene is current.
+  const rail = document.querySelector('.rail-list');
+  const links = [...rail.querySelectorAll('a')];
+  const cues = scenes.map(s => document.getElementById(s.id));
+  const now = document.querySelector('.rail-now');
+  const foot = document.querySelector('.foot');
+  let current = -1;
+  const setCurrent = i => {
+    if (i === current) return;
+    current = i;
+    links.forEach((a, j) => {
+      if (j === i) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      a.parentElement.classList.toggle('done', j < i);
+    });
+    rail.style.setProperty('--p', i / (links.length - 1));
+    now.textContent = i > 0 ? scenes[i].name : '';
+  };
+  const update = () => {
+    const mid = innerHeight * 0.4;
+    let i = 0;
+    cues.forEach((c, j) => { if (c.getBoundingClientRect().top <= mid) i = j; });
+    if (foot.getBoundingClientRect().bottom <= innerHeight + 1) i = cues.length - 1;
+    setCurrent(i);
+  };
+  const io = new IntersectionObserver(update, {rootMargin: '0px 0px -60% 0px'});
+  cues.forEach(c => io.observe(c));
+  new IntersectionObserver(update, {threshold: [0, 1]}).observe(foot);
+  addEventListener('resize', update);
+  update();
+
+  // One scroll moment: the first time the season scale comes into view, the bars grow from left to right.
+  // Only when it starts below the screen, and never under reduced motion. Without it, the bars show at once.
+  const scale = document.querySelector('.gantt');
+  const rows = scale.querySelector('.g-rows');
+  if (!reduced.matches && rows.getBoundingClientRect().top >= innerHeight) {
+    scale.dataset.grow = 'wait';
+    const grow = new IntersectionObserver(entries => {
+      if (!entries.some(e => e.isIntersecting)) return;
+      grow.disconnect();
+      if (reduced.matches) { delete scale.dataset.grow; return; }
+      scale.querySelectorAll('.g-bar').forEach((bar, i) => bar.animate(
+        [{clipPath: 'inset(0 100% 0 0)'}, {clipPath: 'inset(0 0 0 0)'}],
+        {duration: 900, delay: 120 + i * 160, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'backwards'}));
+      delete scale.dataset.grow;
+    }, {threshold: 0.35});
+    grow.observe(rows);
+  }
+
+  HomeKit.start();
+})();
+</script>
+</body>
+</html>

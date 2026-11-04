@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MAAT | Seasons in rows</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#FBF4E6; --card:#FFFDF7; --ink:#233140; --muted:#4E5B68; --deep:#1F5F73; --mint:#CDEFE9; --sun-text:#F9D36A; --coral:#F0745A; --sea:#2B8C96; --line:rgba(35,49,64,.12); --gutter:clamp(20px,4vw,56px); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 17px/1.5 'Nunito Sans', system-ui, sans-serif; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 0; }
+  :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; border-radius: 6px; }
+  .label { font: 800 12px 'Nunito Sans'; letter-spacing: .1em; text-transform: uppercase; }
+
+  .bar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px var(--gutter); background: rgba(251,244,230,.95); border-bottom: 1px solid var(--line); backdrop-filter: blur(8px); }
+  .bar a { font-weight: 800; text-decoration: none; color: inherit; }
+  .order { display: flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); }
+  .order button { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); font: 700 14px 'Nunito Sans'; color: var(--ink); cursor: pointer; }
+  .order button[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+  .hero { padding: 64px var(--gutter) 56px; background: var(--deep); color: #fff; }
+  .hero-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px; align-items: end; }
+  .hero .label { color: var(--sun-text); }
+  .hero h1 { margin: 12px 0 14px; font-size: clamp(38px, 4.6vw, 62px); line-height: 1.05; }
+  .hero p { margin: 0; color: var(--mint); max-width: 34em; }
+
+  .strip { display: grid; grid-template-columns: 82px repeat(6, 1fr); row-gap: 8px; font-size: 13px; }
+  .strip .month { color: var(--mint); font-weight: 700; padding-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,.2); }
+  .strip .name { grid-column: 1; font-weight: 800; align-self: center; color: #fff; }
+  .strip a { height: 28px; border-radius: 999px; display: flex; align-items: center; padding: 0 12px; font-weight: 800; font-size: 12px; color: var(--ink); text-decoration: none; white-space: nowrap; overflow: hidden; }
+  .strip a:hover { box-shadow: 0 0 0 2px #fff; }
+  .strip a.ongoing { position: relative; padding-right: 26px; border-radius: 999px 4px 4px 999px; }
+  .strip a.ongoing::after { content: '→'; position: absolute; right: 9px; }
+
+  .seasons { --side: max(var(--gutter), calc((100vw - 1200px) / 2 + var(--gutter))); padding: 64px 0 120px; display: flex; flex-direction: column; gap: 72px; }
+  .season-head { max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 var(--gutter); display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+  .season-tag { display: inline-flex; gap: 10px; align-items: center; padding: 4px 12px; border-radius: 999px; background: var(--c); color: var(--ink); }
+  .season-head h2 { margin: 10px 0 4px; font-size: clamp(28px, 3vw, 40px); line-height: 1.1; color: var(--deep); }
+  .season-head p { margin: 0; color: var(--muted); }
+  .controls { display: flex; align-items: center; gap: 10px; flex: none; }
+  .count { font-weight: 800; font-size: 14px; color: var(--muted); min-width: 4.5em; text-align: right; }
+  .controls button { width: 48px; height: 48px; border: 0; border-radius: 50%; background: var(--ink); color: #fff; font: 800 20px 'Nunito Sans'; cursor: pointer; }
+  .controls button:disabled { background: #E3D9C6; color: #8A8F96; cursor: default; }
+
+  .track { overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding: 0 var(--side) 26px; scroll-padding: 0 var(--side);
+    --fade: linear-gradient(90deg, rgba(0,0,0,.2) 0, rgba(0,0,0,.35) calc(var(--side) - 24px), #000 var(--side), #000 calc(100% - 96px), rgba(0,0,0,.15) 100%);
+    -webkit-mask-image: var(--fade); mask-image: var(--fade); }
+  .track::-webkit-scrollbar { display: none; }
+  .track ol { position: relative; display: flex; gap: 28px; width: max-content; margin: 0; padding: 0; list-style: none; }
+  .track ol::before { content: ''; position: absolute; left: 22px; right: 22px; top: 21px; border-top: 4px dotted var(--sea); opacity: .55; }
+  .step { scroll-snap-align: start; width: min(380px, 82vw); }
+  .badge { position: relative; display: grid; place-items: center; width: 46px; height: 46px; margin-bottom: 16px; border: 2px solid var(--ink); border-radius: 50%; background: var(--c); font-weight: 800; }
+  .card { height: calc(100% - 62px); display: flex; flex-direction: column; padding: 24px 26px; background: var(--card); border-radius: 14px; box-shadow: 0 1px 2px rgba(35,49,64,.06), 0 12px 30px rgba(35,49,64,.07); }
+  .step.now .badge { box-shadow: 0 0 0 5px var(--paper), 0 0 0 8px var(--coral); }
+  .meta { display: flex; gap: 12px; align-items: center; color: var(--muted); }
+  .here { padding: 2px 10px; border-radius: 999px; background: var(--coral); color: var(--ink); }
+  .card h3 { margin: 8px 0 12px; font-size: 25px; line-height: 1.15; }
+  .card p { margin: 0 0 8px; }
+  .learned { margin-top: auto; padding: 12px 0 0 14px; border-top: 1px dashed rgba(35,49,64,.3); border-left: 4px solid #7FD1C7; font-size: 15px; }
+  .learned strong { display: block; color: var(--deep); }
+  .more { display: inline-block; margin-top: 16px; font-weight: 800; color: var(--deep); text-decoration: none; border-bottom: 2px solid #7FD1C7; align-self: start; }
+  .step.next .badge { background: var(--paper); border-style: dashed; }
+  .step.next .card, .step.end .card { background: transparent; box-shadow: none; border: 1.5px dashed rgba(35,49,64,.3); justify-content: center; }
+  .step.end .badge { background: var(--paper); }
+  .step.next h3, .step.end h3 { color: var(--deep); }
+
+  @media (max-width: 860px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .season-head { flex-direction: column; align-items: start; }
+    .order span { display: none; }
+  }
+</style>
+</head>
+<body>
+<header class="bar">
+  <a href="home.html">← Home</a>
+  <div class="order" role="group" aria-label="Season order"><span>Mockup: season order</span>
+    <button type="button" data-order="first" aria-pressed="true">Season 1 first</button>
+    <button type="button" data-order="newest" aria-pressed="false">Newest first</button>
+  </div>
+  <a href="story.html?w=knowledge">AI has no memory →</a>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="label">MAAT</p>
+        <h1>How does a company become AI native?</h1>
+        <p>MAAT makes software for combat sports gyms. I help the team, and the gym owners, work with AI.</p>
+      </div>
+      <div class="strip" id="strip" aria-label="When each season ran"></div>
+    </div>
+  </section>
+  <div class="seasons" id="seasons"></div>
+</main>
+<script>
+const months = ['2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10'];
+const mon = (m, y) => new Intl.DateTimeFormat('en', {month: 'short', year: y ? 'numeric' : undefined, timeZone: 'UTC'}).format(new Date(m + '-01T00:00:00Z'));
+const seasons = [
+  {id: 1, name: 'Internal AI tools', goal: 'Give the team AI tools for slow, manual work.', from: '2026-05', to: '2026-09', c: '#7FD1C7'},
+  {id: 2, name: 'The company brain', goal: 'One place that answers any question about MAAT.', from: '2026-05', to: null, c: '#F6B49F'},
+  {id: 3, name: 'AI for our customers', goal: 'AI features that gym owners use every day.', from: '2026-09', to: null, c: '#F6C445'},
+];
+const chapters = [
+  {s: 1, date: '2026-05', title: 'AI migrations to MAAT', simple: 'Moving a gym\'s data into MAAT with AI.', learned: 'Check the AI output before it reaches a customer.'},
+  {s: 2, date: '2026-05', title: 'The knowledge lived in people\'s heads', simple: 'To do one task, you had to ask three people.', learned: 'Access to data is not the same as knowing how the work is done.'},
+  {s: 2, date: '2026-06', title: 'We drew a map of what we know', simple: 'One shared place for our knowledge: the MAAT Brain.', learned: 'The shape of knowledge matters as much as the knowledge.'},
+  {s: 2, date: '2026-07', title: 'The agent learned to do support tasks', simple: 'The AI reads the map and does real support work.', learned: 'A tree of context lets an agent find its way.'},
+  {s: 1, date: '2026-09', title: 'From a photo of a schedule to real classes', simple: 'A picture of a schedule becomes real classes in MAAT.', learned: 'Put a person where the AI is unsure.'},
+  {s: 3, date: '2026-10', title: 'Gym owners can ask in plain words', simple: 'A gym owner types a question. The Admin Agent answers with a table or a chart.', learned: 'Decide what the agent should do before the AI writes.', now: true},
+];
+const last = s => chapters.filter(c => c.s === s.id).at(-1).date;
+
+// Time strip
+const col = m => months.indexOf(m) + 2;
+document.getElementById('strip').innerHTML = `<span></span>${months.map(m => `<span class="month">${mon(m)}</span>`).join('')}` +
+  seasons.map((s, i) => `<span class="name" style="grid-row:${i + 2}">Season ${s.id}</span>
+    <a href="#season-${s.id}" class="${s.to ? '' : 'ongoing'}" title="${s.name}${s.to ? '' : ', ongoing'}" style="grid-row:${i + 2};grid-column:${col(s.from)} / ${s.to ? col(s.to) + 1 : months.length + 2};background:${s.c}">${s.name}</a>`).join('');
+
+function render(order) {
+  const list = order === 'newest' ? [...seasons].sort((a, b) => (b.to ? 0 : 1) - (a.to ? 0 : 1) || last(b).localeCompare(last(a))) : seasons;
+  document.getElementById('seasons').innerHTML = list.map(s => {
+    const own = chapters.filter(c => c.s === s.id);
+    const steps = own.map(c => `
+      <li class="step ${c.now ? 'now' : ''}" style="--c:${s.c}">
+        <span class="badge">${chapters.indexOf(c) + 1}</span>
+        <article class="card">
+          <p class="meta label">${mon(c.date, true)}${c.now ? ' <span class="here">You are here</span>' : ''}</p>
+          <h3>${c.title}</h3><p>${c.simple}</p>
+          <p class="learned"><strong>What I learned</strong>${c.learned}</p>
+          <a class="more" href="#">Read the full chapter →</a>
+        </article>
+      </li>`).join('') + (s.to
+        ? `<li class="step end" style="--c:${s.c}"><span class="badge">✓</span><article class="card"><p class="label">${mon(s.to, true)}</p><h3>Season complete</h3><p>${s.goal}</p></article></li>`
+        : `<li class="step next" style="--c:${s.c}"><span class="badge">…</span><article class="card"><p class="label">Next</p><h3>The next chapter is on its way</h3><p>This season is still going on.</p></article></li>`);
+    return `
+      <section class="season" id="season-${s.id}" aria-labelledby="season-title-${s.id}">
+        <div class="season-head">
+          <div>
+            <span class="season-tag label" style="--c:${s.c}">Season ${s.id} <span>${mon(s.from)} to ${s.to ? mon(s.to) : 'now'}</span> <span>${s.to ? 'Done' : 'Ongoing'}</span></span>
+            <h2 id="season-title-${s.id}">${s.name}</h2>
+            <p>${s.goal}</p>
+          </div>
+          <div class="controls">
+            <span class="count" aria-live="polite"></span>
+            <button type="button" data-dir="-1" aria-label="Previous chapter in ${s.name}">←</button>
+            <button type="button" data-dir="1" aria-label="Next chapter in ${s.name}">→</button>
+          </div>
+        </div>
+        <div class="track" tabindex="0" aria-label="${s.name} chapters"><ol>${steps}</ol></div>
+      </section>`;
+  }).join('');
+
+  document.querySelectorAll('.season').forEach(section => {
+    const track = section.querySelector('.track');
+    const items = [...track.querySelectorAll('.step')];
+    const real = items.filter(i => !i.classList.contains('next') && !i.classList.contains('end'));
+    const count = section.querySelector('.count');
+    const [prev, next] = section.querySelectorAll('.controls button');
+    const index = () => items.reduce((best, el, i) => Math.abs(el.offsetLeft - track.scrollLeft - items[0].offsetLeft) < Math.abs(items[best].offsetLeft - track.scrollLeft - items[0].offsetLeft) ? i : best, 0);
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
+      count.textContent = real.length === 1 ? "1 chapter" : real.length + " chapters";
+    };
+    const go = i => track.scrollTo({left: items[Math.max(0, Math.min(items.length - 1, i))].offsetLeft - items[0].offsetLeft});
+    prev.addEventListener('click', () => go(index() - 1));
+    next.addEventListener('click', () => go(index() + 1));
+    track.addEventListener('scroll', update, {passive: true});
+    track.addEventListener('keydown', e => { if (e.key === 'ArrowRight') { e.preventDefault(); go(index() + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(index() - 1); } });
+    // Open each season on its newest chapter.
+    track.style.scrollBehavior = 'auto';
+    track.scrollLeft = real.at(-1).offsetLeft - items[0].offsetLeft;
+    track.style.scrollBehavior = '';
+    update();
+  });
+}
+document.querySelectorAll('[data-order]').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-order]').forEach(o => o.setAttribute('aria-pressed', String(o === b)));
+  render(b.dataset.order);
+}));
+render('first');
+</script>
+</body>
+</html>

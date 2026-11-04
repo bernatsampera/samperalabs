@@ -1,0 +1,122 @@
+{
+  "option": {
+    "id": "c",
+    "file": "c-overview.html",
+    "name": "Overview first"
+  },
+  "when": "2026-11-01T08:55:23.218Z",
+  "results": [
+    {
+      "name": "desktop: page loads",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "desktop: name visible on the first screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "desktop: MAAT mission fully visible on the first screen (1440x900)",
+      "pass": true,
+      "detail": "mission bottom 385px, viewport 900px"
+    },
+    {
+      "name": "desktop: no horizontal scroll",
+      "pass": true,
+      "detail": "scrollWidth 1440 vs 1440"
+    },
+    {
+      "name": "links: at least one \"Enter\" link into the story view",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "name": "links: every \"Enter\" link opens flyover-2.html",
+      "pass": true,
+      "detail": "../world/journey/guided/flyover-2.html"
+    },
+    {
+      "name": "\"AI has no memory\": no links, and a \"coming soon\" note",
+      "pass": true,
+      "detail": "links 0, soon true"
+    },
+    {
+      "name": "all 5 principles shown",
+      "pass": true,
+      "detail": "5 of 5"
+    },
+    {
+      "name": "all 3 MAAT seasons named",
+      "pass": true,
+      "detail": "3 of 3"
+    },
+    {
+      "name": "BJJGym and IndoEuroMap link out in a new tab",
+      "pass": true,
+      "detail": "https://bjjgym.com, https://indoeuromap.com"
+    },
+    {
+      "name": "desktop: WCAG AA contrast on all text (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: \"Enter\" plays the guided move (cover grows from the panel)",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "desktop: \"Enter\" opens the story view, and it is ready",
+      "pass": true,
+      "detail": "arrived true, ready true"
+    },
+    {
+      "name": "desktop: story view has zero console errors after the move",
+      "pass": true,
+      "detail": "0 new errors"
+    },
+    {
+      "name": "phone: page loads",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "phone: name visible on the first screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "phone: MAAT block starts on the first screen (390x844)",
+      "pass": true,
+      "detail": "panel top 246px, viewport 844px"
+    },
+    {
+      "name": "phone: no horizontal scroll",
+      "pass": true,
+      "detail": "scrollWidth 390 vs 390"
+    },
+    {
+      "name": "phone: WCAG AA contrast on all text (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phone: \"Enter\" opens the story view, and it is ready",
+      "pass": true,
+      "detail": "arrived true, ready true"
+    },
+    {
+      "name": "reduced motion: \"Enter\" navigates at once, with no cover",
+      "pass": true,
+      "detail": "arrived true"
+    },
+    {
+      "name": "zero console errors and page errors (0)",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "contrastFailures": []
+}

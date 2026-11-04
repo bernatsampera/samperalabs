@@ -1,0 +1,43 @@
+{
+  "slug": "why-ai-agents-need-a-global-context",
+  "assets": {
+    "00-renewal-email.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-00-renewal-email-0c0723b48767.png",
+    "07-misc-drawers.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-07-misc-drawers-007d8570fcbd.png",
+    "01-where-to-look.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-01-where-to-look-33294056305d.png",
+    "05-everything-just-in-case.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-05-everything-just-in-case-929ce4fb79b4.png",
+    "02-loading.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-02-loading-5cdbd217d372.png",
+    "06-whiteboard-wiped.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-06-whiteboard-wiped-66ffa59fe7b1.png",
+    "03-saving.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-03-saving-1b38ba386f3b.png",
+    "08-domain-alone.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-08-domain-alone-bc62a0026917.png",
+    "04-whole-system.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-04-whole-system-7f858ad31724.png",
+    "09-read-the-map-first.png": "https://samperalabs.com/images/why-ai-agents-need-a-global-context-09-read-the-map-first-142233a3d34e.png"
+  },
+  "assetHashes": {
+    "00-renewal-email.png": "0c0723b4876761cf76409e395767f6272826a77efa2a8eec46492c7b9f704f46",
+    "07-misc-drawers.png": "007d8570fcbdc4b6fc25d491f7869854b09775897e58496410a24c9036d9510d",
+    "01-where-to-look.png": "33294056305df4d3bde55a6a17379f077ab34e54431af183dc62cf39b148a23b",
+    "05-everything-just-in-case.png": "929ce4fb79b480a701e2a43d2c7ed42800a2101a77b99a82d599c27f72179307",
+    "02-loading.png": "5cdbd217d3722ed0b8acff2a3e1e5b062a177ede4ca3e0872f8e4bda2ac6ada0",
+    "06-whiteboard-wiped.png": "66ffa59fe7b11108f8c03cf8274d75d01e5fb225c6d737428a02fe992b655523",
+    "03-saving.png": "1b38ba386f3b5183213f0e2eb67a542e8208398c58f15ab446d830cbfcc4d621",
+    "08-domain-alone.png": "bc62a0026917fd808789a5a4d6059d96e1856ae5a978759bf87d2fb73ad836e1",
+    "04-whole-system.png": "7f858ad31724b672f7e0c54fc005194bd5ded08de0a3de945b0c9629872cfd6b",
+    "09-read-the-map-first.png": "142233a3d34e087410f30912e511069bd980d8bf366937425a905b56c82736bc"
+  },
+  "pendingContentHash": "fdc9ab4adc6736fbe65edbe5dc5af65e9c3058a27e5d4d0790d513c9549e9f92",
+  "commit": "e92a712136dbba398984973c0804ad9ae90627fa",
+  "phase": "published",
+  "deployment": "ta9rkfikbx8fduw7svjvqb9v",
+  "deployment_status": "finished",
+  "id": 52,
+  "status": "published",
+  "url": "https://samperalabs.com/posts/why-ai-agents-need-a-global-context",
+  "pub_date": "2026-10-16",
+  "checks": {
+    "article": true,
+    "images": true,
+    "rss": true,
+    "sitemap": true,
+    "browser": "not run"
+  }
+}

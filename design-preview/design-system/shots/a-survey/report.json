@@ -1,0 +1,208 @@
+{
+  "page": "a-survey/index.html",
+  "when": "2026-11-01T09:43:07.334Z",
+  "results": [
+    {
+      "name": "no en dash or em dash characters in the direction files",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no default or retired faces (Fraunces, Nunito, Poppins, Inter, Space Grotesk, ...)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "window.story API exists",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "home section shows the motto, MAAT, AI has no memory, BJJGym, IndoEuroMap",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: story frame fills the viewport and has no inner scroll (overview)",
+      "pass": true,
+      "detail": "frame 1440x900, content 1440x900, viewport 1440x900"
+    },
+    {
+      "name": "story overview shows three entries",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "desktop: each entry opens its part and Next walks every step (opener, chapters, mission)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: no inner scroll in the story frame on any step",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: no other part is visible inside an open part",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "clicking a stop goes to that chapter",
+      "pass": true,
+      "detail": "{\"view\":\"season\",\"season\":1,\"step\":3} heading \"The agent learned to do support tasks\", opacity 1.00"
+    },
+    {
+      "name": "clicking an earlier stop travels back to it",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Previous goes back one step",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Previous is disabled on the opener",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ArrowRight advances one step",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "focus moves to the step heading after a transition",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "aria-live region announces the step",
+      "pass": true,
+      "detail": "The company brain, chapter 1 of 3: The knowledge lived in people's heads"
+    },
+    {
+      "name": "no \"season\", \"done\", or \"ongoing\" in visible story text",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "two quick Next clicks finish the first move and move on",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "the mission end opens the next part at its opener",
+      "pass": true,
+      "detail": "{\"view\":\"season\",\"season\":2,\"step\":0}"
+    },
+    {
+      "name": "Home key returns to the overview",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "\"Jump to now\" lands on the newest chapter with \"You are here\"",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\", here true"
+    },
+    {
+      "name": "\"Jump to now\" is one moving sequence, not a cut",
+      "pass": true,
+      "detail": "moving"
+    },
+    {
+      "name": "End key on the overview lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\", here true"
+    },
+    {
+      "name": "chapter card shows done, latest, and next states",
+      "pass": true,
+      "detail": "missing "
+    },
+    {
+      "name": "system sheet shows every token group (color, type, space, radius, border, depth, button, link, icon, motion, layout)",
+      "pass": true,
+      "detail": "missing "
+    },
+    {
+      "name": "desktop: no horizontal page overflow",
+      "pass": true,
+      "detail": "page width 1440 vs viewport 1440"
+    },
+    {
+      "name": "desktop: contrast AA on all visible text (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "laptop 1280x720: story frame fits with no inner scroll, chapter heading in view",
+      "pass": true,
+      "detail": " heading \"We drew a map of what we know\", opacity 1.00"
+    },
+    {
+      "name": "laptop: contrast AA (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phone: story frame fits the viewport with no inner scroll on every step",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phone: all three entries fit in the overview",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "phone: every stop stays visible and clear of the chapter card",
+      "pass": true,
+      "detail": "0 stops hidden or under the card"
+    },
+    {
+      "name": "phone: exit returns to the overview, and \"Jump to now\" lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\", here true"
+    },
+    {
+      "name": "phone: no horizontal page overflow",
+      "pass": true,
+      "detail": "page width 390 vs viewport 390"
+    },
+    {
+      "name": "phone: contrast AA on all visible text (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "reduced motion: Next walks all 4 steps of the first part",
+      "pass": true,
+      "detail": "walked 4"
+    },
+    {
+      "name": "reduced motion: Escape returns to the overview",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "reduced motion: End lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\", here true"
+    },
+    {
+      "name": "reduced motion: every change settles in under 1 s",
+      "pass": true,
+      "detail": "0 slow changes"
+    },
+    {
+      "name": "no console errors or page errors (0)",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "contrastFailures": []
+}

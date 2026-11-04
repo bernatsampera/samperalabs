@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760">
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+      <feOffset dy="6" result="b"/>
+      <feFlood flood-color="#5A4A30" flood-opacity="0.10"/>
+      <feComposite in2="b" operator="in"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <style>
+    .t { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .body { font-size: 22px; fill: #2B2620; }
+    .note { font-size: 17px; font-weight: 600; fill: #A9782A; }
+  </style>
+
+  <rect width="1400" height="760" fill="#FAF7F0"/>
+
+  <rect x="100" y="90" width="560" height="570" rx="18" fill="#FFFFFF" filter="url(#shadow)"/>
+  <text x="140" y="146" class="t" font-size="25" font-weight="600" fill="#6F675C">Does not make sense alone</text>
+  <text x="140" y="190" class="t" font-size="18" font-weight="600" fill="#C9973F">Sales / Prices</text>
+
+  <text x="140" y="258" class="t body">Team plan: see the table from the meeting.</text>
+  <path d="M 463 267 C 500 273, 543 262, 590 268" fill="none" stroke="#C9973F" stroke-width="4" stroke-linecap="round"/>
+  <text x="590" y="300" class="t note" text-anchor="end">Which meeting?</text>
+
+  <text x="140" y="364" class="t body">Annual discount: same as last year.</text>
+  <path d="M 425 373 C 469 379, 510 367, 552 374" fill="none" stroke="#C9973F" stroke-width="4" stroke-linecap="round"/>
+  <text x="552" y="406" class="t note" text-anchor="end">Which year?</text>
+
+  <text x="140" y="470" class="t body">Ask Sales for the new price.</text>
+  <path d="M 140 481 C 170 486, 205 477, 238 483" fill="none" stroke="#C9973F" stroke-width="4" stroke-linecap="round"/>
+  <text x="140" y="512" class="t note">The AI cannot ask.</text>
+
+  <rect x="740" y="90" width="560" height="570" rx="18" fill="#FFFFFF" filter="url(#shadow)"/>
+  <text x="780" y="146" class="t" font-size="25" font-weight="600" fill="#A9782A">Makes sense alone</text>
+  <text x="780" y="190" class="t" font-size="18" font-weight="600" fill="#C9973F">Sales / Prices</text>
+
+  <path d="M 782 248 l 9 10 l 18 -24" fill="none" stroke="#C9973F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="830" y="258" class="t body">Team plan: $99 a month.</text>
+
+  <path d="M 782 328 l 9 10 l 18 -24" fill="none" stroke="#C9973F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="830" y="338" class="t body">From next month: $119 a month.</text>
+
+  <path d="M 782 408 l 9 10 l 18 -24" fill="none" stroke="#C9973F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="830" y="418" class="t body">Annual plan: 10% discount.</text>
+
+  <path d="M 782 488 l 9 10 l 18 -24" fill="none" stroke="#C9973F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="830" y="498" class="t body">Decided by the founder, 14 Oct 2026.</text>
+
+  <text x="100" y="714" class="t" font-size="16" fill="#6F675C">Fictional example.</text>
+</svg>

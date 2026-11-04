@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seasons: four options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Nunito+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --paper:#FBF4E6; --card:#FFFDF7; --ink:#233140; --muted:#4E5B68; --deep:#1F5F73; --sand:#F3E3C3; --line:rgba(35,49,64,.12); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 'Nunito Sans', system-ui, sans-serif; }
+  main { max-width: 1040px; margin: 0 auto; padding: 56px 24px 120px; }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; margin: 0; }
+  h1 { font-size: 40px; color: var(--deep); }
+  .intro { max-width: 46em; margin: 10px 0 48px; color: var(--muted); }
+  .option { margin-bottom: 72px; }
+  .option-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px; }
+  .letter { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; }
+  .option-head h2 { font-size: 28px; }
+  .option > p { margin: 0 0 18px; color: var(--muted); max-width: 52em; }
+  .frame { padding: 32px; background: #F6EEDC; border-radius: 16px; }
+  .label { font: 800 12px 'Nunito Sans'; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+  /* Shared pieces */
+  .card { padding: 14px 18px; background: var(--card); border-radius: 10px; box-shadow: 0 1px 2px rgba(35,49,64,.06), 0 8px 20px rgba(35,49,64,.06); }
+  .card h3 { font-size: 19px; margin: 2px 0 2px; }
+  .card p { margin: 0; font-size: 14px; color: var(--muted); }
+  .card .when { font: 800 11px 'Nunito Sans'; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .card.now { outline: 2px solid #F0745A; }
+  .here { display: inline-block; margin-left: 8px; padding: 0 8px; border-radius: 999px; background: #F0745A; color: var(--ink); font: 800 10px 'Nunito Sans'; letter-spacing: .08em; text-transform: uppercase; vertical-align: 2px; }
+  .trail { position: relative; display: grid; gap: 18px; padding-left: 44px; }
+  .trail::before { content: ''; position: absolute; left: 15px; top: 6px; bottom: 6px; border-left: 4px dotted #2B8C96; }
+  .stop { position: relative; }
+  .dot { position: absolute; left: -44px; top: 12px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--ink); font-weight: 800; font-size: 13px; }
+  .tag { display: inline-block; margin-bottom: 4px; padding: 1px 10px; border-radius: 999px; font: 800 11px 'Nunito Sans'; letter-spacing: .06em; text-transform: uppercase; }
+
+  /* A: strip and season headers */
+  .strip { display: grid; grid-template-columns: 170px repeat(6, 1fr); row-gap: 8px; margin-bottom: 36px; font-size: 13px; }
+  .strip .month { text-align: left; color: var(--muted); font-weight: 700; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .strip .name { font-weight: 800; align-self: center; padding-right: 10px; }
+  .strip .bar { height: 26px; border-radius: 999px; align-self: center; display: flex; align-items: center; padding: 0 12px; font-weight: 800; font-size: 12px; color: var(--ink); text-decoration: none; }
+  .season-head { margin: 34px 0 18px; padding: 18px 22px; border-radius: 12px; color: var(--ink); }
+  .season-head:first-of-type { margin-top: 0; }
+  .season-head h3 { font-size: 26px; }
+  .season-head p { margin: 4px 0 0; }
+
+  /* B: legend */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 24px; font-size: 14px; font-weight: 700; }
+  .legend span::before { content: ''; display: inline-block; width: 14px; height: 14px; margin-right: 8px; border-radius: 50%; background: var(--c); vertical-align: -2px; }
+
+  /* C: lanes */
+  .lanes { display: grid; grid-template-columns: 80px repeat(3, 1fr); gap: 0 16px; }
+  .lanes .lane-head { padding: 10px 12px; border-radius: 10px; font-weight: 800; font-size: 14px; margin-bottom: 12px; }
+  .lanes .m { padding: 14px 0; color: var(--muted); font-weight: 700; font-size: 13px; border-top: 1px solid var(--line); }
+  .lanes .cell { padding: 8px 0; border-top: 1px solid var(--line); position: relative; min-height: 64px; }
+  .lanes .cell.on::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; border-left: 4px dotted var(--c); opacity: .6; }
+  .lanes .cell .card { position: relative; }
+
+  /* D: tabs */
+  .tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+  .tab { text-align: left; padding: 16px 18px; border: 0; border-radius: 12px; background: var(--card); color: var(--ink); cursor: pointer; font: inherit; box-shadow: 0 1px 2px rgba(35,49,64,.06); border-top: 6px solid var(--c); }
+  .tab strong { display: block; font: 600 19px 'Fraunces', serif; margin: 2px 0; }
+  .tab span { font-size: 13px; color: var(--muted); }
+  .tab[aria-selected="true"] { background: var(--ink); color: #fff; }
+  .tab[aria-selected="true"] span { color: #CDEFE9; }
+
+  @media (max-width: 760px) {
+    .strip { grid-template-columns: 110px repeat(6, 1fr); }
+    .lanes { grid-template-columns: 56px repeat(3, 1fr); gap: 0 8px; }
+    .tabs { grid-template-columns: 1fr; }
+    .frame { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Seasons: four options</h1>
+  <p class="intro">The same MAAT example in each option. Six chapters in three seasons. Seasons 2 and 3 are still going on, and the seasons overlap in time. The chapter on AI migrations and all dates are mock data.</p>
+
+  <section class="option">
+    <div class="option-head"><span class="letter">A</span><h2>Seasons one after another, with a time strip</h2></div>
+    <p>The strip at the top shows when each season ran, so the overlap is visible. Below it, the trail goes through one season at a time. Each season starts with a header.</p>
+    <div class="frame" id="option-a"></div>
+  </section>
+
+  <section class="option">
+    <div class="option-head"><span class="letter">B</span><h2>One trail in date order, with a color for each season</h2></div>
+    <p>The page as it is now. Each chapter gets a colored season label, and a key at the top explains the colors.</p>
+    <div class="frame" id="option-b"></div>
+  </section>
+
+  <section class="option">
+    <div class="option-head"><span class="letter">C</span><h2>Parallel lanes</h2></div>
+    <p>One column for each season. Time goes down. Parallel work is side by side.</p>
+    <div class="frame" id="option-c"></div>
+  </section>
+
+  <section class="option">
+    <div class="option-head"><span class="letter">D</span><h2>Season tabs</h2></div>
+    <p>Three season cards at the top. Click one to see only its trail. The page opens on the season with the newest chapter.</p>
+    <div class="frame" id="option-d"></div>
+  </section>
+</main>
+
+<script>
+const months = ['2026-05', '2026-06', '2026-07', '2026-08', '2026-09', '2026-10'];
+const monthName = m => new Intl.DateTimeFormat('en', {month: 'short', timeZone: 'UTC'}).format(new Date(m + '-01T00:00:00Z'));
+const seasons = [
+  {id: 1, name: 'Internal AI tools', goal: 'Give the team AI tools for slow, manual work.', from: '2026-05', to: '2026-09', status: 'Done', c: '#7FD1C7'},
+  {id: 2, name: 'The company brain', goal: 'One place that answers any question about MAAT.', from: '2026-05', to: null, status: 'Ongoing', c: '#F6B49F'},
+  {id: 3, name: 'AI for our customers', goal: 'AI features that gym owners use every day.', from: '2026-09', to: null, status: 'Ongoing', c: '#F6C445'},
+];
+const chapters = [
+  {s: 1, date: '2026-05', title: 'AI migrations to MAAT', line: 'Moving a gym\'s data into MAAT with AI.'},
+  {s: 2, date: '2026-05', title: 'In people\'s heads', line: 'To do one task, you had to ask three people.'},
+  {s: 2, date: '2026-06', title: 'The Brain', line: 'One shared map of what we know.'},
+  {s: 2, date: '2026-07', title: 'Support tasks', line: 'The agent reads the map and does support work.'},
+  {s: 1, date: '2026-09', title: 'Schedule photos', line: 'A picture of a schedule becomes real classes.'},
+  {s: 3, date: '2026-10', title: 'Admin Agent', line: 'Gym owners ask questions in plain words.', now: true},
+];
+const season = id => seasons.find(s => s.id === id);
+const range = s => `${monthName(s.from)} to ${s.to ? monthName(s.to) : 'now'}`;
+const card = (c, withTag) => `
+  <div class="card ${c.now ? 'now' : ''}">
+    ${withTag ? `<span class="tag" style="background:${season(c.s).c}">Season ${c.s}: ${season(c.s).name}</span><br>` : ''}
+    <span class="when">${monthName(c.date)} 2026</span>${c.now ? '<span class="here">You are here</span>' : ''}
+    <h3>${c.title}</h3><p>${c.line}</p>
+  </div>`;
+const trail = (list, withTag) => `<div class="trail">${list.map(c => `
+  <div class="stop"><span class="dot" style="background:${season(c.s).c}">${chapters.indexOf(c) + 1}</span>${card(c, withTag)}</div>`).join('')}</div>`;
+
+// A
+const col = m => months.indexOf(m) + 2;
+document.getElementById('option-a').innerHTML = `
+  <div class="strip">
+    <span></span>${months.map(m => `<span class="month">${monthName(m)}</span>`).join('')}
+    ${seasons.map((s, i) => `
+      <span class="name" style="grid-column:1;grid-row:${i + 2}">Season ${s.id}</span>
+      <a class="bar" href="#season-${s.id}" style="grid-row:${i + 2};grid-column:${col(s.from)} / ${s.to ? col(s.to) + 1 : months.length + 2};background:${s.c}">${s.name}${s.to ? '' : ' (ongoing)'}</a>`).join('')}
+  </div>
+  ${seasons.map(s => `
+    <div class="season-head" id="season-${s.id}" style="background:${s.c}">
+      <span class="label" style="color:var(--ink)">Season ${s.id} &nbsp; ${range(s)} &nbsp; ${s.status}</span>
+      <h3>${s.name}</h3><p>${s.goal}</p>
+    </div>
+    ${trail(chapters.filter(c => c.s === s.id), false)}`).join('')}`;
+
+// B
+document.getElementById('option-b').innerHTML = `
+  <div class="legend">${seasons.map(s => `<span style="--c:${s.c}">Season ${s.id}: ${s.name}</span>`).join('')}</div>
+  ${trail(chapters, true)}`;
+
+// C
+document.getElementById('option-c').innerHTML = `
+  <div class="lanes">
+    <span></span>${seasons.map(s => `<div class="lane-head" style="background:${s.c}">Season ${s.id}<br>${s.name}</div>`).join('')}
+    ${months.map(m => `<span class="m">${monthName(m)}</span>${seasons.map(s => {
+      const active = m >= s.from && (!s.to || m <= s.to);
+      const here = chapters.filter(c => c.s === s.id && c.date === m);
+      return `<div class="cell ${active ? 'on' : ''}" style="--c:${s.c}">${here.map(c => card(c, false)).join('')}</div>`;
+    }).join('')}`).join('')}
+  </div>`;
+
+// D
+const d = document.getElementById('option-d');
+const showSeason = id => {
+  d.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(+t.dataset.id === id)));
+  d.querySelector('.tab-panel').innerHTML = `
+    <p class="label" style="margin-bottom:6px">Season ${id}: ${season(id).goal}</p>
+    ${trail(chapters.filter(c => c.s === id), false)}`;
+};
+d.innerHTML = `
+  <div class="tabs" role="tablist">${seasons.map(s => `
+    <button class="tab" role="tab" data-id="${s.id}" style="--c:${s.c}">
+      <span>Season ${s.id} &nbsp; ${range(s)}</span><strong>${s.name}</strong><span>${chapters.filter(c => c.s === s.id).length === 1 ? "1 chapter" : chapters.filter(c => c.s === s.id).length + " chapters"}, ${s.status.toLowerCase()}</span>
+    </button>`).join('')}</div>
+  <div class="tab-panel" role="tabpanel"></div>`;
+d.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => showSeason(+t.dataset.id)));
+showSeason(chapters.find(c => c.now).s);
+</script>
+</body>
+</html>

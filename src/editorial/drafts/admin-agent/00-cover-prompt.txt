@@ -1,0 +1,12 @@
+Mode: Built-in image_gen tool. New image. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic cover for an article titled Building the MAAT Admin Agent: the knowledge around the model.
+Primary request: show that the model is small and the knowledge around it is large.
+Scene/backdrop: martial arts gym front desk.
+Subject: behind the desk stands a small rounded friendly robot with a round screen face and two dot eyes. Behind the robot is a very tall wall of five huge binders. The robot is tiny next to the binders. On the other side of the desk stands an adult gym owner in a white jiu-jitsu gi with a black belt. Use no realistic likeness.
+Style/medium: hand-drawn black ink on warm off-white paper, muted orange accents, gentle humor.
+Composition/framing: landscape 3:2. The owner asks a question. The robot pulls the Actions binder with visible effort. Use large lettering that stays legible at 700 px display width. Use clear speech balloon tails.
+Text (verbatim): binder spine 1, "Actions". Binder spine 2, "Decisions". Binder spine 3, "Widgets". Binder spine 4, "Bench". Binder spine 5, "Intents". Owner balloon, "Who came to class yesterday?" Robot balloon, "One moment. I know where to look."
+Constraints: exactly seven text strings. Render each string exactly once. No other text. Keep all words large and clear. No real logos. No customer names. No gym slugs. No emails. No tokens. No watermark.
+Avoid: extra labels, captions, signs, small print, realistic likenesses, unclear balloon tails.

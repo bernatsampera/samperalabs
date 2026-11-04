@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero E: the face that opens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../design-system/tokens.css">
+<link rel="stylesheet" href="../shared.css">
+<style>
+  /* E: a portrait made of rows of tiny text. Each part of the face owns a section. Scroll into a part and its
+     letters flow into the letters of that section. Scroll out and it is a face again. The dock floats over it. */
+  .hero { overflow: hidden; }
+  .hero-view { padding: var(--nav-h) 0 0; gap: 0; }
+  .intro { position: absolute; left: max(var(--gutter), calc((100vw - 1392px) / 2 + var(--gutter))); top: calc(var(--nav-h) + var(--s-6)); z-index: 2; display: flex; flex-direction: column; gap: var(--s-2); max-width: 260px; }
+  .intro h1 { font-size: var(--type-heading); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); font-weight: var(--weight-medium); text-align: left; }
+  .intro .lede { font-size: var(--type-ui); line-height: var(--leading-ui); color: var(--slate); text-align: left; }
+  .readout { margin-top: var(--s-3); display: flex; flex-direction: column; gap: var(--s-1); font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--slate); }
+  .where { position: relative; display: inline-flex; align-items: center; min-height: 18px; padding-left: 14px; color: var(--ink); font-weight: var(--weight-medium); }
+  .where i { position: absolute; left: 0; top: 6px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); opacity: 0; transform: scale(.4); transition: opacity 240ms, transform 240ms var(--ease-out); }
+  .where.on i { opacity: 1; transform: none; }
+  .hint { min-height: 18px; }
+  .figure { --fig: min(80svh, 100vw - 2 * var(--gutter)); position: relative; width: var(--fig); height: var(--fig); margin-top: var(--s-4); }
+  canvas.face { position: absolute; inset: 0; display: block; width: 100%; height: 100%; cursor: zoom-in; touch-action: pan-y; }
+  canvas.face.zoomed { cursor: zoom-out; }
+  .back { position: absolute; left: 50%; bottom: var(--s-5); transform: translateX(-50%); display: inline-flex; align-items: center; height: 32px; padding: 0 var(--s-3); border-radius: var(--r-pill); border: 1px solid var(--rule); background: var(--paper); font-size: var(--type-small); line-height: var(--leading-small); font-weight: var(--weight-medium); white-space: nowrap; cursor: pointer; box-shadow: 0 1px 2px rgba(15, 15, 18, .04), 0 8px 24px rgba(15, 15, 18, .06); }
+  .back:hover { border-color: var(--ink); }
+  .back[hidden] { display: none; }
+  /* The dock floats over the lower part of the face and steps aside when you go in. */
+  .dock { position: absolute; left: 0; right: 0; bottom: 0; padding-bottom: var(--s-7); transition: transform 480ms var(--ease-move), opacity 320ms; }
+  .hero.in .dock { transform: translateY(110%); opacity: 0; pointer-events: none; }
+  @media (max-width: 809px) {
+    .intro { position: static; align-items: center; text-align: center; max-width: none; padding-top: var(--s-5); }
+    .intro h1, .intro .lede { text-align: center; }
+    .readout { align-items: center; }
+    .figure { --fig: min(100vw - 2 * var(--gutter), 60svh); }
+    .dock { padding-bottom: var(--s-5); }
+  }
+</style>
+</head>
+<body>
+<main class="hero">
+  <div id="nav"></div>
+  <section class="hero-view">
+    <div class="intro">
+      <h1>Bernat Sampera</h1>
+      <p class="lede">AI engineer. Everything is information.</p>
+      <div class="readout">
+        <div class="where" data-where><i></i><span></span></div>
+        <div class="hint" data-hint>Scroll into the face to go in.</div>
+      </div>
+    </div>
+    <div class="figure">
+      <canvas class="face" role="img" aria-label="A portrait of Bernat made of rows of tiny text. Scroll into a part of the face to read what it holds."></canvas>
+      <button type="button" class="back" data-back hidden>Back to the face</button>
+    </div>
+  </section>
+  <div id="dock"></div>
+</main>
+<script src="../shared.js"></script>
+<script src="../face/photo.js"></script>
+<script src="content.js"></script>
+<script src="zoom.js"></script>
+</body>
+</html>

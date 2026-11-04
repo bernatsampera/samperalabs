@@ -1,11 +1,49 @@
 # SamperaLabs navigation
 
+- [design-preview/portfolio-soft.html](design-preview/portfolio-soft.html): Local preview of one broad continuous fade behind the approved portrait pieces.
+- [design-preview/build-portfolio-soft.mjs](design-preview/build-portfolio-soft.mjs): Builds the local soft-fade preview without changing the production renderer.
+
 - [src/components/flight/Flight.astro](src/components/flight/Flight.astro): Homepage portrait with the approved information sequence and a static reading fallback.
 - [src/components/flight/information-flight.js](src/components/flight/information-flight.js): Continuous portrait renderer with one readable piece at a time and no card clicks.
 - [src/components/flight/information-panels.js](src/components/flight/information-panels.js): Approved information copy and transparent typography compositions.
 - [public/images/portrait-context.webp](public/images/portrait-context.webp): Transparent monochrome context figure for the homepage portrait.
 - [public/images/portrait-structure.webp](public/images/portrait-structure.webp): Transparent monochrome structure figure for the homepage portrait.
 - [public/images/portrait-maintaining.webp](public/images/portrait-maintaining.webp): Transparent monochrome maintaining figure for the homepage portrait.
+
+- [design-preview/portfolio-focus.html](design-preview/portfolio-focus.html): Three centred versions with Geist type, approved structure copy, and new context subtitles.
+- [design-preview/build-portfolio-focus.mjs](design-preview/build-portfolio-focus.mjs): Builds the Signal, Between, and Reveal preview with version controls and comparison.
+- [design-preview/portfolio-focus-panels.mjs](design-preview/portfolio-focus-panels.mjs): Three transparent layouts that place figures above, below, or between title lines.
+
+- [design-preview/portfolio-play.html](design-preview/portfolio-play.html): Three transparent compositions with stronger type, new copy, and a quieter portrait field.
+- [design-preview/build-portfolio-play.mjs](design-preview/build-portfolio-play.mjs): Builds the standalone three-version preview with a comparison view.
+- [design-preview/portfolio-play-panels.mjs](design-preview/portfolio-play-panels.mjs): Impact, Questions, and Margins layouts with the unchanged pruning copy.
+
+- [design-preview/portfolio-fragments.html](design-preview/portfolio-fragments.html): Portrait exploration with floating text, transparent monochrome figures, and no panel backgrounds or borders.
+- [design-preview/build-portfolio-fragments.mjs](design-preview/build-portfolio-fragments.mjs): Builds the standalone preview with alpha-aware rendering and no hover rectangles.
+- [design-preview/portfolio-fragments-panels.mjs](design-preview/portfolio-fragments-panels.mjs): Transparent compositions containing only typography and isolated figures.
+- [design-preview/portfolio-fragments-assets/index.md](design-preview/portfolio-fragments-assets/index.md): Minimal generated figures and their prompts.
+
+- [design-preview/portfolio-directions.html](design-preview/portfolio-directions.html): Three portfolio layouts with shorter copy, integrated image backgrounds, and no date label.
+- [design-preview/build-portfolio-directions.mjs](design-preview/build-portfolio-directions.mjs): Builds the Editorial, Poster, and Split comparison preview.
+- [design-preview/portfolio-directions-panels.mjs](design-preview/portfolio-directions-panels.mjs): Short card copy, three layouts, and image background integration.
+
+- [design-preview/portfolio-context.html](design-preview/portfolio-context.html): New portrait preview with the approved opening, three cards, and generated object illustrations.
+- [design-preview/build-portfolio-context.mjs](design-preview/build-portfolio-context.mjs): Builds the standalone preview with embedded images and the continuous reading zone.
+- [design-preview/portfolio-context-panels.mjs](design-preview/portfolio-context-panels.mjs): Approved copy, automatic month formatting, and opening and card layouts.
+- [design-preview/portfolio-context-assets/index.md](design-preview/portfolio-context-assets/index.md): Generated illustrations and their complete prompts.
+
+- [design-preview/information-visuals.html](design-preview/information-visuals.html): Portrait flight with continuous reading zones and Objects selected by default.
+- [design-preview/build-information-visuals.mjs](design-preview/build-information-visuals.mjs): Builds the three wordless visual versions with short titles and descriptions.
+- [design-preview/information-visuals-art.mjs](design-preview/information-visuals-art.mjs): Draws twelve wordless illustrations for the minimal portfolio cards.
+- [design-preview/information-reading-zone.mjs](design-preview/information-reading-zone.mjs): Maps continuous scrolling to readable panel movement and gradual visual focus.
+
+- [design-preview/information-flight.html](design-preview/information-flight.html): Continuous portrait flight with four questions, three visual versions, and a comparison view.
+- [design-preview/build-information-flight.mjs](design-preview/build-information-flight.mjs): Builds the standalone portrait preview with continuous scrolling, panel art, and embedded assets.
+- [design-preview/information-panel-art.mjs](design-preview/information-panel-art.mjs): Draws the Paper, Type, and Windows versions of the four information panels.
+
+- [design-preview/information-journey.html](design-preview/information-journey.html): Interactive HTML concept for information, context across sessions, and gcontext research.
+
+- [design-preview/work-flight.html](design-preview/work-flight.html): Self-contained HTML preview of project and article cards inside the portrait flight.
 
 - [.github/workflows/deploy.yml](.github/workflows/deploy.yml): Builds the application image and requests a Coolify deployment.
 
@@ -25,6 +63,13 @@
 - [scripts/install-post-command.mjs](scripts/install-post-command.mjs): Installs shared skill links without replacing existing entries.
 - [.codex/skills/new-post/SKILL.md](.codex/skills/new-post/SKILL.md): Project Codex activation link to the shared article command.
 - [.claude/skills/new-post/SKILL.md](.claude/skills/new-post/SKILL.md): Project Claude Code activation link to the shared article command.
+
+- [src/docs/linkedin-post-command.md](src/docs/linkedin-post-command.md): LinkedIn post command, output folder, slide and post formats.
+- [src/docs/commands/post-to-linkedin/SKILL.md](src/docs/commands/post-to-linkedin/SKILL.md): Shared Codex and Claude Code skill that prepares a LinkedIn post for a published article.
+- [src/docs/commands/post-to-linkedin/linkedin-guide.md](src/docs/commands/post-to-linkedin/linkedin-guide.md): Default editorial decisions: post shape, voice, media choice, link, and calendar.
+- [src/docs/commands/post-to-linkedin/failure-modes.md](src/docs/commands/post-to-linkedin/failure-modes.md): Media and post-check failures defined before script implementation.
+- [scripts/linkedin-media.mjs](scripts/linkedin-media.mjs): Carousel PDF, scene video, image copy, and post check for LinkedIn posts.
+- [src/editorial/linkedin/index.md](src/editorial/linkedin/index.md): LinkedIn post calendar and local post folders.
 
 - [.agents/skills/asd-ste100/SKILL.md](.agents/skills/asd-ste100/SKILL.md): Project-local Simplified Technical English skill for clear sentences and consistent terms.
 
@@ -48,6 +93,10 @@
 - [src/components/home/BrainScene.astro](src/components/home/BrainScene.astro): Shared handbook scene with several readers for the MAAT Brain article.
 - [src/components/home/ScheduleScene.astro](src/components/home/ScheduleScene.astro): Homepage schedule import scene with unique accessible labels.
 - [src/components/home/schedule-scene.svg](src/components/home/schedule-scene.svg): Shared drawing that changes from a picture to Markdown and editable classes.
+- [src/components/home/AgentTurnScene.astro](src/components/home/AgentTurnScene.astro): Homepage agent turn scene with unique accessible labels.
+- [src/components/home/agent-turn-scene.svg](src/components/home/agent-turn-scene.svg): Animated owner question, Jev plan, action call, and member status widget.
+- [src/components/home/GlobalContextScene.astro](src/components/home/GlobalContextScene.astro): Homepage global context scene with unique accessible labels.
+- [src/components/home/global-context-scene.svg](src/components/home/global-context-scene.svg): Animated card catalog map, Sales drawer, price change, and saved state.
 - [public/images/gym-schedule-import-comic.png](public/images/gym-schedule-import-comic.png): Approved comic that compares manual entry with the schedule import tool.
 - [public/images/gym-schedule-import-review.jpg](public/images/gym-schedule-import-review.jpg): Staged frontend view of the image and Markdown review.
 - [public/images/gym-schedule-import-editor.jpg](public/images/gym-schedule-import-editor.jpg): Staged frontend view of editable schedule classes.
@@ -67,8 +116,6 @@
 - [public/images/how-we-built-the-maat-admin-agent-03-decision-generation-382f062e79b0.png](public/images/how-we-built-the-maat-admin-agent-03-decision-generation-382f062e79b0.png): Article image for How we built the MAAT Admin Agent for gym owners.
 - [public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-77b749fc873f.png](public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-77b749fc873f.png): Article image for How we built the MAAT Admin Agent for gym owners.
 - [public/images/how-we-built-the-maat-admin-agent-05-model-screening-efd2a0ee4cd0.png](public/images/how-we-built-the-maat-admin-agent-05-model-screening-efd2a0ee4cd0.png): Article image for How we built the MAAT Admin Agent for gym owners.
-- [src/components/home/AgentTurnScene.astro](src/components/home/AgentTurnScene.astro): Homepage scene source for How we built the MAAT Admin Agent for gym owners.
-- [src/components/home/agent-turn-scene.svg](src/components/home/agent-turn-scene.svg): Homepage scene source for How we built the MAAT Admin Agent for gym owners.
 
 - [public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-5e957a65938c.png](public/images/how-we-built-the-maat-admin-agent-04-widget-anatomy-5e957a65938c.png): Article image for How we built the MAAT Admin Agent for gym owners.
 
@@ -82,5 +129,3 @@
 - [public/images/why-ai-agents-need-a-global-context-08-domain-alone-bc62a0026917.png](public/images/why-ai-agents-need-a-global-context-08-domain-alone-bc62a0026917.png): Article image for Global context for AI agents: minimal to load, fast to find.
 - [public/images/why-ai-agents-need-a-global-context-04-whole-system-7f858ad31724.png](public/images/why-ai-agents-need-a-global-context-04-whole-system-7f858ad31724.png): Article image for Global context for AI agents: minimal to load, fast to find.
 - [public/images/why-ai-agents-need-a-global-context-09-read-the-map-first-142233a3d34e.png](public/images/why-ai-agents-need-a-global-context-09-read-the-map-first-142233a3d34e.png): Article image for Global context for AI agents: minimal to load, fast to find.
-- [src/components/home/GlobalContextScene.astro](src/components/home/GlobalContextScene.astro): Homepage scene source for Global context for AI agents: minimal to load, fast to find.
-- [src/components/home/global-context-scene.svg](src/components/home/global-context-scene.svg): Homepage scene source for Global context for AI agents: minimal to load, fast to find.

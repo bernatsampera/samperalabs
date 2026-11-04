@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Global context for AI agents: minimal to load, fast to find (local preview)</title>
+<style>
+  body { margin: 0; background: #fff; font-family: Poppins, "Helvetica Neue", Arial, sans-serif; }
+  .wrap { display: grid; grid-template-columns: 1fr; gap: 56px; max-width: 1080px; margin: 0 auto; padding: 40px 24px 96px; }
+  @media (min-width: 761px) { .wrap { grid-template-columns: 220px minmax(0, 700px); } }
+  .rail { display: none; }
+  @media (min-width: 761px) { .rail { display: block; position: sticky; top: 40px; align-self: start; margin-top: 150px; font-size: 13px; line-height: 1.4; } }
+  .rail a { display: block; color: #686868; text-decoration: none; padding: 5px 0; }
+  .rail a.l3 { padding-left: 14px; font-size: 12px; }
+  .label { font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: #686868; margin-bottom: 12px; }
+  .badge { font-size: 12px; color: #9a6b1f; background: #f6ead2; display: inline-block; padding: 4px 10px; border-radius: 99px; }
+  h1.title { font-size: 40px; line-height: 1.15; letter-spacing: -.03em; margin: 18px 0 14px; color: #171717; }
+  .desc { font-size: 19px; color: #555; line-height: 1.5; margin: 0 0 8px; }
+  .by { font-size: 13px; color: #686868; margin-bottom: 40px; }
+  .prose { font-family: Georgia, serif; font-size: 20px; line-height: 1.8; color: #303030; overflow-wrap: break-word; }
+  .prose p { margin: 0 0 24px; }
+  .prose :is(h2,h3) { font-family: Poppins, "Helvetica Neue", Arial, sans-serif; color: #171717; font-weight: 600; letter-spacing: -.025em; line-height: 1.3; margin: 2em 0 .8em; }
+  .prose h2 { font-size: 29px; font-weight: 550; margin: 39px 0 21px; text-decoration: underline; text-decoration-color: #d4d4d8; text-decoration-thickness: 3px; text-underline-offset: 5px; text-decoration-skip-ink: none; }
+  .prose h3 { font-size: 25px; }
+  .prose :is(ul,ol) { margin: 1.2em 0; padding-left: 1.4em; }
+  .prose li { margin-bottom: .4em; }
+  .prose blockquote { border-left: 3px solid #d4d4d8; color: #3f3f46; font-size: 1.15em; padding-left: 22px; margin: 32px 0; }
+  .prose img { display: block; max-width: 100%; height: auto; margin: 35px auto; }
+  .prose figure { margin: 35px 0; }
+  .prose figcaption { font: 12px/1.6 Poppins, "Helvetica Neue", Arial, sans-serif; text-align: center; color: #686868; margin-top: 12px; }
+  .prose table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; font-size: .85em; margin: 30px 0; }
+  .prose :is(th,td) { padding: 12px 16px; border-bottom: 1px solid #ddd; text-align: left; }
+  @media (max-width: 600px) { .prose { font-size: 18px; } h1.title { font-size: 32px; } }
+</style></head>
+<body><div class="wrap">
+<nav class="rail"><div class="label">Contents</div><a href="#the-model-knows-the-world-not-your-business" class="l2">The model knows the world, not your business</a>
+<a href="#failure-one-nothing-told-the-agent-where-to-look" class="l2">Failure one: nothing told the agent where to look</a>
+<a href="#a-map-split-into-domains-tells-the-agent-where-to-look" class="l3">A map split into domains tells the agent where to look</a>
+<a href="#the-session-loads-only-the-domain-the-question-needs" class="l2">The session loads only the domain the question needs</a>
+<a href="#failure-two-the-tuesday-decision-was-never-saved" class="l2">Failure two: the Tuesday decision was never saved</a>
+<a href="#write-the-global-context-for-how-the-ai-loads-it" class="l2">Write the global context for how the AI loads it</a>
+<a href="#each-domain-must-make-sense-alone" class="l3">Each domain must make sense alone</a>
+<a href="#the-names-on-the-map-must-say-what-is-inside" class="l3">The names on the map must say what is inside</a>
+<a href="#the-adapter-is-the-least-important-part" class="l2">The adapter is the least important part</a>
+<a href="#try-it-on-your-own-agent" class="l2">Try it on your own agent</a></nav>
+<main>
+<span class="badge">Local preview. Not published.</span>
+<h1 class="title">Global context for AI agents: minimal to load, fast to find</h1>
+<p class="desc">An AI model does not know your business. A global context is a map of that information, split into domains, so each session loads only what the question needs and saves what changed.</p>
+<div class="by">Bernat Sampera</div>
+<article class="prose"><p>What does your agent do when someone asks it for a price?</p>
+<p>Here is a fictional example. On Tuesday, the founder tells the agent: &quot;The Team plan goes up to $119 next month.&quot; The agent answers: &quot;Got it.&quot; On Friday, a colleague opens a new session and asks the agent to write a renewal email. The agent can use Stripe, Attio, a database, Drive, and Slack. It does not know which one has the price, so it searches all five. In Slack, it finds a message from March: &quot;Team plan: $99.&quot; The email says $99.</p>
+<p><img src="00-renewal-email.png" alt="Two-panel comic. Tuesday: the founder tells the AI, The Team plan goes up to $119 next month, and the AI says, Got it. Friday: the AI is inside a card catalog with every drawer open, labelled Stripe, Attio, Drive, Slack, and Database. It holds an old card with $99. The colleague asks, Where is the $119? The AI answers, What $119?"></p>
+<p>A fictional example. On Friday, the agent searches every drawer and finds an old price.</p>
+<p>The model did not fail at reasoning. Two other things failed:</p>
+<ol>
+<li>On Friday, nothing told the agent where the price was. So it searched everywhere and took the first number it found.</li>
+<li>On Tuesday, nobody saved the new price. The decision stayed in a conversation that ended.</li>
+</ol>
+<p>This article is about the information that fixes both failures. I call it the global context. I explain what it is, how the agent loads it, how it saves to it, and how to write it. All examples (prices, team, tools, and dates) are fictional and simplified.</p>
+<h2 id="the-model-knows-the-world-not-your-business">The model knows the world, not your business</h2>
+<p>An AI model learns from a very large amount of public text. It can explain what a subscription is, or how to write a polite email. It cannot know your prices, your team, or what you decided on Tuesday. That information is not public, and much of it did not exist when the model was trained.</p>
+<p>So for each task, the agent must get some information from outside the model. The global context is that information: what the model does not know by itself and needs to get for a specific task. It stays saved between conversations.</p>
+<p>One conversation between a person and the AI is a session. The Tuesday talk with the founder was one session. The Friday email request was another. The sessions do not share memory. The global context is what connects them.</p>
+<h2 id="failure-one-nothing-told-the-agent-where-to-look">Failure one: nothing told the agent where to look</h2>
+<p>On Friday, the agent had access to five tools. Access is not the same as knowing where to look. The agent had to open each tool, read the results, and decide which number was the price. The old Slack message looked as good as any other result.</p>
+<p><img src="07-misc-drawers.png" alt="Comic. The AI stands in front of a card catalog with a magnifying glass. The drawers are labelled Misc, Stuff, Old, New folder (3), and final_v2_REAL. It says, The prices are... somewhere in here?"></p>
+<p>Access to every drawer does not tell the agent which drawer has the price.</p>
+<h3 id="a-map-split-into-domains-tells-the-agent-where-to-look">A map split into domains tells the agent where to look</h3>
+<p>The fix for this failure is a map. The global context is split into domains. A domain is one area of the information with its own purpose, for example Sales, People, or Product. The map lists the domains, and each domain gets one line that says what it holds.</p>
+<p>Here is a fictional global context for the company in the story. It is a folder of text files, but the shape is what matters, not the format.</p>
+<pre><code class="language-text">global-context/            (fictional example)
+  map.md
+  sales/
+    prices.md              plans, prices, discounts, price changes
+    customers.md           accounts and renewal dates
+  people/
+    team.md                who does what, who decides what
+  product/
+    roadmap.md             what ships next, and when
+</code></pre>
+<p>And this is the map:</p>
+<pre><code class="language-text">Map (fictional example)
+
+sales/    Prices, discounts, plan changes, customers.
+          The price list is in prices.md. The source of record is Stripe.
+people/   Team, roles, who decides what.
+product/  Roadmap, release dates.
+
+Rules
+- Read this map before you search any tool.
+- Load one domain at a time. Load only the domain the question needs.
+- Save a change in the domain where it belongs.
+</code></pre>
+<p>With this map, the Friday session goes differently. The agent reads the map. The Sales line says where the price is. The agent goes to Sales, and only to Sales. It does not open Slack.</p>
+<p><img src="01-where-to-look.png" alt="Two panels. Without global context, the AI sends dashed lines to Stripe, Attio, Database, Drive, and Slack. With global context, the AI first reads the global context, where the Sales domain says prices are in Stripe, and then goes only to Stripe."></p>
+<p>Without a map, the AI searches everywhere. With a map, it reads one line and goes to one place.</p>
+<h2 id="the-session-loads-only-the-domain-the-question-needs">The session loads only the domain the question needs</h2>
+<p>A map solves one problem and opens another one. If the agent now knows where everything is, why not load all of it at the start of each session? Then it never has to search.</p>
+<p>I think this is the wrong move. The session context is all the information that the AI has during one session. My goal is that it is as small and exact as possible. The People and Product domains do not help with a price question. In the session, they are text that the model must read, and text that it can confuse with the answer. The old Slack message was exactly that kind of text.</p>
+<p><img src="05-everything-just-in-case.png" alt="Comic. The colleague asks, How much is the Team plan? The AI pushes a hand truck with a tall tower of drawers, binders, and folders labelled Everything, and says, I brought everything, just in case."></p>
+<p>Loading all the information does not make the answer better. It makes the session larger.</p>
+<p>So at the start of a session, the agent gets only two things: the map, and the rules to find information in it. In the fictional example, that is the map file above and nothing else. When the colleague asks about the Team plan, the agent loads the Sales prices and no other domain. The rest stays in the global context, saved but not loaded.</p>
+<p><img src="02-loading.png" alt="A session with the question How much is the Team plan. A gold arrow brings only the Prices file from the global context into the AI answer: The Team plan costs 99 dollars a month."></p>
+<p>For a price question, the AI loads Prices and nothing else. Customers, Team, Roadmap, and the other files stay out of the session.</p>
+<h2 id="failure-two-the-tuesday-decision-was-never-saved">Failure two: the Tuesday decision was never saved</h2>
+<p>With a map and a small session, the Friday agent finds the price list fast. But it still finds $99. The map fixed where the agent looks. It did not fix what it finds there. The second failure happened on Tuesday, not on Friday.</p>
+<p>A session does not only read information. It also creates it. The founder explained a decision. A colleague can correct a fact, or change a date. If the agent does not save that change, the change is lost when the session ends. The next session starts from the old information, and someone has to explain the change again.</p>
+<p><img src="06-whiteboard-wiped.png" alt="Three-panel comic. The founder writes Team plan: $119 next month on a whiteboard while the AI nods. A sign says Session ended and a cleaner wipes the whiteboard. Next morning, the founder looks at the empty whiteboard while the AI says, Hi! How can I help you today?"></p>
+<p>The Tuesday session, without a save step. The decision is wiped with the session.</p>
+<p>The fix for this failure is a save step. When the founder says that the Team plan goes up to $119, the agent saves that change in the Sales domain, in the price list. The map rule says where: &quot;Save a change in the domain where it belongs.&quot; On Friday, the new session reads the map, loads Sales, and finds $119. Nobody has to repeat the Tuesday conversation.</p>
+<p><img src="03-saving.png" alt="A conversation where the person says the Team plan goes up to 119 dollars next month. A gold arrow saves the change into the Prices file, which now shows 99 dollars crossed out and 119 dollars."></p>
+<p>The Tuesday session, with a save step. The price list in the global context now has the new price.</p>
+<p>The two fixes depend on each other. The save step only helps if the next session can find what was saved. The map only helps if what it points to is current.</p>
+<h2 id="write-the-global-context-for-how-the-ai-loads-it">Write the global context for how the AI loads it</h2>
+<p>The map, the small session, and the save step all put the same demand on the information itself. The agent reads the map alone. It loads one domain alone. So the information must work when it is read that way. This is my main rule:</p>
+<blockquote>
+<p>Write the global context for how the AI loads it. Minimal to load, fast to find.</p>
+</blockquote>
+<p>A global context is not a place for all company documents. Its structure must fit the two moments when the agent touches it: when it reads the map, and when it loads one domain. Two examples of the rule follow.</p>
+<h3 id="each-domain-must-make-sense-alone">Each domain must make sense alone</h3>
+<p>The agent loads one domain at a time. So each domain must answer its questions without the other domains, and without a person. In the fictional example, a price list that says &quot;see the table from the meeting&quot; is useless. The agent cannot see the meeting. &quot;Ask Sales for the new price&quot; is worse. The agent cannot ask.</p>
+<p><img src="08-domain-alone.png" alt="Two index cards for the file Sales / Prices. The left card, Does not make sense alone, says: see the table from the meeting, same as last year, ask Sales for the new price, with annotations Which meeting?, Which year?, and The AI cannot ask. The right card, Makes sense alone, gives the Team plan price of 99 dollars, 119 dollars from next month, a 10 percent annual discount, and who decided it and when."></p>
+<p>A fictional example. The right card answers the renewal email question with no other file and no person.</p>
+<p>The right card is what the Tuesday save step should produce: the old price, the new price, when it applies, and who decided it. That is the whole Friday answer in one domain.</p>
+<h3 id="the-names-on-the-map-must-say-what-is-inside">The names on the map must say what is inside</h3>
+<p>The agent reads the map first and chooses a domain from it. So the names on the map must tell the agent what is inside. &quot;Sales: prices, discounts, plan changes&quot; lets the agent choose. &quot;Misc&quot;, &quot;Stuff&quot;, and &quot;final_v2_REAL&quot; do not. A map with bad names sends the agent back to the drawers in the first comic, one by one.</p>
+<h2 id="the-adapter-is-the-least-important-part">The adapter is the least important part</h2>
+<p>So far the article did not say how the agent reads a file or writes to it. That is on purpose. The whole system has three parts:</p>
+<ul>
+<li>The session: the conversation, with a small session context.</li>
+<li>The adapter: the tool that the AI uses to read and save. An MCP server, a folder of files, a database, anything.</li>
+<li>The global context: the information that the AI does not know by itself. It stays saved between conversations.</li>
+</ul>
+<p>The adapter matters least. In the fictional example it is a folder of text files. It can also be an MCP server. You can change the adapter later, and the map and the domains stay the same. If the information is badly written, a better adapter does not fix it.</p>
+<p><img src="04-whole-system.png" alt="Three panels: Session, Adapter, and Global context. A gold load arrow goes from Prices in the global context, through the adapter, to the relevant context in the session. A gray save arrow goes from the AI model to a new Price change file. A bar below says: Write the global context for how the AI loads it. Minimal to load, fast to find."></p>
+<p>The three parts together. The load arrow brings one domain into the session. The save arrow sends a change back.</p>
+<p>This table puts the Friday story next to its fixed version.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Without a global context</th>
+<th>With a global context</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Where the agent looks</td>
+<td>Every connected tool</td>
+<td>The domain that the map names</td>
+</tr>
+<tr>
+<td>What the session loads</td>
+<td>All the search results</td>
+<td>The map, the rules, and one domain</td>
+</tr>
+<tr>
+<td>What Friday knows about Tuesday</td>
+<td>Nothing</td>
+<td>The saved price change</td>
+</tr>
+</tbody></table>
+<h2 id="try-it-on-your-own-agent">Try it on your own agent</h2>
+<p>You can make a first global context for your own agent with these steps:</p>
+<ol>
+<li>List the ten questions that your agent gets most often.</li>
+<li>For each question, write down where the answer is.</li>
+<li>Group the answers into three to five domains.</li>
+<li>Give each domain one line that says what it holds.</li>
+<li>Load that list at the start of each session, together with one rule: &quot;Read the map before you search.&quot;</li>
+</ol>
+<p>Then test it. Ask the agent three usual questions before and after the change. Count the tool calls before it reaches the correct source. If the count does not go down, read your domain names again. Check that each name says what is inside. Then add the second rule, &quot;Save a change in the domain where it belongs&quot;, and tell the agent one fictional change. Open a new session and ask for it.</p>
+<p><img src="09-read-the-map-first.png" alt="Comic. A tidy card catalog with a gold card labelled Map on top and only the Sales drawer open. The AI relaxes with a coffee and holds a card with $119. The colleague says, That was fast. The AI answers, I read the map first."></p>
+<p>The same Friday question, with a map and the Tuesday change saved. One drawer open, and the right price.</p>
+</article>
+</main></div></body></html>

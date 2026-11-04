@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hero B: the reading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens.css">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* B: eleven bars, one per answer. They wave while the question is read, then settle on what it means. */
+  .board { width: min(var(--column), 100% - 2 * var(--gutter)); display: grid; grid-template-columns: repeat(11, 1fr); gap: var(--s-2); margin-top: var(--s-2); }
+  .bar { display: flex; flex-direction: column; align-items: center; gap: var(--s-3); min-width: 0; }
+  .bar .p { height: 16px; font-size: var(--type-micro); line-height: 16px; color: var(--slate); font-variant-numeric: tabular-nums; opacity: 0; transition: opacity 300ms; }
+  .bar.show .p { opacity: 1; }
+  .bar.win .p { color: var(--ink); font-weight: var(--weight-medium); }
+  .track { position: relative; width: 100%; max-width: 40px; height: 200px; border-radius: 4px; background: var(--rule-soft); overflow: hidden; }
+  .fill { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; border-radius: 4px; background: var(--gray-300); transform-origin: 50% 100%; transform: scaleY(var(--v, .06)); transition: transform 520ms var(--ease-out), background-color 300ms; }
+  .bar.close .fill { background: var(--ink); }
+  .bar.win .fill { background: var(--accent); }
+  .board.reading .fill { animation: wave 1100ms var(--ease-move) infinite; animation-delay: calc(var(--i) * 70ms); }
+  @keyframes wave { 0%, 100% { transform: scaleY(.1); } 45% { transform: scaleY(.55); } }
+  .bar .l { font-size: var(--type-meta); line-height: var(--leading-meta); color: var(--slate); text-align: center; text-wrap: balance; transition: color 300ms; min-height: 36px; }
+  .bar.win .l { color: var(--ink); font-weight: var(--weight-medium); }
+  .read { min-height: 20px; font-size: var(--type-small); line-height: var(--leading-small); color: var(--slate); }
+  .read b { font-weight: var(--weight-medium); color: var(--ink); }
+  @media (max-width: 809px) {
+    .board { gap: 6px; }
+    .track { height: 120px; max-width: none; }
+    .bar .l, .bar .p { display: none; }
+  }
+  @media (max-height: 820px) and (min-width: 810px) { .track { height: 150px; } }
+</style>
+</head>
+<body>
+<div id="nav"></div>
+<main class="hero" aria-labelledby="hero-title">
+  <div class="hero-view">
+    <div class="head">
+      <p class="id"><span class="id-pic" role="img" aria-label="Bernat Sampera"></span>Bernat Sampera, AI engineer</p>
+      <h1 id="hero-title">Everything is information.</h1>
+      <p class="lede">Ask anything about my work. Before the page answers, it reads what you mean.</p>
+    </div>
+    <div class="board" data-board aria-label="How the question is read"></div>
+    <p class="read" data-read aria-live="polite"></p>
+  </div>
+  <div id="dock"></div>
+</main>
+<script src="shared.js"></script>
+<script>
+  const { initDock, match, EXPERIENCES, NAV, DOCK } = window.Hero;
+  document.getElementById('nav').outerHTML = NAV;
+  document.getElementById('dock').outerHTML = DOCK;
+
+  const board = document.querySelector('[data-board]');
+  const read = document.querySelector('[data-read]');
+  board.innerHTML = EXPERIENCES.map((e, i) => `<div class="bar" data-id="${e.id}" style="--i:${i}"><span class="p"></span><div class="track"><div class="fill"></div></div><span class="l">${e.title}</span></div>`).join('');
+  const bars = new Map([...board.querySelectorAll('.bar')].map((b) => [b.dataset.id, b]));
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let settle;
+
+  const idle = () => {
+    board.classList.remove('reading');
+    bars.forEach((b) => { b.classList.remove('win', 'close', 'show'); b.querySelector('.fill').style.setProperty('--v', .06); b.querySelector('.p').textContent = ''; });
+    read.innerHTML = 'Eleven prepared answers. One question picks one.';
+  };
+  const show = (m) => {
+    board.classList.remove('reading');
+    m.list.forEach((e, i) => {
+      const b = bars.get(e.id);
+      const v = Math.max(.06, e.p);
+      b.querySelector('.fill').style.setProperty('--v', v.toFixed(2));
+      b.querySelector('.p').textContent = e.p >= .1 ? e.p.toFixed(2) : '';
+      b.classList.toggle('show', e.p >= .1);
+      b.classList.toggle('win', !!m.top && i === 0 && e.p >= .5);
+      b.classList.toggle('close', e.p >= .2 && !(m.top && i === 0 && e.p >= .5));
+    });
+    const top = m.top;
+    read.innerHTML = !top ? 'Nothing fits yet. Ask about me or my work.'
+      : top.p >= .5 ? `Read as <b>${top.title}</b>.`
+      : `Close between <b>${m.list.filter((e) => e.p >= .2).map((e) => e.title).join('</b> and <b>')}</b>. The page would ask which one.`;
+  };
+  const update = (q, via) => {
+    clearTimeout(settle);
+    const m = match(q);
+    if (!m.active) return idle();
+    if (reduced || via === 'preset') return show(m);
+    board.classList.add('reading');
+    read.innerHTML = 'Reading.';
+    settle = setTimeout(() => show(m), 380);
+  };
+  initDock({ onText: update });
+</script>
+</body>
+</html>

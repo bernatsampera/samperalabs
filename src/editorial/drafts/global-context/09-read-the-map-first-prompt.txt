@@ -1,0 +1,15 @@
+Mode: Built-in image_gen tool. New image. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic for the article "Global context for AI agents: minimal to load, fast to find".
+Primary request: show that a clear map lets the AI find the current price quickly.
+Scene/backdrop: a calm and tidy room with a wooden library card catalog.
+Subject: A single gold card labeled "Map" lies on top of the card catalog. Only one drawer is open. Its label is "Sales". The AI holds one card that says "$119". The AI relaxes with a cup of coffee. The colleague looks surprised and says "That was fast." The AI says "I read the map first."
+Style/medium: cut-paper collage illustration, flat layered paper shapes with soft paper shadows and slight paper grain. Warm palette only: cream paper background #FAF7F0, warm dark ink #2B2620, gold accent #C9973F, light gold #F6EAD2, warm grey #A79D8F. No blue, no other saturated colors.
+Recurring AI character: a small friendly cut-paper character shaped like a rounded gold speech balloon, with two dot eyes, a small mouth, and tiny dark legs and arms. It wears a small white name tag with the text "AI". It is NOT a robot. No screen face, no antennas.
+Recurring people (no realistic likeness): "the founder", a woman with a dark bun and a mustard sweater. "The colleague", a man with round glasses and a grey cardigan.
+The card catalog: a wooden library card catalog with drawers. Drawer labels are large and legible.
+Composition/framing: single wide panel, landscape 16:9. Keep all text large and legible at 700 px display width. Every speech balloon has a clear tail to its speaker.
+Text (verbatim): "Map", "Sales", "$119", "That was fast.", "I read the map first."
+Constraints: exactly five text strings. Render each text string exactly once, spelled exactly. No other text, no logos, no watermark, no captions. Opaque background.
+Avoid: repeated text, missing text, misspelled text, unclear balloon tails, robots, screen faces, antennas, blue, saturated colors.

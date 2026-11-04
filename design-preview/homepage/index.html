@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home page: four layouts side by side</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<style>
+  /* Comparison page: live options, side by side. Not part of the site. */
+  .cmp-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-5); max-width: var(--page-max); margin: 0 auto; padding: var(--space-7) var(--gutter) var(--space-5); }
+  .cmp-head h1 { font-size: var(--text-3xl); line-height: var(--leading-tight); }
+  .cmp-head p { margin-top: var(--space-3); max-width: 46em; color: var(--color-ink-soft); }
+  .view { display: inline-flex; padding: var(--space-1); border-radius: var(--radius-pill); background: var(--color-ink); }
+  .view button { min-height: 42px; padding: 0 var(--space-5); border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--color-on-dark); font: var(--weight-strong) var(--text-sm)/1 var(--font-text); cursor: pointer; }
+  .view button[aria-pressed="true"] { background: var(--color-highlight); color: var(--color-ink); }
+
+  .grid { display: grid; gap: var(--space-6) var(--space-5); max-width: var(--page-max); margin: 0 auto; padding: 0 var(--gutter) var(--space-8); }
+  .grid.desktop { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid.phone { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .opt-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-3); }
+  .opt-name { font-size: var(--text-xl); }
+  .opt-name b { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; margin-right: var(--space-2); border-radius: 50%; background: var(--color-ink); color: var(--color-on-dark); font: var(--weight-heavy) var(--text-sm)/1 var(--font-text); vertical-align: 3px; }
+  .opt-open { flex: none; font-weight: var(--weight-strong); font-size: var(--text-sm); color: var(--color-ink); text-underline-offset: 4px; }
+  .opt-line { margin-bottom: var(--space-3); color: var(--color-ink-soft); font-size: var(--text-sm); }
+  .grid.phone .opt-head { flex-direction: column; align-items: start; gap: var(--space-1); }
+  .grid.phone .opt-line { min-height: 3.2em; }
+  .frame { position: relative; overflow: hidden; border-radius: var(--radius-sm); background: var(--color-surface); box-shadow: var(--shadow-card); }
+  .frame iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: var(--color-paper); }
+</style>
+</head>
+<body>
+<main id="main">
+  <header class="cmp-head">
+    <div>
+      <h1>Home page: four layouts</h1>
+      <p>All four use the same colors, fonts, and content as the story view. Only the layout changes. Each preview is the live page: you can scroll inside it and use "Enter the MAAT journey".</p>
+    </div>
+    <div class="view" role="group" aria-label="Preview size">
+      <button type="button" data-view="desktop" aria-pressed="true">Desktop 1440</button>
+      <button type="button" data-view="phone" aria-pressed="false">Phone 390</button>
+    </div>
+  </header>
+  <div class="grid desktop" id="grid"></div>
+</main>
+<script>
+(() => {
+  const OPTIONS = [
+    {id: 'A', file: 'a-stack.html', name: 'Stack', line: 'One column, top to bottom, in order of importance.'},
+    {id: 'B', file: 'b-columns.html', name: 'Two columns', line: 'You on the left, always visible. Your work on the right.'},
+    {id: 'C', file: 'c-overview.html', name: 'Overview first', line: 'The whole world on the first screen. Details below.'},
+    {id: 'D', file: 'd-scenes.html', name: 'Guided scenes', line: 'Full-screen scenes that stack as you scroll, like the story view.'},
+  ];
+  const SIZES = {desktop: [1440, 900], phone: [390, 844]};
+  const grid = document.getElementById('grid');
+  let view = 'desktop';
+
+  grid.innerHTML = OPTIONS.map(o => `
+    <section aria-labelledby="opt-${o.id}">
+      <div class="opt-head">
+        <h2 class="opt-name" id="opt-${o.id}"><b>${o.id}</b>${o.name}</h2>
+        <a class="opt-open" href="${o.file}">Open full page</a>
+      </div>
+      <p class="opt-line">${o.line}</p>
+      <div class="frame"><iframe src="${o.file}" title="Option ${o.id}: ${o.name}" loading="eager"></iframe></div>
+    </section>`).join('');
+
+  const fit = () => {
+    const [w, h] = SIZES[view];
+    grid.querySelectorAll('.frame').forEach(frame => {
+      const scale = frame.clientWidth / w;
+      frame.style.height = Math.round(h * scale) + 'px';
+      const iframe = frame.querySelector('iframe');
+      iframe.style.width = w + 'px';
+      iframe.style.height = h + 'px';
+      iframe.style.transform = `scale(${scale})`;
+    });
+  };
+  new ResizeObserver(fit).observe(grid);
+
+  document.querySelectorAll('[data-view]').forEach(button => button.addEventListener('click', () => {
+    view = button.dataset.view;
+    document.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b === button)));
+    grid.className = 'grid ' + view;
+    fit();
+    // Reload so each page lays out at the new width and replays its intro.
+    grid.querySelectorAll('iframe').forEach(f => { f.src = f.getAttribute('src'); });
+  }));
+  fit();
+})();
+</script>
+</body>
+</html>

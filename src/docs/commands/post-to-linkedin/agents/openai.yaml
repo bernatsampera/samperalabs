@@ -1,0 +1,4 @@
+interface:
+  display_name: "Post to LinkedIn"
+  short_description: "Prepare a LinkedIn post with media for a published article"
+  default_prompt: "Use $post-to-linkedin with an article slug to prepare its LinkedIn post."

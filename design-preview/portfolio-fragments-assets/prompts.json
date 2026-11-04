@@ -1,0 +1,18 @@
+{
+  "tool": "Built-in image_gen",
+  "transparent_background": true,
+  "images": [
+    {
+      "id": "context",
+      "prompt": "Create a single minimalist professional editorial figure for a Swiss typography inspired software portfolio. Actual transparent background with alpha, no white canvas, no floor, no backdrop, no border. Monochrome graphite black, cool gray, tiny white negative-space highlights only. Clear severe geometry, clean silhouette, sparse precise technical engraving or crisp architectural illustration. NOT cute, not toy-like, not glossy, not clay, no photorealistic materials, no colors, no wood, no brass, no gold, no rounded app icon, no texture noise, no labels, no text, no arrows. Large single isolated figure centered with 10 percent transparent padding, landscape 3:2. It must remain instantly legible small. Subject: a simplified irregular faceted iceberg, a small tip above a very fine short horizontal waterline and a substantially larger body below it. Only 6 to 9 broad angular facets. No water block or tank, no base, no waves, no scenery. A spare diagrammatic cutout of hidden mass, with open space around it."
+    },
+    {
+      "id": "structure",
+      "prompt": "Create a single minimalist professional editorial figure for a Swiss typography inspired software portfolio. Actual transparent background with alpha, no white canvas, no floor, no backdrop, no border. Monochrome graphite black, cool gray, tiny white negative-space highlights only. Clear severe geometry, clean silhouette, sparse precise technical engraving or crisp architectural illustration. NOT cute, not toy-like, not glossy, not clay, no photorealistic materials, no colors, no wood, no brass, no gold, no rounded app icon, no texture noise, no labels, no text, no arrows. Large single isolated figure centered with 10 percent transparent padding, landscape 3:2. It must remain instantly legible small. Subject: an orderly set of six upright thin rectangular sheets in a simple open architectural rack, precise isometric view. One sheet pulled forward visibly, revealing separation from the rest. Open construction, no enclosing cabinet, no handles, no tiny detail. The reader immediately sees organisation and retrieving one item."
+    },
+    {
+      "id": "maintaining",
+      "prompt": "Create a single minimalist professional editorial figure for a Swiss typography inspired software portfolio. Actual transparent background with alpha, no white canvas, no floor, no backdrop, no border. Monochrome graphite black, cool gray, tiny white negative-space highlights only. Clear severe geometry, clean silhouette, sparse precise technical engraving or crisp architectural illustration. NOT cute, not toy-like, not glossy, not clay, no photorealistic materials, no colors, no wood, no brass, no gold, no rounded app icon, no texture noise, no labels, no text, no arrows. Large single isolated figure centered with 10 percent transparent padding, landscape 3:2. It must remain instantly legible small. Subject: a single elegantly branching tree drawn as a sparse angular branching structure, with a small pair of open pruning scissors beside a disconnected branch. Bare structural branches, no leaves, no plant pot, no base, no scenery. Very few strong charcoal strokes, distinctive editorial silhouette, no elaborate branching. Communicate pruning unnecessary growth."
+    }
+  ]
+}

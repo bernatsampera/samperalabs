@@ -9,6 +9,8 @@
   },
   "scripts": {
     "deploy-post": "node scripts/deploy-post.mjs",
+    "linkedin-media": "node scripts/linkedin-media.mjs",
+    "linkedin-media:e2e": "node scripts/linkedin-media-e2e.mjs",
     "dev": "astro dev",
     "start": "HOST=0.0.0.0 PORT=4322 node ./dist/server/entry.mjs",
     "build": "NODE_OPTIONS='--max-old-space-size=2048' astro build",

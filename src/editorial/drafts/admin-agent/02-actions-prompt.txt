@@ -1,0 +1,12 @@
+Mode: Built-in image_gen tool. New image. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic for an article titled Building the MAAT Admin Agent: the knowledge around the model.
+Primary request: show that the agent reaches the backend only through a catalog of read actions, while writes stay locked.
+Scene/backdrop: a simple library-like work area in a martial arts gym.
+Subject: the same small rounded friendly robot with a round screen face and two dot eyes stands at a large wooden card catalog. Three drawers have large labels. The third drawer has a padlock. The robot holds one index card from the members drawer. An adult gym owner in a white jiu-jitsu gi with a black belt stands next to the robot. Use no realistic likeness.
+Style/medium: two-tone risograph print look, black and blue #4a7dfc on cream paper, slightly grainy.
+Composition/framing: single wide panel, landscape 16:9. Keep all text large and legible at 700 px display width. Give the robot balloon a clear tail. Hang the small sign from the padlock.
+Text (verbatim): drawer label 1, "members". Drawer label 2, "attendance". Locked drawer label, "writes". Robot balloon, "I read the card first. Then I call the API." Padlock sign, "Not until phase 3".
+Constraints: exactly five text strings. Render each string exactly once. No other text. No real logos. No customer names. No gym slugs. No emails. No tokens. No watermark.
+Avoid: extra cards with writing, extra drawer labels, captions, realistic likenesses, unclear balloon tails.

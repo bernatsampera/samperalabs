@@ -1,0 +1,188 @@
+{
+  "page": "flyover-2.html",
+  "when": "2026-10-31T23:37:07.369Z",
+  "results": [
+    {
+      "name": "desktop: start screen shows three season entries and a time strip",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "desktop: each season enters from the start screen and Next walks all its steps (opener, chapters, mission)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "Escape, \"All seasons\", and \"Back to all seasons\" return to the start screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no other season is visible inside a season view",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "clicking a stop goes to that chapter",
+      "pass": true,
+      "detail": "{\"view\":\"season\",\"season\":1,\"step\":3} heading \"The agent learned to do support tasks\", opacity 1.00, top 488"
+    },
+    {
+      "name": "clicking an earlier stop travels back to it",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Previous goes back one step",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Previous is disabled on the season opener",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ArrowRight advances one step",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "focus moves to the step heading after a transition",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "aria-live region announces the step",
+      "pass": true,
+      "detail": "The company brain, chapter 1 of 3: The knowledge lived in people's heads"
+    },
+    {
+      "name": "the marker stays visible on the chapter it arrived at",
+      "pass": true,
+      "detail": "opacity 1, distance 0.1px"
+    },
+    {
+      "name": "no \"season\", \"done\", \"ongoing\", or status words in visible text",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "two quick Next clicks finish the first move and move on",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "\"Enter the next season\" opens the next season at its opener",
+      "pass": true,
+      "detail": "{\"view\":\"season\",\"season\":2,\"step\":0}"
+    },
+    {
+      "name": "after \"Enter the next season\", only the new season is on screen",
+      "pass": true,
+      "detail": "leaks [], layers 1, home hidden true"
+    },
+    {
+      "name": "Home key returns to the start screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "\"Jump to now\" lands on the newest chapter with \"You are here\"",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\""
+    },
+    {
+      "name": "\"Jump to now\" is one moving sequence, not a cut (still moving at 1.3 s)",
+      "pass": true,
+      "detail": "moving"
+    },
+    {
+      "name": "End key on the start screen lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\""
+    },
+    {
+      "name": "End key inside another season lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\""
+    },
+    {
+      "name": "phone: no page scroll on start, opener, chapter, mission, latest",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "phone: all three season entries fit on the start screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "phone: the whole season path stays visible above the sheet (opener and chapter)",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "phone: only the entered season is on screen, and \"All seasons\" returns home",
+      "pass": true,
+      "detail": "leaks [], layers 1, home hidden true"
+    },
+    {
+      "name": "phone: \"Jump to now\" lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\""
+    },
+    {
+      "name": "phone: contrast AA on all visible text (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: no page scroll on any screen",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "desktop: contrast AA on all visible text on every screen (0 failures)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "reduced motion: Next walks all 4 steps of Season 1",
+      "pass": true,
+      "detail": "walked 4"
+    },
+    {
+      "name": "reduced motion: Escape returns to the start screen",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "reduced motion: End lands on the newest chapter",
+      "pass": true,
+      "detail": "view season, season 2, step 1, heading \"Gym owners can ask in plain words\""
+    },
+    {
+      "name": "reduced motion: every change settles fast (crossfades, no travel)",
+      "pass": true,
+      "detail": "0 slow changes"
+    },
+    {
+      "name": "reduced motion: no page scroll",
+      "pass": true,
+      "detail": "scroll 1440x900 vs viewport 1440x900"
+    },
+    {
+      "name": "no en dash or em dash characters in flyover-2.html or check-flyover-2.mjs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no console errors or page errors (0)",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "contrastFailures": []
+}

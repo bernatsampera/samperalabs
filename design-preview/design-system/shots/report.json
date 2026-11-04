@@ -1,0 +1,26 @@
+{
+  "c-exhibition": {
+    "when": "2026-11-01T09:45:19.427Z",
+    "pass": 40,
+    "fail": 0,
+    "errors": 0
+  },
+  "b-isotype": {
+    "when": "2026-11-01T09:44:12.091Z",
+    "pass": 40,
+    "fail": 0,
+    "errors": 0
+  },
+  "a-survey": {
+    "when": "2026-11-01T09:43:07.334Z",
+    "pass": 40,
+    "fail": 0,
+    "errors": 0
+  },
+  "compare": {
+    "when": "2026-11-01T09:45:20.440Z",
+    "pass": 8,
+    "fail": 0,
+    "errors": 0
+  }
+}

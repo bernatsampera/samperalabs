@@ -1,0 +1,12 @@
+Mode: Built-in image_gen tool. Edit with 03-decision-generation-v1.png as the composition reference. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic for an article titled Building the MAAT Admin Agent: the knowledge around the model.
+Primary request: show that a small fast model makes the decision and the large model writes from that decision.
+Scene/backdrop: a simple editorial workroom.
+Subject: a small fast referee with a whistle and clipboard has a name tag "Jev". A large calm writer at a typewriter has a name tag "AI". The owner appears only as an off-panel speech balloon.
+Style/medium: clean black-and-white line comic with light gray shading.
+Composition/framing: landscape 16:9. Two equal panels side by side. Panel 1 shows the off-panel owner balloon. Jev reads it quickly and writes on the clipboard. Panel 2 shows Jev handing the clipboard to GLM. GLM starts typing with a relaxed pose. Use large text that stays legible at 700 px display width. Use clear balloon tails.
+Text (verbatim): Jev name tag, "Jev". AI name tag, "AI". Owner balloon, "How many members are past due?" Clipboard line 1, "Scope: yes". Clipboard line 2, "Effort: low". Clipboard line 3, "Language: English". Clipboard line 4, "Domain: members". AI balloon, "Thanks. I skip the guessing."
+Constraints: exactly eight text strings. Render each string exactly once. No other text. Keep the four clipboard lines separate and clear. Do not include the word "Widget" anywhere. No real logos. No customer names. No gym slugs. No emails. No tokens. No watermark.
+Avoid: extra labels, panel numbers, sound effects, captions, realistic likenesses, unclear balloon tails.

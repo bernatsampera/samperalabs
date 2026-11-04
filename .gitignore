@@ -40,5 +40,8 @@ pnpm-lock.yaml
 .claude/settings.local.json
 .codex/hooks.json
 
+# LinkedIn media E2E artifacts
+src/editorial/linkedin/_e2e/
+
 # Homepage layout E2E artifacts
 tests/artifacts/

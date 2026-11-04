@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bernat Sampera's current world, shown as a storybook sea map.">
+  <title>Bernat's world</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,SOFT,WONK,wght@9..144,0..100,0..1,400..800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="islands.css">
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#captains-log">Skip to the captain's log</a>
+  <main>
+    <section class="map-hero" aria-labelledby="world-title">
+      <header class="map-heading">
+        <p class="eyebrow">Bernat's world right now</p>
+        <h1 id="world-title">Knowledge travels here.</h1>
+        <p>Choose an island to see what I build and learn.</p>
+      </header>
+      <div id="world-map" class="world-map"></div>
+      <div id="map-card" class="map-card" aria-live="polite" hidden></div>
+    </section>
+    <section id="captains-log" class="shore-section"></section>
+    <section id="principles" class="principles-section" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <p class="eyebrow">Messages found at sea</p>
+        <h2 id="principles-title">Five things guide the voyage.</h2>
+        <p>Open a bottle to read the note.</p>
+      </div>
+      <div id="bottle-list" class="bottle-list"></div>
+    </section>
+  </main>
+  <footer class="site-footer"><a href="#world-title">Return to the map</a></footer>
+  <script src="../shared/data.js"></script>
+  <script src="islands.js"></script>
+</body>
+</html>

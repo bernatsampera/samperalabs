@@ -1,0 +1,535 @@
+[
+  {
+    "view": "desktop-face",
+    "q": "demo=0",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 728
+  },
+  {
+    "view": "desktop-hover-eyes",
+    "q": "demo=0&hr=eyes",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 728
+  },
+  {
+    "view": "desktop-mid-eyes",
+    "q": "demo=0&s=1.7&u=0.5&v=0.405",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "desktop-open-eyes",
+    "q": "demo=0&open=eyes",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "desktop-open-hair",
+    "q": "demo=0&open=hair",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "desktop-open-nose",
+    "q": "demo=0&open=nose",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "desktop-open-shoulders",
+    "q": "demo=0&open=shoulders",
+    "letters": 5712,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 712,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 780,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 169,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 454,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1898,
+        "copies": 25,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "flow-face",
+    "q": "demo=0&layout=flow",
+    "letters": 8176,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 1007,
+        "copies": 10,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 974,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 226,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 534,
+        "copies": 7,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 3736,
+        "copies": 45,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 728
+  },
+  {
+    "view": "flow-open-eyes",
+    "q": "demo=0&layout=flow&open=eyes",
+    "letters": 8176,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 1007,
+        "copies": 10,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 974,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 226,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 534,
+        "copies": 7,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 3736,
+        "copies": 45,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "flow-open-hair",
+    "q": "demo=0&layout=flow&open=hair",
+    "letters": 8176,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 1007,
+        "copies": 10,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 974,
+        "copies": 8,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 226,
+        "copies": 6,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 534,
+        "copies": 7,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 3736,
+        "copies": 45,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 720,
+    "dockTop": 917
+  },
+  {
+    "view": "laptop-face",
+    "q": "demo=0",
+    "letters": 3651,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 443,
+        "copies": 6,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 527,
+        "copies": 6,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 96,
+        "copies": 4,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 303,
+        "copies": 6,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 1203,
+        "copies": 20,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 576,
+    "dockTop": 548
+  },
+  {
+    "view": "phone-face",
+    "q": "demo=0",
+    "letters": 1374,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 163,
+        "copies": 2,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 186,
+        "copies": 2,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 47,
+        "copies": 2,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 105,
+        "copies": 2,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 475,
+        "copies": 10,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 342,
+    "dockTop": 700
+  },
+  {
+    "view": "phone-open-eyes",
+    "q": "demo=0&open=eyes",
+    "letters": 1374,
+    "regions": [
+      {
+        "id": "hair",
+        "letters": 163,
+        "copies": 2,
+        "sOpen": 2.3
+      },
+      {
+        "id": "eyes",
+        "letters": 186,
+        "copies": 2,
+        "sOpen": 2.3
+      },
+      {
+        "id": "nose",
+        "letters": 47,
+        "copies": 2,
+        "sOpen": 2.88
+      },
+      {
+        "id": "mouth",
+        "letters": 105,
+        "copies": 2,
+        "sOpen": 2.53
+      },
+      {
+        "id": "shoulders",
+        "letters": 475,
+        "copies": 10,
+        "sOpen": 2.3
+      }
+    ],
+    "heroFits": true,
+    "overflow": false,
+    "figure": 342,
+    "dockTop": 858
+  }
+]

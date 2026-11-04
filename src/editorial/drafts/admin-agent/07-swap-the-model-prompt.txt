@@ -1,0 +1,12 @@
+Mode: Built-in image_gen tool. New image. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic for an article titled Building the MAAT Admin Agent: the knowledge around the model.
+Primary request: show that the model changes while the product knowledge stays.
+Scene/backdrop: a simple engineering workspace.
+Subject: the same small rounded friendly robot with a round screen face and two dot eyes appears in panels 2 and 3. An engineer appears in panels 1 and 3. Use no realistic likeness.
+Style/medium: newspaper strip, ink with gray wash.
+Composition/framing: landscape 16:9 with three equal panels. Panel 1 shows an engineer at a laptop. Panel 2 shows the small robot carrying a very tall stack of five binders and wobbling. Panel 3 shows the engineer holding the stack steady with both hands and smiling. Use large text that stays legible at 700 px display width. Use clear balloon tails.
+Text (verbatim): laptop code line, "model: new-model". Engineer balloon in panel 1, "New model. One line." Binder spines, "Actions", "Decisions", "Widgets", "Bench", "Intents". Robot balloon in panel 2, "And these?" Engineer balloon in panel 3, "Those stay. They are the product."
+Constraints: exactly nine text strings. Render each string exactly once. No other text. Keep binder labels clear and in the stated order. No real logos. No customer names. No gym slugs. No emails. No tokens. No watermark.
+Avoid: extra screen text, extra labels, panel numbers, captions, realistic likenesses, unclear balloon tails.

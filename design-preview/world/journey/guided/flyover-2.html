@@ -1,0 +1,994 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MAAT | Journey, by season</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800;6..12,900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FBF4E6; --card: #FFFDF8; --ink: #233140; --muted: #4A5866; --deep: #1F5F73; --teal: #2B8C96; --coral: #F0745A; --sun: #F6C445;
+    --cine: cubic-bezier(.65, 0, .35, 1);
+    --out: cubic-bezier(.22, 1, .36, 1);
+    --shadow: 0 30px 70px rgba(20, 30, 40, .28), 0 2px 8px rgba(20, 30, 40, .12);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; }
+  body { height: 100dvh; background: var(--paper); color: var(--ink); font: 400 17px/1.5 'Nunito Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+  .on-dark :focus-visible { outline-color: var(--sun); }
+  [tabindex="-1"]:focus { outline: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+  .ico { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; height: 26px; padding: 0 11px; border-radius: 999px; background: #FFFDF8; color: var(--dark, var(--ink)); font-size: 11.5px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .chip.ongoing::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); }
+  .chip.done::before { content: ''; width: 9px; height: 5px; margin-top: -3px; border: solid currentColor; border-width: 0 0 2px 2px; transform: rotate(-45deg); }
+  .btn { height: 50px; padding: 0 22px; display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; font: 800 16px/1 'Nunito Sans', sans-serif; cursor: pointer; white-space: nowrap; transition: transform 200ms var(--out), background-color 200ms; }
+  .btn svg { width: 18px; height: 18px; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-coral { background: var(--coral); color: var(--ink); border: 0; }
+  .btn-ink { background: var(--ink); color: #FFFDF8; border: 0; }
+  .btn-line { background: transparent; color: var(--ink); border: 1.5px solid rgba(35, 49, 64, .35); }
+
+  /* ---------- Start screen ---------- */
+  .home { position: fixed; inset: 0; display: flex; flex-direction: column; background-color: var(--paper); background-image: radial-gradient(rgba(35, 49, 64, .09) 1px, transparent 1.4px); background-size: 22px 22px; }
+  .home.away { visibility: hidden; }
+  .h-top { flex: none; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(20px, 4.5vw, 72px); }
+  .brand { display: inline-flex; align-items: center; gap: 10px; height: 40px; padding: 0 16px; border-radius: 999px; background: var(--ink); color: #FBF4E6; font-size: 13px; }
+  .brand b { font-weight: 900; letter-spacing: .2em; }
+  .brand i { width: 1px; height: 14px; background: rgba(251, 244, 230, .35); }
+  .brand span { font-weight: 600; color: #E3DACA; }
+  .top-now { display: none; }
+  .h-main { flex: 1; min-height: 0; overflow: auto; width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 clamp(20px, 4.5vw, 72px) clamp(20px, 4vh, 44px); display: flex; flex-direction: column; justify-content: center; gap: clamp(22px, 4.6vh, 48px); }
+  .hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: end; }
+  .eyebrow { margin: 0 0 16px; display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--ink); }
+  .eyebrow b { padding: 4px 9px; border-radius: 6px; background: var(--ink); color: #FBF4E6; font-weight: 900; letter-spacing: .2em; }
+  .h-title { margin: 0 0 16px; font: 600 clamp(38px, 4vw, 60px)/1.03 'Fraunces', Georgia, serif; letter-spacing: -.02em; color: var(--ink); max-width: 13em; }
+  .h-context { margin: 0 0 24px; font-size: clamp(17px, 1.35vw, 20px); line-height: 1.5; color: var(--muted); max-width: 32em; }
+  .h-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .strip-card { background: #FFFDF8; border-radius: 20px; padding: 20px 22px 18px; box-shadow: 0 18px 50px rgba(35, 49, 64, .10), 0 1px 3px rgba(35, 49, 64, .08); }
+  .strip-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 26px; padding-right: 30px; }
+  .strip-title { margin: 0; font-size: 12px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; color: var(--ink); }
+  .strip-year { margin-left: 10px; font-size: 12px; font-weight: 800; letter-spacing: .06em; color: var(--muted); }
+  .strip { position: relative; }
+  .s-row { position: relative; height: 28px; margin-bottom: 7px; }
+  .s-bar { position: absolute; top: 0; height: 28px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-radius: 14px; background: var(--dark); color: #FFFDF8; font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; }
+  .s-bar.open { border-radius: 14px 3px 3px 14px; }
+  .s-bar b { font-weight: 900; letter-spacing: .06em; }
+  .s-lab { display: flex; align-items: center; gap: 8px; }
+  /* A bar too short for its name: the name moves out of the bar, to its left, in ink. */
+  .s-lab.out { position: absolute; top: 0; bottom: 0; color: var(--ink); font-size: 12px; font-weight: 800; white-space: nowrap; }
+  .s-lab.out i { color: var(--muted); }
+  .axis { position: relative; height: 18px; margin-top: 2px; border-top: 1px solid rgba(35, 49, 64, .18); }
+  .axis span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 11.5px; font-weight: 700; color: var(--muted); }
+  .now-line { position: absolute; top: -6px; bottom: 16px; width: 2px; margin-left: -1px; background: var(--coral); }
+  .now-line span { position: absolute; top: -20px; right: -4px; font-size: 10.5px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; color: #A03B24; background: #FFFDF8; padding: 0 4px; }
+
+  .seasons { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 24px); }
+  .entry { position: relative; display: flex; flex-direction: column; min-width: 0; padding: 22px 24px 18px; border-radius: 20px; background-color: var(--dark); background-image: radial-gradient(rgba(255, 255, 255, .07) 1px, transparent 1.4px); background-size: 18px 18px; color: #FFFDF8; box-shadow: 0 18px 40px rgba(35, 49, 64, .16); transition: transform 300ms var(--out), box-shadow 300ms; }
+  .entry:hover { transform: translateY(-4px); box-shadow: 0 26px 50px rgba(35, 49, 64, .24); }
+  .e-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .e-num { font-size: 12px; font-weight: 900; letter-spacing: .22em; text-transform: uppercase; color: #FFFDF8; }
+  .e-num b { font: 600 24px/1 'Fraunces', Georgia, serif; letter-spacing: 0; color: var(--light); margin-left: 4px; }
+  .e-name { margin: 0 0 8px; font: 600 clamp(24px, 2.1vw, 31px)/1.08 'Fraunces', Georgia, serif; letter-spacing: -.01em; color: #FFFDF8; }
+  .e-mission { margin: 0 0 10px; font-size: 16px; line-height: 1.42; color: #FFFDF8; }
+  .e-meta { margin: 0 0 8px; font-size: 14px; font-weight: 700; color: var(--pale); }
+  .mini { display: block; width: 100%; height: 58px; margin: 4px 0 6px; overflow: visible; }
+  .e-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: auto; padding-top: 6px; }
+  .e-new { font-size: 13px; font-weight: 700; color: var(--pale); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .e-new b { color: #FFFDF8; }
+  .enter { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 38px; padding: 0 16px; border: 0; border-radius: 999px; background: #FFFDF8; color: var(--dark); font: 900 14px/1 'Nunito Sans', sans-serif; cursor: pointer; }
+  .enter svg { width: 16px; height: 16px; }
+  .enter::after { content: ''; position: absolute; inset: 0; border-radius: 20px; }
+  .enter:focus-visible { outline: none; }
+  .enter:focus-visible::after { outline: 3px solid var(--ink); outline-offset: 4px; }
+
+  /* ---------- Season view ---------- */
+  #layers { position: fixed; inset: 0; z-index: 5; pointer-events: none; }
+  .season { position: fixed; inset: 0; pointer-events: auto; overflow: hidden; color: #FFFDF8; background-color: var(--dark); background-image: radial-gradient(rgba(255, 255, 255, .075) 1px, transparent 1.4px); background-size: 22px 22px; }
+  .s-top { position: absolute; left: 0; right: 0; top: 0; height: 80px; display: flex; align-items: center; gap: 22px; padding: 0 clamp(20px, 3vw, 44px); z-index: 4; }
+  .exit { display: inline-flex; align-items: center; gap: 9px; height: 42px; padding: 0 14px 0 12px; border-radius: 999px; border: 1.5px solid rgba(255, 253, 248, .45); background: transparent; color: #FFFDF8; font: 800 14px/1 'Nunito Sans', sans-serif; cursor: pointer; transition: background-color 200ms; }
+  .exit:hover { background: rgba(255, 253, 248, .1); }
+  .exit svg { width: 18px; height: 18px; }
+  .exit kbd { font: 800 10.5px/1 'Nunito Sans', sans-serif; letter-spacing: .08em; padding: 4px 6px; border-radius: 5px; border: 1px solid rgba(255, 253, 248, .4); color: #FFFDF8; }
+  .s-tag { margin: 0; display: flex; align-items: baseline; gap: 12px; font: 600 19px/1.2 'Fraunces', Georgia, serif; color: #FFFDF8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .s-tag span { font: 900 11.5px/1 'Nunito Sans', sans-serif; letter-spacing: .22em; text-transform: uppercase; color: var(--pale); }
+
+  .s-mark { position: absolute; right: -.04em; bottom: -.2em; margin: 0; z-index: 1; font: 600 clamp(260px, 34vw, 520px)/1 'Fraunces', Georgia, serif; letter-spacing: -.06em; color: rgba(255, 253, 248, .055); pointer-events: none; user-select: none; }
+  .path-wrap { position: absolute; inset: 0; z-index: 2; pointer-events: none; transform-origin: 0 0; }
+  .path-pan { position: absolute; left: 0; top: 0; height: 100%; }
+  .path-svg { position: absolute; left: 0; top: 0; overflow: visible; }
+  .p-glow { fill: none; stroke: var(--light); stroke-width: 18; stroke-linecap: round; opacity: .14; }
+  .p-ahead { fill: none; stroke: var(--light); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1 11; opacity: .9; }
+  .p-done { fill: none; stroke: var(--light); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+  .marker { position: absolute; left: 0; top: 0; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px #FFFDF8, 0 6px 18px rgba(0, 0, 0, .35); z-index: 3; transition: opacity 200ms, scale 260ms var(--out); }
+  .marker::after { content: ''; position: absolute; inset: -14px; border-radius: 50%; background: rgba(240, 116, 90, .28); animation: breathe 2.2s ease-in-out infinite; z-index: -1; }
+  .marker.hide { opacity: 0; scale: .4; }
+  @keyframes breathe { 0%, 100% { transform: scale(.75); opacity: .9; } 50% { transform: scale(1.2); opacity: .2; } }
+
+  .stop { position: absolute; left: 0; top: 0; width: 60px; height: 60px; margin: -30px 0 0 -30px; padding: 0; border: 0; border-radius: 50%; background: none; cursor: pointer; pointer-events: auto; transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px)); color: #FFFDF8; }
+  .stop .dot { position: absolute; inset: 2px; border-radius: 50%; display: grid; place-items: center; background: var(--dark); box-shadow: inset 0 0 0 2.5px var(--pale); color: var(--pale); transition: background-color 350ms, color 350ms, box-shadow 350ms, transform 450ms var(--out); }
+  .stop .dot svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; }
+  .stop.visited .dot { background: var(--light); color: var(--dark); box-shadow: none; }
+  .stop.start.visited .dot { color: var(--ink); }
+  .stop.current .dot { transform: scale(1.12); box-shadow: 0 0 0 5px #FFFDF8, 0 0 0 13px rgba(255, 253, 248, .16); }
+  .stop.start, .stop.end { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  .stop.start .dot, .stop.end .dot { font: 900 12px/1 'Nunito Sans', sans-serif; letter-spacing: .04em; }
+  .stop.end .dot svg { width: 22px; height: 22px; stroke-width: 2.2; }
+  .stop::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 3px solid var(--light); opacity: 0; pointer-events: none; }
+  .stop.pulse::after { animation: ring 900ms var(--out); }
+  @keyframes ring { from { transform: scale(1); opacity: 1; } to { transform: scale(2.4); opacity: 0; } }
+  .lab { position: absolute; left: 50%; top: calc(100% + 12px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 2px; white-space: nowrap; text-align: center; pointer-events: none; }
+  .lab b { font-size: 15px; font-weight: 800; color: #FFFDF8; }
+  .lab i { font-style: normal; font-size: 13px; font-weight: 700; color: var(--pale); font-variant-numeric: tabular-nums; }
+  .stop.ahead .lab b { color: var(--pale); }
+  .here-tag { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); height: 24px; padding: 0 10px; display: inline-flex; align-items: center; border-radius: 999px; background: var(--coral); color: var(--ink); font-size: 10.5px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; pointer-events: none; }
+
+  .stage { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+  .stage > * { pointer-events: auto; }
+  .opener { position: absolute; max-width: min(780px, calc(100vw - 80px)); }
+  .o-kicker { margin: 0 0 8px; font-size: 13px; font-weight: 900; letter-spacing: .26em; text-transform: uppercase; color: #FFFDF8; }
+  .o-kicker b { font: 600 34px/1 'Fraunces', Georgia, serif; letter-spacing: 0; color: var(--light); margin-left: 6px; vertical-align: -4px; }
+  .o-name { margin: 0 0 14px; font: 600 clamp(44px, 4.6vw, 70px)/1 'Fraunces', Georgia, serif; letter-spacing: -.02em; color: #FFFDF8; }
+  .o-mission { margin: 0 0 22px; font: italic 400 clamp(21px, 1.9vw, 27px)/1.32 'Fraunces', Georgia, serif; color: #FFFDF8; max-width: 26em; }
+  .o-mission span { display: block; margin-bottom: 6px; font: 900 12px/1 'Nunito Sans', sans-serif; letter-spacing: .24em; text-transform: uppercase; font-style: normal; color: var(--pale); }
+  .o-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; font-size: 15px; font-weight: 700; color: #FFFDF8; }
+
+  .card { position: absolute; width: min(760px, calc(100vw - 80px)); background: var(--card); color: var(--ink); border-radius: 20px; box-shadow: var(--shadow); }
+  .card-in, .end-in { overflow: auto; overscroll-behavior: contain; border-radius: inherit; }
+  .caret { position: absolute; top: -9px; width: 18px; height: 18px; margin-left: -9px; background: var(--light); transform: rotate(45deg); border-radius: 3px; }
+  .card-in { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+  .band { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; padding: 14px 22px; background: var(--light); color: var(--ink); border-radius: 20px 20px 0 0; }
+  .band p { margin: 0; flex: 1; font-size: 13px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; font-variant-numeric: tabular-nums; }
+  .band .ci { flex: none; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: #FFFDF8; color: var(--dark); box-shadow: inset 0 0 0 2px var(--dark); }
+  .band .ci svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; }
+  .c-main { padding: 20px 24px 22px; }
+  .c-side { padding: 20px 24px 22px 0; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
+  .here { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 10px; height: 26px; padding: 0 11px; border-radius: 999px; background: var(--coral); color: var(--ink); font-size: 11.5px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
+  .here::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--ink); }
+  .c-title { margin: 0 0 12px; font: 600 clamp(26px, 2.2vw, 32px)/1.1 'Fraunces', Georgia, serif; letter-spacing: -.01em; }
+  .c-simple p { margin: 0 0 8px; font-size: 17px; line-height: 1.5; }
+  .learned { padding: 14px 16px 15px; background: var(--tint); border-left: 4px solid var(--dark); border-radius: 4px 12px 12px 4px; }
+  .learned-lbl { margin: 0 0 4px; font-size: 11.5px; font-weight: 900; letter-spacing: .18em; text-transform: uppercase; color: var(--dark); }
+  .learned p:last-child { margin: 0; font-size: 16px; line-height: 1.45; font-weight: 600; color: var(--ink); }
+  .read { display: inline-flex; align-items: center; gap: 8px; color: var(--dark); font-size: 16px; font-weight: 800; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .read svg { width: 18px; height: 18px; }
+
+  .endcard { position: absolute; width: min(600px, calc(100vw - 80px)); border-radius: 20px; background: var(--light); color: var(--ink); box-shadow: var(--shadow); }
+  .end-in { padding: 26px 28px 26px; }
+  .endcard .caret { background: var(--light); }
+  .end-k { margin: 0 0 6px; font-size: 12px; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--ink); }
+  .end-title { margin: 0 0 4px; font: 600 clamp(36px, 3.4vw, 50px)/1.02 'Fraunces', Georgia, serif; letter-spacing: -.02em; color: var(--ink); }
+  .end-date { margin: 0 0 14px; font-size: 18px; font-weight: 800; color: var(--ink); }
+  .end-mission { margin: 0 0 20px; font: italic 400 20px/1.35 'Fraunces', Georgia, serif; color: var(--ink); }
+  .end-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  .s-foot { position: absolute; left: 0; right: 0; bottom: 0; height: 88px; display: flex; align-items: center; gap: 24px; padding: 0 clamp(20px, 3vw, 44px); z-index: 4; }
+  .nav-prev, .nav-next { height: 48px; display: inline-flex; align-items: center; gap: 10px; border-radius: 999px; font: 800 15px/1 'Nunito Sans', sans-serif; cursor: pointer; flex: none; transition: opacity 200ms, transform 200ms var(--out); }
+  .nav-prev { padding: 0 20px 0 14px; background: transparent; color: #FFFDF8; border: 1.5px solid rgba(255, 253, 248, .45); }
+  .nav-next { padding: 0 18px 0 26px; background: var(--coral); color: var(--ink); border: 0; }
+  .nav-next:hover:not(:disabled) { transform: translateY(-1px); }
+  .nav-prev:disabled, .nav-next:disabled { opacity: .3; cursor: default; }
+  .nav-prev svg, .nav-next svg { width: 18px; height: 18px; }
+  .s-prog { flex: 1; display: flex; justify-content: center; align-items: center; gap: 14px; min-width: 0; }
+  .s-dots { display: flex; align-items: center; gap: 8px; }
+  .s-dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255, 253, 248, .3); transition: background-color 300ms, transform 300ms var(--out); }
+  .s-dots i.on { background: var(--light); }
+  .s-dots i.cur { background: #FFFDF8; transform: scale(1.35); }
+  .s-label { font-size: 14px; font-weight: 800; color: #FFFDF8; white-space: nowrap; }
+
+  /* ---------- Phone ---------- */
+  @media (max-width: 719px) {
+    .h-top { height: 60px; padding: 0 16px; }
+    .brand { height: 36px; padding: 0 12px; }
+    .brand span, .brand i { display: none; }
+    .top-now { display: inline-flex; height: 38px; padding: 0 14px; font-size: 14px; }
+    .h-main { padding: 0 16px 14px; justify-content: flex-start; gap: 14px; }
+    .hero { grid-template-columns: 1fr; gap: 14px; }
+    .eyebrow { margin-bottom: 10px; font-size: 11px; }
+    .h-title { font-size: 29px; margin-bottom: 8px; }
+    .h-context { font-size: 14.5px; margin-bottom: 0; }
+    .h-actions { display: none; }
+    .strip-card { padding: 12px 14px 10px; border-radius: 16px; }
+    .strip-head { margin-bottom: 10px; }
+    .strip-head { margin-bottom: 20px; }
+    .s-row { height: 20px; margin-bottom: 4px; }
+    .s-bar { height: 20px; font-size: 11px; padding: 0 9px; }
+    .s-bar i { display: none; }
+    .seasons { grid-template-columns: 1fr; gap: 10px; }
+    .entry { padding: 13px 15px 11px; border-radius: 16px; }
+    .entry .enter::after { border-radius: 16px; }
+    .entry { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 10px; }
+    .e-head { display: contents; }
+    .e-num { grid-column: 1; grid-row: 1; font-size: 0; letter-spacing: 0; }
+    .e-num b { margin: 0; }
+    .entry .chip { grid-column: 3; grid-row: 1; }
+    .e-name { grid-column: 2; grid-row: 1; font-size: 19px; line-height: 1.1; margin: 0; }
+    .e-mission, .e-meta, .mini { grid-column: 1 / -1; }
+    .e-mission { margin-top: 5px; }
+    .e-mission { font-size: 13.5px; margin-bottom: 3px; line-height: 1.35; }
+    .e-meta { font-size: 12.5px; margin-bottom: 0; }
+    .mini { height: 30px; margin: 2px 0 0; }
+    .e-foot { position: absolute; right: 12px; bottom: 10px; padding: 0; margin: 0; }
+    .e-new { display: none; }
+    .enter { height: 30px; padding: 0 12px; font-size: 12.5px; }
+    .mini { width: calc(100% - 84px); }
+    .chip { height: 22px; font-size: 10.5px; padding: 0 9px; }
+
+    .s-top { height: 64px; gap: 12px; padding: 0 14px; }
+    .exit { height: 38px; font-size: 13px; }
+    .exit kbd { display: none; }
+    .s-tag { font-size: 16px; flex-direction: column; gap: 3px; }
+    .stop { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+    .stop .dot svg { width: 22px; height: 22px; }
+    .stop.start, .stop.end { width: 36px; height: 36px; margin: -18px 0 0 -18px; }
+    .lab { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); flex-direction: row; align-items: baseline; gap: 8px; }
+    .lab b { font-size: 14px; }
+    .lab i { font-size: 12.5px; }
+    .here-tag { position: static; transform: none; height: 20px; font-size: 9.5px; padding: 0 8px; margin-left: 2px; align-self: center; }
+    .lab .here-tag { display: inline-flex; }
+    .opener { left: 18px !important; right: 18px; bottom: 82px; top: auto !important; }
+    .o-kicker b { font-size: 26px; }
+    .o-name { font-size: 34px; margin-bottom: 10px; }
+    .o-mission { font-size: 18px; margin-bottom: 14px; }
+    .o-meta { font-size: 13.5px; gap: 8px 14px; }
+    .card, .endcard { left: 0 !important; right: 0; width: auto; top: auto !important; bottom: 70px; border-radius: 22px 22px 0 0; box-shadow: 0 -16px 40px rgba(0, 0, 0, .25); }
+    .caret { display: none; }
+    .card-in { grid-template-columns: 1fr; }
+    .band { border-radius: 22px 22px 0 0; padding: 12px 18px; }
+    .band p { font-size: 12px; }
+    .c-main { padding: 16px 18px 6px; }
+    .c-side { padding: 6px 18px 18px; }
+    .c-title { font-size: 24px; margin-bottom: 8px; }
+    .c-simple p { font-size: 15.5px; }
+    .learned p:last-child { font-size: 15px; }
+    .endcard { padding: 20px 18px 20px; }
+    .end-title { font-size: 32px; }
+    .end-mission { font-size: 17px; margin-bottom: 14px; }
+    .btn { height: 44px; padding: 0 16px; font-size: 14.5px; }
+    .s-foot { height: 70px; gap: 10px; padding: 0 12px; background: var(--dark); }
+    .nav-prev { width: 46px; padding: 0; justify-content: center; }
+    .nav-prev span { display: none; }
+    .nav-next { height: 46px; padding: 0 14px 0 20px; }
+    .s-prog { gap: 10px; }
+    .s-label { font-size: 12.5px; }
+  }
+  /* Side mode: a short landscape screen. */
+  .season.side .s-top { height: 64px; }
+  .season.side .s-foot { height: 70px; }
+  .season.side .caret { display: none; }
+  .season.side .stop { width: 46px; height: 46px; margin: -23px 0 0 -23px; }
+  .season.side .stop .dot svg { width: 22px; height: 22px; }
+  .season.side .stop.start, .season.side .stop.end { width: 36px; height: 36px; margin: -18px 0 0 -18px; }
+  .season.side .lab { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); flex-direction: row; align-items: baseline; gap: 8px; }
+  .season.side .lab b { font-size: 14px; }
+  .season.side .here-tag { position: static; transform: none; height: 20px; font-size: 9.5px; padding: 0 8px; align-self: center; }
+  .season.side .opener { overflow: auto; }
+  .season.side .o-name { font-size: 34px; }
+  .season.side .o-mission { font-size: 18px; margin-bottom: 12px; }
+  .season.side .card-in { grid-template-columns: 1fr; }
+  .season.side .c-side { padding: 0 24px 20px; }
+  .season.side .end-title { font-size: 32px; }
+  @media (min-width: 720px) and (max-height: 800px) {
+    .h-top { height: 60px; }
+    .h-main { gap: 20px; padding-bottom: 18px; }
+    .eyebrow { margin-bottom: 10px; }
+    .h-title { font-size: clamp(34px, 3.3vw, 46px); margin-bottom: 10px; }
+    .h-context { font-size: 16px; margin-bottom: 16px; }
+    .btn { height: 44px; }
+    .entry { padding: 16px 20px 14px; }
+    .e-head { margin-bottom: 8px; }
+    .e-name { font-size: clamp(22px, 1.9vw, 27px); }
+    .e-mission { font-size: 15px; margin-bottom: 6px; }
+    .mini { height: 44px; }
+    .strip-card { padding: 14px 18px 12px; }
+  }
+  @media (min-width: 720px) and (max-height: 560px) {
+    .h-context, .e-mission, .strip-card { display: none; }
+    .hero { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 719px) and (max-height: 700px) {
+    .eyebrow { display: none; }
+    .h-title { font-size: 25px; }
+    .s-row { height: 16px; margin-bottom: 3px; }
+    .s-bar { height: 16px; font-size: 10px; }
+    .strip-head { margin-bottom: 16px; }
+    .mini { height: 24px; }
+    .entry { padding: 10px 14px 9px; }
+    .e-name { font-size: 17px; }
+  }
+  @media (max-width: 719px) and (max-height: 760px) {
+    .h-context { display: none; }
+    .e-mission { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marker::after { animation: none; }
+    .stop.pulse::after { animation: none; }
+    .entry, .stop .dot, .marker { transition-duration: 1ms !important; }
+  }
+</style>
+</head>
+<body>
+<div class="home" id="home">
+  <header class="h-top">
+    <div class="brand"><b>MAAT</b><i></i><span>Journey</span></div>
+    <button type="button" class="btn btn-coral top-now" data-act="now">Jump to now</button>
+  </header>
+  <main class="h-main" id="h-main"></main>
+</div>
+<div id="layers"></div>
+<div id="live" class="sr-only" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script>
+(() => {
+  'use strict';
+  const G = window.GUIDED;
+  const root = document.documentElement;
+  const $ = s => document.querySelector(s);
+  const NS = 'http://www.w3.org/2000/svg';
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const month = ym => { const [y, m] = ym.split('-').map(Number); return MONTHS[m - 1] + ' ' + y; };
+  const monthIdx = ym => { const [y, m] = ym.split('-').map(Number); return y * 12 + m - 1; };
+  const pad2 = n => String(n).padStart(2, '0');
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
+  const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+  const hex = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mixHex = (a, b, t) => '#' + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * t).toString(16).padStart(2, '0')).join('');
+
+  // Easing: nothing linear.
+  function cubicBezier(x1, y1, x2, y2) {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    const sx = t => ((ax * t + bx) * t + cx) * t, sy = t => ((ay * t + by) * t + cy) * t;
+    return x => {
+      if (x <= 0) return 0;
+      if (x >= 1) return 1;
+      let lo = 0, hi = 1, t = x;
+      for (let i = 0; i < 40; i++) { const v = sx(t); if (Math.abs(v - x) < 1e-6) break; if (v < x) lo = t; else hi = t; t = (lo + hi) / 2; }
+      return sy(t);
+    };
+  }
+  const cinematic = cubicBezier(.65, 0, .35, 1);
+  const CINE = 'cubic-bezier(.65, 0, .35, 1)', OUT = 'cubic-bezier(.22, 1, .36, 1)', IN = 'cubic-bezier(.55, 0, .75, .2)';
+
+  // ---------- Data ----------
+  const seasons = G.seasons.slice().sort((a, b) => a.id - b.id).map((s, si) => ({
+    ...s, si,
+    pale: mixHex(s.color.light, '#ffffff', .5),
+    chapters: G.chapters.filter(c => c.season === s.id).sort((a, b) => a.date.localeCompare(b.date)),
+  }));
+  const totalChapters = seasons.reduce((n, s) => n + s.chapters.length, 0);
+  const latest = G.chapters.find(c => c.latest) || G.chapters[G.chapters.length - 1];
+  const latestSi = seasons.findIndex(s => s.id === latest.season);
+  const latestStep = seasons[latestSi].chapters.indexOf(latest) + 1;
+  const vars = s => `--light:${s.color.light};--tint:${s.color.tint};--dark:${s.color.dark};--pale:${s.pale}`;
+  const dates = s => month(s.from) + ' to ' + (s.to ? month(s.to) : 'now');
+  const status = s => s.status === 'done' ? 'Done' : 'Ongoing';
+  const stepCount = s => s.chapters.length + 2;
+  const ICON = name => `<svg viewBox="0 0 64 64" aria-hidden="true">${G.icons[name] || ''}</svg>`;
+  const ARROW = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const BACK = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
+  const CHEV_L = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>';
+  const CHEV_R = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
+  const FLAG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V3"/><path d="M6.5 4H19l-3 4 3 4H6.5"/></svg>';
+  const isPhone = () => innerWidth < 720;
+  // Short landscape screens (a phone on its side): vertical path on the left, card on the right.
+  const isSide = () => !isPhone() && innerHeight < 560;
+  const isVert = () => isPhone() || isSide();
+  const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Shared path geometry: the same normalized shape for the preview and the full path.
+  const shape = n => Array.from({length: n}, (_, i) => ({u: n > 1 ? i / (n - 1) : 0, v: Math.sin(i * 1.3 + .55)}));
+  function curve(P) {
+    if (P.length < 2) return '';
+    let d = `M${P[0].x.toFixed(1)} ${P[0].y.toFixed(1)}`;
+    for (let k = 0; k < P.length - 1; k++) {
+      const p0 = P[Math.max(k - 1, 0)], p1 = P[k], p2 = P[k + 1], p3 = P[Math.min(k + 2, P.length - 1)];
+      const t = 1 / 6;
+      d += `C${(p1.x + (p2.x - p0.x) * t).toFixed(1)} ${(p1.y + (p2.y - p0.y) * t).toFixed(1)} ${(p2.x - (p3.x - p1.x) * t).toFixed(1)} ${(p2.y - (p3.y - p1.y) * t).toFixed(1)} ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    }
+    return d;
+  }
+
+  // ---------- Start screen ----------
+  const home = $('#home'), hMain = $('#h-main'), layersEl = $('#layers'), live = $('#live');
+  function buildHome() {
+    const first = Math.min(...seasons.map(s => monthIdx(s.from)));
+    const lastM = Math.max(monthIdx(latest.date), ...seasons.filter(s => s.to).map(s => monthIdx(s.to)));
+    const span = lastM - first + 1;
+    const pct = m => (m - first) / span * 100;
+    const years = [...new Set(seasons.map(s => s.from.slice(0, 4)).concat(latest.date.slice(0, 4)))].join(' to ');
+    const rows = seasons.map(s => {
+      const a = pct(monthIdx(s.from)), b = s.to ? pct(monthIdx(s.to) + 1) : 100;
+      return `<div class="s-row"><span class="s-bar${s.to ? '' : ' open'}" style="${vars(s)};left:${a}%;width:${b - a}%"><span class="s-lab"><b>${esc(s.name)}</b><i>${s.to ? MONTHS[+s.from.slice(5) - 1] + ' to ' + MONTHS[+s.to.slice(5) - 1] : 'since ' + MONTHS[+s.from.slice(5) - 1]}</i></span></span></div>`;
+    }).join('');
+    const ticks = Array.from({length: span}, (_, i) => `<span style="left:${(i + .5) / span * 100}%">${MONTHS[(first + i) % 12]}</span>`).join('');
+    const entries = seasons.map(s => {
+      const newest = s.chapters[s.chapters.length - 1];
+      return `<li class="entry" style="${vars(s)}" data-si="${s.si}">
+                <h2 class="e-name">${esc(s.name)}</h2>
+        <p class="e-mission">${esc(s.mission)}</p>
+        <p class="e-meta">${dates(s)} · ${plural(s.chapters.length, 'chapter')}</p>
+        <svg class="mini" aria-hidden="true" data-si="${s.si}"></svg>
+        <div class="e-foot">
+          <span class="e-new">${newest ? (newest.latest ? 'You are here: ' : 'Newest: ') + '<b>' + esc(newest.short) + '</b>, ' + month(newest.date) : ''}</span>
+          <button type="button" class="enter" data-act="enter" data-si="${s.si}" aria-label="Enter ${esc(s.name)}">Enter${ARROW}</button>
+        </div>
+      </li>`;
+    }).join('');
+    hMain.innerHTML = `
+      <section class="hero">
+        <div>
+          <p class="eyebrow">${esc(G.journey.name)}</p>
+          <h1 class="h-title" id="home-title" tabindex="-1">${esc(G.journey.mission)}</h1>
+          <p class="h-context">${esc(G.journey.context)}</p>
+          <div class="h-actions">
+            <button type="button" class="btn btn-ink" data-act="enter" data-si="0">Start the journey${ARROW}</button>
+            <button type="button" class="btn btn-coral" data-act="now" id="btn-now">Jump to now</button>
+          </div>
+        </div>
+        <aside class="strip-card" aria-label="Timeline">
+          <div class="strip-head"><p class="strip-title">Timeline<span class="strip-year">${years}</span></p></div>
+          <div class="strip">${rows}<div class="axis">${ticks}</div><span class="now-line" style="left:100%"><span>Now</span></span></div>
+        </aside>
+      </section>
+      <ul class="seasons">${entries}</ul>`;
+    drawMinis();
+    fitBars();
+    document.fonts.ready.then(fitBars);
+  }
+  function drawMinis() {
+    hMain.querySelectorAll('svg.mini').forEach(svg => {
+      const s = seasons[Number(svg.dataset.si)];
+      const r = svg.getBoundingClientRect();
+      const w = Math.max(60, r.width), h = Math.max(20, r.height);
+      svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      const n = s.chapters.length + 2;
+      const pad = 10, amp = h * .22;
+      const P = shape(n).map(p => ({x: pad + p.u * (w - 2 * pad), y: h / 2 + amp * p.v}));
+      const d = curve(P);
+      const doneTo = n - 2;
+      const Pd = P.slice(0, doneTo + 1);
+      let g = `<path d="${d}" fill="none" stroke="${s.color.light}" stroke-width="2" stroke-dasharray="1 6" stroke-linecap="round"/>`;
+      g += `<path d="${curve(Pd)}" fill="none" stroke="${s.color.light}" stroke-width="3.5" stroke-linecap="round"/>`;
+      P.forEach((p, i) => {
+        if (i === 0) g += `<circle cx="${p.x}" cy="${p.y}" r="5" fill="${s.color.dark}" stroke="${s.pale}" stroke-width="2"/>`;
+        else if (i === n - 1) g += `<path d="M${p.x} ${p.y + 6}V${p.y - 12}" stroke="#FFFDF8" stroke-width="2" stroke-linecap="round"/><path d="M${p.x + .8} ${p.y - 12}h11l-3 3.5 3 3.5h-11z" fill="${s.status === 'done' ? s.color.light : 'none'}" stroke="${s.color.light}" stroke-width="1.6" stroke-linejoin="round"/>`;
+        else {
+          const c = s.chapters[i - 1];
+          if (c.latest) g += `<circle cx="${p.x}" cy="${p.y}" r="11" fill="rgba(240,116,90,.3)"/><circle cx="${p.x}" cy="${p.y}" r="6.5" fill="#F0745A" stroke="#FFFDF8" stroke-width="2.5"/>`;
+          else if (i === n - 2) g += `<circle cx="${p.x}" cy="${p.y}" r="7" fill="${s.color.light}" stroke="#FFFDF8" stroke-width="2"/>`;
+          else g += `<circle cx="${p.x}" cy="${p.y}" r="5.5" fill="${s.color.light}"/>`;
+        }
+      });
+      svg.innerHTML = g;
+      svg.__pts = P;
+    });
+  }
+
+  // ---------- Season layer ----------
+  function seasonMetrics(n) {
+    const W = innerWidth, H = innerHeight, phone = isPhone();
+    if (isSide()) {
+      const top = 64, bar = 70, pathTop = top + 24;
+      const gap = clamp((H - top - bar - 52) / Math.max(1, n - 1), 36, 64);
+      const len = gap * (n - 1);
+      return {phone, side: true, W, H, top, bar, axis: 'y', x: 46, y0: pathTop, len, amp: 7, zoneTop: top + 6, zoneLeft: Math.min(330, W * .42)};
+    }
+    if (phone) {
+      const top = 64, bar = 70;
+      const pathTop = top + 30;
+      const avail = clamp(H * .26, 140, 240);
+      const gap = clamp(avail / Math.max(1, n - 1), 44, 64);
+      const len = gap * (n - 1);
+      return {phone, W, H, top, bar, axis: 'y', x: 46, y0: pathTop, len, amp: 7, panLen: len, zoneTop: pathTop + len + 34};
+    }
+    const top = 80, bar = 88;
+    const pathY = top + clamp(H * .2, 110, 200);
+    const amp = 30;
+    const x0 = clamp(W * .08, 80, 140), x1 = W - x0;
+    const minGap = 230;
+    const gap = Math.max(minGap, (x1 - x0) / Math.max(1, n - 1));
+    const len = gap * (n - 1);
+    return {phone, W, H, top, bar, axis: 'x', x0, x1, pathY, amp, len, pan: len > x1 - x0 + 1, zoneTop: pathY + amp + 110};
+  }
+
+  function buildSeason(si) {
+    const s = seasons[si];
+    const n = s.chapters.length + 2;
+    const el = document.createElement('section');
+    el.className = 'season on-dark' + (isVert() ? ' vert' : '') + (isSide() ? ' side' : '');
+    el.setAttribute('style', vars(s));
+    el.setAttribute('aria-label', s.name);
+    el.dataset.si = si;
+    const stops = [];
+    stops.push(`<button type="button" class="stop start" data-go="0" aria-label="Start, ${month(s.from)}"><span class="dot"></span><span class="lab"><b>Start</b><i>${month(s.from)}</i></span></button>`);
+    s.chapters.forEach((c, i) => {
+      stops.push(`<button type="button" class="stop" data-go="${i + 1}" aria-label="Chapter ${i + 1}: ${esc(c.short)}, ${month(c.date)}${c.latest ? ', you are here' : ''}"><span class="dot">${ICON(c.icon)}</span>${c.latest && !isVert() ? '<span class="here-tag">You are here</span>' : ''}<span class="lab"><b>${esc(c.short)}</b><i>${month(c.date)}</i>${c.latest && isVert() ? '<span class="here-tag">You are here</span>' : ''}</span></button>`);
+    });
+    stops.push(`<button type="button" class="stop end" data-go="${n - 1}" aria-label="Mission: ${esc(s.mission)}"><span class="dot"><svg class="ico" viewBox="0 0 24 24"><path d="M6 21V3"/><path d="M6.5 4H19l-3 4 3 4H6.5"/></svg></span><span class="lab"><b>Mission</b></span></button>`);
+    const dots = Array.from({length: n}, () => '<i></i>').join('');
+    el.innerHTML = `
+      <header class="s-top">
+        <button type="button" class="exit" data-act="exit">${BACK}<span>Overview</span><kbd aria-hidden="true">Esc</kbd></button>
+        <p class="s-tag"><span>${dates(s)}</span>${esc(s.name)}</p>
+      </header>
+      <div class="path-wrap"><div class="path-pan">
+        <svg class="path-svg" aria-hidden="true"><path class="p-glow"/><path class="p-ahead"/><path class="p-done"/></svg>
+        ${stops.join('')}
+        <div class="marker" aria-hidden="true"></div>
+      </div></div>
+      <div class="stage"></div>
+      <footer class="s-foot">
+        <button type="button" class="nav-prev" data-act="prev" aria-label="Previous step">${CHEV_L}<span>Previous</span></button>
+        <div class="s-prog"><span class="s-dots" aria-hidden="true">${dots}</span><span class="s-label"></span></div>
+        <button type="button" class="nav-next" data-act="next" aria-label="Next step"><span>Next</span>${CHEV_R}</button>
+      </footer>`;
+    layersEl.appendChild(el);
+    const L = {
+      el, s, si, n, step: 0, D: 0,
+      wrap: el.querySelector('.path-wrap'), pan: el.querySelector('.path-pan'), svg: el.querySelector('.path-svg'),
+      pGlow: el.querySelector('.p-glow'), pAhead: el.querySelector('.p-ahead'), pDone: el.querySelector('.p-done'),
+      marker: el.querySelector('.marker'), stops: [...el.querySelectorAll('.stop')], stage: el.querySelector('.stage'),
+      prev: el.querySelector('.nav-prev'), next: el.querySelector('.nav-next'), dots: [...el.querySelectorAll('.s-dots i')], label: el.querySelector('.s-label'),
+    };
+    layoutSeason(L);
+    return L;
+  }
+
+  function layoutSeason(L) {
+    const m = seasonMetrics(L.n);
+    L.m = m;
+    const sh = shape(L.n);
+    L.P = sh.map(p => m.axis === 'x'
+      ? {x: m.x0 + p.u * m.len, y: m.pathY + m.amp * p.v}
+      : {x: m.x + m.amp * p.v, y: m.y0 + p.u * m.len});
+    const d = curve(L.P);
+    [L.pGlow, L.pAhead, L.pDone].forEach(p => p.setAttribute('d', d));
+    L.len = L.pDone.getTotalLength();
+    // Distance along the path for each node.
+    L.nodeD = [0];
+    for (let k = 1; k < L.n; k++) {
+      const tmp = document.createElementNS(NS, 'path');
+      tmp.setAttribute('d', curve(L.P.slice(0, k + 1)));
+      L.svg.appendChild(tmp);
+      L.nodeD.push(tmp.getTotalLength());
+      tmp.remove();
+    }
+    L.stops.forEach((b, i) => { b.style.setProperty('--x', L.P[i].x.toFixed(1)); b.style.setProperty('--y', L.P[i].y.toFixed(1)); });
+    const panW = m.axis === 'x' ? m.x0 * 2 + m.len : m.W;
+    L.pan.style.width = panW + 'px';
+    L.svg.setAttribute('width', panW);
+    L.svg.setAttribute('height', m.H);
+    L.svg.setAttribute('viewBox', `0 0 ${panW} ${m.H}`);
+    renderSeason(L);
+    placeStage(L);
+  }
+
+  // Gentle pan only when the path is wider than the screen. Otherwise the camera never moves.
+  function panFor(L, D) {
+    const m = L.m;
+    if (!m.pan) return 0;
+    const p = L.pDone.getPointAtLength(clamp(D, 0, L.len));
+    return clamp(m.W / 2 - p.x, m.W - (m.x0 * 2 + m.len), 0);
+  }
+  function renderSeason(L) {
+    const D = clamp(L.D, 0, L.len);
+    const Ds = D;
+    L.pDone.style.strokeDasharray = `${Ds.toFixed(2)} ${(L.len + 20).toFixed(1)}`;
+    L.pDone.style.visibility = Ds < .5 ? 'hidden' : '';
+    const p = L.pDone.getPointAtLength(D);
+    L.marker.style.transform = `translate(${p.x.toFixed(2)}px, ${p.y.toFixed(2)}px)`;
+    L.pan.style.transform = `translateX(${panFor(L, D).toFixed(1)}px)`;
+    L.stops.forEach((b, i) => {
+      const v = D >= L.nodeD[i] - 1;
+      if (b.__v !== v) { b.__v = v; b.classList.toggle('visited', v); b.classList.toggle('ahead', !v); }
+    });
+  }
+  function setRest(L, step, moving) {
+    L.stops.forEach((b, i) => {
+      const cur = !moving && i === step;
+      b.classList.toggle('current', cur);
+      if (cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    // The marker stays visible where it arrives.
+    L.marker.classList.remove('hide');
+  }
+  function updateControls(L, step) {
+    L.prev.disabled = step === 0;
+    L.next.disabled = step === L.n - 1;
+    L.dots.forEach((d, i) => { d.classList.toggle('on', i < step); d.classList.toggle('cur', i === step); });
+    L.label.textContent = step === 0 ? 'Start' : step === L.n - 1 ? 'Mission' : `Chapter ${step} of ${L.s.chapters.length}`;
+  }
+
+  // ---------- Stage content ----------
+  function stageEl(L, step) {
+    const s = L.s;
+    let html;
+    if (step === 0) {
+      html = `<div class="opener">
+        <p class="o-kicker" data-st="0">${dates(s)}</p>
+        <h2 class="o-name" tabindex="-1" data-st="1">${esc(s.name)}</h2>
+        <p class="o-mission" data-st="2"><span>Mission</span>${esc(s.mission)}</p>
+        <div class="o-meta" data-st="3"><span>${plural(s.chapters.length, 'chapter')}</span></div>
+      </div>`;
+    } else if (step === L.n - 1) {
+      const done = s.status === 'done';
+      const nextS = seasons[s.si + 1];
+      html = `<div class="endcard"><span class="caret"></span><div class="end-in">
+        <p class="end-k">The mission</p>
+        <h2 class="end-title" tabindex="-1">${esc(s.mission)}</h2>
+        <p class="end-date">${dates(s)}</p>
+        <p class="end-mission">${plural(s.chapters.length, 'chapter')} on this trip.</p>
+        <div class="end-actions">
+          ${nextS ? `<button type="button" class="btn btn-ink" data-act="nextseason" aria-label="Next: ${esc(nextS.name)}">Next: ${esc(nextS.name)}${ARROW}</button>` : ''}
+          <button type="button" class="btn btn-line" data-act="exit">${BACK}Back to overview</button>
+        </div></div></div>`;
+    } else {
+      const c = s.chapters[step - 1];
+      html = `<article class="card"><span class="caret"></span><div class="card-in">
+        <header class="band"><p>Chapter ${step} of ${s.chapters.length} · ${month(c.date)}</p><span class="ci">${ICON(c.icon)}</span></header>
+        <div class="c-main">
+          ${c.latest ? '<p class="here">You are here</p>' : ''}
+          <h2 class="c-title" tabindex="-1">${esc(c.title)}</h2>
+          <div class="c-simple">${c.simple.map(p => `<p>${esc(p)}</p>`).join('')}</div>
+        </div>
+        <div class="c-side">
+          <div class="learned"><p class="learned-lbl">What I learned</p><p>${esc(c.learned)}</p></div>
+          <a class="read" href="#">Read the full chapter${ARROW}</a>
+        </div></div></article>`;
+    }
+    const t = document.createElement('template');
+    t.innerHTML = html.trim();
+    const node = t.content.firstElementChild;
+    node.dataset.step = step;
+    return node;
+  }
+  function placeStage(L, node) {
+    node = node || L.stage.lastElementChild;
+    if (!node) return;
+    const m = L.m;
+    if (m.side) {
+      const left = m.zoneLeft, w = m.W - left - 24, maxH = m.H - m.bar - m.top - 14;
+      node.style.left = left + 'px';
+      node.style.top = m.zoneTop + 'px';
+      node.style.width = w + 'px';
+      const inner = node.querySelector('.card-in, .end-in');
+      if (inner) inner.style.maxHeight = maxH + 'px';
+      else node.style.maxHeight = maxH + 'px';
+      return;
+    }
+    if (m.phone) {
+      const inner = node.querySelector('.card-in, .end-in');
+      if (inner) inner.style.maxHeight = Math.max(160, m.H - m.bar - m.zoneTop) + 'px';
+      return;
+    }
+    const step = Number(node.dataset.step);
+    const panX = panFor(L, L.nodeD[step]);
+    const nodeX = L.P[step].x + panX;
+    const zoneH = m.H - m.bar - 14 - m.zoneTop;
+    if (node.classList.contains('opener')) {
+      node.style.left = (L.P[0].x + panX - 24) + 'px';
+      node.style.top = (m.zoneTop + 6) + 'px';
+      return;
+    }
+    const w = node.offsetWidth;
+    const left = clamp(nodeX - w / 2, 32, m.W - 32 - w);
+    node.style.left = left + 'px';
+    node.style.top = m.zoneTop + 'px';
+    const inner = node.querySelector('.card-in, .end-in');
+    if (inner) inner.style.maxHeight = zoneH + 'px';
+    const caret = node.querySelector('.caret');
+    if (caret) caret.style.left = clamp(nodeX - left, 34, w - 34) + 'px';
+  }
+
+  // ---------- Transition runner ----------
+  let running = null;
+  let cur = null; // the season layer in view, or null on the start screen
+  function run(T, frame, done) {
+    const t0 = performance.now();
+    let raf = 0, over = false;
+    const anims = [];
+    const end = interrupted => { if (over) return; over = true; cancelAnimationFrame(raf); if (interrupted) anims.forEach(a => { try { a.finish(); } catch (e) { /* gone */ } }); done(interrupted); };
+    const tick = now => { const t = Math.min(1, (now - t0) / T); frame(t * T); if (t < 1) raf = requestAnimationFrame(tick); else end(false); };
+    raf = requestAnimationFrame(tick);
+    const ctl = {anims, finish() { if (over) return; frame(T); end(true); }};
+    running = ctl;
+    return ctl;
+  }
+  const finishRunning = () => { if (running) { const r = running; running = null; r.finish(); } };
+  const setState = (state) => { root.dataset.state = state; };
+  function fitBars() {
+    document.querySelectorAll('.s-row').forEach(row => {
+      const bar = row.querySelector('.s-bar'), lab = row.querySelector('.s-lab');
+      bar.appendChild(lab); lab.classList.remove('out'); lab.style.right = '';
+      if (bar.scrollWidth > bar.clientWidth + 1) {
+        row.appendChild(lab); lab.classList.add('out');
+        lab.style.right = `calc(${100 - parseFloat(bar.style.left)}% + 10px)`;
+      }
+    });
+  }
+  addEventListener('resize', fitBars);
+  function setView() {
+    root.dataset.view = cur ? 'season' : 'home';
+    root.dataset.season = cur ? String(cur.s.id) : '';
+    root.dataset.step = cur ? String(cur.step) : '';
+  }
+  function announce(L) {
+    if (!L) { live.textContent = `Overview. ${G.journey.name}: ${G.journey.mission}`; return; }
+    const s = L.s, st = L.step;
+    if (st === 0) live.textContent = `${s.name}. Mission: ${s.mission}`;
+    else if (st === L.n - 1) live.textContent = `${s.name}. The mission: ${s.mission}`;
+    else { const c = s.chapters[st - 1]; live.textContent = `${s.name}, chapter ${st} of ${s.chapters.length}: ${c.title}` + (c.latest ? '. You are here.' : ''); }
+  }
+  function focusHeading() {
+    const h = cur ? cur.stage.querySelector('[tabindex="-1"]') : $('#home-title');
+    if (h) h.focus({preventScroll: true});
+  }
+  function pulse(L, step) {
+    const b = L.stops[step];
+    b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse');
+    setTimeout(() => b.classList.remove('pulse'), 950);
+  }
+  const travelTime = (a, b) => 900 + 140 * Math.max(0, Math.abs(b - a) - 1);
+
+  // Stage swap: the old content fades out, the new one rises in at `at` ms.
+  function swapStage(L, step, at, anims, reduce) {
+    const old = [...L.stage.children];
+    const node = stageEl(L, step);
+    L.stage.appendChild(node);
+    placeStage(L, node);
+    old.forEach(o => anims.push(o.animate([{opacity: 1}, {opacity: 0, transform: 'translateY(8px)'}], {duration: reduce ? 150 : 200, easing: IN, fill: 'forwards'})));
+    if (reduce) anims.push(node.animate([{opacity: 0}, {opacity: 1}], {duration: 200, delay: 150, easing: 'ease-out', fill: 'backwards'}));
+    else if (node.classList.contains('opener')) {
+      node.querySelectorAll('[data-st]').forEach(it => anims.push(it.animate([{opacity: 0, transform: 'translateY(18px)'}, {opacity: 1, transform: 'none'}], {duration: 560, delay: at + Number(it.dataset.st) * 130, easing: OUT, fill: 'backwards'})));
+    } else {
+      anims.push(node.animate([{opacity: 0, transform: isPhone() ? 'translateY(36px)' : 'translateY(18px)'}, {opacity: 1, transform: 'none'}], {duration: 460, delay: at, easing: OUT, fill: 'backwards'}));
+    }
+    return old;
+  }
+
+  // Move inside a season: the marker travels, the card changes. The camera does not move.
+  function goStep(target) {
+    if (!cur) return;
+    const L = cur;
+    target = clamp(target, 0, L.n - 1);
+    finishRunning();
+    if (target === L.step) { pulse(L, target); focusHeading(); return; }
+    const from = L.step;
+    const reduce = reduceMQ.matches;
+    L.step = target;
+    setState('moving'); setView();
+    updateControls(L, target);
+    setRest(L, target, true);
+    const D0 = L.D, D1 = L.nodeD[target];
+    const dur = reduce ? 360 : travelTime(from, target);
+    const T = reduce ? 380 : dur + 380;
+    const anims = [];
+    const old = swapStage(L, target, reduce ? 0 : Math.round(dur * .72), anims, reduce);
+    let arrived = false;
+    const ctl = run(T, ms => {
+      if (reduce) { if (ms >= 150 && L.D !== D1) { L.D = D1; renderSeason(L); } }
+      else { L.D = lerp(D0, D1, cinematic(clamp(ms / dur, 0, 1))); renderSeason(L); }
+      if (!arrived && ms >= (reduce ? 150 : dur)) { arrived = true; setRest(L, target, false); if (!reduce) pulse(L, target); }
+    }, interrupted => {
+      running = null;
+      L.D = D1; renderSeason(L);
+      old.forEach(o => o.remove());
+      setRest(L, target, false);
+      setState('idle');
+      if (!interrupted) { announce(L); focusHeading(); }
+    });
+    ctl.anims.push(...anims);
+  }
+
+  // Enter a season: the chosen entry grows into the full season. One move.
+  function enterSeason(si, opts = {}) {
+    finishRunning();
+    const reduce = reduceMQ.matches;
+    const target = opts.target || 0;
+    const prev = cur;
+    const L = buildSeason(si);
+    const m = L.m;
+    cur = L;
+    L.step = target; L.D = 0;
+    setState('moving'); setView();
+    updateControls(L, target);
+    setRest(L, 0, target > 0);
+    if (target === 0) L.stage.appendChild(stageEl(L, 0)), placeStage(L);
+    renderSeason(L);
+    const anims = [];
+    const fadeParts = [L.el.querySelector('.s-top'), L.el.querySelector('.s-foot')];
+    const labs = [...L.el.querySelectorAll('.lab, .here-tag')];
+    let enterT = 0;
+    const W = innerWidth, H = innerHeight;
+    if (reduce) {
+      anims.push(L.el.animate([{opacity: 0}, {opacity: 1}], {duration: 260, easing: 'ease-out', fill: 'backwards'}));
+      enterT = 0;
+    } else if (!prev) {
+      // From the start screen: clip from the entry card to full screen, path preview grows into the path.
+      const li = hMain.querySelector(`.entry[data-si="${si}"]`);
+      const r = li.getBoundingClientRect();
+      const rad = isPhone() ? 16 : 20;
+      anims.push(L.el.animate([
+        {clipPath: `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round ${rad}px)`},
+        {clipPath: 'inset(0px 0px 0px 0px round 0px)'},
+      ], {duration: 950, easing: CINE, fill: 'backwards'}));
+      const mini = li.querySelector('svg.mini');
+      if (!m.phone && mini && mini.__pts) {
+        const mr = mini.getBoundingClientRect();
+        const vb = mini.viewBox.baseVal;
+        const sx = mr.width / vb.width;
+        const a = mini.__pts[0], b = mini.__pts[mini.__pts.length - 1];
+        const mx0 = mr.left + a.x * sx, mx1 = mr.left + b.x * sx, my = mr.top + mr.height / 2;
+        const sc = (mx1 - mx0) / (L.P[L.n - 1].x - L.P[0].x);
+        const tx = mx0 - L.P[0].x * sc, ty = my - m.pathY * sc;
+        anims.push(L.wrap.animate([{transform: `translate(${tx}px, ${ty}px) scale(${sc})`}, {transform: 'none'}], {duration: 950, easing: CINE, fill: 'backwards'}));
+      } else {
+        anims.push(L.wrap.animate([{opacity: 0, transform: 'translateY(24px) scale(.96)'}, {opacity: 1, transform: 'none'}], {duration: 800, delay: 250, easing: OUT, fill: 'backwards'}));
+      }
+      labs.forEach(lb => anims.push(lb.animate([{opacity: 0}, {opacity: 1}], {duration: 420, delay: 720, easing: 'ease-out', fill: 'backwards'})));
+      fadeParts.forEach(p => anims.push(p.animate([{opacity: 0, transform: 'translateY(-6px)'}, {opacity: 1, transform: 'none'}], {duration: 420, delay: 650, easing: OUT, fill: 'backwards'})));
+      anims.push(home.animate([{transform: 'none', opacity: 1}, {transform: 'scale(.97)', opacity: .7}], {duration: 950, easing: CINE, fill: 'forwards'}));
+      enterT = 950;
+    } else {
+      // From another season: the next season wipes in from the right.
+      anims.push(L.el.animate([{clipPath: 'inset(0px 0px 0px 100%)'}, {clipPath: 'inset(0px 0px 0px 0%)'}], {duration: 850, easing: CINE, fill: 'backwards'}));
+      anims.push(L.wrap.animate([{opacity: 0, transform: 'translateX(90px)'}, {opacity: 1, transform: 'none'}], {duration: 750, delay: 250, easing: OUT, fill: 'backwards'}));
+      anims.push(prev.el.animate([{transform: 'none'}, {transform: 'translateX(-12%)'}], {duration: 850, easing: CINE, fill: 'forwards'}));
+      enterT = 850;
+    }
+    if (target === 0 && !reduce) {
+      L.stage.querySelectorAll('[data-st]').forEach(it => anims.push(it.animate([{opacity: 0, transform: 'translateY(20px)'}, {opacity: 1, transform: 'none'}], {duration: 600, delay: enterT - 250 + Number(it.dataset.st) * 140, easing: OUT, fill: 'backwards'})));
+    }
+    // Optional travel straight to a chapter (Jump to now).
+    let old = [];
+    let dur = 0, T;
+    const D1 = L.nodeD[target];
+    if (target > 0) {
+      dur = reduce ? 0 : travelTime(0, target);
+      old = swapStage(L, target, reduce ? 0 : enterT + Math.round(dur * .72), anims, reduce);
+      T = reduce ? 420 : enterT + dur + 420;
+    } else T = reduce ? 300 : enterT + 700;
+    let arrived = false;
+    const ctl = run(T, ms => {
+      if (target > 0) {
+        if (reduce) { if (L.D !== D1) { L.D = D1; renderSeason(L); } }
+        else { L.D = lerp(0, D1, cinematic(clamp((ms - enterT) / dur, 0, 1))); renderSeason(L); }
+        if (!arrived && ms >= enterT + dur) { arrived = true; setRest(L, target, false); if (!reduce) pulse(L, target); }
+      }
+    }, interrupted => {
+      running = null;
+      L.D = D1; renderSeason(L);
+      old.forEach(o => o.remove());
+      if (prev) prev.el.remove();
+      home.getAnimations().forEach(a => a.cancel());
+      home.classList.add('away');
+      home.inert = true;
+      setRest(L, target, false);
+      setState('idle');
+      if (!interrupted) { announce(L); focusHeading(); }
+    });
+    ctl.anims.push(...anims);
+  }
+
+  // Back to the start screen: the season folds back into its entry.
+  function exitHome() {
+    if (!cur) return;
+    finishRunning();
+    const L = cur;
+    const reduce = reduceMQ.matches;
+    cur = null;
+    home.classList.remove('away');
+    home.inert = false;
+    setState('moving'); setView();
+    const W = innerWidth, H = innerHeight;
+    const li = hMain.querySelector(`.entry[data-si="${L.si}"]`);
+    const r = li.getBoundingClientRect();
+    const anims = [];
+    let T;
+    if (reduce) {
+      anims.push(L.el.animate([{opacity: 1}, {opacity: 0}], {duration: 260, easing: 'ease-in', fill: 'forwards'}));
+      T = 280;
+    } else {
+      const parts = [L.el.querySelector('.s-top'), L.el.querySelector('.s-foot'), L.stage, ...L.el.querySelectorAll('.lab, .here-tag, .marker')];
+      parts.forEach(p => anims.push(p.animate([{opacity: 1}, {opacity: 0}], {duration: 220, easing: 'ease-in', fill: 'forwards'})));
+      const rad = isPhone() ? 16 : 20;
+      anims.push(L.el.animate([
+        {clipPath: 'inset(0px 0px 0px 0px round 0px)'},
+        {clipPath: `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round ${rad}px)`},
+      ], {duration: 800, delay: 120, easing: CINE, fill: 'forwards'}));
+      const mini = li.querySelector('svg.mini');
+      if (!L.m.phone && mini && mini.__pts) {
+        const mr = mini.getBoundingClientRect();
+        const sx = mr.width / mini.viewBox.baseVal.width;
+        const a = mini.__pts[0], b = mini.__pts[mini.__pts.length - 1];
+        const mx0 = mr.left + a.x * sx, mx1 = mr.left + b.x * sx, my = mr.top + mr.height / 2;
+        const sc = (mx1 - mx0) / (L.P[L.n - 1].x - L.P[0].x);
+        anims.push(L.wrap.animate([{transform: 'none'}, {transform: `translate(${mx0 - L.P[0].x * sc}px, ${my - L.m.pathY * sc}px) scale(${sc})`}], {duration: 800, delay: 120, easing: CINE, fill: 'forwards'}));
+      } else anims.push(L.wrap.animate([{opacity: 1}, {opacity: 0}], {duration: 400, easing: 'ease-in', fill: 'forwards'}));
+      anims.push(home.animate([{transform: 'scale(.97)', opacity: .7}, {transform: 'none', opacity: 1}], {duration: 900, easing: CINE, fill: 'backwards'}));
+      T = 940;
+    }
+    const ctl = run(T, () => {}, interrupted => {
+      running = null;
+      L.el.remove();
+      setState('idle');
+      if (!interrupted) { announce(null); focusHeading(); }
+    });
+    ctl.anims.push(...anims);
+  }
+
+  function jumpNow() {
+    if (cur && cur.si === latestSi) { goStep(latestStep); return; }
+    enterSeason(latestSi, {target: latestStep});
+  }
+
+  // ---------- Events ----------
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-act], .stop');
+    if (!b) return;
+    if (b.classList.contains('stop')) { goStep(Number(b.dataset.go)); return; }
+    const act = b.dataset.act;
+    if (act === 'enter') enterSeason(Number(b.dataset.si));
+    else if (act === 'now') jumpNow();
+    else if (act === 'exit') exitHome();
+    else if (act === 'prev') goStep(cur.step - 1);
+    else if (act === 'next') goStep(cur.step + 1);
+    else if (act === 'nextseason') { if (cur && seasons[cur.si + 1]) enterSeason(cur.si + 1); }
+  });
+  addEventListener('keydown', e => {
+    if (e.altKey || e.metaKey || e.ctrlKey) return;
+    const t = e.target;
+    const onControl = t && t.closest && t.closest('button, a, input, select, textarea, [role="button"]');
+    const fwd = () => { if (cur) { if (cur.step < cur.n - 1) goStep(cur.step + 1); } else enterSeason(0); };
+    if (e.key === 'ArrowRight') { e.preventDefault(); fwd(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); if (cur && cur.step > 0) goStep(cur.step - 1); }
+    else if (e.key === ' ' || e.key === 'Enter') { if (onControl) return; e.preventDefault(); fwd(); }
+    else if (e.key === 'Escape' || e.key === 'Home') { if (cur) { e.preventDefault(); exitHome(); } }
+    else if (e.key === 'End') { e.preventDefault(); jumpNow(); }
+  });
+  let rsT = 0, wasPhone = isPhone(), wasVert = isVert();
+  addEventListener('resize', () => {
+    clearTimeout(rsT);
+    rsT = setTimeout(() => {
+      finishRunning();
+      if (isPhone() !== wasPhone || isVert() !== wasVert) {
+        wasPhone = isPhone(); wasVert = isVert();
+        buildHome();
+        if (cur) { const si = cur.si, step = cur.step; cur.el.remove(); cur = buildSeason(si); cur.step = step; cur.D = cur.nodeD[step]; cur.stage.appendChild(stageEl(cur, step)); updateControls(cur, step); setRest(cur, step, false); }
+      } else drawMinis();
+      if (cur) { layoutSeason(cur); placeStage(cur); }
+    }, 120);
+  });
+
+  window.flyover2 = {
+    seasons, latestSi, latestStep,
+    get view() { return cur ? 'season' : 'home'; },
+    get season() { return cur ? cur.si : -1; },
+    get step() { return cur ? cur.step : -1; },
+    enter: si => enterSeason(si), exit: exitHome, go: goStep, jumpNow,
+  };
+
+  async function init() {
+    setState('moving');
+    try { await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))]); } catch (e) { /* fonts optional */ }
+    buildHome();
+    setView();
+    const items = [...hMain.querySelectorAll('.hero > div > *, .strip-card, .entry')];
+    const anims = reduceMQ.matches ? [] : items.map((it, i) => it.animate([{opacity: 0, transform: 'translateY(16px)'}, {opacity: 1, transform: 'none'}], {duration: 600, delay: 80 + i * 70, easing: OUT, fill: 'backwards'}));
+    const ctl = run(reduceMQ.matches ? 50 : 80 + items.length * 70 + 600, () => {}, () => { running = null; setState('idle'); announce(null); });
+    ctl.anims.push(...anims);
+  }
+  init();
+})();
+</script>
+</body>
+</html>

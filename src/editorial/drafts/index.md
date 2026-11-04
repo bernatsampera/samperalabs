@@ -1,6 +1,8 @@
 # Article drafts
 
 - [gym-schedule-import/index.md](gym-schedule-import/index.md): Schedule import article, metadata, evidence, fictional schedule, and staged frontend captures.
+- [admin-agent/index.md](admin-agent/index.md): MAAT Admin Agent article, metadata, evidence notes, comics, and charts.
+- [global-context/index.md](global-context/index.md): Draft article about why AI agents need a global context, with four diagrams.
 
 - [express-the-general.md](express-the-general.md): Revised article about separating goals, facts, limits, and guesses, with a comic for local review.
 - [express-the-general-comic.png](express-the-general-comic.png): Two-panel comic about building a tower of chairs to change a light bulb.

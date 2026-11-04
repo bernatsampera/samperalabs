@@ -1,0 +1,61 @@
+{
+  "assets": [
+    {
+      "file": "00-renewal-email.png"
+    },
+    {
+      "file": "07-misc-drawers.png"
+    },
+    {
+      "file": "01-where-to-look.png"
+    },
+    {
+      "file": "05-everything-just-in-case.png"
+    },
+    {
+      "file": "02-loading.png"
+    },
+    {
+      "file": "06-whiteboard-wiped.png"
+    },
+    {
+      "file": "03-saving.png"
+    },
+    {
+      "file": "08-domain-alone.png"
+    },
+    {
+      "file": "04-whole-system.png"
+    },
+    {
+      "file": "09-read-the-map-first.png"
+    }
+  ],
+  "homepage": true,
+  "code_files": [
+    {
+      "path": "src/components/home/GlobalContextScene.astro",
+      "sha256": "347d936c0aaacf5d1230c32ed1346e7b9035405c6a97eeae06a3d524c066341b"
+    },
+    {
+      "path": "src/components/home/global-context-scene.svg",
+      "sha256": "f99345faed8ad42fd6f9f703eefc6384b7bc156069046d09cd2a32d27b6c803e"
+    },
+    {
+      "path": "src/components/home/PostScene.astro",
+      "sha256": "3c9d52a328184b4868b38417e523ae08ecc8d2a8ce20fb7e17863b66e9b0a420"
+    },
+    {
+      "path": "src/lib/postPresentation.ts",
+      "sha256": "96b23474d06f800cd8020299de90a8cf165a6a5efb9d62f7e4baea42e5762fe1"
+    },
+    {
+      "path": "src/assets/styles/home.css",
+      "sha256": "8d3730bd53a48931a451f570dae76e5bddbcee143d12693fb9b9535fc74d82e8"
+    },
+    {
+      "path": "src/pages/index.astro",
+      "sha256": "ef33f0ca95c7ac05bd2d3aaa3874c60dc6b5341fe0856a5917f092f68b7f651f"
+    }
+  ]
+}

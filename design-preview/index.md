@@ -1,5 +1,43 @@
 # Design preview
 
+- [portfolio-soft.html](portfolio-soft.html): Local preview of one broad continuous fade behind the approved portrait pieces.
+- [build-portfolio-soft.mjs](build-portfolio-soft.mjs): Builds the local soft-fade preview without changing the production renderer.
+
+- [portfolio-focus.html](portfolio-focus.html): Three centred versions with Geist type, approved structure copy, and new context subtitles.
+- [build-portfolio-focus.mjs](build-portfolio-focus.mjs): Builds the Signal, Between, and Reveal preview with version controls and comparison.
+- [portfolio-focus-panels.mjs](portfolio-focus-panels.mjs): Three transparent layouts that place figures above, below, or between title lines.
+
+- [portfolio-play.html](portfolio-play.html): Three transparent compositions with stronger type, new copy, and a quieter portrait field.
+- [build-portfolio-play.mjs](build-portfolio-play.mjs): Builds the standalone three-version preview with a comparison view.
+- [portfolio-play-panels.mjs](portfolio-play-panels.mjs): Impact, Questions, and Margins layouts with the unchanged pruning copy.
+
+- [portfolio-fragments.html](portfolio-fragments.html): Floating typography and minimal figures with no rectangular panels, coloured backing, or hover border.
+- [build-portfolio-fragments.mjs](build-portfolio-fragments.mjs): Builds the transparent portrait preview and embeds all assets.
+- [portfolio-fragments-panels.mjs](portfolio-fragments-panels.mjs): Clear canvas compositions for the four floating pieces.
+- [portfolio-fragments-assets/index.md](portfolio-fragments-assets/index.md): Transparent monochrome figures and complete generation prompts.
+
+- [portfolio-directions.html](portfolio-directions.html): Editorial, Poster, and Split versions with integrated images and shorter copy.
+- [build-portfolio-directions.mjs](build-portfolio-directions.mjs): Builds the standalone three-direction portrait preview and comparison view.
+- [portfolio-directions-panels.mjs](portfolio-directions-panels.mjs): Date-free introductory cards, concise content, and three visual layouts.
+
+- [portfolio-context.html](portfolio-context.html): Approved opening and three cards in the portrait flight, with new object illustrations.
+- [build-portfolio-context.mjs](build-portfolio-context.mjs): Rebuilds the standalone preview with embedded illustrations and the current reading zone.
+- [portfolio-context-panels.mjs](portfolio-context-panels.mjs): Approved card text, dynamic date, and distinct opening layout.
+- [portfolio-context-assets/index.md](portfolio-context-assets/index.md): Three generated image assets and their generation prompts.
+
+- [information-visuals.html](information-visuals.html): Continuous portrait flight with extended reading zones, Objects selected by default, and a comparison view.
+- [build-information-visuals.mjs](build-information-visuals.mjs): Rebuilds the minimal card preview with People, Objects, and Shapes versions.
+- [information-visuals-art.mjs](information-visuals-art.mjs): Draws the twelve illustrations with no text inside the visual area.
+- [information-reading-zone.mjs](information-reading-zone.mjs): Builds the continuous camera path, centres approaching panels, and softens the surrounding field.
+
+- [information-flight.html](information-flight.html): Continuous portrait flight with four questions, three visual versions, and a comparison view.
+- [build-information-flight.mjs](build-information-flight.mjs): Rebuilds information-flight.html from the site renderer, local assets, and the preview content.
+- [information-panel-art.mjs](information-panel-art.mjs): Draws twelve panel illustrations across the Paper, Type, and Windows versions.
+
+- [information-journey.html](information-journey.html): Self-contained knowledge map concept that follows a question, reviews a discovery, and carries knowledge into another session.
+
+- [work-flight.html](work-flight.html): Local portrait flight concept with six visual work cards, scroll controls, a gallery, and card details.
+
 - [maat-brain/index.md](maat-brain/index.md): MAAT Brain article, homepage scroll scene, and review screenshots.
 
 - [article-trial/index.md](article-trial/index.md): Local context article trial with an original comic, a diagram, and a full reading preview.

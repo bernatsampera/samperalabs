@@ -1,0 +1,15 @@
+Mode: Built-in image_gen tool. New image. Opaque background.
+
+Use case: illustration-story.
+Asset type: original editorial comic for the article "Global context for AI agents: minimal to load, fast to find".
+Primary request: show that vague information labels make a simple price hard to find.
+Scene/backdrop: a large wooden library card catalog with one open and empty drawer.
+Subject: The AI stands in front of the card catalog. It scratches its head and holds a magnifying glass. The drawer labels are "Misc", "Stuff", "Old", "New folder (3)", and "final_v2_REAL". The AI says "The prices are... somewhere in here?"
+Style/medium: cut-paper collage illustration, flat layered paper shapes with soft paper shadows and slight paper grain. Warm palette only: cream paper background #FAF7F0, warm dark ink #2B2620, gold accent #C9973F, light gold #F6EAD2, warm grey #A79D8F. No blue, no other saturated colors.
+Recurring AI character: a small friendly cut-paper character shaped like a rounded gold speech balloon, with two dot eyes, a small mouth, and tiny dark legs and arms. It wears a small white name tag with the text "AI". It is NOT a robot. No screen face, no antennas.
+Recurring people (no realistic likeness): "the founder", a woman with a dark bun and a mustard sweater. "The colleague", a man with round glasses and a grey cardigan.
+The card catalog: a wooden library card catalog with drawers. Drawer labels are large and legible.
+Composition/framing: single wide panel, landscape 16:9. Keep all text large and legible at 700 px display width. Every speech balloon has a clear tail to its speaker.
+Text (verbatim): "Misc", "Stuff", "Old", "New folder (3)", "final_v2_REAL", "The prices are... somewhere in here?"
+Constraints: exactly six text strings. Render each text string exactly once, spelled exactly. No other text, no logos, no watermark, no captions. Opaque background.
+Avoid: repeated text, missing text, misspelled text, unclear balloon tails, robots, screen faces, antennas, blue, saturated colors.

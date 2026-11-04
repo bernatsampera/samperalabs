@@ -1,0 +1,97 @@
+/* Design tokens for the home page options.
+   Every color, font, size, space, radius, shadow, and timing on these pages
+   comes from this file, so a design system can replace it later.
+   The values match the accepted story view (world/journey/guided/flyover-2.html). */
+
+:root {
+  /* Base colors */
+  --color-paper: #FBF4E6;
+  --color-surface: #FFFDF8;
+  --color-ink: #233140;
+  --color-ink-soft: #4A5866;
+  --color-line: rgba(35, 49, 64, .18);
+  --color-dots: rgba(35, 49, 64, .09);
+  --color-on-dark: #FFFDF8;
+  --color-on-dark-soft: #CDEFE9;
+  --color-on-dark-line: rgba(255, 253, 248, .32);
+  --color-on-dark-dots: rgba(255, 253, 248, .07);
+
+  /* Action and highlight */
+  --color-accent: #F0745A;          /* coral: buttons and the "now" marker */
+  --color-accent-text: #A03B24;     /* coral text on light surfaces */
+  --color-highlight: #F6C445;       /* sun */
+
+  /* Journeys */
+  --journey-maat: #1F5F73;
+  --journey-maat-deep: #174A5A;
+  --journey-maat-tint: #E3F4F0;
+  --journey-memory: #233140;
+  --journey-memory-deep: #1A2532;
+  --journey-memory-accent: #F6C445;
+
+  /* MAAT seasons, as in the story view. "light" is for marks only, not text. */
+  --season-1-light: #7FD1C7;
+  --season-1-tint: #E3F4F0;
+  --season-1-dark: #1F5F73;
+  --season-2-light: #F6B49F;
+  --season-2-tint: #FBE8E0;
+  --season-2-dark: #8A3F2C;
+  --season-3-light: #F6C445;
+  --season-3-tint: #FCF0CF;
+  --season-3-dark: #6E520C;
+
+  /* Fonts */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-text: 'Nunito Sans', system-ui, sans-serif;
+
+  /* Type scale */
+  --text-xs: 13px;
+  --text-sm: 15px;
+  --text-md: 17px;
+  --text-lg: clamp(18px, 1.4vw, 20px);
+  --text-xl: clamp(22px, 1.9vw, 27px);
+  --text-2xl: clamp(26px, 2.6vw, 36px);
+  --text-3xl: clamp(36px, 4.2vw, 60px);
+  --text-4xl: clamp(46px, 7vw, 104px);
+  --leading-tight: 1.04;
+  --leading-snug: 1.25;
+  --leading-body: 1.55;
+  --weight-text: 400;
+  --weight-strong: 800;
+  --weight-heavy: 900;
+  --weight-display: 600;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --gutter: clamp(20px, 4.5vw, 72px);
+  --page-max: 1440px;
+  --measure: 34em;
+  --top-h: 72px;
+
+  /* Shape */
+  --radius-sm: 10px;
+  --radius-md: 20px;
+  --radius-pill: 999px;
+  --border: 2px;
+  --dot-size: 22px;
+
+  /* Depth */
+  --shadow-panel: 0 18px 40px rgba(35, 49, 64, .16);
+  --shadow-card: 0 18px 50px rgba(35, 49, 64, .10), 0 1px 3px rgba(35, 49, 64, .08);
+  --shadow-lift: 0 26px 50px rgba(35, 49, 64, .24);
+
+  /* Motion */
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-cine: cubic-bezier(.65, 0, .35, 1);
+  --dur-fast: 200ms;
+  --dur-med: 450ms;
+  --dur-slow: 700ms;
+}

@@ -1,0 +1,33 @@
+{
+  "when": "2026-11-01T08:55:34.318Z",
+  "summary": [
+    {
+      "id": "a",
+      "file": "a-stack.html",
+      "passed": 22,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "id": "b",
+      "file": "b-columns.html",
+      "passed": 22,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "id": "c",
+      "file": "c-overview.html",
+      "passed": 22,
+      "failed": 0,
+      "errors": 0
+    },
+    {
+      "id": "d",
+      "file": "d-scenes.html",
+      "passed": 22,
+      "failed": 0,
+      "errors": 0
+    }
+  ]
+}

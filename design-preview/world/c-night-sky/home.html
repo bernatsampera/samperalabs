@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bernat Sampera maps knowledge like stars in a night sky.">
+  <title>The Night Sky | Bernat Sampera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="night-sky.css">
+</head>
+<body class="home-page">
+  <a class="skip-link" href="#about">Skip to who I am</a>
+  <main>
+    <section class="sky-hero" aria-labelledby="sky-title">
+      <div class="aurora" aria-hidden="true"></div>
+      <div class="star-field" aria-hidden="true"></div>
+      <header class="sky-intro">
+        <p class="eyebrow">Bernat Sampera's world right now</p>
+        <h1 id="sky-title">Knowledge is a sky.<br><em>Every idea adds light.</em></h1>
+        <p>Explore the two constellations where I work and learn.</p>
+      </header>
+      <div id="world-map" class="world-map" aria-label="A map of Bernat's work"></div>
+      <p class="sky-key"><span></span> New knowledge travels from research into work</p>
+    </section>
+
+    <section id="about" class="about-section" aria-labelledby="about-title">
+      <div class="about-copy">
+        <p class="eyebrow">Who I am</p>
+        <h2 id="about-title"></h2>
+        <p id="person-role" class="person-role"></p>
+        <blockquote id="person-motto"></blockquote>
+        <div id="person-about" class="person-about"></div>
+      </div>
+      <div class="principles" aria-labelledby="principles-title">
+        <p class="eyebrow">Five stars I steer by</p>
+        <h2 id="principles-title">A small compass for working with AI.</h2>
+        <div id="principle-stars" class="principle-stars" role="tablist" aria-label="Five principles"></div>
+        <article id="principle-detail" class="principle-detail" aria-live="polite"></article>
+      </div>
+    </section>
+  </main>
+  <script src="../shared/data.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+/* Shared base and components for the home page options.
+   Layout lives in each option page. Values come from tokens.css. */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--top-h) + var(--space-4)); }
+body {
+  margin: 0;
+  background-color: var(--color-paper);
+  background-image: radial-gradient(var(--color-dots) 1px, transparent 1.4px);
+  background-size: var(--dot-size) var(--dot-size);
+  color: var(--color-ink);
+  font: var(--weight-text) var(--text-md)/var(--leading-body) var(--font-text);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); font-weight: var(--weight-display); letter-spacing: -.015em; line-height: var(--leading-snug); }
+p, ol, ul { margin: 0; }
+ol, ul { padding: 0; list-style: none; }
+a { color: inherit; }
+img, svg { display: block; }
+:focus-visible { outline: 3px solid var(--color-accent-text); outline-offset: 3px; border-radius: 4px; }
+.on-dark :focus-visible { outline-color: var(--color-highlight); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: var(--space-3); top: -80px; z-index: 60; padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); background: var(--color-highlight); color: var(--color-ink); font-weight: var(--weight-strong); text-decoration: none; }
+.skip:focus { top: var(--space-3); }
+
+/* Small label in sentence case. It names what the content is. */
+.label { font: var(--weight-strong) var(--text-sm)/1.3 var(--font-text); color: var(--color-ink-soft); }
+.on-dark .label { color: var(--color-on-dark-soft); }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  min-height: 50px; padding: 0 var(--space-5);
+  border: 0; border-radius: var(--radius-pill);
+  font: var(--weight-strong) var(--text-md)/1 var(--font-text);
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-out), background-color var(--dur-fast);
+}
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(1px); }
+.btn-accent { background: var(--color-accent); color: var(--color-ink); }
+.btn-ink { background: var(--color-ink); color: var(--color-on-dark); }
+.btn-light { background: var(--color-surface); color: var(--color-ink); }
+
+/* Site top bar */
+.top { display: flex; align-items: center; gap: var(--space-4) var(--space-6); min-height: var(--top-h); padding: 0 var(--gutter); }
+.top-name { display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); background: var(--color-ink); color: var(--color-on-dark); font-weight: var(--weight-heavy); font-size: var(--text-sm); text-decoration: none; }
+.top nav { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); margin-left: auto; }
+.top nav a { font-weight: var(--weight-strong); text-decoration: none; text-underline-offset: 5px; }
+.top nav a:hover { text-decoration: underline; }
+
+/* Journey panel surfaces */
+.panel-maat { background-color: var(--journey-maat); background-image: radial-gradient(var(--color-on-dark-dots) 1px, transparent 1.4px); background-size: 18px 18px; color: var(--color-on-dark); }
+.panel-memory { background-color: var(--journey-memory); background-image: radial-gradient(var(--color-on-dark-dots) 1px, transparent 1.4px); background-size: 18px 18px; color: var(--color-on-dark); }
+.mission { font: var(--weight-display) var(--text-2xl)/1.15 var(--font-display); letter-spacing: -.015em; }
+
+/* MAAT seasons as a 2026 strip: one bar per season on a month axis. */
+.strip { display: grid; grid-template-columns: repeat(var(--months), minmax(0, 1fr)); row-gap: var(--space-2); }
+.strip-bar {
+  display: flex; align-items: center; gap: var(--space-2); min-width: 0; height: 34px; padding: 0 var(--space-3);
+  border-radius: var(--radius-pill); background: var(--s-light); color: var(--color-ink);
+  font-weight: var(--weight-strong); font-size: var(--text-sm); white-space: nowrap; overflow: hidden;
+}
+.strip-bar.open { border-radius: var(--radius-pill) 4px 4px var(--radius-pill); }
+.strip-bar span { overflow: hidden; text-overflow: ellipsis; }
+.strip-axis { grid-column: 1 / -1; display: grid; grid-template-columns: subgrid; margin-top: var(--space-1); padding-top: var(--space-2); border-top: 1px solid var(--color-on-dark-line); font-size: var(--text-xs); font-weight: var(--weight-strong); color: var(--color-on-dark-soft); }
+.strip-axis span:last-child { display: flex; flex-wrap: wrap; justify-content: space-between; column-gap: var(--space-1); }
+.strip-axis b { color: var(--color-highlight); font-weight: var(--weight-heavy); }
+
+/* MAAT seasons as a list: name, question, dates. */
+.seasons { display: grid; gap: var(--space-4); }
+.season { display: grid; grid-template-columns: 8px minmax(0, 1fr); gap: var(--space-4); }
+.season::before { content: ''; border-radius: var(--radius-pill); background: var(--s-light); }
+.season-name { font: var(--weight-display) var(--text-xl)/1.15 var(--font-display); }
+.season-mission { margin-top: var(--space-1); }
+.season-meta { margin-top: var(--space-1); font-size: var(--text-sm); font-weight: var(--weight-strong); color: var(--color-ink-soft); }
+.on-dark .season-meta { color: var(--color-on-dark-soft); }
+
+/* Newest MAAT chapter */
+.latest { display: flex; gap: var(--space-3); align-items: baseline; }
+.latest-dot { flex: none; width: 12px; height: 12px; border-radius: 50%; background: var(--color-accent); box-shadow: 0 0 0 3px var(--color-surface); transform: translateY(1px); }
+.latest p { font-weight: var(--weight-strong); }
+.latest p span { font-weight: var(--weight-text); }
+
+/* "AI has no memory" chapters: a dated sequence, the last one is next. */
+.chapters { display: grid; gap: var(--space-3); counter-reset: ch; }
+.chapter { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: var(--space-3); align-items: start; counter-increment: ch; }
+.chapter::before { content: counter(ch); display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: var(--border) solid currentColor; font-weight: var(--weight-heavy); font-size: var(--text-sm); }
+.chapter.next::before { border-style: dashed; content: '?'; }
+.chapter.now::before { background: var(--journey-memory-accent); border-color: var(--journey-memory-accent); color: var(--color-ink); }
+.chapter-title { font-weight: var(--weight-strong); line-height: 1.35; }
+.chapter-date { display: block; font-size: var(--text-sm); color: var(--color-ink-soft); }
+.on-dark .chapter-date { color: var(--color-on-dark-soft); }
+.soon { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); border-radius: var(--radius-pill); border: var(--border) dashed currentColor; font-weight: var(--weight-strong); font-size: var(--text-sm); }
+
+/* Principles */
+.principle-title { font: var(--weight-display) var(--text-xl)/1.2 var(--font-display); }
+.principle-explain { margin-top: var(--space-2); }
+.principle-example { margin-top: var(--space-2); font-size: var(--text-sm); color: var(--color-ink-soft); }
+.principle-example b { color: var(--color-ink); }
+
+/* Other products */
+.product { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; }
+.product strong { font-weight: var(--weight-heavy); }
+.product:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+.product svg { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Footer */
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-3); padding: var(--space-6) var(--gutter); border-top: 1px solid var(--color-line); font-size: var(--text-sm); color: var(--color-ink-soft); }
+
+/* Guided move into the story view: the MAAT panel grows to fill the screen. */
+.guided-cover { position: fixed; z-index: 100; pointer-events: none; }
+.guided-cover.to-paper { background-color: var(--color-paper); background-image: radial-gradient(var(--color-dots) 1px, transparent 1.4px); background-size: var(--dot-size) var(--dot-size); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .btn, .btn:hover, .btn:active { transition: none; transform: none; }
+}
+
+/* Strip label for a bar that starts late: the name sits to the left of the bar. */
+.strip-out { align-self: center; justify-self: end; padding-right: var(--space-3); font-weight: var(--weight-strong); font-size: var(--text-sm); white-space: nowrap; }
+.product-line { color: var(--color-ink-soft); }
+.on-dark .product-line { color: var(--color-on-dark-soft); }
+
+/* Intro: hidden only while JS prepares it. */
+html[data-state="loading"] [data-intro] { opacity: 0; }

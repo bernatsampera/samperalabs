@@ -1,0 +1,13 @@
+{
+  "title": "Global context for AI agents: minimal to load, fast to find",
+  "description": "An AI model does not know your business. A global context is a map of that information, split into domains, so each session loads only what the question needs and saves what changed.",
+  "author": "Bernat Sampera",
+  "slug": "why-ai-agents-need-a-global-context",
+  "tags": [
+    "AI"
+  ],
+  "status": "published",
+  "pub_date": "2026-10-16",
+  "image_url": null,
+  "image_alt": null
+}

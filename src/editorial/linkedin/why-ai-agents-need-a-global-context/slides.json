@@ -1,0 +1,74 @@
+{
+  "slug": "why-ai-agents-need-a-global-context",
+  "title": "Global context for AI agents: minimal to load, fast to find",
+  "url": "https://samperalabs.com/posts/why-ai-agents-need-a-global-context",
+  "slides": [
+    {
+      "kind": "cover",
+      "eyebrow": "Global context for AI agents",
+      "heading": "The model knows the world, not your business.",
+      "body": "5 steps to give an agent what the model cannot know."
+    },
+    {
+      "kind": "code",
+      "eyebrow": "The gap, in a fictional example",
+      "heading": "Two sessions, no shared memory",
+      "code": "# session 1, Tuesday\nuser:  Team plan goes up to $119\n       next month.\nagent: Got it.\nsaved: nothing\n\n# session 2, Friday\ncontext: no price, no map\nsearch:  stripe, attio, db,\n         drive, slack\nfound:   \"Team plan: $99\" (Slack)\noutput:  renewal email, $99"
+    },
+    {
+      "kind": "code",
+      "eyebrow": "Step 1",
+      "heading": "Split the information into domains",
+      "code": "global-context/\n  map.md\n  sales/\n    prices.md\n    customers.md\n  people/\n    team.md\n  product/\n    roadmap.md"
+    },
+    {
+      "kind": "code",
+      "eyebrow": "Step 2",
+      "heading": "Write a map: one line for each domain",
+      "code": "# map.md\nsales/   Prices, discounts,\n         plan changes, customers.\n         Price list: prices.md\npeople/  Team, roles, who decides.\nproduct/ Roadmap, release dates."
+    },
+    {
+      "kind": "code",
+      "eyebrow": "Step 3",
+      "heading": "At session start, load only the map",
+      "code": "# session start\nload: map.md\nrule: read the map before\n      any tool call",
+      "body": "The domains stay saved, not loaded."
+    },
+    {
+      "kind": "code",
+      "eyebrow": "Step 4",
+      "heading": "For each question, load one domain",
+      "code": "ask:   How much is the Team plan?\nroute: sales/\nload:  sales/prices.md\nskip:  people/, product/",
+      "body": "Other domains are text that the model can confuse with the answer."
+    },
+    {
+      "kind": "code",
+      "eyebrow": "Step 5",
+      "heading": "Save each change where it belongs",
+      "code": "user: Team plan goes up to $119\n      next month.\nsave: sales/prices.md\n      Team: $99 -> $119"
+    },
+    {
+      "kind": "code",
+      "eyebrow": "Result, same fictional example",
+      "heading": "Same model. Next session: $119.",
+      "code": "# session 2, Friday\nload:   map.md\nroute:  sales/\nload:   sales/prices.md\noutput: renewal email, $119"
+    },
+    {
+      "kind": "text",
+      "eyebrow": "Where it breaks",
+      "heading": "The two halves depend on each other.",
+      "list": [
+        "The map only helps if what it points to is current.",
+        "A save only helps if the next session can find it.",
+        "Each domain must make sense alone. \"Ask Sales\" is useless to an agent."
+      ]
+    },
+    {
+      "kind": "end",
+      "eyebrow": "The full article",
+      "heading": "Minimal to load, fast to find.",
+      "body": "Why the adapter (MCP, files, or a database) matters least, and a test for your own agent.",
+      "url": "samperalabs.com/posts/why-ai-agents-need-a-global-context"
+    }
+  ]
+}
