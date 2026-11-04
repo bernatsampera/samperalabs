@@ -5,7 +5,7 @@
 // Questions go to /api/ask. A click on a chip, card or option opens an answer directly, with no Jev call.
 
 import type { AnswerContent } from '../../lib/ask/content';
-import { blockHtml, bubbleHtml, esc, go, ICON, pct, pickHtml, sayHtml, type Option } from './render';
+import { answerHtml, bubbleHtml, esc, go, ICON, pct, pickHtml, sayHtml, type Option } from './render';
 import './contact-client';
 
 type Decision = {
@@ -25,7 +25,7 @@ type Data = {
   order: string[];
   titles: Record<string, string>;
   asks: Record<string, string>;
-  samples: Option[];
+  samples: (Option & {label?: string})[];
   api: string;
 };
 
@@ -99,11 +99,11 @@ function init(root: HTMLElement) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(true); });
 
   // ---------- Chips above the field ----------
-  const sampleChips = () => data.samples.map((o) => `<button type="button" class="pill" ${go(o.id, 'sample', o.ask)}>${esc(o.ask)}</button>`).join('');
+  const sampleChips = () => data.samples.map((o) => `<button type="button" class="pill" ${go(o.id, 'sample', o.ask)}>${esc(o.label ?? o.ask)}</button>`).join('');
   const startOver = () => `<button type="button" class="pill ghost" data-reset>${ICON.back}${esc(data.shared.startOver)}</button>`;
   function chipsFor(d: Decision) {
     const id = d.experience?.id ?? '';
-    if (d.outcome === 'shown') return (d.followUps ?? []).map((f) => `<button type="button" class="pill" ${go(f.id, 'follow-up', f.ask, id)}>${esc(f.ask)}</button>`).join('') + startOver();
+    if (d.outcome === 'shown') return '<span class="related-label">Related questions</span>' + (d.followUps ?? []).slice(0, 2).map((f) => `<button type="button" class="pill" ${go(f.id, 'follow-up', f.ask, id)}>${esc(f.ask)}</button>`).join('') + startOver();
     if (d.outcome === 'did-you-mean') return startOver();
     return sampleChips() + startOver();
   }
@@ -167,7 +167,7 @@ function init(root: HTMLElement) {
     const signal = el.querySelector<HTMLButtonElement>('[data-signal]')!;
     const probs = new Map((d.probabilities ?? []).map((p) => [p.id, p.probability]));
     signal.classList.remove('reading');
-    signal.querySelector('.signal-label')!.textContent = '';
+    signal.querySelector('.signal-label')!.textContent = 'Why this answer';
     // The signal shows only when Jev decided: no signal for clicks, blocked or unavailable answers.
     signal.hidden = !probs.size || d.outcome === 'blocked' || d.outcome === 'unavailable';
     if (signal.hidden) return;
@@ -197,7 +197,7 @@ function init(root: HTMLElement) {
     const id = d.experience?.id ?? '';
     const content = d.outcome === 'shown' ? data.content[id] : undefined;
     let html = '';
-    if (content) html = content.blocks.map((b) => blockHtml(b, id)).join('');
+    if (content) html = answerHtml(content, id);
     else if (d.outcome === 'did-you-mean') html = sayHtml(data.shared.didYouMean) + pickHtml(d.options ?? [], q);
     else html = sayHtml(d.outcome === 'blocked' ? data.shared.blocked : d.tooMany ? data.shared.tooMany : data.shared.unavailable);
 

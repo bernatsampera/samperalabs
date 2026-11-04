@@ -1,7 +1,7 @@
 // HTML for answers. Shared by the home component (ask-client.ts) and the review page (review-client.ts),
 // so the review shows exactly what visitors see.
 
-import type { Block, Card } from '../../lib/ask/content';
+import type { AnswerContent, Block, Card } from '../../lib/ask/content';
 import { CONTACT, CONTACT_RULES } from '../../lib/contact/form';
 
 export type Option = { id: string; title: string; ask: string; probability?: number };
@@ -47,13 +47,13 @@ export function cardHtml(c: Card, j: number, from: string) {
 export function blockHtml(b: Block, from: string): string {
   switch (b.kind) {
     case 'text':
-      return `<div class="b-text">${b.paragraphs.map((p, j) => `<p style="--j:${j}">${esc(p)}</p>`).join('')}</div>`;
+      return `<div class="b-text">${b.heading ? `<h3>${esc(b.heading)}</h3>` : ''}${b.paragraphs.map((p, j) => `<p style="--j:${j}">${esc(p)}</p>`).join('')}</div>`;
     case 'cards':
       return `<div class="b-cards${b.cards.length === 1 ? ' one' : ''}">${b.cards.map((c, j) => cardHtml(c, j, from)).join('')}</div>`;
     case 'list':
       return `<div class="b-list">${b.articles.map((a, j) => `
-        <a href="https://samperalabs.com/posts/${esc(a.slug)}/" target="_blank" rel="noopener" style="--j:${j}">
-          <time datetime="${esc(a.date)}">${esc(month(a.date))}</time><span>${esc(a.title)}</span>${ICON.out}
+        <a href="/posts/${esc(a.slug)}" style="--j:${j}">
+          <time datetime="${esc(a.date)}">${esc(month(a.date))}</time><span>${esc(a.title)}</span>${ICON.right}
         </a>`).join('')}</div>`;
     case 'form':
       return formHtml('contact');
@@ -77,10 +77,18 @@ export const formHtml = (prefix: string) => `<form class="b-form" data-contact d
 /** A short line of plain text, for "Did you mean", blocked and unavailable. */
 export const sayHtml = (text: string) => `<div class="b-text"><p style="--j:0">${esc(text)}</p></div>`;
 
-/** "Did you mean": Jev's close options, each with its probability. */
+/** Unclear questions show readable options. Probabilities stay in the optional details. */
 export const pickHtml = (options: Option[], q: string) => `<div class="b-pick">${options.map((o, j) => `
   <button type="button" style="--j:${j}" ${go(o.id, 'did-you-mean', q, '', q)}>
     <span><span class="pick-title">${esc(o.title)}</span><span class="pick-ask">${esc(o.ask)}</span></span>
-    <span class="pick-p">${o.probability !== undefined ? `<i style="--p:${o.probability}"></i>${pct(o.probability)}` : ''}</span>
     ${ICON.right}
   </button>`).join('')}</div>`;
+
+/** The public and review pages use the same answer structure. */
+export function answerHtml(content: AnswerContent, from: string): string {
+  const action = content.action;
+  const external = action?.href.startsWith('https://');
+  return `<h2 class="answer-title">${esc(content.title)}</h2>`
+    + content.blocks.map(b => blockHtml(b, from)).join('')
+    + (action ? `<div class="answer-next"><a class="pill solid" href="${esc(action.href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(action.label)}${external ? '<span class="sr-only"> (opens in a new tab)</span>' : ''}</a></div>` : '');
+}

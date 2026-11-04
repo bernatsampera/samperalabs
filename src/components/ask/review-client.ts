@@ -1,7 +1,7 @@
 // The review page: renders every answer with the same code as the home page, plus a comment box for each.
 
 import type { AnswerContent } from '../../lib/ask/content';
-import { blockHtml, bubbleHtml, esc, ICON, pickHtml, sayHtml, type Option } from './render';
+import { answerHtml as renderAnswer, bubbleHtml, esc, ICON, pickHtml, sayHtml, type Option } from './render';
 import './contact-client';
 
 type Item = { id: string; title: string; question: string; note: string; say?: string; chips: { id: string; ask: string }[]; options?: Option[] };
@@ -14,13 +14,13 @@ const index = document.querySelector<HTMLElement>('[data-index]')!;
 function answerHtml(item: Item) {
   const content = data.content[item.id];
   const blocks = content
-    ? content.blocks.map((b) => blockHtml(b, item.id)).join('')
+    ? renderAnswer(content, item.id)
     : sayHtml(item.say ?? '') + (item.options ? pickHtml(item.options, item.question) : '');
-  const chips = item.chips.map((c) => `<span class="pill">${esc(c.ask)}</span>`).join('');
+  const chips = item.chips.slice(0, 2).map((c) => `<span class="pill">${esc(c.ask)}</span>`).join('');
   return `
     <div class="ask ask-static" data-state="answer">
       <div class="ans show">${bubbleHtml(item.question)}<div class="ans-a"><div class="ans-blocks">${blocks}</div></div></div>
-      <div class="rv-chips"><small>Chips above the field</small>${chips}<span class="pill ghost">${ICON.back}${esc(data.shared.startOver)}</span></div>
+      <div class="rv-chips"><small>Related questions</small>${chips}<span class="pill ghost">${ICON.back}${esc(data.shared.startOver)}</span></div>
     </div>`;
 }
 

@@ -1,43 +1,62 @@
 ---
-export interface Props {
-  /** Home: the nav floats over the hero and hides on phones, where the hero shows its own links. */
-  overlay?: boolean;
-}
 import ContactModal from '../ask/ContactModal.astro';
-
-const {overlay = false} = Astro.props;
-const path = Astro.url.pathname;
-const current = path === '/' ? 'work' : path.startsWith('/about') ? 'about' : path.startsWith('/posts') || path.startsWith('/writing') ? 'writing' : '';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = ['/work', '/maat', '/gcontext'].includes(path) ? 'work'
+  : /^\/(writing|posts|notes)(\/|$)/.test(path) ? 'writing'
+  : ['/about', '/things-i-like'].includes(path) ? 'about' : '';
 const links = [
-  {id: 'work', label: 'Work', href: '/#work'},
+  {id: 'work', label: 'Work', href: '/work'},
   {id: 'writing', label: 'Writing', href: '/writing'},
   {id: 'about', label: 'About', href: '/about'},
 ];
 ---
-
-<header id="top" class:list={['site-nav', {overlay}]}>
-  <div class="col">
-    <nav class="nav-side" aria-label="Main">
-      {links.map((l) => <a class="pill" href={l.href} aria-current={current === l.id ? 'page' : undefined}>{l.label}</a>)}
+<header id="top" class="site-nav">
+  <div class="col nav-inner">
+    <a class="site-name" href="/" aria-current={path === '/' ? 'page' : undefined}>Bernat Sampera</a>
+    <nav class="desktop-nav" aria-label="Main">
+      {links.map(l => <a href={l.href} aria-current={current === l.id ? (path === l.href ? 'page' : 'true') : undefined}>{l.label}</a>)}
+      <a href="mailto:info@samperalabs.com" data-contact-open aria-haspopup="dialog">Contact</a>
     </nav>
-    <div class="nav-side nav-contact">
-      <a class="pill" href="https://x.com/bsampera97">X</a>
-      <a class="pill" href="https://www.linkedin.com/in/bernat-sampera-195152107/">LinkedIn</a>
-      <a class="pill solid" href="mailto:info@samperalabs.com" data-contact-open aria-haspopup="dialog">Email</a>
-    </div>
+    <details class="mobile-nav" data-site-menu>
+      <summary>Menu</summary>
+      <nav aria-label="Main">
+        {links.map(l => <a href={l.href} aria-current={current === l.id ? (path === l.href ? 'page' : 'true') : undefined}>{l.label}</a>)}
+        <a href="mailto:info@samperalabs.com" data-contact-open aria-haspopup="dialog">Contact</a>
+      </nav>
+    </details>
   </div>
 </header>
-
 <ContactModal />
-
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('[data-site-menu]');
+  if (menu) {
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && menu.open) { menu.open = false; menu.querySelector('summary')?.focus(); }
+    });
+    document.addEventListener('click', e => {
+      const target = e.target as Element;
+      if (!menu.contains(target) || target.closest('a')) menu.open = false;
+    });
+  }
+</script>
 <style>
-  .site-nav { position: relative; z-index: 5; }
-  .site-nav.overlay { position: absolute; top: 0; left: 0; right: 0; }
-  .site-nav .col { height: var(--nav-h); display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); }
-  .nav-side { display: flex; align-items: center; gap: var(--space-2); }
+  .site-nav { position: sticky; top: 0; z-index: 30; background: var(--color-paper); border-bottom: 1px solid var(--color-rule-soft); }
+  .nav-inner { height: calc(var(--site-header-h) - 1px); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .site-name { font-weight: 500; white-space: nowrap; }
+  a { color: var(--color-ink); text-decoration: none; }
+  nav a { min-height: 44px; display: flex; align-items: center; font-size: var(--type-ui); }
+  nav a[aria-current] { text-decoration: underline; text-underline-offset: 7px; text-decoration-thickness: 2px; }
+  nav a:hover, .site-name:hover { color: var(--color-accent); }
+  .desktop-nav { display: flex; gap: 28px; }
+  .mobile-nav { display: none; }
   @media (max-width: 809px) {
-    .site-nav.overlay { display: none; }
-    .nav-contact { display: none; }
-    .nav-side { gap: var(--space-1); }
+    .desktop-nav { display: none; }
+    .mobile-nav { display: block; }
+    summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: '+'; margin-left: 12px; }
+    details[open] summary::after { content: '-'; }
+    .mobile-nav nav { position: absolute; top: 100%; left: 0; right: 0; padding: 12px var(--gutter) 20px; background: var(--color-paper); border-bottom: 1px solid var(--color-rule); box-shadow: 0 12px 20px #14141a08; }
+    .mobile-nav nav a { padding: 8px 0; }
   }
 </style>

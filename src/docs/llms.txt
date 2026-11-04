@@ -13,7 +13,9 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 
 ## Public Pages
 
-- [src/pages/writing.astro](../pages/writing.astro): Redirect from the retired writing page to the grouped homepage post list.
+- [src/pages/work.astro](../pages/work.astro): Project overview with project stories, related articles, and side projects.
+
+- [src/pages/writing.astro](../pages/writing.astro): All published articles with a link to Notes.
 
 - [src/pages/index.astro](../pages/index.astro): Homepage / landing page
 - [src/pages/about.astro](../pages/about.astro): About page
@@ -52,6 +54,8 @@ The frontend is built with Astro 5 in SSR mode (Node.js adapter), using React 19
 - [src/components/react/essays/](../components/react/essays/): Directory for per-essay interactive components (default-exported React components)
 
 ## Lib
+
+- [src/lib/ask/publicContent.ts](../lib/ask/publicContent.ts): Published article metadata for the guided Jev answers.
 
 - [src/lib/publicPostStore.ts](../lib/publicPostStore.ts): Public post reads with source revisions and refreshed reading metadata.
 - [src/lib/postRevisions.ts](../lib/postRevisions.ts): Explicit public text and summary overrides for two source-managed articles.

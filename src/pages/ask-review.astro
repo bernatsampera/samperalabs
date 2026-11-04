@@ -5,8 +5,10 @@ import '../assets/styles/tokens.css';
 import '../components/ask/ask.css';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { CONTENT, SHARED } from '../lib/ask/content';
+import { SHARED } from '../lib/ask/content';
 import { EXPERIENCES, LANDING_QUESTIONS, getExperience } from '../lib/ask/experiences';
+
+import {getAnswerContent} from '../lib/ask/publicContent';
 
 if (import.meta.env.PROD) return new Response(null, { status: 404 });
 
@@ -15,9 +17,9 @@ const samples = LANDING_QUESTIONS.map((id) => ({ id, ask: ask(id) }));
 // What a visitor might type, when it differs from the chip question. Round 4: every experience has its chip question.
 const typed: Record<string, string> = {};
 const items = [
-  ...EXPERIENCES.map((e) => ({ id: e.id, title: e.title, question: typed[e.id] ?? e.ask, note: `Answer type: ${e.type}`, chips: e.followUps.map((f) => ({ id: f, ask: ask(f) })) })),
+  ...EXPERIENCES.map((e) => ({ id: e.id, title: e.title, question: typed[e.id] ?? e.ask, note: `Answer type: ${e.type}`, chips: e.followUps.slice(0, 2).map((f) => ({ id: f, ask: ask(f) })) })),
   {
-    id: 'did-you-mean', title: 'Did you mean', question: 'Tell me about your agents at MAAT', note: 'Shown when Jev is not sure. The percentages are an example.',
+    id: 'did-you-mean', title: 'Did you mean', question: 'Tell me about your agents at MAAT', note: 'Shown when Jev is not sure. Choose the intended topic.',
     say: SHARED.didYouMean, chips: [],
     options: [
       { id: 'agents', title: 'AI agents', ask: ask('agents'), probability: 0.44 },
@@ -34,7 +36,7 @@ try {
 } catch {
   /* no earlier round */
 }
-const data = { content: CONTENT, shared: SHARED, items, previous };
+const data = { content: await getAnswerContent(), shared: SHARED, items, previous };
 const json = JSON.stringify(data).replace(/</g, '\\u003c');
 ---
 <!doctype html>

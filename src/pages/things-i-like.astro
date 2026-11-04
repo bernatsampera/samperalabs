@@ -21,7 +21,8 @@ const metadata = {
 ---
 
 <PageLayout metadata={metadata}>
-  <main class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12 sm:pt-16 pb-16 animate-fade-in">
+  <div class="mx-auto max-w-[44rem] px-5 sm:px-8 pt-12 sm:pt-16 pb-16 animate-fade-in">
+    <a class="link" href="/about">Back to About</a>
     <h1 class="text-[28px] font-semibold text-stone-900 mb-2">Things I Like</h1>
     <p class="text-[15px] text-stone-500 leading-relaxed mb-8">
       Books, podcasts, talks, and articles I keep coming back to.
@@ -62,7 +63,7 @@ const metadata = {
     {categories.length === 0 && (
       <p class="text-[15px] text-stone-400 py-8">Nothing here yet.</p>
     )}
-  </main>
+  </div>
 </PageLayout>
 
 <style>

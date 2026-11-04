@@ -1,0 +1,50 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import {PROJECT_CARDS} from '~/lib/ask/content';
+import {blockHtml} from '~/components/ask/render';
+import {stories} from '~/lib/stories';
+import '~/components/ask/project-card.css';
+const metadata = {title: 'Work', description: 'AI at MAAT, memory for agents with gcontext, and independent projects by Bernat Sampera.'};
+---
+<PageLayout metadata={metadata}>
+  <div class="work-page col">
+    <header class="work-heading">
+      <h1>Work</h1>
+      <p>I build AI products at MAAT and develop gcontext, a project about memory for AI agents.</p>
+    </header>
+    {stories.map(story => (
+      <section class="work-project" aria-labelledby={`work-${story.slug}`}>
+        <div class="project-copy">
+          <h2 id={`work-${story.slug}`}>{story.name}</h2>
+          <p>{story.context}</p>
+          <a class="pill solid" href={`/${story.slug}`}>Explore {story.name}</a>
+        </div>
+        <div class="project-reading">
+          <h3>Read about the work</h3>
+          <ul>{story.chapters.filter(c => c.article).slice().reverse().slice(0, 3).map(c => <li><a href={c.article!.href}>{c.article!.title}</a></li>)}</ul>
+        </div>
+      </section>
+    ))}
+    <section class="work-side" aria-labelledby="side-heading">
+      <h2 id="side-heading">Side projects</h2>
+      <p>Other things I built, from gym search to a map of cultural diversity.</p>
+      <Fragment set:html={blockHtml({kind: 'cards', cards: [PROJECT_CARDS.bjjgym, PROJECT_CARDS.indoeuromap]}, 'work')} />
+    </section>
+    <nav class="section-nav" aria-label="Continue"><a href="/writing">All writing</a><a href="/about">About me</a></nav>
+  </div>
+</PageLayout>
+<style>
+  .work-page { padding-top: var(--space-8); }
+  .work-heading { max-width: 650px; margin-bottom: var(--space-8); }
+  h1 { font-size: var(--type-title); line-height: var(--leading-title); letter-spacing: var(--tracking-title); font-weight: 500; margin: 0 0 20px; }
+  h2 { font-size: var(--type-section); line-height: var(--leading-section); letter-spacing: var(--tracking-section); font-weight: 500; margin: 0 0 16px; }
+  h3 { font-size: var(--type-small); font-weight: 500; margin: 0 0 16px; color: var(--color-slate); }
+  p { color: var(--color-graphite); font-size: var(--type-lede); line-height: var(--leading-lede); margin: 0 0 24px; }
+  .work-project { border-top: 1px solid var(--color-rule); padding: 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  ul { list-style: none; margin: 0; padding: 0; }
+  li + li { border-top: 1px solid var(--color-rule-soft); }
+  li a { display: block; padding: 12px 0; color: var(--color-ink); text-decoration: none; }
+  li a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .work-side { padding-top: 40px; border-top: 1px solid var(--color-rule); }
+  @media(max-width: 809px) { .work-project { grid-template-columns: 1fr; gap: 32px; } h1 { font-size: 36px; } h2 { font-size: 30px; line-height: 36px; } .work-page { padding-top: 40px; } }
+</style>

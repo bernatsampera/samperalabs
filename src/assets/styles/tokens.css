@@ -5,6 +5,7 @@
    Approved pages: design-preview/design-system/clean/index.html and clean/maat.html. */
 
 :root {
+  --site-header-h: 64px;
   /* ---------- Type ---------- */
   /* Geist stands in for PP Neue Montreal (the reference face, a paid licence).
      To switch, change --font-sans only. */

@@ -49,7 +49,9 @@
   const CHEV_R = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>';
   const isPhone = () => innerWidth < 720;
   // Short landscape screens (a phone on its side): vertical path on the left, card on the right.
-  const isSide = () => !isPhone() && innerHeight < 560;
+  const headerHeight = () => document.querySelector('.site-nav')?.getBoundingClientRect().height || 0;
+  const viewHeight = () => innerHeight - headerHeight();
+  const isSide = () => !isPhone() && viewHeight() < 560;
   const isVert = () => isPhone() || isSide();
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -149,7 +151,7 @@
 
   // ---------- Season layer ----------
   function seasonMetrics(n) {
-    const W = innerWidth, H = innerHeight, phone = isPhone();
+    const W = innerWidth, H = viewHeight(), phone = isPhone();
     if (isSide()) {
       const top = 64, bar = 70, pathTop = top + 24;
       const gap = clamp((H - top - bar - 52) / Math.max(1, n - 1), 36, 64);
@@ -303,7 +305,7 @@
         <h2 class="c-title" tabindex="-1">${esc(c.title)}</h2>
         <div class="c-main">
           <div class="c-simple">${c.simple.map(p => `<p>${esc(p)}</p>`).join('')}</div>
-          ${c.article ? `<a class="read" href="${esc(c.article.href)}">Read the full chapter${CHEV_R}</a>` : ''}
+          ${c.article ? `<a class="read" href="${esc(c.article.href)}">Read the article${CHEV_R}</a>` : ''}
         </div>
         <div class="c-side"><div class="learned"><p class="learned-lbl">What I learned</p><p>${esc(c.learned)}</p></div></div>
       </div></article>`;
@@ -459,7 +461,7 @@
     const fadeParts = [L.el.querySelector('.s-top'), L.el.querySelector('.s-foot')];
     const labs = [...L.el.querySelectorAll('.lab, .here-tag')];
     let enterT = 0;
-    const W = innerWidth, H = innerHeight;
+    const W = innerWidth, H = viewHeight();
     if (reduce) {
       anims.push(L.el.animate([{opacity: 0}, {opacity: 1}], {duration: 260, easing: 'ease-out', fill: 'backwards'}));
       enterT = 0;
@@ -469,7 +471,7 @@
       const r = li.getBoundingClientRect();
       const rad = isPhone() ? 16 : 20;
       anims.push(L.el.animate([
-        {clipPath: `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round ${rad}px)`},
+        {clipPath: `inset(${r.top - headerHeight()}px ${W - r.right}px ${innerHeight - r.bottom}px ${r.left}px round ${rad}px)`},
         {clipPath: 'inset(0px 0px 0px 0px round 0px)'},
       ], {duration: 950, easing: CINE, fill: 'backwards'}));
       anims.push(L.wrap.animate([{opacity: 0, transform: 'translateY(24px) scale(.96)'}, {opacity: 1, transform: 'none'}], {duration: 800, delay: 250, easing: OUT, fill: 'backwards'}));
@@ -529,7 +531,7 @@
     home.classList.remove('away');
     home.inert = false;
     setState('moving'); setView();
-    const W = innerWidth, H = innerHeight;
+    const W = innerWidth, H = viewHeight();
     const li = hMain.querySelector(`.entry[data-si="${L.si}"]`);
     const r = li.getBoundingClientRect();
     const anims = [];
@@ -543,7 +545,7 @@
       const rad = isPhone() ? 16 : 20;
       anims.push(L.el.animate([
         {clipPath: 'inset(0px 0px 0px 0px round 0px)'},
-        {clipPath: `inset(${r.top}px ${W - r.right}px ${H - r.bottom}px ${r.left}px round ${rad}px)`},
+        {clipPath: `inset(${r.top - headerHeight()}px ${W - r.right}px ${innerHeight - r.bottom}px ${r.left}px round ${rad}px)`},
       ], {duration: 800, delay: 120, easing: CINE, fill: 'forwards'}));
       anims.push(L.wrap.animate([{opacity: 1}, {opacity: 0}], {duration: 400, easing: 'ease-in', fill: 'forwards'}));
       anims.push(home.animate([{transform: 'scale(.97)', opacity: .7}, {transform: 'none', opacity: 1}], {duration: 900, easing: CINE, fill: 'backwards'}));
@@ -579,6 +581,7 @@
   addEventListener('keydown', e => {
     if (e.altKey || e.metaKey || e.ctrlKey) return;
     const t = e.target;
+    if (e.defaultPrevented || t?.closest?.('.site-nav, dialog, input, textarea, select')) return;
     const onControl = t && t.closest && t.closest('button, a, input, select, textarea, [role="button"]');
     const fwd = () => { if (cur) { if (cur.step < cur.n - 1) goStep(cur.step + 1); else if (seasons[cur.si + 1]) enterSeason(cur.si + 1); } else enterSeason(0); };
     if (e.key === 'ArrowRight') { e.preventDefault(); fwd(); }

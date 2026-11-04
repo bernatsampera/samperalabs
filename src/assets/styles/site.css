@@ -64,3 +64,8 @@ img { content-visibility: auto; }
   .link .ico { transition: none; }
   .js [data-appear] { opacity: 1; transform: none; transition: none; }
 }
+
+html { scroll-padding-top: calc(var(--site-header-h) + 24px); }
+.section-nav { display: flex; flex-wrap: wrap; gap: 24px; margin: 24px 0; }
+.section-nav a { color: var(--color-slate); text-decoration: none; padding-block: 8px; }
+.section-nav a[aria-current] { color: var(--color-ink); border-bottom: 2px solid currentColor; }

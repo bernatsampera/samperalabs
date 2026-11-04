@@ -15,7 +15,13 @@ const metadata = {
       <p>Recently, most of my work has been around the context layer: how to structure information so an agent can find it, use it, and keep useful knowledge between sessions.</p>
       <p>The idea is to build maps of knowledge, with facts, procedures, and relationships between them. A tree is one way to organize this, but the structure is only part of the problem. There's also what to load for each task, what to keep after it, and when that information needs to change.</p>
       <p>I build and test different approaches to this, alongside the products where they get used.</p>
-      <section class="about-contact" aria-labelledby="contact-title">
+      <nav class="section-nav" aria-label="Explore"><a href="/work">Explore my work</a><a href="/things-i-like">Things I Like</a></nav>
+      <section class="about-background" aria-labelledby="background-title">
+        <h2 id="background-title">Background</h2>
+        <p>I worked as a frontend and full stack developer before I moved into AI in 2025. My first agent projects used LangGraph.</p>
+        <p>I joined MAAT at the end of 2025. Outside work, I train Brazilian jiu-jitsu.</p>
+      </section>
+      <section id="contact" class="about-contact" aria-labelledby="contact-title">
         <h2 id="contact-title">Contact</h2>
         <a class="link" href="mailto:info@samperalabs.com">info@samperalabs.com</a>
         <a class="link" href="https://x.com/bsampera97" target="_blank" rel="noopener noreferrer" aria-label="X: @bsampera97 (opens in a new tab)">X: @bsampera97</a>
@@ -30,6 +36,8 @@ const metadata = {
   .about-copy { max-width: 680px; color: var(--color-graphite); }
   h1 { margin: 0 0 var(--space-7); font-size: var(--type-title); line-height: var(--leading-title); letter-spacing: var(--tracking-title); font-weight: var(--weight-medium); color: var(--color-ink); }
   p { margin: 0 0 var(--space-5); font-size: var(--type-lede); line-height: 28px; }
+  .about-background { margin-top: var(--space-8); }
+  .about-background h2 { margin-bottom: var(--space-4); }
   .about-contact { margin-top: var(--space-8); padding-top: var(--space-6); border-top: var(--border-hairline); display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); }
   h2 { margin: 0 0 var(--space-2); font-size: var(--type-heading); line-height: var(--leading-heading); letter-spacing: var(--tracking-heading); font-weight: var(--weight-medium); color: var(--color-ink); }
   .about-contact a { min-height: 32px; overflow-wrap: anywhere; }

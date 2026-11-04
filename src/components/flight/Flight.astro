@@ -1,7 +1,7 @@
 ---
 // The home hero: the portrait you fly into. It sits in the Ask Jev landing view (AskJev slot "hello"),
 // under the production dock. The approved information sequence uses non-clickable pieces.
-// Full screen, no site header: the name sits top left, a row of small links top right.
+// The shared site header sits above the portrait.
 import '@fontsource/instrument-serif/400-italic.css';
 import portrait from './portrait.jpg';
 import { portfolioCards } from './information-panels.js';
@@ -15,13 +15,6 @@ const pieces = portfolioCards();
   <div class="flight-reading" data-reading>
     {pieces.map(piece => <section><h2>{piece.title}</h2><p>{piece.detail}</p></section>)}
   </div>
-  <nav class="flight-links" aria-label="Main">
-    <span class="flight-links-label">Navigation:</span>
-    <a href="/#work">Work</a>
-    <a href="/writing">Writing</a>
-    <a href="/about">About</a>
-    <a href="mailto:info@samperalabs.com" data-contact-open aria-haspopup="dialog">Contact</a>
-  </nav>
   <div class="flight-intro">
     <h1 class="flight-name" id="hero-title"><span class="flight-name-text"><span>Bernat</span> <span>Sampera</span></span></h1>
   </div>
@@ -105,17 +98,11 @@ const pieces = portfolioCards();
   .flight.in .flight-intro { background: none; box-shadow: none; }
   .flight.in .flight-back { position: absolute; top: 0; left: 0; }
 
-  .flight-links { position: absolute; right: max(var(--space-5), calc((100vw - 1392px) / 2 + var(--space-5))); top: var(--space-7); z-index: 4; display: flex; align-items: baseline; gap: var(--space-2); font-size: var(--type-small); line-height: var(--leading-small); background: var(--color-paper); box-shadow: 0 0 16px 12px var(--color-paper); }
-  .flight-links-label { color: var(--color-slate); margin-right: var(--space-1); }
-  .flight-links a { color: var(--color-ink); font-weight: var(--weight-medium); text-decoration: underline; text-decoration-color: var(--color-rule); text-underline-offset: 4px; transition: text-decoration-color var(--dur-hover); }
-  .flight-links a:hover { text-decoration-color: var(--color-ink); }
 
   .flight-back { height: 32px; padding: 0 var(--space-3); font-size: var(--type-small); pointer-events: auto; }
 
 
   @media (max-width: 809px) {
-    .flight-links { top: var(--space-4); right: var(--space-5); }
-    .flight-links-label { display: none; }
-    .flight-intro { top: calc(var(--space-4) + 20px + var(--space-5)); max-width: calc(100vw - 2 * var(--space-5)); gap: var(--space-2); }
+    .flight-intro { top: var(--space-5); max-width: calc(100vw - 2 * var(--space-5)); gap: var(--space-2); }
   }
 </style>

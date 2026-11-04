@@ -8,6 +8,10 @@ const SITE = 'https://samperalabs.com';
 const staticPages = [
   `${SITE}/`,
   `${SITE}/about`,
+  `${SITE}/work`,
+  `${SITE}/writing`,
+  `${SITE}/maat`,
+  `${SITE}/gcontext`,
   `${SITE}/notes`,
   `${SITE}/things-i-like`,
 ];

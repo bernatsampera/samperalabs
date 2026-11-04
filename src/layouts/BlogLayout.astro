@@ -1,5 +1,6 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
+import {stories} from '~/lib/stories';
 import type {MetaData} from '~/types';
 import type {TOCItem} from '~/utils/tableOfContents';
 import {buildNestedTOC} from '~/utils/tableOfContents';
@@ -23,6 +24,7 @@ const readingTime = Math.max(Math.floor(post.content.length / 1000), 1);
 const pubDate = new Date(post.pub_date);
 const formattedDate = pubDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'});
 const contents = buildNestedTOC(headings.map((heading) => ({...heading, level: Math.max(2, heading.level)})));
+const relatedStories = stories.filter(story => story.chapters.some(chapter => chapter.article?.href.replace(/\/$/, '') === Astro.url.pathname.replace(/\/$/, '')));
 const back = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2.5 4 6l3.5 3.5"></path></svg>';
 ---
 
@@ -55,12 +57,16 @@ const back = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M
         </details>
       )}
       <slot />
+      {relatedStories.length > 0 && <aside class="related-projects" aria-label="Related projects"><h2>The project behind this article</h2>{relatedStories.map(story => <a class="link" href={"/" + story.slug}>Explore {story.name}</a>)}</aside>}
       <a class="link reading-end" href="/writing"><Fragment set:html={back} />All writing</a>
     </article>
   </div>
 </PageLayout>
 
 <style is:global>
+  .related-projects { margin-top: 48px; padding: 24px 0; border-top: 1px solid var(--color-rule); }
+  .related-projects h2 { font-size: var(--type-heading); margin: 0 0 16px; }
+  .related-projects a { margin-right: 24px; }
   /* Article pages. Values come from tokens.css. The text column sits on the left edge of the 900px column. */
   .reading-page { display: grid; grid-template-columns: minmax(0, 1fr) min(var(--column), 100% - 2 * var(--gutter)) minmax(0, 1fr); padding: var(--space-8) 0 0; }
   .reading-paper { grid-column: 2; min-width: 0; }
@@ -85,7 +91,7 @@ const back = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M
   .reading-mobile-contents summary { min-height: 44px; display: flex; align-items: center; cursor: pointer; font-size: var(--type-ui); font-weight: var(--weight-medium); }
   .reading-mobile-contents nav { max-height: 45svh; overflow-y: auto; padding-bottom: var(--space-3); }
   @media (min-width: 1360px) {
-    .reading-rail { display: block; grid-column: 1; grid-row: 1; justify-self: end; position: sticky; top: var(--space-6); align-self: start; width: 220px; max-height: calc(100svh - 48px); overflow-y: auto; margin: 0 var(--space-7) 0 0; }
+    .reading-rail { display: block; grid-column: 1; grid-row: 1; justify-self: end; position: sticky; top: calc(var(--site-header-h) + var(--space-6)); align-self: start; width: 220px; max-height: calc(100svh - var(--site-header-h) - 48px); overflow-y: auto; margin: 0 var(--space-7) 0 0; }
     .reading-mobile-contents { display: none; }
   }
 

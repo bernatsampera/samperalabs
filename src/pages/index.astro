@@ -1,7 +1,5 @@
 ---
-import {getImage} from 'astro:assets';
 import PageLayout from '~/layouts/PageLayout.astro';
-import ContactModal from '~/components/ask/ContactModal.astro';
 import Flight from '~/components/flight/Flight.astro';
 import Footer from '~/components/elements/Footer.astro';
 import StorySection from '~/components/story/StorySection.astro';
@@ -10,17 +8,15 @@ import {blockHtml} from '~/components/ask/render';
 import {PROJECT_CARDS} from '~/lib/ask/content';
 import '~/components/ask/project-card.css';
 import {stories} from '~/lib/stories';
-import profile from '~/assets/images/profile.jpeg';
+import {getPublicPostStore} from '~/lib/publicPostStore';
+import {getPostSummary} from '~/lib/postPresentation';
+const selectedWriting = (await getPublicPostStore().getAllPosts()).slice().sort((a, b) => b.pub_date.localeCompare(a.pub_date)).slice(0, 3);
 
 // Approved design: design-preview/design-system/clean/index.html. Rules: design-preview/design-system/DESIGN.md.
-const avatar = await getImage({src: profile, width: 160, format: 'webp'});
 const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything is information. How a company becomes AI native, and how AI should store and find information.'};
 ---
 
 <PageLayout metadata={metadata}>
-  <!-- No site header on the home: the hero carries its own name and links (Flight.astro). -->
-  <Fragment slot="header" />
-  <ContactModal />
 
   <script is:inline>document.documentElement.classList.add('js');</script>
 
@@ -28,6 +24,14 @@ const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything
   <AskJev><Flight slot="hello" /></AskJev>
 
   {stories.map((story, i) => <StorySection story={story} id={i === 0 ? 'work' : story.slug} />)}
+
+  <section class="home-writing col" aria-labelledby="home-writing-title">
+    <h2 id="home-writing-title">Recent writing</h2>
+    <p>Ideas and decisions from the work.</p>
+    <ul>{selectedWriting.map(post => <li><a href={'/posts/' + post.slug}><h3>{post.title}</h3><p>{getPostSummary(post.slug) || post.description}</p></a></li>)}</ul>
+    <a class="link" href="/writing">All writing</a>
+    <a class="link all-work" href="/work">All work</a>
+  </section>
 
   <section class="night" id="side-projects" aria-labelledby="side-title">
     <div class="col">
@@ -51,6 +55,16 @@ const metadata = {title: 'Bernat Sampera', description: 'AI engineer. Everything
 </script>
 
 <style>
+  .home-writing { padding-block: 64px; }
+  .home-writing h2 { font-size: var(--type-section); line-height: var(--leading-section); font-weight: 500; margin: 0 0 16px; }
+  .home-writing > p { color: var(--color-slate); }
+  .home-writing ul { list-style: none; padding: 0; margin: 32px 0; }
+  .home-writing li { border-top: 1px solid var(--color-rule); }
+  .home-writing li a { display: block; padding: 24px 0; text-decoration: none; color: inherit; }
+  .home-writing h3 { font-size: var(--type-heading); font-weight: 500; margin: 0 0 8px; }
+  .home-writing li p { color: var(--color-graphite); margin: 0; max-width: 650px; }
+  .home-writing li a:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
+  .all-work { margin-left: 24px; }
   /* Hero: centered, as in the reference. */
   .hero { height: 100svh; min-height: 640px; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; text-align: center; }
   .hero h1 { margin: 0; max-width: 660px; font-size: var(--type-display); line-height: var(--leading-display); letter-spacing: var(--tracking-display); font-weight: var(--weight-medium); }

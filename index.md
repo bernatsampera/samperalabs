@@ -1,5 +1,11 @@
 # SamperaLabs navigation
 
+- [src/pages/work.astro](src/pages/work.astro): Project overview with MAAT, gcontext, related articles, and side projects.
+- [src/components/elements/Header.astro](src/components/elements/Header.astro): Shared desktop and phone navigation for all public page layouts.
+- [src/lib/ask/content.ts](src/lib/ask/content.ts): Structured Jev answers, main next actions, and shared project cards.
+- [src/lib/ask/publicContent.ts](src/lib/ask/publicContent.ts): Jev article choices loaded from the published post store.
+- [scripts/site-navigation-check.mjs](scripts/site-navigation-check.mjs): Local HTTP checks for public routes, shared navigation, and Jev topic paths with a JSON report.
+
 - [design-preview/portfolio-soft.html](design-preview/portfolio-soft.html): Local preview of one broad continuous fade behind the approved portrait pieces.
 - [design-preview/build-portfolio-soft.mjs](design-preview/build-portfolio-soft.mjs): Builds the local soft-fade preview without changing the production renderer.
 

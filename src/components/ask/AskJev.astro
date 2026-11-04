@@ -5,18 +5,19 @@
 import '../../assets/styles/tokens.css';
 import './ask.css';
 import profile from '../../assets/images/profile.jpeg';
-import { CONTENT, SHARED } from '../../lib/ask/content';
-import { EXPERIENCES, LANDING_QUESTIONS, getExperience } from '../../lib/ask/experiences';
+import { SHARED } from '../../lib/ask/content';
+import { EXPERIENCES, LANDING_QUESTIONS, LANDING_LABELS, getExperience } from '../../lib/ask/experiences';
 
+import {getAnswerContent} from '../../lib/ask/publicContent';
 const data = {
-  content: CONTENT,
+  content: await getAnswerContent(),
   shared: SHARED,
   order: EXPERIENCES.map((e) => e.id),
   titles: Object.fromEntries(EXPERIENCES.map((e) => [e.id, e.title])),
   asks: Object.fromEntries(EXPERIENCES.map((e) => [e.id, e.ask])),
   samples: LANDING_QUESTIONS.map((id) => {
     const e = getExperience(id)!;
-    return { id: e.id, title: e.title, ask: e.ask };
+    return { id: e.id, title: e.title, ask: e.ask, label: LANDING_LABELS[id] };
   }),
   api: '/api/ask',
 };
@@ -37,7 +38,7 @@ const json = JSON.stringify(data).replace(/</g, '\\u003c');
 
   <div class="ask-dock" data-dock>
     <div class="ask-chips" data-chips>
-      {data.samples.map((s) => <button type="button" class="pill" data-open={s.id} data-via="sample" data-label={s.ask}>{s.ask}</button>)}
+      {data.samples.map((s) => <button type="button" class="pill" data-open={s.id} data-via="sample" data-label={s.ask}>{s.label}</button>)}
     </div>
     <form class="ask-form" role="search" data-form>
       <label class="sr-only" for="ask-q">Ask a question about Bernat and his work</label>
@@ -55,6 +56,7 @@ const json = JSON.stringify(data).replace(/</g, '\\u003c');
         <svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 10V2.5M2.8 5.5 6 2.3l3.2 3.2"/></svg>
       </button>
     </form>
+    <p class="ask-explainer">Jev finds prepared answers about me and my work.</p>
   </div>
 
   <p class="sr-only" aria-live="polite" data-live></p>
