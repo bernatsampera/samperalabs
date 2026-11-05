@@ -1,0 +1,31 @@
+---
+import BlogLayout from '~/layouts/BlogLayout.astro';
+import {Marked} from 'marked';
+import {prepareTableOfContents} from '~/utils/tableOfContents';
+import {gcontextJourney, gcontextArticles, journeyPath, articlePath} from '~/editorial/drafts/gcontext-evolution/journey';
+
+export const prerender = false;
+if (import.meta.env.PROD) return new Response(null, {status:404});
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+const id = Astro.url.searchParams.get('story');
+const chapter = gcontextArticles.find(c=>c.id===id);
+if (!chapter) return new Response('Story not found', {status:404});
+const files = import.meta.glob('../../editorial/drafts/gcontext-evolution/articles/*.md', {query:'?raw', import:'default', eager:true});
+const content = files[`../../editorial/drafts/gcontext-evolution/articles/${id}.md`];
+if (typeof content !== 'string') return new Response('Draft not found', {status:404});
+const marked = new Marked();
+const prepared = prepareTableOfContents(await marked.parse(content));
+const post = {title:chapter.title,author:'Bernat Sampera',pub_date:'',content,status:'draft' as const};
+const next = chapter.main ? gcontextJourney.chapters[gcontextJourney.chapters.findIndex(c=>c.id===chapter.id)+1] : undefined;
+const metadata = {title:post.title,description:chapter.preview,robots:{index:false,follow:false}};
+---
+
+<BlogLayout metadata={metadata} post={post} headings={prepared.headings} backHref={`${journeyPath}#${chapter.returnTo}`} backLabel="Back to the journey">
+  <div class="post-prose reading-prose" set:html={prepared.html} />
+  {next && <nav class="next-experiment" aria-label="Next article"><a href={articlePath(next.id)}>Continue: {next.short}<span aria-hidden="true"> →</span></a></nav>}
+</BlogLayout>
+
+<style>
+  .next-experiment {max-width:680px;margin-top:40px;padding-top:24px;border-top:1px solid var(--color-rule);}
+  .next-experiment a {font-size:17px;line-height:1.5;text-underline-offset:4px;}
+</style>

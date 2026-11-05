@@ -1,5 +1,12 @@
 # Review notes: MAAT Admin Agent article
 
+## Customer access update, 4 November 2026
+
+Bernat confirmed that customers will be able to use the agent tomorrow, 5 November 2026.
+The local article now states the planned date. It does not claim that access is already live.
+This update does not establish that every customer will have access or that write actions are available.
+The change is local. The published database article has not been updated by this edit.
+
 Mode: draft from evidence. Status: local draft. Nothing is submitted, published, committed, or deployed.
 
 ## Evidence

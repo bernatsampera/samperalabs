@@ -10,7 +10,7 @@ I drive the Admin Agent project at MAAT, and I own its AI infrastructure and bac
 4. How we test the agent with a bench of fixed cases.
 5. How we find what owners ask for in real conversations that the agent has.
 
-The agent is read only. Today we test it on a seeded gym and with internal users. A closed beta with customer gyms comes next.
+The version described here is read only. We tested it on a seeded gym and with internal users. Customer access is scheduled to start on 5 November 2026.
 
 ## Using MCP-style actions to access the MAAT backend API
 

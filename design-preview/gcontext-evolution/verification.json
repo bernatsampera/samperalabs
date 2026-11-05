@@ -1,0 +1,59 @@
+{
+  "checkedAt": "2026-11-05T10:09:06.679Z",
+  "passed": true,
+  "stories": 12,
+  "sourceReferences": 74,
+  "htmlSha256": "17853a28fb0f5421114c0c1ae409bb3d2fabe4273812dd1ac3022416b1297c97",
+  "documentHashes": {
+    "personal-readme": "9199a7703e8f0502945f37d773df2df4cfb610dd242f8f3e142b50c554b2c9f4",
+    "cloud-idea": "5ebd1523d54a29c24c0af4832c24986a52ebe9768e0d344abe064d49778b5873",
+    "context-problem": "d3c1fab6fa5b04caf45b220c0db4eb77c51eb55f750252461b1adf7ec4487407",
+    "cloud-apps-spec": "cc31626773afc4a9d72bf1b0956e480853fcde9e109793950e93351d113fe202",
+    "apps-plan": "9a8f2887ac9e8d36cd088cf90688d3a049194565a788ebc22fd4e52793df3f5c",
+    "property-readme": "1820730a445efcece542ae6f5e17938f3ea5f29836d9fc4e57351788409bc31e",
+    "framework-vision": "26b4844295b94f7c93931752886310c218d5b751ae50dd2ab8c1634d8cc8cdea",
+    "framework-how": "bd48497a63e8d9ad159b33be565619eaaf9d25e2afc0a98807ee32d431668ac6",
+    "framework-limits": "0d9c12b3694c0581b03b1769958f8c6997e0660317325551a448acca5a1c27af",
+    "read-trial": "4ca2979f7b48e413bcca6edd64b0aa058eff3ab211a4bfce748d2f143c014365"
+  },
+  "checks": [
+    "Story completeness",
+    "Source files and Git objects",
+    "Excluded source paths",
+    "HTML IDs and anchors",
+    "Form labels",
+    "Inline script syntax",
+    "No external resources",
+    "Index links",
+    "Local HTTP delivery"
+  ],
+  "http": [
+    {
+      "route": "/",
+      "method": "GET",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "route": "/review.html",
+      "method": "HEAD",
+      "expected": 200,
+      "actual": 200
+    },
+    {
+      "route": "/sources.json",
+      "method": "GET",
+      "expected": 404,
+      "actual": 404
+    },
+    {
+      "route": "/",
+      "method": "POST",
+      "expected": 405,
+      "actual": 405
+    }
+  ],
+  "browser": "Not run. Not authorized.",
+  "limits": "Static and HTTP checks do not verify visual layout, browser storage, downloads, or historical performance claims.",
+  "failures": []
+}

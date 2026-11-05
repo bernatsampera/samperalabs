@@ -1,0 +1,619 @@
+{
+  "H4830": {
+    "kind": "Author prompt",
+    "date": "2026-03-01",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 4830,
+    "project": "/Users/bsampera/Documents/tools/bernatagent",
+    "title": "Author prompt on 2026-03-01",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H4941": {
+    "kind": "Author prompt",
+    "date": "2026-03-02",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 4941,
+    "project": "/Users/bsampera/Documents/tools/bernatagent",
+    "title": "Author prompt on 2026-03-02",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H6480": {
+    "kind": "Author prompt",
+    "date": "2026-03-12",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 6480,
+    "project": "/Users/bsampera/Documents/bleak",
+    "title": "Author prompt on 2026-03-12",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H9775": {
+    "kind": "Author prompt",
+    "date": "2026-04-02",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 9775,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-04-02",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H10122": {
+    "kind": "Author prompt",
+    "date": "2026-04-03",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 10122,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-04-03",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H10279": {
+    "kind": "Author prompt",
+    "date": "2026-04-04",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 10279,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-04-04",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H15293": {
+    "kind": "Author prompt",
+    "date": "2026-05-05",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 15293,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-05-05",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H12609": {
+    "kind": "Author prompt",
+    "date": "2026-04-14",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 12609,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-04-14",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H13077": {
+    "kind": "Author prompt",
+    "date": "2026-04-17",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 13077,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-04-17",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H14851": {
+    "kind": "Author prompt",
+    "date": "2026-05-02",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 14851,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-problem",
+    "title": "Author prompt on 2026-05-02",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H14875": {
+    "kind": "Author prompt",
+    "date": "2026-05-02",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 14875,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-problem",
+    "title": "Author prompt on 2026-05-02",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H17606": {
+    "kind": "Author prompt",
+    "date": "2026-06-15",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 17606,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "title": "Author prompt on 2026-06-15",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H17808": {
+    "kind": "Author prompt",
+    "date": "2026-06-24",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 17808,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "title": "Author prompt on 2026-06-24",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H17843": {
+    "kind": "Author prompt",
+    "date": "2026-06-26",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 17843,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "title": "Author prompt on 2026-06-26",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H20952": {
+    "kind": "Author prompt",
+    "date": "2026-07-22",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 20952,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-07-22",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H21054": {
+    "kind": "Author prompt",
+    "date": "2026-07-23",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 21054,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-07-23",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H21435": {
+    "kind": "Author prompt",
+    "date": "2026-08-01",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 21435,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-08-01",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H21745": {
+    "kind": "Author prompt",
+    "date": "2026-08-02",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 21745,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-08-02",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H22115": {
+    "kind": "Author prompt",
+    "date": "2026-08-06",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 22115,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-08-06",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H22971": {
+    "kind": "Author prompt",
+    "date": "2026-08-10",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 22971,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-08-10",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H23757": {
+    "kind": "Author prompt",
+    "date": "2026-08-14",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 23757,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-08-14",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H17146": {
+    "kind": "Author prompt",
+    "date": "2026-06-07",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 17146,
+    "project": "/Users/bsampera/Documents/gcontext-projects/test",
+    "title": "Author prompt on 2026-06-07",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H26142": {
+    "kind": "Author prompt",
+    "date": "2026-08-27",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 26142,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-08-27",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H28056": {
+    "kind": "Author prompt",
+    "date": "2026-09-05",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 28056,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-05",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H28197": {
+    "kind": "Author prompt",
+    "date": "2026-09-05",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 28197,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-05",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H28252": {
+    "kind": "Author prompt",
+    "date": "2026-09-06",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 28252,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-06",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H32607": {
+    "kind": "Author prompt",
+    "date": "2026-09-28",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 32607,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-28",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H15256": {
+    "kind": "Author prompt",
+    "date": "2026-05-04",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 15256,
+    "project": "/Users/bsampera/Documents/bleak-dev/context-loader",
+    "title": "Author prompt on 2026-05-04",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H15763": {
+    "kind": "Author prompt",
+    "date": "2026-05-08",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 15763,
+    "project": "/Users/bsampera/.superset/worktrees/context-loader/spice-ceder",
+    "title": "Author prompt on 2026-05-08",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H28488": {
+    "kind": "Author prompt",
+    "date": "2026-09-06",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 28488,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-06",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H31354": {
+    "kind": "Author prompt",
+    "date": "2026-09-20",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 31354,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-20",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H32644": {
+    "kind": "Author prompt",
+    "date": "2026-09-29",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 32644,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-09-29",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H33246": {
+    "kind": "Author prompt",
+    "date": "2026-10-05",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 33246,
+    "project": "/Users/bsampera/Documents/projects/property-tree-real-problem",
+    "title": "Author prompt on 2026-10-05",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H33326": {
+    "kind": "Author prompt",
+    "date": "2026-10-06",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 33326,
+    "project": "/Users/bsampera/Documents/projects/property-tree-real-problem",
+    "title": "Author prompt on 2026-10-06",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H34660": {
+    "kind": "Author prompt",
+    "date": "2026-10-14",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 34660,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-10-14",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H36605": {
+    "kind": "Author prompt",
+    "date": "2026-10-23",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 36605,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-10-23",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H36821": {
+    "kind": "Author prompt",
+    "date": "2026-10-25",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 36821,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-10-25",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H36596": {
+    "kind": "Author prompt",
+    "date": "2026-10-23",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 36596,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-10-23",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H37603": {
+    "kind": "Author prompt",
+    "date": "2026-10-31",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 37603,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-10-31",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "H37611": {
+    "kind": "Author prompt",
+    "date": "2026-10-31",
+    "path": "/Users/bsampera/.claude/history.jsonl",
+    "line": 37611,
+    "project": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "title": "Author prompt on 2026-10-31",
+    "note": "This records the request or stated reason. It does not prove that the requested work completed."
+  },
+  "personal-readme": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/tools/bernatagent/README.md",
+    "title": "Personal agent repository",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "bleak-context": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/bleak",
+    "commit": "75f7aaaacc46d524843b688a1936552f9ec73037",
+    "date": "2026-03-19",
+    "title": "Agent context and focus APIs",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "bleak-tree": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/bleak",
+    "commit": "bb6c9b9b8044fb32d1758ef409bbde6f58594d37",
+    "date": "2026-03-31",
+    "title": "Knowledge tree panel",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-idea": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud/docs/ideas/info.md",
+    "title": "Context module design",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "cloud-poc": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "976afb77d33727d8a73298a47ec5190786eebad9",
+    "date": "2026-04-02",
+    "title": "Initial context platform",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-modules": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "645832028e77f369e2570188a364bd566e7737ca",
+    "date": "2026-04-03",
+    "title": "Loading modules from GitHub",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-tasks": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "a2b0322bf5b071ae9a892f37490b26e52faedf26",
+    "date": "2026-04-18",
+    "title": "Task structure and saved processes",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-workflows": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "3d23658eab79517dc3a4a6b4f4b538ff1232979b",
+    "date": "2026-05-02",
+    "title": "Tasks and workflows in the platform",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "context-problem": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/context-problem/problem.md",
+    "title": "How modules change with use",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "cloud-cli": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "13891a06d1fd7e0e72b11ca3a838e4817c0cd699",
+    "date": "2026-06-02",
+    "title": "Command-line interface",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-core": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "a491414d7f8809e6b16d26a1689efa13b5b517bd",
+    "date": "2026-06-14",
+    "title": "Separate core package",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-connector": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "bad47f798d584fbeed01a30cc15df575ea6e2277",
+    "date": "2026-06-27",
+    "title": "Cloud connector",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-viewer": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud",
+    "commit": "147b3ce931f5e6ce085a7b0e8883893a1ed6eba5",
+    "date": "2026-07-14",
+    "title": "Public folder viewer implementation",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-state": {
+    "kind": "Historical document",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "a5b9fec35d09066af3df349ca4097b8cca2e092b",
+    "date": "2026-07-23",
+    "file": "iterations/2/decisions.md",
+    "title": "State manager and runtime decision",
+    "note": "Read at this revision. Later architecture can differ."
+  },
+  "framework-launcher": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "f267d48984259eec82f1bac9d9abef415c352eae",
+    "date": "2026-07-23",
+    "title": "Existing-agent launcher",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-ops": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "b0132eff1473c9fc171c842163a596a3e8840d6b",
+    "date": "2026-08-02",
+    "title": "Reusable project operation modules",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-workflow": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "b967a47d83b6b55f8bba827a9fb1d76c41acd36f",
+    "date": "2026-08-07",
+    "title": "Shared workflow module",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-harvest": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "5ed90291de9fbaa0281857d684902baea1c6159f",
+    "date": "2026-08-21",
+    "title": "Agent operations and browser procedures",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-standard": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "a0252d035b48488118d38cc37f8da5bec236039e",
+    "date": "2026-08-30",
+    "title": "Context standard version 5",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-shape": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "0d5ea8754a8425bbcddadb96570403872943efd1",
+    "date": "2026-09-06",
+    "title": "Folder rules and shape checks",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "cloud-apps-spec": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-cloud/docs/specs/2026-05-04-module-apps-design.md",
+    "title": "Module app design, May experiment",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "apps-plan": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-apps/PLAN.md",
+    "title": "File-based app prototype plan",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "framework-replays": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "bebe4001be6233147f187054cee705e3b407503a",
+    "date": "2026-09-29",
+    "title": "Sixteen redacted diversity-map replay cases",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-stage-evidence": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "00d51f9c4d47166c2755afc10d7dd9557fa03d81",
+    "date": "2026-10-03",
+    "title": "Saved evidence for processing stages",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "property-readme": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/projects/property-tree/README.md",
+    "title": "Property-tree experiment",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "addition-evaluation": {
+    "kind": "Historical document",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "a1f48d36d9dc82f6b306502ba8c1ada4d7e7d320",
+    "date": "2026-10-31",
+    "file": "third-iteration/history/addition-tests/next-steps-evaluation.md",
+    "title": "Evaluation of handbook update methods",
+    "note": "Read at this revision. Later architecture can differ."
+  },
+  "addition-research": {
+    "kind": "Historical document",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "a1f48d36d9dc82f6b306502ba8c1ada4d7e7d320",
+    "date": "2026-10-31",
+    "file": "third-iteration/history/addition-tests/codification-research.md",
+    "title": "Fact representation and method comparisons",
+    "note": "Read at this revision. Later architecture can differ."
+  },
+  "framework-addition-tests": {
+    "kind": "Git commit",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "37584b5b1c9f948a679a334e4f89bf92d6b2a372",
+    "date": "2026-10-25",
+    "title": "Addition test methods and contract",
+    "note": "Implementation milestone in Git. A commit is not proof of release or user adoption."
+  },
+  "framework-vision": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-framework/dev/vision/vision.md",
+    "title": "Purpose and goals of the knowledge layer",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "framework-how": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-framework/docs/how-it-works.md",
+    "title": "Current capture and proposal flow",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented."
+  },
+  "framework-limits": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-framework/docs/limits.md",
+    "title": "Recorded v1 limits",
+    "note": "This limits document can lag implementation. Do not assume every listed fault remains current."
+  },
+  "framework-structure": {
+    "kind": "Historical document",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "666c54224441d2f358be3f314890aa84f4cf7aac",
+    "date": "2026-11-05",
+    "file": "dev/decisions/2026-11-04-product-structure.md",
+    "title": "November product structure decision",
+    "note": "Source document reviewed. Read its status and date before treating a design as implemented. The working copy later moved. This reference preserves the reviewed document in the 5 November handoff snapshot."
+  },
+  "gateway-proof": {
+    "kind": "Historical document",
+    "repo": "/Users/bsampera/Documents/bleak-dev/gcontext-framework",
+    "commit": "666c54224441d2f358be3f314890aa84f4cf7aac",
+    "date": "2026-11-05",
+    "file": "tests/e2e/artifacts/gateway-accept.md",
+    "title": "Saved approval flow checks",
+    "note": "Existing test report reviewed. No source-project tests were run for this editorial task. The working copy later moved. This reference preserves the reviewed document in the 5 November handoff snapshot."
+  },
+  "read-trial": {
+    "kind": "Document",
+    "path": "/Users/bsampera/Documents/bleak-dev/gcontext-framework/dev/trials/bjjgym/read-signal/log.md",
+    "title": "BJJGym handbook reading trial",
+    "note": "One run per question and mode. Model grading, a stale fact, and reads outside the isolated checkout limit the findings."
+  }
+}

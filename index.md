@@ -1,5 +1,24 @@
 # SamperaLabs navigation
 
+- [src/pages/design-preview/gcontext-journey.astro](src/pages/design-preview/gcontext-journey.astro): Local gcontext exploration preview in the shared MAAT journey layout.
+- [src/pages/design-preview/gcontext-article.astro](src/pages/design-preview/gcontext-article.astro): Local reading preview for the twelve gcontext article drafts.
+- [src/editorial/drafts/gcontext-evolution/journey.ts](src/editorial/drafts/gcontext-evolution/journey.ts): Six connected steps, six optional experiments, and article return points for the gcontext narrative.
+- [src/components/story/StoryExample.astro](src/components/story/StoryExample.astro): Six states of the clearly identified export-guide illustration that connects the gcontext steps.
+- [src/lib/stories/gcontext-visuals.ts](src/lib/stories/gcontext-visuals.ts): Concept drawings for context access, workflows, file apps, updates, and evaluation.
+
+- [design-preview/gcontext-evolution/index.md](design-preview/gcontext-evolution/index.md): Evidence-based review of twelve gcontext stories from March to November, with article directions and review notes.
+- [src/editorial/drafts/gcontext-evolution/index.md](src/editorial/drafts/gcontext-evolution/index.md): Session and Git research, proposed story content, and source references.
+
+- [design-preview/maat-work-review/index.md](design-preview/maat-work-review/index.md): Complete MAAT review with four article drafts, preview cards, and silent video demos.
+
+- [src/editorial/drafts/maat-work-evidence.md](src/editorial/drafts/maat-work-evidence.md): Evidence for the remaining MAAT previews, articles, and videos.
+
+- [design-preview/maat-schedule-video/index.md](design-preview/maat-schedule-video/index.md): Silent schedule import video with on-screen explanations, source files, and review player.
+
+- [src/docs/article-video-guide.md](src/docs/article-video-guide.md): Article video workflow with shared quality rules, separate visual directions, and HyperFrames production guidance.
+
+- [design-preview/maat-schedule-review.html](design-preview/maat-schedule-review.html): Schedule import preview and full proposed article for review together.
+
 - [src/layouts/StoryLayout.astro](src/layouts/StoryLayout.astro): Shared MAAT and gcontext page with an introduction, parallel timeline, and visible work cards along a journey.
 - [src/components/story/StoryVisual.astro](src/components/story/StoryVisual.astro): Shared card images, process diagrams, and accessible visual descriptions.
 - [src/assets/styles/story-journey.css](src/assets/styles/story-journey.css): Responsive journey layout with project starts on the left and consistent work cards.

@@ -13,6 +13,7 @@ export interface Story {
     role: string;
     introduction: string;
     transition: string;
+    example?: string; // One clearly identified example that connects the journey.
   };
   parts: StoryPart[];
   chapters: StoryChapter[];
@@ -39,7 +40,8 @@ export interface StoryChapter {
   title: string;
   simple: string[];
   preview?: string; // Concise copy for the visible journey card.
-  visual?: {kind: string; label: string; question?: string};
+  visual?: {kind: string; label: string; question?: string; exampleStage?: 'find' | 'select' | 'keep' | 'update' | 'review' | 'reuse'};
+  branches?: {title: string; href: string}[]; // Optional related experiments, outside the main path.
   learned: string;
   detail?: {
     workLabel: string;

@@ -20,6 +20,7 @@ html:has(.story-page) { scroll-padding-top:0; scroll-behavior:smooth; }
 .story-page .intro { max-width:800px; padding:56px 0 32px; }
 .story-page h1 { font-size:clamp(36px,4vw,48px); line-height:1.08; letter-spacing:-1.7px; font-weight:550; margin:0 0 20px; text-wrap:balance; }
 .story-page .intro p { max-width:680px; font-size:17px; line-height:27px; color:#555862; margin:0; }
+.story-page .intro .journey-example-intro { margin-top:20px; padding-left:18px; border-left:2px solid #a9baf0; font-size:15px; line-height:24px; }
 .story-page .overview { padding-bottom:88px; }
 .story-page .parallel-timeline { padding:20px 24px; background:#edeff3; border:1px solid #e5e7ed; border-radius:14px; }
 .story-page .time-ruler,.story-page .time-lane { display:grid; grid-template-columns:180px minmax(0,1fr); align-items:center; gap:24px; }
@@ -58,6 +59,30 @@ html:has(.story-page) { scroll-padding-top:0; scroll-behavior:smooth; }
 .story-page .card-copy { min-width:0; }
 .story-page .work-card h3 { margin:0 0 12px; font-size:23px; line-height:29px; letter-spacing:-.5px; font-weight:550; }
 .story-page .work-card p { margin:0; color:#565962; font-size:15px; line-height:24px; }
+.story-page .story-branches { grid-column:1/-1; border-top:1px solid var(--rule); }
+.story-page .story-branches summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; padding-top:8px; font-size:13px; cursor:pointer; list-style:none; }
+.story-page .story-branches summary::-webkit-details-marker { display:none; }
+.story-page .story-branches[open] summary .arrow { transform:rotate(90deg); }
+.story-page .story-branches ul { margin:10px 0 0; padding:0; list-style:none; display:grid; gap:4px; }
+.story-page .story-branches li a { display:block; padding:8px 0; font-size:14px; line-height:21px; }
+.story-page .story-example { background:#f1f3f7; padding:16px 12px; border-radius:10px; width:100%; }
+.story-page .example-document { padding:13px 12px; background:white; border:1px solid #d9dfe9; border-radius:7px; }
+.story-page .work-card .example-document p { font-size:13px; line-height:20px; color:#4b5260; }
+.story-page .work-card .example-document .example-title { margin-bottom:14px; color:var(--ink); font-weight:550; }
+.story-page .example-document strong { font-weight:550; color:var(--ink); }
+.story-page .example-selection { display:grid; gap:5px; margin-bottom:12px; font-size:12px; line-height:18px; }
+.story-page .example-selection span { color:#747b88; padding-left:9px; }
+.story-page .example-selection strong { padding:5px 9px; background:#e1e9ff; color:#214bc5; border-radius:4px; font-weight:500; }
+.story-page .example-source { display:block; margin-bottom:5px; font-size:11px; line-height:17px; color:#687386; }
+.story-page .example-note { margin:10px 0 0 10px; padding:10px 12px; border:1px solid #bdccf7; background:#eaf0ff; border-radius:7px; }
+.story-page .work-card .example-note p { color:#204cc9; font-size:13px; line-height:20px; }
+.story-page .example-diff { display:grid; gap:5px; font-size:13px; line-height:20px; }
+.story-page .example-diff del { color:#7e5c60; text-decoration-thickness:1px; }
+.story-page .example-diff ins { color:#204cc9; background:#edf2ff; padding:2px 4px; margin-left:-4px; text-decoration:none; border-radius:3px; }
+.story-page .example-review { display:flex; align-items:center; gap:6px; margin-top:12px; color:#365485; font-size:11px; line-height:17px; }
+.story-page .example-review svg { width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:1.8; }
+.story-page .example-session { font-size:12px; line-height:18px; margin-bottom:9px; color:#5d6a82; }
+.story-page .work-card .example-question { font-size:12px; line-height:18px; margin-top:12px; color:#5d6a82; }
 .story-page .work-card figure { margin:0; min-width:0; display:flex; flex-direction:column; justify-content:center; min-height:144px; }
 .story-page .work-card figure > svg { display:block; width:100%; max-height:160px; background:#f6f7f9; border-radius:10px; }
 .story-page .work-card figure img { display:block; width:100%; height:auto; max-height:180px; object-fit:contain; border:1px solid var(--rule); border-radius:8px; }

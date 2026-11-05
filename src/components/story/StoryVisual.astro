@@ -1,6 +1,7 @@
 ---
 import type {StoryChapter} from '~/lib/stories';
 import {storyVisuals} from '~/lib/stories/visuals';
+import StoryExample from './StoryExample.astro';
 
 interface Props { chapter: StoryChapter }
 const {chapter} = Astro.props;
@@ -11,7 +12,7 @@ const isPlaybook = visual?.kind === 'playbook';
 ---
 
 <figure>
-  {image ? <>
+  {visual?.exampleStage ? <StoryExample stage={visual.exampleStage} /> : image ? <>
     <img src={image.src} alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
     <figcaption>{chapter.detail?.caption}</figcaption>
   </> : isPlaybook ? (

@@ -1,0 +1,30 @@
+---
+import type {StoryChapter} from '~/lib/stories/types';
+interface Props {stage: NonNullable<StoryChapter['visual']>['exampleStage']}
+const {stage} = Astro.props;
+const labels = {
+  find:'Illustration: the project guide says to open Settings to export a report.',
+  select:'Illustration: select the export guide and leave billing and account guides unloaded.',
+  keep:'Illustration: the existing guide says Settings while a new note says Reports.',
+  update:'Illustration: propose replacing Settings with Reports in the existing guide.',
+  review:'Illustration: review the proposed edit before it reaches the saved guide.',
+  reuse:'Illustration: a later session can read the corrected guide. Its usefulness still needs testing.',
+};
+---
+<div class="story-example" data-example-stage={stage} role="img" aria-label={stage ? labels[stage] : ''}>
+  <div aria-hidden="true">
+    {stage==='select' && <div class="example-selection"><span>Billing</span><strong>Export guide</strong><span>Accounts</span></div>}
+    {stage==='keep' ? <>
+      <div class="example-document"><span class="example-source">Saved guide</span><p>Open <strong>Settings</strong></p></div>
+      <div class="example-note"><span class="example-source">New finding</span><p>Open <strong>Reports</strong></p></div>
+    </> : <>
+      {stage==='reuse' && <div class="example-session">Next session</div>}
+      <div class:list={['example-document',{'example-proposal':stage==='update'||stage==='review'}]}>
+        <p class="example-title">Export a report</p>
+        {stage==='update'||stage==='review' ? <div class="example-diff"><del>Open Settings</del><ins>Open Reports</ins></div> : <p>Open <strong>{stage==='reuse'?'Reports':'Settings'}</strong></p>}
+      </div>
+      {stage==='review' && <div class="example-review"><svg viewBox="0 0 24 24"><path d="m5 12 4 4 10-10" /></svg>Review the change</div>}
+      {stage==='reuse' && <p class="example-question">Does it help the task?</p>}
+    </>}
+  </div>
+</div>

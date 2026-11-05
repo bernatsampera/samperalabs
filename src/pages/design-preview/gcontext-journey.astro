@@ -1,0 +1,10 @@
+---
+import StoryLayout from '~/layouts/StoryLayout.astro';
+import {gcontextJourney} from '~/editorial/drafts/gcontext-evolution/journey';
+
+export const prerender = false;
+if (import.meta.env.PROD) return new Response(null, {status:404});
+Astro.response.headers.set('X-Robots-Tag', 'noindex, nofollow');
+---
+
+<StoryLayout story={gcontextJourney} />

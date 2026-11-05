@@ -1,0 +1,9 @@
+{
+  "name": "playbooks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "npx --yes hyperframes@0.9.12 lint --json",
+    "render": "npx --yes hyperframes@0.9.12 render --output demo.mp4 --fps 30 --quality standard --workers 2"
+  }
+}

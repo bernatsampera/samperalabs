@@ -97,6 +97,7 @@ An article can pass with no meme and no animation. Quality depends on what the r
 
 ## Use the workflow
 
+- [article-video-guide.md](article-video-guide.md): Article-specific video direction, combined storyboard review, accessibility, and HyperFrames production.
 - [new-essay-prompt.md](new-essay-prompt.md): Reusable request for editing your draft or developing an article.
 - [project-story-brief.md](project-story-brief.md): Portable brief for collecting a story from any project.
 - [post-image-workflow.md](post-image-workflow.md): Image selection rules, production briefs, and a worked example.

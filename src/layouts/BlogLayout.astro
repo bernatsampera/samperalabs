@@ -9,6 +9,8 @@ import ReadingContents from '~/components/common/ReadingContents.astro';
 export interface Props {
   metadata?: MetaData;
   headings?: TOCItem[];
+  backHref?: string;
+  backLabel?: string;
   post: {
     title: string;
     author: string;
@@ -19,7 +21,7 @@ export interface Props {
   };
 }
 
-const {metadata, post, headings = []} = Astro.props;
+const {metadata, post, headings = [], backHref = '/writing', backLabel = 'All writing'} = Astro.props;
 const readingTime = Math.max(Math.floor(post.content.length / 1000), 1);
 const pubDate = new Date(post.pub_date);
 const formattedDate = pubDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC'});
@@ -39,7 +41,7 @@ const back = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M
       </aside>
     )}
     <article class="reading-paper">
-      <a class="link reading-back" href="/writing"><Fragment set:html={back} />All writing</a>
+      <a class="link reading-back" href={backHref}><Fragment set:html={back} />{backLabel}</a>
       <header class="reading-head">
         <p class="meta reading-byline">
           {post.status === 'draft' ? <span>Draft for review</span> : <time datetime={post.pub_date}>{formattedDate}</time>}, {readingTime} min read
@@ -58,7 +60,7 @@ const back = '<svg class="ico" viewBox="0 0 12 12" aria-hidden="true"><path d="M
       )}
       <slot />
       {relatedStories.length > 0 && <aside class="related-projects" aria-label="Related projects"><h2>The project behind this article</h2>{relatedStories.map(story => <a class="link" href={"/" + story.slug}>Explore {story.name}</a>)}</aside>}
-      <a class="link reading-end" href="/writing"><Fragment set:html={back} />All writing</a>
+      <a class="link reading-end" href={backHref}><Fragment set:html={back} />{backLabel}</a>
     </article>
   </div>
 </PageLayout>

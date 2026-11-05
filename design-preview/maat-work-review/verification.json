@@ -1,0 +1,336 @@
+{
+  "browserChecks": "Not run, per user instruction.",
+  "checks": [
+    {
+      "name": "video format",
+      "passed": true,
+      "detail": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ]
+    },
+    {
+      "name": "duration",
+      "passed": true,
+      "detail": "39.000000"
+    },
+    {
+      "name": "video seeking",
+      "passed": true,
+      "detail": {
+        "status": 206,
+        "range": "bytes 1000-2023/1644438"
+      }
+    },
+    {
+      "name": "shared-context/video format",
+      "passed": true,
+      "detail": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ]
+    },
+    {
+      "name": "shared-context/duration",
+      "passed": true,
+      "detail": "37.000000"
+    },
+    {
+      "name": "shared-context/video seeking",
+      "passed": true,
+      "detail": {
+        "status": 206,
+        "range": "bytes 1000-2023/1899539"
+      }
+    },
+    {
+      "name": "playbooks/video format",
+      "passed": true,
+      "detail": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ]
+    },
+    {
+      "name": "playbooks/duration",
+      "passed": true,
+      "detail": "40.000000"
+    },
+    {
+      "name": "playbooks/video seeking",
+      "passed": true,
+      "detail": {
+        "status": 206,
+        "range": "bytes 1000-2023/1984719"
+      }
+    },
+    {
+      "name": "admin-agent/video format",
+      "passed": true,
+      "detail": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ]
+    },
+    {
+      "name": "admin-agent/duration",
+      "passed": true,
+      "detail": "41.000000"
+    },
+    {
+      "name": "admin-agent/video seeking",
+      "passed": true,
+      "detail": {
+        "status": 206,
+        "range": "bytes 1000-2023/1615592"
+      }
+    },
+    {
+      "name": "Unique HTML IDs",
+      "passed": true,
+      "detail": 8
+    },
+    {
+      "name": "Four articles and four videos",
+      "passed": true
+    },
+    {
+      "name": "Video playback is user controlled",
+      "passed": true
+    },
+    {
+      "name": "Link http://127.0.0.1:50530/",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Anchor #migrations",
+      "passed": true
+    },
+    {
+      "name": "Anchor #shared-context",
+      "passed": true
+    },
+    {
+      "name": "Anchor #playbooks",
+      "passed": true
+    },
+    {
+      "name": "Anchor #admin-agent",
+      "passed": true
+    },
+    {
+      "name": "Anchor #article-migrations",
+      "passed": true
+    },
+    {
+      "name": "Link poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link transcript.md",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Anchor #article-shared-context",
+      "passed": true
+    },
+    {
+      "name": "Link shared-context/poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link shared-context/poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link shared-context/demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link shared-context/demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link shared-context/transcript.md",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Anchor #article-playbooks",
+      "passed": true
+    },
+    {
+      "name": "Link playbooks/poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link playbooks/poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link playbooks/demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link playbooks/demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link playbooks/transcript.md",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Anchor #article-admin-agent",
+      "passed": true
+    },
+    {
+      "name": "Link admin-agent/poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link admin-agent/poster.jpg",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link admin-agent/demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link admin-agent/demo.mp4",
+      "passed": true,
+      "detail": 200
+    },
+    {
+      "name": "Link admin-agent/transcript.md",
+      "passed": true,
+      "detail": 200
+    }
+  ],
+  "media": [
+    {
+      "file": "demo.mp4",
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "39.000000",
+        "size": "1644438"
+      }
+    },
+    {
+      "file": "shared-context/demo.mp4",
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "37.000000",
+        "size": "1899539"
+      }
+    },
+    {
+      "file": "playbooks/demo.mp4",
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "40.000000",
+        "size": "1984719"
+      }
+    },
+    {
+      "file": "admin-agent/demo.mp4",
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "r_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "41.000000",
+        "size": "1615592"
+      }
+    }
+  ],
+  "frameReview": {
+    "files": [
+      "frames.jpg",
+      "shared-context/frames.jpg",
+      "playbooks/frames.jpg",
+      "admin-agent/frames.jpg"
+    ],
+    "method": "Contact sheets from the exported MP4 files.",
+    "reviewed": "All four contact sheets were visually inspected. No clipped or overlapping content was observed in these representative frames."
+  },
+  "ok": true
+}

@@ -1,5 +1,11 @@
 # Article drafts
 
+- [gcontext-evolution/index.md](gcontext-evolution/index.md): Twelve proposed gcontext stories, with source references and research limits, from March to November 2026.
+
+- [maat-work-review/index.md](maat-work-review/index.md): Proposed migration, context, playbook, and Admin Agent articles with metadata and source notes.
+
+- [maat-work-evidence.md](maat-work-evidence.md): Migration transform sources, support playbook examples, video directions, and the planned Admin Agent customer access date.
+
 - [gym-schedule-import/index.md](gym-schedule-import/index.md): Schedule import article, metadata, evidence, fictional schedule, and staged frontend captures.
 - [admin-agent/index.md](admin-agent/index.md): MAAT Admin Agent article, metadata, evidence notes, comics, and charts.
 - [global-context/index.md](global-context/index.md): Draft article about why AI agents need a global context, with four diagrams.

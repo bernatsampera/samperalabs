@@ -45,6 +45,7 @@ const lastChapter = lastPart ? partChapters(story, lastPart).at(-1)?.id : undefi
       <section class="intro" aria-labelledby="page-title">
         <h1 id="page-title">{story.overview?.title || story.mission}</h1>
         <p>{story.overview?.introduction || story.context}</p>
+        {story.overview?.example && <p class="journey-example-intro">{story.overview.example}</p>}
       </section>
       <nav class="overview" aria-label={`${story.name} project timeline`}>
         <div class="parallel-timeline">
@@ -96,6 +97,10 @@ const lastChapter = lastPart ? partChapters(story, lastPart).at(-1)?.id : undefi
                 </a>}
               </div>
               <StoryVisual chapter={chapter} />
+              {chapter.branches && chapter.branches.length > 0 && <details class="story-branches">
+                <summary>Related experiments<svg class="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></summary>
+                <ul>{chapter.branches.map(branch => <li><a href={branch.href}>{branch.title}</a></li>)}</ul>
+              </details>}
             </article>
           </div>)}
         </section>)}

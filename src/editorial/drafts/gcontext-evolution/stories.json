@@ -1,0 +1,181 @@
+{
+  "title": "gcontext, March to November 2026",
+  "intro": "I am building gcontext to give AI agents access to useful knowledge and a way to keep that knowledge current. The work started with project files and service integrations. It now includes rules for saving information, reviewing changes, and testing whether the saved context helps with real work.",
+  "thread": "The same problem returns at each stage: how much control should a person have over the information an agent can read and change?",
+  "eras": [
+    {"id":"workspace","date":"March to May","title":"Giving agents access to knowledge and services","description":"A personal agent became a workspace with context that could be selected for each task."},
+    {"id":"runtime","date":"June to August","title":"Using context across agents and workflows","description":"The work separated saved context from the agent that runs a task. Reusable workflows gave that idea practical uses."},
+    {"id":"structure","date":"August to October","title":"Controlling how the files grow","description":"Folder rules, file-based apps, and classification experiments tested how people and agents could share a changing workspace."},
+    {"id":"handbook","date":"October to November","title":"Reviewing changes and testing their value","description":"The next step was to test updates, inspect their effects, and check whether the saved knowledge helped another session."}
+  ],
+  "stories": [
+    {
+      "id":"project-knowledge","era":"workspace","date":"March 2026",
+      "title":"Connecting Claude Code to project knowledge and services",
+      "preview":"I built a personal agent that could find information across my repositories and use service APIs. Bleak added a workspace where I could see the knowledge, select context, and work with the agent.",
+      "flow":["Project files","Selected context","Agent + services"],
+      "article":[
+        {"title":"The work began across several repositories","text":"The first March request was about daily work. I wanted an agent to find the right documents across my projects and use APIs through scripts. A navigation file gave it paths into the knowledge. The goal already included adding new information in a clear form."},
+        {"title":"Access needed a visible interface","text":"The personal repository stored instructions, project pointers, and reusable tools. Bleak put a web interface around Claude Code. Its workspace included chat, a view of the knowledge tree, and controls for context. Separate instances could hold different knowledge and configuration."},
+        {"title":"Available knowledge and loaded knowledge were different","text":"An agent could have access to many sources without loading all of them at once. The interface made that distinction visible. This gives the article a concrete subject: how the workspace connected an agent to information and services, and how I could see what it used."}
+      ],
+      "visuals":["Use a historical workspace image with the tree and context controls visible.","Show one real navigation entry beside the file it points to. Remove private project names."],
+      "sources":["H4830","H4941","H6480","personal-readme","bleak-context","bleak-tree"],
+      "limit":"This establishes local implementation and the author's goal. It does not establish a public product launch or customer use."
+    },
+    {
+      "id":"context-modules","era":"workspace","date":"April 2026",
+      "title":"Loading context modules for each task",
+      "preview":"I grouped instructions, service documentation, and configuration into modules. A user could load the modules a task needed instead of sending the agent the whole workspace.",
+      "flow":["Git modules","Choose what to load","Task context"],
+      "article":[
+        {"title":"The whole knowledge tree was too broad for each task","text":"The early company tree made information available in one place. The next design made that information loadable. A module could describe a service, explain its use, and declare the configuration it needed. The user could choose modules in the interface."},
+        {"title":"The module carried the instructions","text":"The April design used Markdown documents, a navigation file, and a secret schema. Modules could come from Git. The platform read the selected documentation and supported script execution with the required configuration. This made the module a unit that people could inspect and reuse."},
+        {"title":"Selection became part of the product","text":"The article should follow one task through module selection and the resulting context. That example can show what the agent receives and what remains unloaded. It should also explain the boundary between shared instructions and private configuration. It must not display real credentials."}
+      ],
+      "visuals":["Reconstruct a module picker from the April interface and show the resulting context beside it.","Open a redacted module folder to show the documentation and configuration schema."],
+      "sources":["H9775","H10122","H10279","H15293","cloud-poc","cloud-modules","cloud-idea"],
+      "limit":"Module loading and Git-backed content are supported. Do not repeat the README's claim that generated scripts work correctly on the first attempt."
+    },
+    {
+      "id":"living-context","era":"workspace","date":"April to May 2026",
+      "title":"Separating task history from reusable workflows",
+      "preview":"Integration instructions changed slowly. Tasks collected temporary work. Workflows needed to keep useful steps after a run. I tested separate structures so each type of context could grow in a useful way.",
+      "flow":["Integration instructions","Task records","Reusable procedure"],
+      "article":[
+        {"title":"One structure had to serve different kinds of work","text":"The module design worked well for service instructions. A task behaved differently. It collected questions, failed attempts, and intermediate results. A reusable workflow had another purpose: retain the steps that could help the next run."},
+        {"title":"The platform gained tasks and workflows","text":"April commits added task handling and saved processes. By May, the platform distinguished integrations, tasks, and workflows. The context-problem notes examined how each type should change after use. They also asked which information a person should maintain and which information an agent could accumulate."},
+        {"title":"The difficult part was deciding what to retain","text":"A complete task log is useful for inspection, but it is a poor default instruction for the next task. The article should show this tension with one redacted example. It can then explain the proposed transition from a run's details to a reusable procedure. Automatic learning at this stage remained a design problem."}
+      ],
+      "visuals":["Show the same task before work, during work, and after its useful steps enter a procedure.","Compare a task record with a workflow file. Highlight the information each must retain."],
+      "sources":["H12609","H13077","H14851","H14875","cloud-tasks","cloud-workflows","context-problem"],
+      "limit":"The task and workflow structures were implemented. The notes do not prove reliable automatic improvement after every run."
+    },
+    {
+      "id":"existing-agents","era":"runtime","date":"June to July 2026",
+      "title":"Making context available through the CLI and MCP",
+      "preview":"I added ways for existing AI clients to use gcontext. The work included a command-line interface, an MCP connection, and shared context views. It reduced the need to work only through the original web app.",
+      "flow":["Existing AI client","Context connection","Files + service access"],
+      "article":[
+        {"title":"The context had to reach tools people already used","text":"The June prompts asked how Claude and other clients could use the existing documentation, secrets, and instructions. The goal was to make the context service useful outside its own chat interface. MCP, a protocol for connecting AI clients to tools, offered one route."},
+        {"title":"Several connection methods were built","text":"The repository records a CLI, a separate core package, a cloud connector, grouped session context, and a public folder viewer. The design discussions also kept returning to local credentials and simple file access. These were related experiments with different boundaries, rather than proof of one finished public service."},
+        {"title":"Show one connection in full","text":"This article should explain one implemented path from a client request to the files and services it can use. A second section can compare that path with the earlier web interface. Release status needs confirmation before the article describes customers, public availability, or deployment results."}
+      ],
+      "visuals":["Show one client connection with the actual instructions and returned context, with secrets removed.","Compare where context lives in the web app, CLI, and MCP designs."],
+      "sources":["H17606","H17808","H17843","cloud-cli","cloud-core","cloud-connector","cloud-viewer"],
+      "limit":"The Git history proves implementation work. It does not prove that all connection methods launched publicly or stayed in use."
+    },
+    {
+      "id":"state-manager","era":"runtime","date":"July 2026",
+      "title":"Keeping agent state outside the agent runtime",
+      "preview":"I reworked gcontext around the information that remains between tasks. Claude Code could run the agent. gcontext could manage its saved context and show which instructions were loaded.",
+      "flow":["Saved context","Agent session","Context ledger"],
+      "article":[
+        {"title":"The framework did not need its own agent loop","text":"On 22 July, I described gcontext as the state manager and distinguished it from the runtime. The runtime handles the conversation and tool use. The saved context has a different lifetime. It needs to remain useful when a session ends or a different agent starts."},
+        {"title":"The implementation became smaller","text":"The recorded iteration replaced a custom interactive loop with a launcher for an existing agent. It also introduced a context ledger. The ledger separated loaded material, material available on request, skipped material, and instructions outside gcontext's control."},
+        {"title":"The boundary made the product easier to explain","text":"This article can show the actual launcher and a saved ledger. The important detail is the limit of that ledger. An attached context service cannot claim control over every instruction that the host agent loads. Showing that limit makes the design understandable and testable."}
+      ],
+      "visuals":["Compare the archived runtime loop with the smaller launcher using selected code, not line-count claims alone.","Use a real redacted context ledger to show loaded, available, and uncontrolled inputs."],
+      "sources":["H20952","H21054","H21435","framework-state","framework-launcher"],
+      "limit":"The July architecture is a historical iteration. It does not describe every part of the November handbook system."
+    },
+    {
+      "id":"reusable-workflows","era":"runtime","date":"August 2026",
+      "title":"Packaging reusable workflows and browser procedures",
+      "preview":"I used gcontext with concrete workflows, including project operations and browser tasks. The work tested how instructions, configuration, and run results could stay useful across repeated use.",
+      "flow":["Procedure","Run with project context","Retained instructions"],
+      "article":[
+        {"title":"The framework needed practical uses","text":"The August work included reusable modules for project operations and content work. Another line of work collected browser procedures that an agent could use across projects. These tasks exercised the context system with work that already existed."},
+        {"title":"Reusable instructions needed clear boundaries","text":"A workflow needs enough information to run in another workspace. It must also separate its general procedure from private configuration and results from earlier runs. The repository records shared workflow work, browser procedure work, and a later move of some material into the personal agent repository."},
+        {"title":"The reusable workflow became a possible product","text":"The prompts explored sharing workflows with other people and letting them supply their own configuration. A marketplace was one proposed direction. The article should focus on the reusable unit that was built and tested. The marketplace belongs in the account of ideas considered, not in a list of released features."}
+      ],
+      "visuals":["Use a redacted browser procedure with its required inputs and one recorded result.","Show which files travel with a workflow and which settings remain local."],
+      "sources":["H21745","H22115","H22971","H23757","framework-ops","framework-workflow","framework-harvest"],
+      "limit":"The evidence supports reusable procedures and workflow experiments. It does not establish a working public marketplace or reliable self-improvement."
+    },
+    {
+      "id":"folder-rules","era":"structure","date":"August to September 2026",
+      "title":"Defining folder rules for new information",
+      "preview":"I tested rules that tell an agent what belongs in each folder. The aim was to add useful information without letting the workspace turn into unrelated notes or repeated facts.",
+      "flow":["New information","Folder purpose","File change"],
+      "article":[
+        {"title":"Reading a tree was easier than maintaining it","text":"The early system could point an agent to files. Keeping those files useful required more decisions. A new fact might belong in an existing document. It might require a new file. It might also reveal that the current folder structure no longer served its purpose."},
+        {"title":"The experiments made the rules explicit","text":"The work used versioned context standards and repeated examples to test how files should grow. The September prompts asked to see each change over time. They also separated placing information from restructuring the tree. A rule for one example was not enough to define a general method."},
+        {"title":"Purpose became the unit to explain","text":"The article should follow a small set of additions into a folder with a stated purpose. Each revision should show what changed and which rule guided it. A second example can show when placement alone fails and a structural change is needed. The goal was configurable behavior across projects."}
+      ],
+      "visuals":["Show a short, versioned sequence of file changes from the recorded tests.","Place a folder's purpose beside two accepted facts and one fact that does not belong there."],
+      "sources":["H17146","H26142","H28056","H28197","H28252","H32607","framework-standard","framework-shape"],
+      "limit":"The work tested explicit rules. It did not establish that one folder schema works for all projects."
+    },
+    {
+      "id":"file-apps","era":"structure","date":"May and September 2026",
+      "title":"Using files as the shared state of an app and an agent",
+      "preview":"I explored apps that use the same files an agent can read and change. In the September task-board prototype, each item was a Markdown file. Moving it between folders changed its state.",
+      "flow":["App view","Shared files","Agent edits"],
+      "article":[
+        {"title":"People still needed an interface","text":"Files gave agents a direct way to work with information. People could still benefit from a board or a focused view. The May module-app design explored a frontend and a backend attached to a context module. That was an early branch of the same question."},
+        {"title":"The September prototype used folders as state","text":"The gcontext-apps plan described a local server with file operations. A task board read one Markdown file per item. Folders represented states such as backlog, in progress, and done. The app and the agent could operate on the same underlying material."},
+        {"title":"The shared representation is the story","text":"The article should show a file move and the matching board change. That concrete example explains the idea without broad claims about replacing software. It should also state the scope of the prototype. Access control, concurrent edits, and safe execution require separate evidence before they become product claims."}
+      ],
+      "visuals":["Show the task board beside the same items in their folders.","Animate one file move and its corresponding state change. Label the recreation as a prototype if no original capture remains."],
+      "sources":["H15256","H15763","H28488","cloud-apps-spec","apps-plan"],
+      "limit":"This is a side experiment with two related attempts. Do not present it as the next shipped version of the main framework."
+    },
+    {
+      "id":"structure-tests","era":"structure","date":"September to October 2026",
+      "title":"Testing context structure with real conversation records",
+      "preview":"I tested how context should be classified and updated. Real conversation records exposed problems that small examples missed: too many notes, repeated information, and structures that did not adapt.",
+      "flow":["Conversation records","Placement methods","Inspect file changes"],
+      "article":[
+        {"title":"Small examples hid practical failures","text":"September work added replay cases from diversity-map and saved evidence for each processing stage. In October, I described the gap between artificial notes and real use. Notes could become too small, repeat each other, or remain separate when they belonged in one file."},
+        {"title":"Several ways to classify information were explored","text":"The property-tree experiment separated semantic properties proposed by a model from tree construction performed by code. Code could compare orders of the selected properties. Other framework work tested file descriptions and traces of the read and write process. These were attempts to make structure more explicit and inspectable."},
+        {"title":"A good tree was not the whole problem","text":"Even a clear initial structure needs rules for later changes. The October request asked for configuration that reflects each project's purpose. The article should show a real failure, a proposed method, and the remaining limit. It should not imply that the property-tree search found the best possible semantic structure."}
+      ],
+      "visuals":["Compare a small synthetic case with a redacted replay that produced duplicate or fragmented notes.","Show how one set of semantic properties can produce different tree orders."],
+      "sources":["H31354","H32644","H33246","H33326","H34660","framework-replays","framework-stage-evidence","property-readme"],
+      "limit":"The property-tree search is exact only within its selected properties and ordering rules. Replays and author reports establish observed failures, not their frequency across all uses."
+    },
+    {
+      "id":"update-methods","era":"handbook","date":"October 2026",
+      "title":"Comparing methods for updating a handbook",
+      "preview":"I compared direct file editing, whole-handbook input, and methods that select relevant facts. The recorded review found a useful tradeoff: smaller inputs could find related facts, but some edits damaged the original text.",
+      "flow":["Changed fact","Related passages","Review the actual diff"],
+      "article":[
+        {"title":"An update can affect several files","text":"The saved evaluation used cases where a changed rule appeared in different forms across a handbook. A direct search could miss a paraphrase. Sending the whole handbook gave the model more evidence, but required much more input. The tests compared these approaches with methods that selected facts first."},
+        {"title":"Passing checks did not guarantee a good edit","text":"The October evaluation reported that methods based on a fact index could overwrite original lines with paraphrases. One table row became a sentence inside the table. Some instructions lost useful wording. The automated checks passed because they tested the fact change more narrowly than the quality of the document."},
+        {"title":"The diff mattered as much as the score","text":"This is a strong article about how to evaluate an AI update system. It can compare the source line, the proposed operation, and the resulting file. The saved report also identifies a disputed test case and limited repeats. It supports a discussion of tradeoffs, not a claim that one method won in general."}
+      ],
+      "visuals":["Recreate the documented table-edit failure with the original and changed text from the synthetic case.","Compare which passages each method sees before it edits. Keep performance numbers in a small table with the test limits."],
+      "sources":["H36605","H36821","addition-evaluation","addition-research","framework-addition-tests"],
+      "limit":"These findings come from a saved AI-written evaluation of test artifacts. This review did not rerun the models or independently verify every recorded result. The report disputes one case and identifies check gaps."
+    },
+    {
+      "id":"reviewed-handbook","era":"handbook","date":"Late October to November 2026",
+      "title":"Reviewing session knowledge before it enters a handbook",
+      "preview":"I built a local flow that reads a Claude Code session, extracts useful information, and proposes handbook changes. Project rules guide what to keep. A person reviews the proposal before it changes the saved files.",
+      "flow":["Session","Rules + proposal","Review and accept"],
+      "article":[
+        {"title":"The purpose of the memory had to be explicit","text":"The October vision describes knowledge and know-how that serve a defined purpose. A project can state what to keep, what to drop, and how to write. Folder guidance then gives more local direction. This makes the rules part of the system that a person can inspect and change."},
+        {"title":"Capture and approval became separate steps","text":"The local flow reads session material, extracts candidate information, selects related facts, and proposes file changes. The person can inspect the result before acceptance. On 31 October, I described the reviewed end-to-end run as a milestone. Earlier storage experiments already existed, so this was a milestone for this flow."},
+        {"title":"Making the system understandable became the next task","text":"The same milestone message described a repository that was hard to understand and configure. November work separates responsibilities and approval behavior. The article should show a real redacted proposal, the rule that shaped it, and the accepted change. Current limitations must stay visible, including local operation and incomplete handling of outdated facts."}
+      ],
+      "visuals":["Show one actual proposal with its source session, project rule, and file diff.","Show the separation between candidate files and accepted handbook files."],
+      "sources":["H36596","H37603","H37611","framework-vision","framework-how","framework-limits","framework-structure","gateway-proof"],
+      "limit":"The current v1 transcript reader supports Claude Code. Package inputs can come from other systems. Historical adapter experiments do not prove complete current support for every agent."
+    },
+    {
+      "id":"read-evaluation","era":"handbook","date":"November 2026",
+      "title":"Testing whether saved context helps an agent answer",
+      "preview":"I tested five BJJGym questions with four ways to load context. The saved results showed where a handbook could help and where it added work. They also exposed a stale fact and limits in the test setup.",
+      "flow":["Same questions","Four context modes","Answers + costs + limits"],
+      "article":[
+        {"title":"Saving information is only useful if it helps later work","text":"The November trial compared no handbook, a navigation map, selected facts, and both the map and facts. Each mode received the same five questions. The saved log records twenty runs, with one run per question and mode."},
+        {"title":"The results depended on where the answer lived","text":"For questions already answered in the repository, the agent could find the information without the handbook. The map sometimes added reading cost. For one question, the handbook gave a shorter path to an answer. The run without it used a live service and obtained fresher detail. Those are different behaviors, not a clean speed comparison."},
+        {"title":"The trial also tested the evaluation itself","text":"The agent checked the repository and found that a handbook fact was outdated. The original answer key had the same error. Some runs also left the isolated checkout to read live systems. The article should explain these limits and the lack of repeated runs. All answers passed the model's grading, but the author had not validated that key in the saved record."}
+      ],
+      "visuals":["Use a compact grid of the five questions and four modes, with costs separate from correctness.","Show the stale handbook statement beside the newer repository evidence, without private business data."],
+      "sources":["H36605","read-trial"],
+      "limit":"One run per cell, model-written grading, an initially incorrect key, and live-system access limit the conclusion. Do not turn the aggregate token counts into a general product saving claim."
+    }
+  ]
+}

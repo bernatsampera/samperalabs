@@ -1,5 +1,13 @@
 # Design preview
 
+- [gcontext-evolution/index.md](gcontext-evolution/index.md): gcontext exploration in the shared MAAT layout, with twelve article drafts and the original research review.
+
+- [maat-work-review/index.md](maat-work-review/index.md): Four MAAT work reviews with articles, preview cards, and silent videos.
+
+- [maat-schedule-video/index.md](maat-schedule-video/index.md): Silent schedule import video, player, source composition, and repeatable render commands.
+
+- [maat-schedule-review.html](maat-schedule-review.html): Schedule import card and complete proposed article, with embedded images for joint content review.
+
 - [maat-page-preview.html](maat-page-preview.html): One MAAT page with a shared month axis, brief project introductions, alternating work cards, and continuous path progress.
 
 - [maat-journey-options.html](maat-journey-options.html): Two MAAT journey options with natural scrolling, distinct project headings, embedded visuals, and working card previews.

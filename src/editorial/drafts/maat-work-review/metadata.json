@@ -1,0 +1,54 @@
+[
+  {
+    "id": "migrations",
+    "title": "Converting gym exports with AI-generated scripts and reusable functions",
+    "description": "We built a migration workflow that maps each export to MAAT fields. AI prepares the conversion script. Reusable functions process the rows, with mappings and exceptions available for review.",
+    "author": "Bernat Sampera",
+    "slug": "converting-gym-exports-for-maat",
+    "existingArticle": null,
+    "status": "draft",
+    "publicationDate": null,
+    "article": "migrations.md",
+    "video": "design-preview/maat-work-review/demo.mp4",
+    "cover": null
+  },
+  {
+    "id": "shared-context",
+    "title": "Giving AI a shared source of MAAT knowledge and procedures",
+    "description": "We organized service guides, support procedures, and past investigations into linked files. The team and AI can follow the same path to the context a task needs.",
+    "author": "Bernat Sampera",
+    "slug": "context-tree-agent-support-tasks",
+    "existingArticle": "/posts/context-tree-agent-support-tasks",
+    "status": "draft",
+    "publicationDate": null,
+    "article": "shared-context.md",
+    "video": "design-preview/maat-work-review/shared-context/demo.mp4",
+    "cover": null
+  },
+  {
+    "id": "playbooks",
+    "title": "Running support changes through reviewed MAAT Brain playbooks",
+    "description": "We added executable playbooks for defined support changes. The assistant prepares the scope, the team approves it, and reviewed code runs the operation with explicit inputs.",
+    "author": "Bernat Sampera",
+    "slug": "building-an-ai-brain-at-maat",
+    "existingArticle": "/posts/building-an-ai-brain-at-maat",
+    "status": "draft",
+    "publicationDate": null,
+    "article": "playbooks.md",
+    "video": "design-preview/maat-work-review/playbooks/demo.mp4",
+    "cover": null
+  },
+  {
+    "id": "admin-agent",
+    "title": "Answering gym owners with backend data, tables, and charts",
+    "description": "I lead the Admin Agent project and its AI infrastructure and backend work. Owners ask questions in the dashboard. The agent reads their gym data and shows the answer in a useful format.",
+    "author": "Bernat Sampera",
+    "slug": "how-we-built-the-maat-admin-agent",
+    "existingArticle": "/posts/how-we-built-the-maat-admin-agent",
+    "status": "draft",
+    "publicationDate": null,
+    "article": "admin-agent.md",
+    "video": "design-preview/maat-work-review/admin-agent/demo.mp4",
+    "cover": null
+  }
+]

@@ -1,0 +1,211 @@
+{
+  "checkedAt": "2026-11-05T10:08:12.408Z",
+  "passed": true,
+  "typecheck": true,
+  "journeyCards": 6,
+  "articles": [
+    {
+      "id": "project-knowledge",
+      "words": 264,
+      "sha256": "6c0d585f9341991c445283997d3c44bdecddc2f9db9b8f834d062b6db7a8d271"
+    },
+    {
+      "id": "context-modules",
+      "words": 253,
+      "sha256": "7dea3c0703f954e66a1fcd71041a2de7c34f97a2a7cba998be587b185dbe3d22"
+    },
+    {
+      "id": "living-context",
+      "words": 270,
+      "sha256": "eb86a788b2b07686ba9448c90a26526273c7ce1302e95a1380dec04879f5cdda"
+    },
+    {
+      "id": "update-methods",
+      "words": 305,
+      "sha256": "047e9c11b825a4900a4f82af63a4d097e961fd5719e208b5de4acda77452df29"
+    },
+    {
+      "id": "reviewed-handbook",
+      "words": 298,
+      "sha256": "f50dfee3541bc2274085c8fb87aa6b5f233394d3c7355fb19d3ecc637e1880d5"
+    },
+    {
+      "id": "read-evaluation",
+      "words": 308,
+      "sha256": "ee2f84c652bc160e03037a3b0dcd6fc2b10d1427a76ec73c78afb3db3b906afd"
+    },
+    {
+      "id": "file-apps",
+      "words": 231,
+      "sha256": "053117d6276f48661076d4651df4c25c0db67228dcdafe6dfb0a94be58e30afc"
+    },
+    {
+      "id": "existing-agents",
+      "words": 243,
+      "sha256": "ed95af60c170f37530775c30d28c5c9083da7c3cc3e188cff6a9a70fb924f09f"
+    },
+    {
+      "id": "state-manager",
+      "words": 230,
+      "sha256": "bf02999301f3903894d3c8843628eec9c4facac029f52d65d814e244bc25f1c5"
+    },
+    {
+      "id": "reusable-workflows",
+      "words": 261,
+      "sha256": "8e25660e3f00ba9acb16956fbfa6becb87630448f2498a3a6f274f186adc5431"
+    },
+    {
+      "id": "folder-rules",
+      "words": 264,
+      "sha256": "0465b8ce66e39b00a83d781707c7339dcebf3637d84fbff371dc5a5f2575e415"
+    },
+    {
+      "id": "structure-tests",
+      "words": 225,
+      "sha256": "5b6dac2930ca6c9f0da3c10cfb1240cd39874c31756e755dad60d00babb3dedb"
+    }
+  ],
+  "previewCounts": [
+    {
+      "id": "project-knowledge",
+      "before": 33,
+      "after": 25
+    },
+    {
+      "id": "context-modules",
+      "before": 26,
+      "after": 25
+    },
+    {
+      "id": "living-context",
+      "before": 32,
+      "after": 32
+    },
+    {
+      "id": "update-methods",
+      "before": 33,
+      "after": 28
+    },
+    {
+      "id": "reviewed-handbook",
+      "before": 35,
+      "after": 29
+    },
+    {
+      "id": "read-evaluation",
+      "before": 37,
+      "after": 30
+    },
+    {
+      "id": "file-apps",
+      "before": 32,
+      "after": 13
+    },
+    {
+      "id": "existing-agents",
+      "before": 35,
+      "after": 12
+    },
+    {
+      "id": "state-manager",
+      "before": 28,
+      "after": 15
+    },
+    {
+      "id": "reusable-workflows",
+      "before": 27,
+      "after": 13
+    },
+    {
+      "id": "folder-rules",
+      "before": 30,
+      "after": 14
+    },
+    {
+      "id": "structure-tests",
+      "before": 29,
+      "after": 11
+    }
+  ],
+  "routes": [
+    {
+      "route": "/design-preview/gcontext-journey",
+      "status": 200,
+      "bytes": 136745
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=project-knowledge",
+      "status": 200,
+      "bytes": 108450
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=context-modules",
+      "status": 200,
+      "bytes": 108471
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=living-context",
+      "status": 200,
+      "bytes": 108525
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=update-methods",
+      "status": 200,
+      "bytes": 108808
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=reviewed-handbook",
+      "status": 200,
+      "bytes": 108818
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=read-evaluation",
+      "status": 200,
+      "bytes": 108129
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=file-apps",
+      "status": 200,
+      "bytes": 107333
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=existing-agents",
+      "status": 200,
+      "bytes": 107514
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=state-manager",
+      "status": 200,
+      "bytes": 107359
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=reusable-workflows",
+      "status": 200,
+      "bytes": 107647
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=folder-rules",
+      "status": 200,
+      "bytes": 107492
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=structure-tests",
+      "status": 200,
+      "bytes": 108286
+    },
+    {
+      "route": "/design-preview/gcontext-article?story=missing",
+      "status": 404,
+      "bytes": 15
+    },
+    {
+      "route": "/maat",
+      "status": 200,
+      "bytes": 122215
+    }
+  ],
+  "productionGuard": "Checked in route source. No production server was started.",
+  "browser": "Not run. Not authorized.",
+  "limits": "HTTP checks confirm rendered content and links. They do not verify browser layout, scrolling, or animation.",
+  "failures": []
+}
